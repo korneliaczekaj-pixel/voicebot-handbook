@@ -32,22 +32,13 @@ Zrodla wspierajace czesc:
 
 ---
 
-## Jak czytac te fundamenty, jesli zaczynasz od zera
+## Punkt wyjscia
 
-Na poczatku latwo pomylic kilka rzeczy: voicebot, chatbot, IVR, asystent glosowy i AI agent. Wszystkie moga "rozmawiac", ale nie robia tego samego. Najprostszy sposob myslenia jest taki: nie zaczynamy od technologii, tylko od sytuacji uzytkownika. Ktos dzwoni, bo chce cos zalatwic. System ma rozpoznac, o co chodzi, poprowadzic rozmowe, sprawdzic dane albo przekazac sprawe czlowiekowi.
+Najprostsza perspektywa jest taka: ktos dzwoni, bo chce cos zalatwic. Voicebot ma rozpoznac sprawe, poprowadzic rozmowe, sprawdzic potrzebne dane i wiedziec, kiedy przekazac rozmowe czlowiekowi.
 
-Voicebot nie jest wiec tylko "glosowym ChatGPT" ani "automatem, ktory czyta tekst". Dobry voicebot jest polaczeniem rozmowy, procesu biznesowego i technologii. Musi rozumiec wypowiedz uzytkownika, ale tez wiedziec, co wolno mu zrobic, skad wziac dane, kiedy potwierdzic informacje i kiedy nie ryzykowac dalszej automatyzacji.
-
-Dla laika najwazniejsze sa trzy pytania:
-
-1. Co uzytkownik chce zalatwic?
-2. Jakie informacje system musi zebrac lub sprawdzic?
-3. Co system zrobi, gdy nie rozumie albo sprawa jest zbyt trudna?
-
-Jesli te trzy odpowiedzi sa niejasne, zadna technologia nie uratuje projektu. Jesli sa jasne, dopiero wtedy warto wybierac narzedzia: IVR, klasyczne NLU, LLM, RAG, integracje i metryki.
+Na tym etapie wystarczy zapamietac jedno: technologia jest srodkiem, nie celem. Najpierw trzeba rozumiec zadanie uzytkownika i granice automatyzacji, dopiero potem wybierac IVR, NLU, LLM, RAG czy integracje.
 
 ---
-
 # Rozdzial 1. Conversational AI: czym jest i czym nie jest
 
 ## 1.1. Cele rozdzialu

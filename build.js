@@ -16,7 +16,7 @@ FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A'
 const OMOW_FILE = 'Voicebot_Specialist_Handbook_omowienia_do_czytania.md';
 
 const NAV_TITLE_OVERRIDES = {
-  '1': 'Mapa wiedzy, program nauki i barge-in',
+  '1': 'Wprowadzenie i barge-in',
 };
 
 // ---------- pomocnicze ----------
