@@ -37,10 +37,11 @@ i otworz http://localhost:3000
 Przycisk czatu w prawym dolnym rogu strony. Asystent (Claude) odpowiada WYLACZNIE na podstawie
 tresci podrecznika i podaje linki do powiazanych sekcji.
 
-Konfiguracja:
-1. Zaloz klucz API na https://platform.claude.com (Console -> API Keys). Platnosc za zuzycie.
-2. Railway -> Variables -> dodaj `ANTHROPIC_API_KEY` = klucz. Redeploy nastapi automatycznie.
-3. Bez klucza strona dziala normalnie, a czat pokazuje komunikat o braku konfiguracji.
+Trzy tryby (wybierany automatycznie wg dostepnych zmiennych):
+1. ANTHROPIC_API_KEY (platny, najlepsza jakosc) - klucz z https://platform.claude.com, model claude-opus-5.
+2. GEMINI_API_KEY (darmowy limit, do testow) - klucz z https://aistudio.google.com, model gemini-2.5-flash (zmiana: GEMINI_MODEL).
+3. Bez kluczy - tryb testowy: czat pokazuje najlepiej dopasowane fragmenty podrecznika z linkami.
+Klucz Claude ma pierwszenstwo nad Gemini.
 
 Szczegoly techniczne:
 - endpoint `POST /api/chat` (za ta sama bramka hasla co strona),

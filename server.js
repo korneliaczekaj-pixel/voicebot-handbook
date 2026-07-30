@@ -121,10 +121,53 @@ Zasady:
 6. Pytania spoza tematyki podrecznika (niezwiazane z voicebotami/conversational AI) grzecznie odsylasz: ten asystent odpowiada tylko na pytania o tresc podrecznika.
 7. Formatowanie: zwykly tekst, dozwolone **pogrubienia** i listy z myslnikami. Bez naglowkow, bez tabel.`;
 
+// darmowy silnik do testow: Google Gemini (klucz z aistudio.google.com, zmienna GEMINI_API_KEY)
+const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+async function zapytajGemini(historia, tresc) {
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL
+    + ':generateContent?key=' + encodeURIComponent(GEMINI_KEY);
+  const contents = [
+    ...historia.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+    { role: 'user', parts: [{ text: tresc }] },
+  ];
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents,
+      generationConfig: { maxOutputTokens: 2048 },
+    }),
+  });
+  if (!r.ok) {
+    const err = new Error('Gemini HTTP ' + r.status);
+    err.status = r.status;
+    try { err.detail = (await r.text()).slice(0, 300); } catch (e) { /* ignoruj */ }
+    throw err;
+  }
+  const j = await r.json();
+  const cand = (j.candidates || [])[0];
+  const odp = cand && cand.content && Array.isArray(cand.content.parts)
+    ? cand.content.parts.map(p => p.text || '').join('\n').trim() : '';
+  return odp;
+}
+
+// tryb testowy bez modelu: pokazuje dopasowane fragmenty podrecznika
+function trybTestowy(fragmenty) {
+  if (!fragmenty.length) {
+    return 'Tryb testowy (bez modelu AI): nie znalazlam w podreczniku fragmentow pasujacych do tego pytania. Sprobuj uzyc innych slow kluczowych.';
+  }
+  const naj = fragmenty[0];
+  const wycinek = naj.tekst.replace(/\s+/g, ' ').trim().slice(0, 600);
+  return '**Tryb testowy (bez modelu AI)** — pokazuje fragmenty podrecznika najlepiej pasujace do pytania.\n\n'
+    + 'Najtrafniejszy fragment (' + naj.czesc + ' — ' + naj.tytul + '):\n\n' + wycinek + '...\n\n'
+    + 'Pelna tresc w podlinkowanych sekcjach ponizej. Aby wlaczyc odpowiedzi AI, ustaw w Railway zmienna GEMINI_API_KEY (darmowy klucz) albo ANTHROPIC_API_KEY.';
+}
+
 async function handleChat(req, res) {
   if (!isAuthed(req)) return json(res, 401, { blad: 'Sesja wygasła — odśwież stronę i zaloguj się ponownie.' });
   if (rateLimited(req)) return json(res, 429, { blad: 'Za dużo pytań na raz — odczekaj chwilę i spróbuj ponownie.' });
-  if (!anthropic) return json(res, 503, { blad: 'Czat nie jest skonfigurowany: ustaw zmienną ANTHROPIC_API_KEY w Railway (Variables) i zrób redeploy.' });
   if (!INDEKS.length) return json(res, 503, { blad: 'Brak indeksu treści — uruchom npm run build i wdróż ponownie.' });
 
   let dane;
@@ -139,24 +182,31 @@ async function handleChat(req, res) {
   const kontekst = fragmenty.length
     ? fragmenty.map((f, i) => `[${i + 1}] ${f.czesc} — ${f.tytul}\n${f.tekst}`).join('\n\n---\n\n')
     : '(nie znaleziono pasujacych fragmentow)';
+  const tresc = `Fragmenty podrecznika (jedyne zrodlo odpowiedzi):\n\n${kontekst}\n\n===\nPytanie: ${pytanie}`;
+  const zrodla = fragmenty.slice(0, 3).map(f => ({ id: f.id, tytul: f.tytul.replace(/ \(cd\.\)$/, ''), czesc: f.czesc }));
+
+  // tryb testowy: bez zadnego klucza czat pokazuje dopasowane fragmenty
+  if (!anthropic && !GEMINI_KEY) {
+    return json(res, 200, { odpowiedz: trybTestowy(fragmenty), zrodla });
+  }
 
   try {
-    const response = await anthropic.messages.create({
-      model: 'claude-opus-5',
-      max_tokens: 16000,
-      output_config: { effort: 'medium' },
-      system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
-      messages: [
-        ...historia,
-        { role: 'user', content: `Fragmenty podrecznika (jedyne zrodlo odpowiedzi):\n\n${kontekst}\n\n===\nPytanie: ${pytanie}` },
-      ],
-    });
-
-    if (response.stop_reason === 'refusal') {
-      return json(res, 200, { odpowiedz: 'Nie mogę odpowiedzieć na to pytanie. Spróbuj zadać je inaczej albo zapytaj o inną część podręcznika.', zrodla: [] });
+    let odpowiedz = '';
+    if (anthropic) {
+      const response = await anthropic.messages.create({
+        model: 'claude-opus-5',
+        max_tokens: 16000,
+        output_config: { effort: 'medium' },
+        system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+        messages: [...historia, { role: 'user', content: tresc }],
+      });
+      if (response.stop_reason === 'refusal') {
+        return json(res, 200, { odpowiedz: 'Nie mogę odpowiedzieć na to pytanie. Spróbuj zadać je inaczej albo zapytaj o inną część podręcznika.', zrodla: [] });
+      }
+      odpowiedz = response.content.filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+    } else {
+      odpowiedz = await zapytajGemini(historia, tresc);
     }
-    const odpowiedz = response.content.filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
-    const zrodla = fragmenty.slice(0, 3).map(f => ({ id: f.id, tytul: f.tytul.replace(/ \(cd\.\)$/, ''), czesc: f.czesc }));
     return json(res, 200, { odpowiedz: odpowiedz || 'Nie udało się wygenerować odpowiedzi — spróbuj ponownie.', zrodla });
   } catch (e) {
     if (Anthropic && e instanceof Anthropic.AuthenticationError) {
@@ -165,7 +215,18 @@ async function handleChat(req, res) {
     if (Anthropic && e instanceof Anthropic.RateLimitError) {
       return json(res, 502, { blad: 'Limit zapytań do modelu chwilowo wyczerpany — spróbuj za minutę.' });
     }
-    console.error('Blad czatu:', e && e.message);
+    if (e && (e.status === 429)) {
+      return json(res, 502, { blad: 'Darmowy dzienny limit Gemini wyczerpany — spróbuj jutro albo ustaw ANTHROPIC_API_KEY.' });
+    }
+    if (e && (e.status === 400 || e.status === 403)) {
+      console.error('Blad Gemini:', e.detail || e.message);
+      return json(res, 502, { blad: 'Klucz GEMINI_API_KEY wygląda na nieprawidłowy — sprawdź zmienną w Railway.' });
+    }
+    if (e && e.status === 404) {
+      console.error('Blad Gemini:', e.detail || e.message);
+      return json(res, 502, { blad: 'Model Gemini niedostępny — ustaw zmienną GEMINI_MODEL (np. gemini-2.0-flash) w Railway.' });
+    }
+    console.error('Blad czatu:', e && (e.detail || e.message));
     return json(res, 502, { blad: 'Błąd połączenia z modelem — spróbuj ponownie za chwilę.' });
   }
 }
@@ -253,5 +314,5 @@ http.createServer((req, res) => {
 }).listen(process.env.PORT || 3000, () => {
   console.log('Voicebot Handbook na porcie ' + (process.env.PORT || 3000)
     + (PASS ? ' | logowanie: TAK' : ' | logowanie: NIE (ustaw APP_PASSWORD)')
-    + (anthropic ? ' | czat: TAK' : ' | czat: NIE (ustaw ANTHROPIC_API_KEY)'));
+    + (anthropic ? ' | czat: Claude' : (GEMINI_KEY ? ' | czat: Gemini (' + GEMINI_MODEL + ')' : ' | czat: tryb testowy (fragmenty)')));
 });

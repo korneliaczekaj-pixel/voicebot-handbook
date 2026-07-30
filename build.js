@@ -522,14 +522,30 @@ const js = `
   function norm(s){return s.toLowerCase()
     .replace(/[ąà]/g,'a').replace(/ć/g,'c').replace(/ę/g,'e').replace(/ł/g,'l')
     .replace(/ń/g,'n').replace(/ó/g,'o').replace(/ś/g,'s').replace(/[żź]/g,'z');}
+  // pelnotekstowy indeks rozdzialow (budowany leniwie przy pierwszym szukaniu)
+  var secTxt=null;
+  function buildSecTxt(){
+    secTxt={};
+    [].slice.call(document.querySelectorAll('section.part')).forEach(function(part){
+      var curId=part.id;
+      secTxt[curId]=secTxt[curId]||'';
+      [].slice.call(part.children).forEach(function(el){
+        if(el.classList&&el.classList.contains('chapter')&&el.id){curId=el.id;secTxt[curId]='';}
+        else{secTxt[curId]=(secTxt[curId]||'')+' '+(el.textContent||'');}
+      });
+    });
+    for(var k in secTxt)secTxt[k]=norm(secTxt[k]);
+  }
   q.addEventListener('input',function(){
     var v=norm(q.value.trim());
+    if(v&&!secTxt)buildSecTxt();
     details.forEach(function(d){
       var as=[].slice.call(d.querySelectorAll('.chl a'));
       if(!v){d.classList.remove('hid');as.forEach(function(a){a.classList.remove('hid')});d.open=false;return;}
       var any=false;
       as.forEach(function(a){
-        var hit=norm(a.textContent).indexOf(v)>-1;
+        var id=a.getAttribute('href').slice(1);
+        var hit=norm(a.textContent).indexOf(v)>-1||(secTxt[id]||'').indexOf(v)>-1;
         a.classList.toggle('hid',!hit); if(hit)any=true;
       });
       var pHit=norm(d.querySelector('summary').textContent).indexOf(v)>-1;
@@ -594,7 +610,7 @@ ${waveSymbol}
 <nav id="sb" aria-label="Spis treści">
   <p class="brand"><a href="#top">Voicebot Specialist Handbook</a></p>
   <p class="sub">Spis treści</p>
-  <input id="q" type="search" placeholder="Szukaj w spisie treści..." aria-label="Szukaj">
+  <input id="q" type="search" placeholder="Szukaj w treści i tytułach..." aria-label="Szukaj">
   ${navHtml}
 </nav>
 <main>
