@@ -41,6 +41,7 @@ Zrodla wspierajace czesc:
 - Dokumentacje LiveKit, OpenAI Realtime, Google Dialogflow CX, AWS Connect i Amazon Lex: turn detection, interruption handling, speech config, slot controls i realtime voice.
 - W3C VoiceXML: no-input, no-match, event handling, formularze i gramatyki jako fundament testowania dialogow.
 - Zrodla badawcze o turn-taking i przerwaniach: testowanie overlap, barge-in, false interruptions i naturalnosci.
+- SASSI, PARADISE i badania usability voice interfaces: ocena subiektywnego odbioru, wysilku uzytkownika, satysfakcji, kosztow dialogu i skutecznosci zadania.
 - Uzupelnienie eksperckie: QA matrix, UAT, regresja, testy integracji, testy telefonii i pre-production readiness.
 
 ---
@@ -992,7 +993,102 @@ UAT i pilot sa ostatnia kontrolowana szansa, aby znalezc problemy przed pelna pr
 
 ---
 
-# 7. Szablon planu testow voicebota
+# 7. Badanie odbioru voicebota przez uzytkownikow
+
+Testy techniczne odpowiadaja na pytanie: "czy system robi to, co zaprojektowalismy?". Badanie odbioru odpowiada na inne pytanie: "czy czlowiek po drugiej stronie uznal rozmowe za zrozumiala, pomocna i bezpieczna?". W voicebotach te dwie odpowiedzi moga sie rozejsc. Flow moze przejsc poprawnie, API moze zwrocic sukces, a uzytkownik i tak moze wyjsc z rozmowy z poczuciem, ze musial walczyc z systemem.
+
+Dlatego przed produkcja i po starcie warto laczyc QA techniczne z prostym badaniem uzytkownikow. Nie musi to od razu oznaczac duzego badania akademickiego. Wystarczy zaplanowany zestaw rozmow testowych, kilka pytan po rozmowie, obserwacja miejsc zawahania i analiza transkrypcji. Najwazniejsze jest, aby nie oceniac bota tylko oczami zespolu, ktory zna scenariusz. Osoba z zewnatrz czesto potyka sie tam, gdzie projektanci widza "oczywisty" krok.
+
+## 7.1. Co mierzyc poza poprawnoscia techniczna
+
+Odbior voicebota sklada sie z kilku warstw. Pierwsza to skutecznosc: czy sprawa zostala zalatwiona. Druga to wysilek: ile razy uzytkownik musial powtarzac, poprawiac, czekac albo domyslac sie, co powiedziec. Trzecia to kontrola: czy wiedzial, jak przerwac, poprawic blad i przejsc do czlowieka. Czwarta to zaufanie: czy odpowiedzi brzmialy kompetentnie, ale nie udawaly pewnosci tam, gdzie system jej nie mial.
+
+Praktyczny zestaw pytan po rozmowie:
+
+1. Czy udalo sie zalatwic sprawe?
+2. Czy bylo jasne, co bot potrafi?
+3. Czy pytania bota byly zrozumiale?
+4. Czy trzeba bylo powtarzac informacje?
+5. Czy latwo bylo poprawic blad?
+6. Czy bylo wiadomo, jak przejsc do konsultanta?
+7. Czy odpowiedzi bota byly godne zaufania?
+8. Co bylo najbardziej irytujace lub niejasne?
+
+Te pytania sa proste, ale bardzo szybko pokazuja roznice miedzy "bot dziala" a "bot jest dobry w rozmowie".
+
+## 7.2. SASSI jako inspiracja do ankiety
+
+SASSI, czyli Subjective Assessment of Speech System Interfaces, to klasyczne narzedzie do oceny subiektywnego doswiadczenia z interfejsami mowy. Jego wartosc polega na tym, ze nie ogranicza sie do ogolnego pytania "czy bylo dobrze?". Rozbija odbior na obszary: trafnosc odpowiedzi systemu, lubialnosc, obciazenie poznawcze, irytacje, przewidywalnosc tego, co mozna powiedziec, oraz szybkosc reakcji.
+
+Dla praktyka oznacza to prosta lekcje: ankieta po voicebocie powinna pytac nie tylko o satysfakcje. Powinna sprawdzac, czy uzytkownik rozumial zasady rozmowy, czy system reagowal wystarczajaco szybko, czy nie powodowal irytacji i czy nie wymagal zbyt duzego wysilku pamieciowego.
+
+Przykladowe stwierdzenia do oceny w skali 1-5:
+
+- Bot dobrze rozumial to, co mowilem.
+- Wiedzialem, co moge powiedziec w kolejnym kroku.
+- Rozmowa nie wymagala ode mnie zbyt duzego wysilku.
+- Bot reagowal wystarczajaco szybko.
+- Gdy pojawil sie blad, latwo bylo go naprawic.
+- Mialem poczucie kontroli nad rozmowa.
+
+## 7.3. PARADISE: sukces zadania i koszt dialogu
+
+PARADISE to podejscie do oceny spoken dialogue systems, ktore przypomina, ze sama satysfakcja nie wystarczy. Dobra rozmowa ma zrealizowac zadanie i zrobic to przy akceptowalnym koszcie dialogu. Koszt dialogu to wszystko, co uzytkownik "placi" w trakcie rozmowy: liczba tur, powtorzenia, naprawy, czas, frustracja, niepewnosc i koniecznosc eskalacji.
+
+W praktyce mozna zapisac to jako prosta formule myslowa:
+
+```text
+Jakosc rozmowy = sukces zadania - koszt dialogu
+```
+
+Przyklad:
+
+Voicebot A konczy 80% spraw, ale srednio wymaga 12 tur i wielu powtorzen. Voicebot B konczy 75% spraw, ale robi to w 5 turach, szybciej przekazuje trudne sprawy i ma mniej frustracji. Z perspektywy klienta i contact center drugi wariant moze byc lepszy, mimo nizszego containment.
+
+## 7.4. Jak prowadzic test odbioru z laikami
+
+Test z laikami powinien byc prosty i obserwowalny. Uczestnik dostaje zadanie, np. "sprawdz status zamowienia" albo "zmien termin dostawy". Nie pokazujemy mu scenariusza ani listy intencji. Ma rozmawiac tak, jak rozmawialby realny klient. Po rozmowie pytamy o odbior, a w trakcie notujemy momenty zawahania.
+
+Instrukcja dla moderatora:
+
+1. Daj uczestnikowi cel, nie instrukcje slowo po slowie.
+2. Nie podpowiadaj, co ma powiedziec botowi.
+3. Zapisuj miejsca ciszy, powtorzen, smiechu, irytacji i przerwan.
+4. Po rozmowie zapytaj, co bylo jasne, a co nie.
+5. Porownaj deklaracje uczestnika z logami i transkrypcja.
+
+Wazne: jesli uzytkownik nie wie, co powiedziec, to nie jest "blad uzytkownika". To sygnal, ze bot nie zbudowal wystarczajaco jasnej sytuacji rozmownej.
+
+## 7.5. Kryteria akceptacji odbioru
+
+Kryteria odbioru powinny laczyc metryki techniczne i ludzkie. Przyklad minimalnego zestawu:
+
+| Obszar | Przykladowe kryterium |
+|---|---|
+| Zrozumialosc | Minimum 80% testerow rozumie, co bot moze zrobic po powitaniu |
+| Kontrola | Minimum 90% testerow wie, jak poprosic o konsultanta |
+| Wysilek | Srednia ocena wysilku nie gorsza niz 2/5 |
+| Naprawa bledu | Uzytkownik potrafi poprawic dane bez restartu rozmowy |
+| Zaufanie | Uzytkownik rozumie, kiedy bot wie, a kiedy eskaluje |
+| Irytacja | Brak powtarzalnych komentarzy o "petli" lub "blokowaniu" |
+
+## 7.6. Typowe bledy w badaniu odbioru
+
+| Blad | Dlaczego szkodzi |
+|---|---|
+| Testuja tylko osoby z projektu | Znaja scenariusz i mowia "pod bota" |
+| Pytanie tylko o CSAT | Nie wiadomo, co poprawic |
+| Brak obserwacji rozmowy | Ankieta nie pokazuje momentow zawahania |
+| Brak osob starszych lub mniej technicznych | Bot moze byc zrozumialy tylko dla zespolu |
+| Mylenie containment z zadowoleniem | Zamknieta rozmowa nie zawsze oznacza zalatwiona sprawe |
+
+## 7.7. Podsumowanie
+
+Badanie odbioru chroni przed projektem, ktory jest poprawny formalnie, ale trudny dla zwyklego czlowieka. Voicebot powinien byc oceniany nie tylko przez logi, lecz takze przez to, czy uzytkownik rozumial rozmowe, czul kontrole i mial poczucie, ze system pomaga zamiast przeszkadzac.
+
+---
+
+# 8. Szablon planu testow voicebota
 
 ```text
 1. Informacje podstawowe
@@ -1063,7 +1159,7 @@ UAT i pilot sa ostatnia kontrolowana szansa, aby znalezc problemy przed pelna pr
 
 ---
 
-# 8. Zbiorcza checklista po Czesci IX
+# 9. Zbiorcza checklista po Czesci IX
 
 - Czy masz plan testow?
 - Czy testujesz happy path i unhappy paths?
@@ -1079,11 +1175,13 @@ UAT i pilot sa ostatnia kontrolowana szansa, aby znalezc problemy przed pelna pr
 - Czy masz testy regresji?
 - Czy UAT ma test cases?
 - Czy pilot ma go/no-go i rollback?
+- Czy badales odbior voicebota na osobach spoza zespolu?
+- Czy mierzysz wysilek, poczucie kontroli i zrozumialosc?
 - Czy dashboard i logi sa gotowe przed produkcja?
 
 ---
 
-# 9. Co bedzie w kolejnej czesci
+# 10. Co bedzie w kolejnej czesci
 
 Kolejna czesc powinna opracowac **Czesc X. Metryki, analityka i optymalizacja**:
 

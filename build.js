@@ -4,7 +4,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIR = path.join(__dirname, 'zrodla');
+const preferredDir = path.join(__dirname, 'zrodla');
+const DIR = fs.existsSync(preferredDir) ? preferredDir : __dirname;
 const OUT = path.join(__dirname, 'public', 'index.html');
 
 const FILES = [];

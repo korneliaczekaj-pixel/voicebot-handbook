@@ -35,6 +35,8 @@ Checklisty, matryce i szablony sa w duzej czesci autorska synteza ekspercka. Nie
 - Utrecht University Repository, CUI/proactive speech agents: https://dspace.library.uu.nl/handle/1874/415058
 - UCL Discovery, proactive smart speakers/interruption opinions: https://discovery.ucl.ac.uk/id/eprint/10152524/
 - SAGE/FAIA source: https://journals.sagepub.com/doi/abs/10.3233/FAIA220211
+- MDPI, review recent advances in turn-taking modelling in conversational systems: https://www.mdpi.com/2227-7080/13/12/591
+- CHI/Paper Guild, LLM-powered voice agents supporting interruptions and backchannels with older adults: https://pgl.jp/papers/10.1145/3706598.3714228
 
 Najmocniej wspierane czesci:
 
@@ -43,6 +45,31 @@ Najmocniej wspierane czesci:
 - Czesc 10: QA barge-in/turn-taking.
 - Czesc 14: etyka i dostepnosc.
 - Czesc 19: psychologia rozmowy.
+
+## Odbior uzytkownika, UX, zaufanie i ocena systemow mowy
+
+- Cambridge Core, SASSI - Subjective Assessment of Speech System Interfaces: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/29E49E8449B9E96CDEE2581D0000BA98/S1351324900002497a.pdf/towards-a-tool-for-the-subjective-assessment-of-speech-system-interfaces-sassi.pdf
+- CMU summary, PARADISE framework for evaluating spoken dialogue agents: https://www.cs.cmu.edu/~aliceo/dialogdiscussions.html
+- DFKI/Springer, design principles for task-oriented speech dialog systems in customer service: https://www.dfki.de/web/forschung/projekte-publikationen/publikation/14810
+- Computers in Human Behavior, privacy, security and trust perceptions in conversational AI - systematic review: https://www.sciencedirect.com/science/article/pii/S0747563224002127
+- Telematics and Informatics Reports, voice-based personal assistant trust: https://www.sciencedirect.com/science/article/pii/S2772503024000264
+- ACL Anthology, user perspective on anonymity in voice assistants: https://aclanthology.org/2024.legal-1.11/
+- AI & Society, disclosed vs undisclosed customer service chatbots: https://publications.cuni.cz/handle/20.500.14178/2758?locale-attribute=en
+- ACM TOCHI, Partner Modelling Questionnaire for perceptions toward machines as dialogue partners: https://doi.org/10.1145/3729170
+- PMC, validation of System Usability Scale for voice user interfaces: https://pmc.ncbi.nlm.nih.gov/articles/PMC10909179/
+
+Charakter:
+
+- Zrodla badawcze i metodyczne.
+- Wspieraja rozdzialy o badaniu odbioru, satysfakcji, wysilku uzytkownika, zaufaniu, transparentnosci i akceptacji voicebotow.
+- Sa szczegolnie wazne przy przejsciu od metryk technicznych do oceny "czy rozmowa byla dobra dla czlowieka".
+
+Najmocniej wspierane czesci:
+
+- Czesc 10: testy z uzytkownikami i badanie odbioru.
+- Czesc 11: metryki odbioru, wysilku, zaufania i satysfakcji.
+- Czesc 14: transparentnosc, etyka i dostepnosc.
+- Czesc 19: psychologia rozmowy z voicebotem.
 
 ---
 
@@ -154,11 +181,15 @@ Najmocniej wspierane czesci:
 - European Commission, AI Act policy page: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
 - European Commission, AI Act enters into force: https://commission.europa.eu/news-and-media/news/ai-act-enters-force-2024-08-01_en
 - AI Act Explorer, official EU service desk: https://ai-act-service-desk.ec.europa.eu/en/ai-act-explorer
+- NIST AI Risk Management Framework: https://www.nist.gov/itl/ai-risk-management-framework
+- NIST AI Resource Center: https://airc.nist.gov/
+- ISO/IEC 42001:2023 AI management system: https://www.iso.org/standard/42001
+- W3C Cognitive Accessibility Research Module - Voice Systems and Conversational Interfaces: https://www.w3.org/TR/coga-voice/
 
 Charakter:
 
 - Oficjalne zrodla prawne i regulacyjne.
-- Wykorzystane przede wszystkim w czesci o privacy, security, compliance i odpowiedzialnym AI.
+- Wykorzystane przede wszystkim w czesci o privacy, security, compliance, odpowiedzialnym AI, governance i dostepnosci poznawczej.
 
 Najmocniej wspierane czesci:
 

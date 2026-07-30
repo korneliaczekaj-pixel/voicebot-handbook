@@ -36,6 +36,22 @@ Zrodla wspierajace czesc:
 
 ---
 
+## Architektura w prostych slowach
+
+Architekture voicebota mozna porownac do dobrze zorganizowanej recepcji telefonicznej. Najpierw ktos odbiera polaczenie i zapewnia, ze dzwiek dociera w dobra strone. Potem ktos zapisuje, co powiedzial klient. Nastepnie ktos interpretuje sens wypowiedzi: czy chodzi o status zamowienia, reklamacje, termin dostawy czy konsultanta. Potem system sprawdza reguly procesu i dane w firmowych systemach. Na koncu uklada odpowiedz, zamienia ja na glos i mowi do uzytkownika.
+
+W prawdziwym voicebocie te "osoby" sa komponentami technicznymi: telefonia, ASR, NLU lub LLM, dialog manager, integracje i TTS. Gdy rozmowa sie psuje, przyczyna moze lezec w dowolnym miejscu. Uzytkownik mowi wyraznie, ale telefonia znieksztalca dzwiek. ASR zapisuje zle slowo. NLU wybiera zla intencje. Integracja nie odpowiada. TTS dziwnie czyta date. Dlatego nie wystarczy powiedziec "AI zle zrozumiala". Trzeba umiec znalezc warstwe, na ktorej powstal blad.
+
+Najprostsza mapa myslenia:
+
+```text
+glos -> tekst -> znaczenie -> decyzja -> dane -> odpowiedz -> glos
+```
+
+To zdanie jest mala mapa calej architektury. Kazdy rozdzial tej czesci rozwija jeden fragment tej drogi.
+
+---
+
 # Rozdzial 1. Architektura wysokiego poziomu: od glosu uzytkownika do akcji systemu
 
 ## 1.1. Cele rozdzialu

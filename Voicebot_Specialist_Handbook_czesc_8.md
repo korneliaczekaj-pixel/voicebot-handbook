@@ -46,6 +46,16 @@ Zrodla wspierajace czesc:
 
 ---
 
+## LLM i RAG w prostych slowach
+
+LLM to model jezykowy, ktory potrafi pracowac z naturalnym jezykiem: rozpoznawac sens wypowiedzi, streszczac, klasyfikowac, parafrazowac i tworzyc odpowiedzi. W voicebocie nie powinien byc traktowany jak magiczny mozg, ktory "sam wszystko zalatwi". Lepiej myslec o nim jak o bardzo sprawnym pomocniku jezykowym. Pomocnik moze dobrze zrozumiec chaotyczny opis klienta, ale nadal potrzebuje zasad: o czym wolno mu mowic, kiedy ma uzyc danych z systemu, kiedy ma odmowic i kiedy ma przekazac rozmowe czlowiekowi.
+
+RAG oznacza odpowiadanie z wykorzystaniem bazy wiedzy. Model nie ma wtedy zgadywac z pamieci, tylko najpierw dostaje odpowiednie fragmenty dokumentow, regulaminow lub instrukcji, a dopiero potem uklada odpowiedz. Dla laika dobry obraz jest taki: LLM jest osoba odpowiadajaca, a RAG jest segregatorem z aktualnymi dokumentami, ktore ta osoba ma przed soba. Jesli segregator jest nieaktualny, chaotyczny albo zawiera sprzeczne informacje, odpowiedz tez bedzie ryzykowna.
+
+W kanale glosowym LLM i RAG maja dodatkowe ograniczenie: odpowiedz musi byc krotka, jasna i bezpieczna. To, co wyglada dobrze w dlugim czacie, w sluchawce moze byc meczace. Voicebot generatywny nie wygrywa tym, ze mowi duzo. Wygrywa tym, ze rozumie wiecej wariantow wypowiedzi, ale odpowiada prosciej.
+
+---
+
 # Rozdzial 1. Kiedy uzywac LLM w voicebocie, a kiedy nie
 
 ## 1.1. Cele rozdzialu

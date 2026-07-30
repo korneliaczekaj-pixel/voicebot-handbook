@@ -1147,7 +1147,99 @@ Optymalizacja voicebota jest ciaglym procesem produktowym. Najlepsze zespoly nie
 
 ---
 
-# 9. Zbiorcza checklista po Czesci X
+# 9. Metryki odbioru, wysilku i zaufania
+
+Metryki operacyjne pokazuja, co wydarzylo sie w systemie. Metryki odbioru pokazuja, jak rozmowe przezyl czlowiek. To rozroznienie jest wazne, bo voicebot moze miec dobre liczby techniczne i jednoczesnie byc meczacy. Przyklad: niski fallback rate nie oznacza jeszcze, ze uzytkownik rozumial odpowiedzi. Niski handoff nie oznacza, ze sprawa zostala zalatwiona. Krotki czas rozmowy nie zawsze oznacza dobra rozmowe; czasem oznacza szybkie rozlaczenie.
+
+Dlatego dashboard dojrzalego voicebota powinien miec warstwe "human experience". Nie musi byc skomplikowana. Wazne, aby regularnie laczyc dane z systemu, transkrypcje, ankiety po rozmowie i feedback konsultantow.
+
+## 9.1. Trzy poziomy oceny rozmowy
+
+Pierwszy poziom to wynik zadania: czy uzytkownik osiagnal cel. Drugi poziom to koszt dojscia do celu: ile bylo tur, powtorzen, ciszy, korekt i eskalacji. Trzeci poziom to odbior: czy uzytkownik czul, ze rozmawia z kompetentnym, przewidywalnym systemem, czy z przeszkoda na drodze do konsultanta.
+
+Praktyczny model:
+
+| Poziom | Pytanie | Przykladowe dane |
+|---|---|---|
+| Task success | Czy sprawa zostala zalatwiona? | outcome, integracja, potwierdzenie, repeat contact |
+| Dialogue cost | Ile wysilku kosztowala rozmowa? | liczba tur, powtorzenia, no-input, no-match, repair |
+| Perceived experience | Jak uzytkownik odebral rozmowe? | ankieta, komentarz, sygnaly frustracji, prosba o czlowieka |
+
+## 9.2. Customer effort w kanale glosowym
+
+Customer effort w voicebocie to nie tylko liczba klikniec, bo uzytkownik niczego nie klika. Wysilek pojawia sie jako koniecznosc pamietania dlugich opcji, czekania na koniec monologu, powtarzania danych, zgadywania komendy albo tlumaczenia sie systemowi. W kanale glosowym nawet mala niejasnosc moze byc meczaca, bo uzytkownik nie widzi ekranu i nie moze spokojnie przeskanowac opcji.
+
+Sygnaly wysokiego wysilku:
+
+- uzytkownik pyta "co mam powiedziec?";
+- powtarza te same dane;
+- przerywa botowi w tych samych miejscach;
+- milczy po pytaniu;
+- prosi o konsultanta po jednym lub dwoch bledach;
+- konczy rozmowe bez rozwiazania;
+- dzwoni ponownie w tej samej sprawie.
+
+## 9.3. Metryki zaufania
+
+Zaufanie do voicebota powinno byc skalibrowane. Uzytkownik ma ufac botowi w sprawach, ktore bot rzeczywiscie potrafi obsluzyc, ale nie powinien zakladac, ze bot moze podejmowac decyzje poza zakresem. W praktyce oznacza to, ze bot powinien brzmiec kompetentnie, ale nie absolutnie. Powinien umiec powiedziec "nie mam pewnosci", "to wymaga konsultanta" albo "moge sprawdzic tylko status".
+
+Metryki i sygnaly zaufania:
+
+| Sygnal | Interpretacja |
+|---|---|
+| Uzytkownik akceptuje wynik i nie dzwoni ponownie | Prawdopodobne zaufanie do rozwiazania |
+| Uzytkownik prosi o potwierdzenie wiele razy | Niska pewnosc lub niejasny komunikat |
+| Uzytkownik pyta "czy rozmawiam z czlowiekiem?" | Brak transparentnosci lub zbyt ludzka persona |
+| Uzytkownik przekazuje dane wrazliwe bez pytania | Ryzyko overtrust i potrzeba lepszych granic |
+| Uzytkownik szybko wybiera konsultanta | Mozliwy undertrust, zly onboarding lub zle doswiadczenia |
+
+## 9.4. Prosta ankieta po rozmowie
+
+Ankieta po rozmowie powinna byc krotka. Jesli jest za dluga, zniecheci uzytkownika i da malo odpowiedzi. Dobrze sprawdza sie zestaw 3-5 pytan, rotowany w czasie.
+
+Przyklad:
+
+```text
+1. Czy udalo sie zalatwic sprawe? Tak/Nie
+2. Jak latwa byla rozmowa? 1-5
+3. Czy pytania bota byly zrozumiale? 1-5
+4. Czy mial(a) Pan/Pani poczucie kontroli nad rozmowa? 1-5
+5. Co mozemy poprawic? [opcjonalnie]
+```
+
+Dla procesow wysokiego ryzyka warto dodac pytanie: "Czy bylo jasne, kiedy bot moze pomoc, a kiedy potrzebny jest konsultant?". To pozwala wykrywac niebezpieczne nadmierne zaufanie.
+
+## 9.5. Jak interpretowac metryki odbioru
+
+Metryki odbioru nie powinny byc traktowane jak plebiscyt popularnosci. Niska ocena moze wynikac z problemu poza botem, np. klient jest zly na decyzje firmy. Dlatego ankiete trzeba laczyc z outcome, transkrypcja i powodem kontaktu. Jesli uzytkownicy nisko oceniaja rozmowy z odmowa reklamacji, problemem moze byc polityka biznesowa, ale bot nadal powinien byc oceniony pod katem jasnosci, tonu i handoffu.
+
+Najlepsza praktyka to analizowac metryki w segmentach:
+
+- per use case;
+- per prompt lub krok dialogu;
+- per powod handoff;
+- per kanal i godzina;
+- per nowy/staly uzytkownik;
+- per wersja scenariusza.
+
+## 9.6. Checklista metryk odbioru
+
+- Czy mierzymy task success i wysilek, nie tylko containment?
+- Czy mamy pytanie o zrozumialosc?
+- Czy mamy pytanie o poczucie kontroli?
+- Czy monitorujemy sygnaly frustracji?
+- Czy repeat contact jest laczony z pierwotna rozmowa?
+- Czy analizujemy prosby o konsultanta jako sygnal odbioru?
+- Czy wiemy, w ktorym kroku uzytkownicy traca zaufanie?
+- Czy rozdzielamy problem bota od problemu polityki biznesowej?
+
+## 9.7. Podsumowanie
+
+Voicebot jest oceniany przez uzytkownika nie tylko po tym, czy "technicznie zadzialal". Liczy sie takze wysilek, przewidywalnosc, mozliwosc poprawy, jasna droga do czlowieka i poczucie, ze system nie ukrywa swoich ograniczen. Metryki odbioru sa potrzebne, bo bez nich zespol moze optymalizowac liczby, ktore nie przekladaja sie na dobra rozmowe.
+
+---
+
+# 10. Zbiorcza checklista po Czesci X
 
 - Czy metryki sa zdefiniowane przed produkcja?
 - Czy masz baseline?
@@ -1164,10 +1256,12 @@ Optymalizacja voicebota jest ciaglym procesem produktowym. Najlepsze zespoly nie
 - Czy transkrypcje sa analizowane w probkach?
 - Czy dashboard prowadzi do backlogu?
 - Czy kazda zmiana ma hipoteze i test regresji?
+- Czy mierzysz odbior, wysilek i poczucie kontroli?
+- Czy zaufanie uzytkownika jest skalibrowane do realnych mozliwosci bota?
 
 ---
 
-# 10. Co bedzie w kolejnej czesci
+# 11. Co bedzie w kolejnej czesci
 
 Kolejna czesc powinna opracowac **Czesc XI. Wdrozenie voicebota w organizacji**:
 

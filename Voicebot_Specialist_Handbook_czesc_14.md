@@ -112,6 +112,12 @@ Lepiej:
 
 ## Rozdzial 3. Dostepnosc i inkluzywnosc
 
+### Dlaczego dostepnosc w glosie jest trudniejsza niz wyglada
+
+Dostepnosc voicebota nie polega tylko na tym, czy system "slyszy" uzytkownika. W kanale glosowym wiele osob ma mniej czasu, mniej kontroli i mniej podpowiedzi niz na stronie internetowej. Nie widza listy opcji. Nie moga latwo wrocic wzrokiem do poprzedniego zdania. Musza zapamietac pytanie, zrozumiec je i odpowiedziec w rytmie narzuconym przez system. To szczegolnie obciaza osoby starsze, osoby w stresie, osoby neuroatypowe, osoby z problemami pamieci roboczej oraz uzytkownikow rozmawiajacych w halasie.
+
+Dostepny voicebot powinien wiec zmniejszac obciazenie poznawcze. Ma mowic krotko, zadawac jedno pytanie naraz, dawac czas na odpowiedz i pozwalac na powtorzenie. Jesli uzytkownik nie odpowiada, bot nie powinien zakladac zlej woli. Cisza moze oznaczac szukanie dokumentu, niepewnosc, problem ze sluchem albo to, ze pytanie bylo zbyt trudne.
+
 ### Grupy wymagajace szczegolnej uwagi
 
 - osoby starsze;
@@ -122,6 +128,26 @@ Lepiej:
 - osoby mowiace z akcentem lub gwara;
 - osoby w stresie;
 - osoby w halasliwym otoczeniu.
+
+### Dostepnosc poznawcza
+
+Dostepnosc poznawcza oznacza projektowanie rozmowy tak, aby uzytkownik nie musial nadmiernie pamietac, zgadywac ani przetwarzac wielu informacji naraz. To nie jest "ulatwianie tylko dla wybranych grup". W praktyce kazdy klient moze miec obnizona uwage: prowadzi samochod, stoi w sklepie, jest zdenerwowany reklamacja, trzyma dokumenty w reku albo rozmawia w drugim jezyku.
+
+Najwazniejsze zasady:
+
+| Problem | Co zrobic |
+|---|---|
+| Uzytkownik nie widzi opcji | Nie czytaj dlugich menu; pytaj otwarcie albo podaj maksymalnie 2-3 opcje |
+| Uzytkownik musi zapamietac numer | Grupuj cyfry i potwierdzaj fragmentami |
+| Uzytkownik nie rozumie pytania | Przeformuluj, nie powtarzaj identycznie |
+| Uzytkownik potrzebuje czasu | Daj pauze i nie traktuj ciszy od razu jako bledu |
+| Uzytkownik gubi sie w procesie | Powiedz, na jakim etapie jest rozmowa |
+| Uzytkownik nie ufa automatyzacji | Daj jasna droge do konsultanta |
+
+Przyklad:
+
+Zle: "Prosze podac numer zamowienia, kod pocztowy, date zakupu oraz powod kontaktu."  
+Lepiej: "Najpierw znajdziemy zamowienie. Prosze podac numer zamowienia. Moze pan powiedziec go po trzy cyfry."
 
 ### Projektowanie dostepne
 
@@ -134,6 +160,21 @@ Lepiej:
 | Powtorzenia | Mozliwosc "powtorz" |
 | Bledy | Bez obwiniania uzytkownika |
 | Handoff | Latwy, szczegolnie po kilku niepowodzeniach |
+
+### Instrukcje dla projektanta
+
+Projektuj prompt tak, jakby uzytkownik slyszal go tylko raz, w gorszych warunkach niz w sali testowej. Najpierw powiedz, czego potrzebujesz. Potem podaj format odpowiedzi. Na koncu, jesli trzeba, dodaj alternatywe.
+
+Dobry wzorzec:
+
+```text
+Cel: "Sprawdze zamowienie."
+Prosba: "Prosze podac numer zamowienia."
+Format: "Moze pan powiedziec go po trzy cyfry."
+Alternatywa: "Jesli nie ma pan numeru, moge polaczyc z konsultantem."
+```
+
+Ten wzorzec jest dluzszy na papierze, ale w rozmowie bywa latwiejszy, bo prowadzi uzytkownika krok po kroku.
 
 ### Checklista dostepnosci
 

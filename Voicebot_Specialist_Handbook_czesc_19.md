@@ -50,6 +50,10 @@ To zmniejsza niepewnosc i ustawia granice.
 
 # 3. Zaufanie, kontrola i poczucie bezpieczenstwa
 
+Zaufanie do voicebota ma dwa wymiary. Pierwszy to kompetencja: czy system rozumie sprawe, odpowiada trafnie i prowadzi do wyniku. Drugi to integralnosc: czy system jest uczciwy, przewidywalny i nie ukrywa ograniczen. Naturalny glos moze poprawic pierwsze wrazenie, ale nie zastapi kompetencji. Jesli bot brzmi bardzo ludzko, a potem nie rozumie prostej korekty, spadek zaufania jest silniejszy niz przy skromniejszym, ale jasnym systemie.
+
+W praktyce voicebot powinien budowac zaufanie przez dzialanie: szybko rozpoznac temat, jasno powiedziec, co potrafi, potwierdzic dane krytyczne i bez oporu przekazac rozmowe czlowiekowi. To jest bardziej wiarygodne niz rozbudowana persona albo zbyt cieple deklaracje.
+
 Zaufanie buduja:
 
 - transparentnosc;
@@ -69,6 +73,12 @@ Zaufanie niszcza:
 - halucynacje;
 - zbyt dlugie komunikaty;
 - powtarzanie pytan.
+
+Przyklad skalibrowanego zaufania:
+
+"Moge sprawdzic status przesylki i zmienic termin dostawy. Nie podejme decyzji reklamacyjnej automatycznie; w takiej sprawie polacze z konsultantem."
+
+Taki komunikat nie oslabia bota. Przeciwnie, ustawia uczciwe granice i zmniejsza ryzyko rozczarowania.
 
 ---
 
@@ -152,12 +162,32 @@ Ryzykowne efekty:
 
 Ludzie przypisuja glosom intencje i emocje. Antropomorfizacja moze pomagac w plynnej interakcji, ale szkodzi, gdy bot udaje czlowieka, obiecuje zrozumienie lub tworzy fałszywa empatie.
 
+Najbezpieczniejsza zasada brzmi: bot moze miec styl, ale nie powinien miec fikcyjnego zycia. Moze byc spokojny, uprzejmy i konsekwentny. Nie musi mowic, ze "cieszy sie", "martwi" albo "doskonale rozumie", jezeli za tym nie idzie realna zdolnosc pomocy. W obsludze klienta nadmierna ludzkość czesto podnosi oczekiwania wobec systemu. Uzytkownik zaczyna zakladac, ze bot rozumie kontekst tak jak konsultant, a potem szybciej sie irytuje.
+
 ## Dobre zasady
 
 - Persona jako rola, nie fikcyjny czlowiek.
 - Transparentnosc.
 - Brak udawania uczuc.
 - Kompetencja zamiast "osobowosci".
+
+## Backchannel i sygnaly sluchania
+
+Backchannel to krotki sygnal, ze rozmowca slucha, np. "mhm", "rozumiem", "dobrze". W voicebotach LLM backchannel moze zwiekszac naturalnosc rozmowy, ale trzeba uzywac go ostroznie. Jesli bot mowi "rozumiem" po kazdej wypowiedzi, zaczyna brzmiec mechanicznie. Jesli uzywa backchannelu w chwili, gdy uzytkownik nadal mowi, moze wejsc w slowo.
+
+Dobre uzycie:
+
+- przy dluzszym podawaniu danych;
+- gdy uzytkownik robi pauze, ale nie zakonczyl mysli;
+- gdy bot potrzebuje chwili na sprawdzenie informacji;
+- w rozmowach opiekunczych lub senioralnych, gdzie wazne jest poczucie bycia wysluchanym.
+
+Ryzykowne uzycie:
+
+- w procesach transakcyjnych wysokiego ryzyka;
+- podczas odczytywania numerow, dat i kwot;
+- jako zamiennik realnego zrozumienia;
+- zbyt czesto, bez zwiazku z trescia wypowiedzi.
 
 ---
 
