@@ -1,0 +1,43 @@
+# Voicebot Specialist Handbook
+
+Podrecznik zawodowy Voicebot Specialist jako strona WWW: 19 czesci + bibliografia + audyt zrodel,
+z podlinkowanym spisem tresci, wyszukiwarka i omowieniami do czytania na poczatku kazdej czesci.
+
+## Struktura
+
+- `zrodla/` — pliki zrodlowe Markdown (czesci 1-19, bibliografia, audyt, omowienia)
+- `build.js` — generator: sklada wszystkie zrodla w jeden plik `public/index.html`
+- `public/index.html` — gotowy podrecznik (samowystarczalny HTML, dziala tez offline)
+- `server.js` — minimalny serwer statyczny (zero zaleznosci) dla Railway
+
+## Aktualizacja tresci
+
+1. Podmien / edytuj pliki w `zrodla/`.
+2. Zbuduj: `npm run build` (wymaga Node 18+).
+3. Commit + push — Railway przebuduje i wdrozy automatycznie.
+
+## Podglad lokalny
+
+```
+npm start
+```
+
+i otworz http://localhost:3000
+
+## Wdrozenie na Railway
+
+1. Wejdz na https://railway.com i zaloguj sie (np. kontem GitHub).
+2. New Project -> Deploy from GitHub repo -> wybierz to repozytorium.
+3. Railway wykryje Node (package.json) i uruchomi `npm start`.
+4. Variables -> dodaj `APP_PASSWORD` = wybrane haslo dostepu (wlacza logowanie).
+5. Settings -> Networking -> Generate Domain — dostaniesz adres strony.
+
+## Logowanie haslem
+
+- Haslo ustawia sie w zmiennej `APP_PASSWORD` (Railway -> Variables). Po ustawieniu kazde wejscie
+  na strone wymaga podania hasla; sesja trzyma sie 30 dni (cookie), wylogowanie: `/wyloguj`.
+- BEZ ustawionej zmiennej strona dziala bez logowania (wygodne przy podgladzie lokalnym).
+- Zmiana hasla = zmiana wartosci `APP_PASSWORD` w Railway (uniewaznia dotychczasowe sesje).
+
+To prosta ochrona wspolnym haslem (bez kont uzytkownikow) — wystarcza, by adres nie byl otwarty
+dla kazdego, ale nie zastepuje pelnego systemu uprawnien.
