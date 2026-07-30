@@ -1070,7 +1070,45 @@ Czytelnik nauczy się:
 - wykrywać problemy wymagające optymalizacji;
 - raportowac jakość w sposób zrozumiały dla biznesu i technologii.
 
-## 8.2. Kluczowe metryki
+## 8.2. Czym jest dashboard jakości rozumienia
+
+Dashboard jakości rozumienia to widok, który pokazuje, jak dobrze voicebot rozumie ludzi. Nie chodzi tylko o to, czy system działa technicznie. Chodzi o to, czy bot poprawnie rozpoznaje intencje, dane, odpowiedzi użytkownika i momenty, w których powinien dopytać albo przekazać rozmowę do człowieka.
+
+W praktyce taki dashboard pomaga odpowiedzieć na pytania:
+
+- czy bot rozumie najważniejsze tematy rozmów;
+- gdzie najczęściej się myli;
+- które pytania bota powodują ciszę lub niepasujące odpowiedzi;
+- które dane są trudne do rozpoznania głosem;
+- czy problem leży w ASR, NLU, promptcie, flow czy samym procesie;
+- co trzeba poprawić w modelu, danych treningowych albo scenariuszu.
+
+Osoba nietechniczna może myśleć o tym dashboardzie jak o mapie miejsc, w których bot "gubi sens rozmowy". Jeśli użytkownik mówi "chcę zmienić termin dostawy", a bot rozpoznaje reklamację, dashboard powinien pomóc to zauważyć. Jeśli użytkownicy milczą po pytaniu bota, dashboard powinien pokazać, przy którym pytaniu to się dzieje.
+
+Dobry dashboard jakości rozumienia nie pokazuje tylko procentów. Pokazuje też przykłady wypowiedzi. Liczba mówi, że problem istnieje. Transkrypcja pokazuje, jak brzmi problem w prawdziwej rozmowie.
+
+## 8.3. Jak powinien wyglądać taki dashboard
+
+Najprostszy użyteczny dashboard jakości rozumienia powinien mieć pięć części.
+
+Pierwsza część to ogólny stan jakości:
+
+- intent accuracy;
+- fallback rate;
+- no-match rate;
+- no-input rate;
+- entity accuracy;
+- handoff po niezrozumieniu.
+
+Druga część pokazuje problemy według intencji. Dzięki temu widać, czy bot dobrze rozumie np. status zamówienia, ale źle rozumie zmianę adresu albo reklamację.
+
+Trzecia część pokazuje problemy według promptu. To ważne, bo czasem problem nie jest w modelu, tylko w pytaniu bota. Jeśli bot pyta zbyt formalnie, zbyt długo albo niejasno, użytkownik może milczeć albo odpowiadać inaczej, niż zakładał scenariusz.
+
+Czwarta część pokazuje przykładowe transkrypcje. Przy każdej problematycznej intencji lub frazie warto mieć kilka prawdziwych wypowiedzi użytkowników, oczywiście po anonimizacji danych.
+
+Piąta część pokazuje trend przed i po zmianie. Jeśli dodano nowe frazy treningowe, zmieniono prompt albo wypuszczono nowy model, dashboard powinien pokazać, czy wynik rzeczywiście się poprawił.
+
+## 8.4. Kluczowe metryki
 
 | Metryka | Co mierzy | Po co |
 |---|---|---|
@@ -1086,7 +1124,7 @@ Czytelnik nauczy się:
 | Repeat after bot question | Powtórzenia użytkownika | Slaby prompt lub ASR |
 | Handoff after misunderstanding | Eskalację po niezrozumieniu | Frustracja i ryzyko UX |
 
-## 8.3. Wyjaśnienie eksperckie
+## 8.5. Wyjaśnienie eksperckie
 
 Dashboard jakości rozumienia powinien odpowiadać na pytania:
 
@@ -1109,7 +1147,19 @@ Nie wystarczy pokazać jedna liczbę. Potrzebne są widoki:
 - w czasie;
 - przed/po release.
 
-## 8.4. Perspektywa biznesowa
+## 8.6. Jak interpretować dashboard jakości rozumienia
+
+Dashboard trzeba czytać od ogółu do szczegółu.
+
+Najpierw sprawdzamy, czy problem jest globalny. Jeśli wszystkie intencje nagle mają gorszy wynik, przyczyną może być zmiana ASR, awaria kanału audio, nowa wersja modelu albo problem w danych.
+
+Potem sprawdzamy, czy problem dotyczy konkretnej intencji. Jeśli tylko `zmiana_adresu` ma niski recall, bot może nie mieć wystarczająco dobrych przykładów albo użytkownicy mówią o tej sprawie inaczej niż zakładano.
+
+Następnie sprawdzamy prompt. Jeśli no-input rośnie po jednym pytaniu, użytkownik może nie rozumieć pytania. Przykład: "Proszę wskazać preferowaną placówkę" może być gorsze niż "W którym mieście chce pani wizytę?".
+
+Na końcu czytamy przykłady rozmów. Bez przykładów łatwo wyciągnąć złą decyzję. Fallback może oznaczać brak danych treningowych, ale może też oznaczać, że bot pyta o zbyt wiele rzeczy naraz.
+
+## 8.7. Perspektywa biznesowa
 
 Biznes potrzebuje interpretacji:
 
@@ -1121,7 +1171,7 @@ Lepsze:
 
 "Bot dobrze rozpoznaje status zamówienia, ale myli zmianę adresu z reklamacja dostawy. To powoduje 12% dodatkowych handoffow w tym flow. Rekomendujemy scalenie części intencji i pytanie doprecyzowujace."
 
-## 8.5. Perspektywa użytkownika
+## 8.8. Perspektywa użytkownika
 
 Dashboard powinien wykrywać miejsca, gdzie użytkownik cierpi:
 
@@ -1133,7 +1183,7 @@ Dashboard powinien wykrywać miejsca, gdzie użytkownik cierpi:
 
 Jakość rozumienia nie jest tylko metryka modelu. To odczuwalna jakość rozmowy.
 
-## 8.6. Perspektywa technologiczna
+## 8.9. Perspektywa technologiczna
 
 Dashboard wymaga dobrych logow:
 
@@ -1150,7 +1200,7 @@ Dashboard wymaga dobrych logow:
 - release version;
 - dataset/model version.
 
-## 8.7. Dobre praktyki
+## 8.10. Dobre praktyki
 
 - Pokazuj metryki per intencja i per flow.
 - Dodaj trend w czasie.
@@ -1161,7 +1211,7 @@ Dashboard wymaga dobrych logow:
 - Pokazuj critical field accuracy dla danych wysokiego ryzyka.
 - Dashboard powinien prowadzić do backlogu, nie tylko raportowac.
 
-## 8.8. Typowe błędy
+## 8.11. Typowe błędy
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1172,7 +1222,7 @@ Dashboard wymaga dobrych logow:
 | Brak przykładów rozmów | Metryki bez interpretacji |
 | Brak połączenia z backlogiem | Raport nie prowadzi do działania |
 
-## 8.9. Checklista dashboardu
+## 8.12. Checklista dashboardu
 
 - Czy widac metryki per intencja?
 - Czy widac metryki per flow?
@@ -1184,20 +1234,20 @@ Dashboard wymaga dobrych logow:
 - Czy dashboard pokazuje przykłady rozmów?
 - Czy wyniki tworza backlog optymalizacji?
 
-## 8.10. Mini case study
+## 8.13. Mini case study
 
 Dashboard voicebota rezerwacyjnego pokazywal stabilny task completion, ale wzrost no-input przy pytaniu o lokalizacje. Analiza prompt_id pokazala, że po zmianie copy bot pytal: "Jaka placowka jest preferowana?", zamiast "W którym miescie chce pani wizyte?". Użytkownicy milczeli, bo pytanie było zbyt formalne. Po zmianie promptu no-input spadl.
 
-## 8.11. Ćwiczenia
+## 8.14. Ćwiczenia
 
 1. Zaprojektuj dashboard jakości rozumienia dla statusu zamówienia.
 2. Wskaż 5 metryk dla ASR.
 3. Wskaż 5 metryk dla NLU.
 4. Opisz, jak dashboard generuje backlog.
 
-## 8.12. Podsumowanie
+## 8.15. Podsumowanie
 
-Dashboard jakości rozumienia łączy dane techniczne z doświadczeniem użytkownika. Jego celem nie jest dekoracja raportowa, lecz szybkie wykrywanie, gdzie bot nie rozumie ludzi i co trzeba poprawić.
+Dashboard jakości rozumienia łączy dane techniczne z doświadczeniem użytkownika. Jego celem nie jest dekoracja raportowa, lecz szybkie wykrywanie, gdzie bot nie rozumie ludzi i co trzeba poprawić. Dobry dashboard nie mówi tylko "wynik spadł"; pokazuje, w którym miejscu rozmowy spadł, jak brzmią realne wypowiedzi użytkowników i jaka poprawka ma największy sens.
 
 ---
 

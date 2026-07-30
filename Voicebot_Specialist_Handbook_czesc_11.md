@@ -846,7 +846,50 @@ Czytelnik nauczy się:
 - tworzyć dashboard operacyjny, biznesowy i jakościowy;
 - zamieniać dane w backlog optymalizacji.
 
-## 7.2. Analiza transkrypcji
+## 7.2. Czym jest dashboard voicebota
+
+Dashboard to ekran lub zestaw ekranów, które pokazują najważniejsze informacje o działaniu voicebota. Nie jest to tylko "ładna tabelka" ani raport robiony dla samego raportowania. Dobry dashboard ma pomóc szybko odpowiedzieć na pytania:
+
+- czy voicebot działa technicznie;
+- czy użytkownicy załatwiają sprawy;
+- gdzie rozmowy się psują;
+- co trzeba poprawić jako pierwsze;
+- czy ostatnia zmiana pomogła czy zaszkodziła.
+
+Można myśleć o dashboardzie jak o tablicy kontrolnej projektu. W samochodzie nie patrzymy tylko na jedną liczbę. Potrzebujemy prędkości, paliwa, kontrolek awarii i czasem nawigacji. W voicebocie jest podobnie: sama liczba rozmów nie wystarczy. Trzeba widzieć wynik rozmów, błędy, eskalacje, powroty klientów, jakość rozumienia i zachowanie po zmianach.
+
+Dashboard powinien być zrozumiały dla osoby, która nie jest analitykiem danych. Jeśli specjalista voicebotowy patrzy na ekran i nadal nie wie, czy bot działa dobrze, dashboard nie spełnia swojej funkcji.
+
+## 7.3. Jak powinien wyglądać dobry dashboard
+
+Dobry dashboard powinien mieć kilka prostych warstw.
+
+Pierwsza warstwa to szybki widok stanu, czyli odpowiedź na pytanie "czy jest dobrze?". Tutaj zwykle są duże liczby i proste wskaźniki:
+
+- liczba rozmów;
+- task completion;
+- handoff;
+- fallback;
+- no-input i no-match;
+- awarie integracji;
+- średni czas rozmowy;
+- CSAT lub inna ocena po rozmowie.
+
+Druga warstwa pokazuje trendy. Sama liczba "fallback 8%" niewiele mówi, jeśli nie wiemy, czy tydzień temu było 4%, 8% czy 15%. Dlatego dashboard powinien pokazywać zmiany w czasie: dzień po dniu, tydzień po tygodniu, przed i po release.
+
+Trzecia warstwa pozwala zejść głębiej. Jeśli fallback rośnie, specjalista musi zobaczyć, w którym flow, przy którym promptcie, dla jakiej intencji i na jakich przykładowych wypowiedziach. Bez tego dashboard pokazuje problem, ale nie daje drogi do naprawy.
+
+Czwarta warstwa łączy dane z decyzją. Dobry dashboard powinien prowadzić do backlogu: "skrócić prompt X", "dodać frazy treningowe do intencji Y", "sprawdzić API statusu zamówienia", "poprawić komunikat handoff".
+
+Praktycznie dashboard voicebota może wyglądać tak:
+
+1. U góry: pięć najważniejszych wskaźników za wybrany okres.
+2. Pod nimi: wykres trendu dla task completion, fallback, handoff i repeat contact.
+3. Niżej: tabela problematycznych intencji, promptów i integracji.
+4. Obok lub pod tabelą: przykładowe transkrypcje rozmów.
+5. Na końcu: lista rekomendowanych działań albo link do backlogu.
+
+## 7.4. Analiza transkrypcji
 
 Analizuj:
 
@@ -863,7 +906,7 @@ Analizuj:
 
 Transkrypcje powinny być czytane w probkach, nie tylko agregowane. Liczby mówią "gdzie", transkrypcje mówią "dlaczego".
 
-## 7.3. Tagowanie rozmów
+## 7.5. Tagowanie rozmów
 
 Typy tagów:
 
@@ -878,7 +921,13 @@ Typy tagów:
 | Optimization tag | unclear_prompt |
 | ASR issue | digit_error |
 
-## 7.4. Dashboard operacyjny
+Tagowanie jest potrzebne, bo surowa transkrypcja jest trudna do analizowania w skali. Tag zamienia rozmowę w informację, którą można policzyć. Jeśli 300 rozmów ma tag `unclear_prompt`, wiadomo, że problem nie jest pojedynczym przypadkiem, tylko wzorcem do poprawy.
+
+## 7.6. Dashboard operacyjny
+
+Dashboard operacyjny odpowiada na pytanie: "czy system działa dzisiaj i czy coś się nie psuje?". Korzysta z niego zespół utrzymania, IT, osoba odpowiedzialna za produkcję i czasem lider contact center.
+
+To jest widok bardziej techniczny niż biznesowy. Nie chodzi w nim o pełny obraz wartości projektu, tylko o szybkie wykrywanie awarii, spadków jakości i anomalii.
 
 Dla zespolu utrzymania:
 
@@ -893,7 +942,15 @@ Dla zespolu utrzymania:
 - alerts;
 - release version.
 
-## 7.5. Dashboard biznesowy
+Przykład interpretacji:
+
+Jeśli task completion jest stabilny, ale nagle rośnie API error rate, problem prawdopodobnie leży w integracji, a nie w conversation designie. Jeśli po release rośnie latency, trzeba sprawdzić nową wersję flow, modelu lub integracji.
+
+## 7.7. Dashboard biznesowy
+
+Dashboard biznesowy odpowiada na pytanie: "czy voicebot daje wartość organizacji i użytkownikom?". Korzysta z niego sponsor projektu, operations, contact center, właściciel procesu i osoby decydujące o budżecie.
+
+Ten dashboard powinien mówić językiem wyniku, a nie językiem logów. Zamiast pokazywać tylko "liczbę sesji", powinien pokazać, ile spraw zostało skutecznie załatwionych, ile wróciło do konsultanta, ile kosztuje skuteczna rozmowa i czy klienci nie dzwonią ponownie.
 
 Dla sponsora i operations:
 
@@ -908,7 +965,15 @@ Dla sponsora i operations:
 - top use cases;
 - ROI.
 
-## 7.6. Dashboard jakościowy
+Przykład interpretacji:
+
+Containment może rosnąć, ale jeśli jednocześnie rośnie repeat contact, to bot prawdopodobnie zatrzymuje klientów w automatyzacji, lecz nie rozwiązuje ich spraw. Taki dashboard powinien ostrzec przed pozornym sukcesem.
+
+## 7.8. Dashboard jakościowy
+
+Dashboard jakościowy odpowiada na pytanie: "dlaczego rozmowy są dobre albo złe?". Korzysta z niego conversation designer, Voicebot Specialist, QA, analityk danych, AI/NLU specialist i osoby poprawiające scenariusze.
+
+To najważniejszy dashboard do codziennej optymalizacji. Pokazuje nie tylko ile było błędów, ale gdzie one wystąpiły i jak brzmiały realne wypowiedzi użytkowników.
 
 Dla conversation design, AI i QA:
 
@@ -922,7 +987,24 @@ Dla conversation design, AI i QA:
 - sample transcripts;
 - regression failures.
 
-## 7.7. Perspektywa biznesowa
+Przykład interpretacji:
+
+Jeśli no-input rośnie przy jednym pytaniu, użytkownicy mogą nie rozumieć, czego bot od nich chce. Jeśli interruption rate rośnie przy jednym komunikacie, bot może mówić za długo albo podawać zbyt oczywiste informacje. Jeśli top fallback utterances zawierają podobne frazy, trzeba dodać intencję, poprawić prompt lub zmienić zakres bota.
+
+## 7.9. Jak czytać dashboard krok po kroku
+
+Osoba pracująca z voicebotem może czytać dashboard w prostym rytmie:
+
+1. Sprawdź, czy nie ma awarii: uptime, API errors, latency, nagły spadek wolumenu.
+2. Sprawdź wynik rozmów: task completion, automation, handoff, abandonment, repeat contact.
+3. Sprawdź jakość rozmowy: fallback, no-input, no-match, przerwania, prośby o konsultanta.
+4. Zobacz trendy: czy problem pojawił się po konkretnej zmianie, kampanii, sezonie albo awarii.
+5. Zejdź do szczegółu: intencja, flow, prompt, transkrypcja, nagranie.
+6. Zapisz decyzję: co poprawiamy, kto to robi, jak zmierzymy efekt.
+
+Najważniejsza zasada: dashboard nie kończy pracy. Dashboard zaczyna rozmowę o tym, co poprawić.
+
+## 7.10. Perspektywa biznesowa
 
 Dashboard powinien prowadzić do decyzji:
 
@@ -932,11 +1014,13 @@ Dashboard powinien prowadzić do decyzji:
 - która integracja wymaga naprawy;
 - gdzie potrzebna jest zmiana procesu.
 
-## 7.8. Perspektywa użytkownika
+## 7.11. Perspektywa użytkownika
 
 Analiza transkrypcji ujawnia język użytkownika i miejsca frustracji. Nie powinna sluzyc tylko do trenowania modelu, ale też do poprawy procesu i komunikacji.
 
-## 7.9. Perspektywa technologiczna
+Dobry dashboard powinien bronić użytkownika przed złą automatyzacją. Jeśli bot formalnie "obsłużył" rozmowę, ale klient dzwoni ponownie, przerywa, prosi o konsultanta albo porzuca połączenie, dashboard powinien to pokazać.
+
+## 7.12. Perspektywa technologiczna
 
 Wymagania:
 
@@ -949,7 +1033,7 @@ Wymagania:
 - możliwość drill-down do rozmowy;
 - eksport do backlogu.
 
-## 7.10. Dobre praktyki
+## 7.13. Dobre praktyki
 
 - Tworz trzy dashboardy: operacyjny, biznesowy, jakościowy.
 - Taguj outcome i failure reason.
@@ -959,7 +1043,7 @@ Wymagania:
 - Ogranicz dostęp do danych wrażliwych.
 - Raportuj przed/po release.
 
-## 7.11. Typowe błędy
+## 7.14. Typowe błędy
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -970,7 +1054,7 @@ Wymagania:
 | Brak tag governance | Chaos kategorii |
 | Brak powiazania z backlogiem | Raportowanie bez działania |
 
-## 7.12. Checklista dashboardów
+## 7.15. Checklista dashboardów
 
 - Czy mamy dashboard operacyjny?
 - Czy mamy dashboard biznesowy?
@@ -982,20 +1066,20 @@ Wymagania:
 - Czy dane są anonimizowane?
 - Czy dashboard tworzy backlog?
 
-## 7.13. Mini case study
+## 7.16. Mini case study
 
 Dashboard biznesowy pokazywal stabilny task completion. Dashboard jakościowy pokazal jednak wzrost interruption rate przy jednym promptcie. Po odsłuchaniu rozmów okazalo się, że nowy komunikat był zbyt długi i użytkownicy przerywali, bo znali odpowiedź. Skrócenie promptu zmniejszylo AHT.
 
-## 7.14. Ćwiczenia
+## 7.17. Ćwiczenia
 
 1. Zaprojektuj tag taxonomy dla voicebota bankowego.
 2. Wypisz metryki dashboardu operacyjnego.
 3. Wypisz metryki dashboardu biznesowego.
 4. Wypisz metryki dashboardu jakosciowego.
 
-## 7.15. Podsumowanie
+## 7.18. Podsumowanie
 
-Dashboardy powinny być narzędziami działania, nie dekoracja. Dobre dashboardy pokazują co się stalo, dlaczego mogło się stac i gdzie zacząć optymalizację.
+Dashboardy powinny być narzędziami działania, nie dekoracją. Dobre dashboardy pokazują, co się stało, dlaczego mogło się stać i gdzie zacząć optymalizację. Dla Voicebot Specialist dashboard jest codziennym narzędziem pracy: pomaga zobaczyć, czy bot realnie pomaga ludziom, czy tylko generuje ładne liczby.
 
 ---
 
