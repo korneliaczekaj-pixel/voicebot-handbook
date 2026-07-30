@@ -10,8 +10,8 @@ const OUT = path.join(__dirname, 'public', 'index.html');
 
 const FILES = [];
 for (let i = 1; i <= 19; i++) FILES.push({ file: `Voicebot_Specialist_Handbook_czesc_${i}.md`, num: String(i), kind: 'part' });
-FILES.push({ file: 'Voicebot_Specialist_Handbook_bibliografia.md', num: 'B', kind: 'biblio', title: 'Bibliografia, zrodla i mapa wykorzystania' });
-FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A', kind: 'audit', title: 'Audyt poprawnosci merytorycznej' });
+FILES.push({ file: 'Voicebot_Specialist_Handbook_bibliografia.md', num: 'B', kind: 'biblio', title: 'Bibliografia, źródła i mapa wykorzystania' });
+FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A', kind: 'audit', title: 'Audyt poprawności merytorycznej' });
 
 const OMOW_FILE = 'Voicebot_Specialist_Handbook_omowienia_do_czytania.md';
 
@@ -150,7 +150,7 @@ const omow = {};
   let cur = null, buf = [];
   const flush = () => { if (cur) omow[cur] = renderToks(tokenize(buf)); buf = []; };
   for (const l of raw) {
-    const m = l.match(/^#\s+Czesc\s+(\d+)\./);
+    const m = l.match(/^#\s+Cz[eę][sś][cć]\s+(\d+)\./);
     if (m) { flush(); cur = m[1]; continue; }
     if (/^#\s+/.test(l) && !m) { flush(); cur = null; continue; }
     if (cur) buf.push(l);
@@ -169,22 +169,29 @@ function calloutClass(title) {
   if (/podsumowanie/.test(t)) return 'co-sum';
   return null;
 }
-const CO_LABEL = { 'co-check': 'Checklista', 'co-err': 'Typowe bledy', 'co-good': 'Dobre praktyki', 'co-case': 'Case study', 'co-ex': 'Cwiczenia', 'co-sum': 'Podsumowanie' };
+const CO_LABEL = { 'co-check': 'Checklista', 'co-err': 'Typowe błędy', 'co-good': 'Dobre praktyki', 'co-case': 'Case study', 'co-ex': 'Ćwiczenia', 'co-sum': 'Podsumowanie' };
 
 // ---------- przetwarzanie pliku czesci ----------
 const dropped = [];
+const chunks = []; // fragmenty tekstu do wyszukiwania (czat "zapytaj podrecznik")
+function plainToken(t) {
+  if (t.type === 'p' || t.type === 'code' || t.type === 'quote') return t.lines.join(' ');
+  if (t.type === 'list') return t.lines.map(l => l.replace(/^\s*([-*]|\d+[.)])\s+/, '')).join('; ');
+  if (t.type === 'table') return t.lines.filter(r => !/^\|[\s|:-]+\|?$/.test(r)).map(r => r.replace(/\|/g, ' ').replace(/\s+/g, ' ')).join(' | ');
+  return '';
+}
 function processFile(meta) {
   const raw = fs.readFileSync(path.join(DIR, meta.file), 'utf8');
   const lines = raw.split(/\r?\n/);
   let i = 0, partTitle = meta.title || null;
   while (i < lines.length) {
     const l = lines[i];
-    if (/^# (Voicebot Specialist Handbook|Audyt poprawnosci)/.test(l)) { i++; continue; }
+    if (/^# (Voicebot Specialist Handbook|Audyt poprawno[sś]ci)/.test(l)) { i++; continue; }
     const m = l.match(/^##\s+(.*)$/);
-    if (m && (/^Czesc \d+:/.test(m[1]) || /^Kompletna mapa/.test(m[1]) || /^Bibliografia/.test(m[1])) && !partTitle) {
-      partTitle = m[1].replace(/^Czesc \d+:\s*/, ''); i++; continue;
+    if (m && (/^Cz[eę][sś][cć] \d+:/.test(m[1]) || /^Kompletna mapa/.test(m[1]) || /^Bibliografia/.test(m[1])) && !partTitle) {
+      partTitle = m[1].replace(/^Cz[eę][sś][cć] \d+:\s*/, ''); i++; continue;
     }
-    if (m && /^(Czesc \d+:|Kompletna mapa|Bibliografia)/.test(m[1])) { i++; continue; }
+    if (m && /^(Cz[eę][sś][cć] \d+:|Kompletna mapa|Bibliografia)/.test(m[1])) { i++; continue; }
     if (/^(Wersja robocza|Jezyk:|Status:|Kontynuacja plik)/.test(l)) { i++; continue; }
     if (/^-\s+`?Voicebot_Specialist_Handbook/.test(l)) { i++; continue; }
     if (/^\s*$/.test(l) || /^---\s*$/.test(l)) { i++; continue; }
@@ -195,13 +202,13 @@ function processFile(meta) {
   const out = [];
   for (let k = 0; k < toks.length; k++) {
     const t = toks[k];
-    if (t.type === 'h' && /kolejn\w* czesci/i.test(t.text)) {
+    if (t.type === 'h' && /kolejn\w* cz[eę][sś]ci/i.test(t.text)) {
       dropped.push(`${meta.file}: "${t.text}"`);
       let j = k + 1;
       while (j < toks.length && !(toks[j].type === 'h' && toks[j].level <= t.level)) j++;
       k = j - 1; continue;
     }
-    if (t.type === 'h' && /^Czesc\s+[IVXL]+\./.test(t.text)) continue;
+    if (t.type === 'h' && /^Cz[eę][sś][cć]\s+[IVXL]+\./.test(t.text)) continue;
     out.push(t);
   }
   toks = out;
@@ -217,6 +224,17 @@ function processFile(meta) {
   const chapters = [];
   let html = '';
   let openCo = null;
+  let cur = null; // biezacy fragment tekstowy
+  const pushCur = () => {
+    if (!cur || !cur.tekst.trim()) return;
+    // dziel bardzo dlugie sekcje na czesci ~6000 znakow
+    const parts_ = cur.tekst.match(/[\s\S]{1,6000}(?=\s|$)|[\s\S]{1,6000}/g) || [];
+    parts_.forEach((p, i) => chunks.push({
+      id: cur.id, czesc: partTitle || meta.file, num: meta.num,
+      tytul: cur.tytul + (i ? ' (cd.)' : ''), tekst: p.trim(),
+    }));
+    cur = null;
+  };
   const closeCo = () => { if (openCo) { html += '</section>'; openCo = null; } };
   for (const t of toks) {
     if (t.type === 'h') {
@@ -226,6 +244,8 @@ function processFile(meta) {
         const id = slug(t.text, pid);
         chapters.push({ id, title: t.text });
         html += `<h2 class="chapter" id="${id}">${inline(t.text)}</h2>`;
+        pushCur();
+        cur = { id, tytul: t.text, tekst: '' };
       } else {
         const co = calloutClass(t.text);
         const tag = Math.min(t.level + 1, 5);
@@ -238,15 +258,30 @@ function processFile(meta) {
         }
       }
     } else html += renderToks([t]);
+    // tekst do indeksu czatu
+    if (t.type === 'h' && !t.chapter) { if (cur) cur.tekst += '\n' + t.text + '.'; }
+    else if (t.type !== 'h') {
+      if (!cur) cur = { id: pid, tytul: 'Wprowadzenie', tekst: '' };
+      cur.tekst += '\n' + plainToken(t);
+    }
   }
   closeCo();
+  pushCur();
   return { id: pid, num: meta.num, kind: meta.kind, title: partTitle || meta.file, chapters, body: html };
 }
 
 const parts = FILES.map(processFile);
 
+// omowienia jako fragmenty do wyszukiwania
+for (const p of parts) {
+  if (omow[p.num]) chunks.push({
+    id: p.id, czesc: p.title, num: p.num, tytul: 'Omówienie części',
+    tekst: omow[p.num].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+  });
+}
+
 // ---------- sklejenie strony ----------
-const NUM_LABEL = n => (n === 'B' ? 'Bibliografia' : n === 'A' ? 'Audyt' : `Czesc ${n}`);
+const NUM_LABEL = n => (n === 'B' ? 'Bibliografia' : n === 'A' ? 'Audyt' : `Część ${n}`);
 
 const waveSymbol = (() => {
   const heights = [6, 11, 18, 9, 14, 22, 16, 7, 12, 20, 10, 15, 8, 19, 13, 6, 17, 11, 21, 9, 14, 7, 18, 12, 16, 10, 20, 8, 13, 15];
@@ -267,7 +302,7 @@ for (const p of parts) {
 
   bodyHtml += `<section class="part" id="${p.id}">`;
   bodyHtml += `<header class="popen"><p class="kick">${NUM_LABEL(p.num)}</p><h1>${inline(p.title)}</h1><svg class="wave" aria-hidden="true"><use href="#wv"/></svg></header>`;
-  if (omow[p.num]) bodyHtml += `<div class="omow"><span class="co-tag">Omowienie</span>${omow[p.num]}</div>`;
+  if (omow[p.num]) bodyHtml += `<div class="omow"><span class="co-tag">Omówienie</span>${omow[p.num]}</div>`;
   bodyHtml += p.body;
   bodyHtml += '</section>';
 }
@@ -399,6 +434,36 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
   box-shadow:0 2px 8px rgba(0,0,0,.15);opacity:0;pointer-events:none;transition:opacity .2s}
 #top-btn.show{opacity:1;pointer-events:auto}
 
+/* czat: zapytaj podrecznik */
+#chat-btn{position:fixed;bottom:22px;right:76px;z-index:25;display:flex;align-items:center;gap:8px;
+  background:var(--acc);color:#fff;border:0;border-radius:22px;padding:11px 18px;cursor:pointer;
+  font:600 13.5px "Segoe UI",system-ui,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+#chat-btn:hover{filter:brightness(1.07)}
+#chat{position:fixed;bottom:22px;right:22px;z-index:26;width:min(400px,calc(100vw - 28px));
+  height:min(560px,calc(100vh - 60px));display:none;flex-direction:column;background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.3);overflow:hidden}
+#chat.open{display:flex}
+#chat header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;
+  border-bottom:2px solid var(--acc);background:var(--sb-bg)}
+#chat header b{font-family:"Palatino Linotype",Palatino,Georgia,serif;font-size:15px}
+#chat header button{background:none;border:0;color:var(--mut);font-size:18px;cursor:pointer;padding:2px 6px}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.cmsg{max-width:88%;padding:9px 13px;border-radius:10px;font-size:13.8px;line-height:1.55;white-space:pre-wrap;overflow-wrap:break-word}
+.cmsg.user{align-self:flex-end;background:var(--acc);color:#fff;border-bottom-right-radius:3px}
+.cmsg.bot{align-self:flex-start;background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:3px}
+.cmsg.bot .zrodla{margin-top:8px;padding-top:7px;border-top:1px solid var(--line);font-size:12px}
+.cmsg.bot .zrodla b{display:block;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;font-size:10px;margin-bottom:3px}
+.cmsg.bot .zrodla a{display:block;color:var(--acc2);text-decoration:none;padding:1.5px 0}
+.cmsg.bot .zrodla a:hover{text-decoration:underline}
+.cmsg.wait{color:var(--mut);font-style:italic}
+#chat form{display:flex;gap:8px;padding:11px;border-top:1px solid var(--line)}
+#chat input{flex:1;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);
+  color:var(--ink);font:inherit;font-size:13.5px}
+#chat form button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:0 16px;
+  font:600 13.5px "Segoe UI",system-ui,sans-serif;cursor:pointer}
+#chat form button:disabled{opacity:.5;cursor:default}
+@media (max-width:960px){#chat-btn{right:22px;bottom:74px}}
+
 @media (max-width:960px){
   #sb{position:fixed;left:0;top:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:300px}
   #sb.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.3)}
@@ -409,7 +474,7 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
   .popen h1{font-size:26px}
 }
 @media print{
-  #sb,#nav-btn,#top-btn{display:none}
+  #sb,#nav-btn,#top-btn,#chat-btn,#chat{display:none}
   body{background:#fff;color:#000}
   .content{max-width:none;padding:0}
   .popen{page-break-before:always}
@@ -473,6 +538,50 @@ const js = `
       d.open=any;
     });
   });
+
+  // --- czat: zapytaj podrecznik ---
+  var chat=document.getElementById('chat');
+  var chatBtn=document.getElementById('chat-btn');
+  var msgs=document.getElementById('chat-msgs');
+  var form=document.getElementById('chat-form');
+  var inp=document.getElementById('chat-in');
+  var sendBtn=document.getElementById('chat-send');
+  var hist=[];
+  if(location.protocol==='file:'||location.hostname==='claude.ai'){chatBtn.style.display='none';}
+  chatBtn.addEventListener('click',function(){chat.classList.add('open');chatBtn.style.visibility='hidden';
+    if(!msgs.children.length)addMsg('bot','Cześć! Odpowiadam na pytania na podstawie tego podręcznika i wskazuję sekcje, które warto przeczytać. O co chcesz zapytać?');
+    inp.focus();});
+  document.getElementById('chat-close').addEventListener('click',function(){chat.classList.remove('open');chatBtn.style.visibility='visible';});
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function addMsg(kind,text,zrodla){
+    var div=document.createElement('div');div.className='cmsg '+kind;
+    var h=esc(text).replace(/\\*\\*([^*]+)\\*\\*/g,'<b>$1</b>');
+    if(zrodla&&zrodla.length){h+='<div class="zrodla"><b>Powiązane sekcje</b>'+zrodla.map(function(z){
+      return '<a href="#'+z.id+'">'+esc(z.czesc+' — '+z.tytul)+'</a>';}).join('')+'</div>';}
+    div.innerHTML=h;
+    div.querySelectorAll('.zrodla a').forEach(function(a){a.addEventListener('click',function(){
+      chat.classList.remove('open');chatBtn.style.visibility='visible';});});
+    msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;return div;
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var q=inp.value.trim();if(!q)return;
+    inp.value='';sendBtn.disabled=true;
+    addMsg('user',q);
+    var wait=addMsg('bot wait','Szukam w podręczniku...');
+    fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pytanie:q,historia:hist.slice(-8)})})
+      .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+      .then(function(res){
+        wait.remove();
+        if(res.ok&&res.j.odpowiedz){
+          addMsg('bot',res.j.odpowiedz,res.j.zrodla);
+          hist.push({role:'user',content:q},{role:'assistant',content:res.j.odpowiedz});
+        }else{addMsg('bot',res.j.blad||'Coś poszło nie tak — spróbuj ponownie.');}
+      })
+      .catch(function(){wait.remove();addMsg('bot','Czat działa tylko w wersji online aplikacji (Railway). Sprawdź połączenie i spróbuj ponownie.');})
+      .then(function(){sendBtn.disabled=false;inp.focus();});
+  });
 })();
 `;
 
@@ -480,23 +589,23 @@ const today = '2026-07-29';
 const core = `
 <title>Voicebot Specialist Handbook</title>
 ${waveSymbol}
-<button id="nav-btn" aria-label="Spis tresci">Spis tresci</button>
+<button id="nav-btn" aria-label="Spis treści">Spis treści</button>
 <div class="layout">
-<nav id="sb" aria-label="Spis tresci">
+<nav id="sb" aria-label="Spis treści">
   <p class="brand"><a href="#top">Voicebot Specialist Handbook</a></p>
-  <p class="sub">Spis tresci</p>
-  <input id="q" type="search" placeholder="Szukaj w spisie tresci..." aria-label="Szukaj">
+  <p class="sub">Spis treści</p>
+  <input id="q" type="search" placeholder="Szukaj w spisie treści..." aria-label="Szukaj">
   ${navHtml}
 </nav>
 <main>
 <div class="content" id="top">
   <header class="hero">
-    <p class="kick">Podrecznik zawodowy</p>
+    <p class="kick">Podręcznik zawodowy</p>
     <h1>Voicebot Specialist Handbook</h1>
-    <p class="lede">Kompletna mapa wiedzy, program nauki i praktyka projektowania voicebotow:
+    <p class="lede">Kompletna mapa wiedzy, program nauki i praktyka projektowania voicebotów:
     od architektury, conversation designu i danych, przez LLM, integracje i QA,
-    po metryki, compliance i psychologie rozmowy.</p>
-    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> czesci</span><span><b>${chapterCount}</b> rozdzialow i sekcji</span><span>Bibliografia + audyt zrodel</span></div>
+    po metryki, compliance i psychologię rozmowy.</p>
+    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> części</span><span><b>${chapterCount}</b> rozdziałów i sekcji</span><span>Bibliografia + audyt źródeł</span></div>
     <svg class="wave" aria-hidden="true"><use href="#wv"/></svg>
     <div class="cards">${heroCards}</div>
   </header>
@@ -504,7 +613,14 @@ ${waveSymbol}
 </div>
 </main>
 </div>
-<button id="top-btn" aria-label="Do gory">&#8593;</button>
+<button id="top-btn" aria-label="Do góry">&#8593;</button>
+<button id="chat-btn" aria-label="Zapytaj podręcznik">&#128172; Zapytaj podręcznik</button>
+<div id="chat" role="dialog" aria-label="Asystent podręcznika">
+  <header><b>Asystent podręcznika</b><button id="chat-close" aria-label="Zamknij">&#10005;</button></header>
+  <div id="chat-msgs"></div>
+  <form id="chat-form"><input id="chat-in" type="text" placeholder="Zadaj pytanie o voiceboty..."
+    autocomplete="off" maxlength="500"><button type="submit" id="chat-send">Wyślij</button></form>
+</div>
 <script>${js}</script>
 `;
 
@@ -513,6 +629,9 @@ fs.writeFileSync(OUT,
   `<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voicebot Specialist Handbook</title><style>${css}</style></head><body>${core}</body></html>`, 'utf8');
 if (process.env.ARTIFACT_OUT) fs.writeFileSync(process.env.ARTIFACT_OUT, `<style>${css}</style>${core}`, 'utf8');
 
-console.log('Czesci:', parts.length, '| rozdzialow w nawigacji:', chapterCount, '| omowien:', Object.keys(omow).length);
+fs.mkdirSync(path.join(__dirname, 'dane'), { recursive: true });
+fs.writeFileSync(path.join(__dirname, 'dane', 'fragmenty.json'), JSON.stringify(chunks), 'utf8');
+
+console.log('Czesci:', parts.length, '| rozdzialow w nawigacji:', chapterCount, '| omowien:', Object.keys(omow).length, '| fragmentow:', chunks.length);
 dropped.forEach(d => console.log('  pominieto:', d));
 console.log('->', OUT, fs.statSync(OUT).size, 'B');

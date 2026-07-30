@@ -2,11 +2,15 @@
   "name": "voicebot-handbook",
   "version": "1.0.0",
   "private": true,
-  "description": "Voicebot Specialist Handbook static site",
+  "description": "Voicebot Specialist Handbook — statyczna strona podrecznika",
   "scripts": {
+    "build": "node build.js",
     "start": "node server.js"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0"
   }
 }

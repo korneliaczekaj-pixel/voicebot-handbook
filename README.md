@@ -32,6 +32,23 @@ i otworz http://localhost:3000
 4. Variables -> dodaj `APP_PASSWORD` = wybrane haslo dostepu (wlacza logowanie).
 5. Settings -> Networking -> Generate Domain — dostaniesz adres strony.
 
+## Czat "Zapytaj podrecznik" (AI)
+
+Przycisk czatu w prawym dolnym rogu strony. Asystent (Claude) odpowiada WYLACZNIE na podstawie
+tresci podrecznika i podaje linki do powiazanych sekcji.
+
+Konfiguracja:
+1. Zaloz klucz API na https://platform.claude.com (Console -> API Keys). Platnosc za zuzycie.
+2. Railway -> Variables -> dodaj `ANTHROPIC_API_KEY` = klucz. Redeploy nastapi automatycznie.
+3. Bez klucza strona dziala normalnie, a czat pokazuje komunikat o braku konfiguracji.
+
+Szczegoly techniczne:
+- endpoint `POST /api/chat` (za ta sama bramka hasla co strona),
+- wyszukiwanie fragmentow: `dane/fragmenty.json` (generowany przez `npm run build`),
+- model: `claude-opus-5`; typowy koszt pytania to kilkadziesiat groszy (kilka-kilkanascie tys.
+  tokenow wejscia + krotka odpowiedz),
+- limit: 10 pytan na minute z jednego adresu IP (ochrona kosztow).
+
 ## Logowanie haslem
 
 - Haslo ustawia sie w zmiennej `APP_PASSWORD` (Railway -> Variables). Po ustawieniu kazde wejscie
