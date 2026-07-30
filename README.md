@@ -32,7 +32,7 @@ i otworz http://localhost:3000
 4. Variables -> dodaj `APP_PASSWORD` = wybrane haslo dostepu (wlacza logowanie).
 5. Settings -> Networking -> Generate Domain — dostaniesz adres strony.
 
-## Czat "Zapytaj podrecznik" (AI)
+## Czat "Zadaj pytanie" (AI)
 
 Przycisk czatu w prawym dolnym rogu strony. Asystent (Claude) odpowiada WYLACZNIE na podstawie
 tresci podrecznika i podaje linki do powiazanych sekcji.

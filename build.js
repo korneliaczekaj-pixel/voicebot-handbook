@@ -630,7 +630,7 @@ ${waveSymbol}
 </main>
 </div>
 <button id="top-btn" aria-label="Do góry">&#8593;</button>
-<button id="chat-btn" aria-label="Zapytaj podręcznik">&#128172; Zapytaj podręcznik</button>
+<button id="chat-btn" aria-label="Zadaj pytanie">&#128172; Zadaj pytanie</button>
 <div id="chat" role="dialog" aria-label="Asystent podręcznika">
   <header><b>Asystent podręcznika</b><button id="chat-close" aria-label="Zamknij">&#10005;</button></header>
   <div id="chat-msgs"></div>
