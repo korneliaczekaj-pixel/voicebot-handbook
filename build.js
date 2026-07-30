@@ -336,16 +336,16 @@ const css = `
   --sb-bg:#EBEEF2; --shadow:0 1px 3px rgba(33,43,54,.08);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
 @media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:16px/1.65 "Segoe UI",system-ui,-apple-system,sans-serif;}
+  font:16px/1.65 "Segoe UI",system-ui,-apple-system,sans-serif;overflow-x:hidden}
 h1,h2,h3,h4,h5,.pn,.kick{font-family:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
 code,pre{font-family:"Cascadia Code",Consolas,"Courier New",monospace}
-a{color:var(--acc2)}
+a{color:var(--acc2);overflow-wrap:anywhere}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
-.layout{display:flex;min-height:100vh}
+.layout{display:flex;min-height:100vh;width:100%;max-width:100vw;overflow-x:hidden}
 #sb{width:308px;flex:0 0 308px;background:var(--sb-bg);border-right:1px solid var(--line);
   position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px 40px}
 main{flex:1;min-width:0}
@@ -405,11 +405,11 @@ ul,ol{margin:0 0 16px;padding-left:26px}
 li{margin-bottom:5px}
 blockquote{margin:0 0 16px;padding:10px 16px;border-left:3px solid var(--acc2);color:var(--mut);background:var(--surface)}
 pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
-  overflow-x:auto;font-size:13.5px;line-height:1.55;margin:0 0 16px}
-code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.9em}
+  overflow-x:auto;font-size:13.5px;line-height:1.55;margin:0 0 16px;max-width:100%}
+code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.9em;overflow-wrap:anywhere}
 pre code{background:none;padding:0}
 
-.tw{overflow-x:auto;margin:0 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:var(--shadow)}
+.tw{overflow-x:auto;margin:0 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:var(--shadow);max-width:100%}
 table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
 th{text-align:left;font-weight:600;border-bottom:2px solid var(--acc);padding:10px 13px;white-space:nowrap}
 td{border-top:1px solid var(--line);padding:9px 13px;vertical-align:top;min-width:110px}
@@ -427,8 +427,8 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
 .dlg .spk{color:var(--acc-soft)}
 
 #nav-btn{display:none;position:fixed;top:14px;left:14px;z-index:30;background:var(--surface);
-  border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:600 13px "Segoe UI",system-ui,sans-serif;
-  color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  border:1px solid var(--line);border-radius:50%;width:42px;height:42px;padding:0;font:700 22px/1 "Segoe UI",system-ui,sans-serif;
+  color:var(--acc);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);align-items:center;justify-content:center}
 #top-btn{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--line);
   border-radius:50%;width:42px;height:42px;font-size:17px;color:var(--acc);cursor:pointer;
   box-shadow:0 2px 8px rgba(0,0,0,.15);opacity:0;pointer-events:none;transition:opacity .2s}
@@ -465,9 +465,9 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
 @media (max-width:960px){#chat-btn{right:22px;bottom:74px}}
 
 @media (max-width:960px){
-  #sb{position:fixed;left:0;top:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:300px}
+  #sb{position:fixed;left:0;top:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:min(300px, calc(100vw - 24px));max-width:100vw}
   #sb.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.3)}
-  #nav-btn{display:block}
+  #nav-btn{display:flex}
   .content{padding:0 20px 80px}
   .hero{padding-top:70px}
   .hero h1{font-size:32px}
@@ -589,7 +589,7 @@ const today = '2026-07-29';
 const core = `
 <title>Voicebot Specialist Handbook</title>
 ${waveSymbol}
-<button id="nav-btn" aria-label="Spis treści">Spis treści</button>
+<button id="nav-btn" aria-label="Spis treści" title="Spis treści">☰</button>
 <div class="layout">
 <nav id="sb" aria-label="Spis treści">
   <p class="brand"><a href="#top">Voicebot Specialist Handbook</a></p>
