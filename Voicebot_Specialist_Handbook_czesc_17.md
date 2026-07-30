@@ -1,63 +1,63 @@
 # Voicebot Specialist Handbook
 
-## Czesc 17: Case studies
+## Część 17: Case studies
 
 Wersja robocza: 2026-07-29
 
 ---
 
-# Czesc XVI. Case studies
+# Część XVI. Case studies
 
-## Cel czesci
+## Cel części
 
-Case studies pokazuja, jak te same zasady projektowania voicebotow zmieniaja sie w zaleznosci od branzy, emocji uzytkownika, ryzyka prawnego, integracji i metryk sukcesu.
+Case studies pokazują, jak te same zasady projektowania voicebotów zmieniaja się w zaleznosci od branży, emocji użytkownika, ryzyka prawnego, integracji i metryk sukcesu.
 
 ---
 
-## 1. E-commerce: status zamowienia i zmiana adresu
+## 1. E-commerce: status zamówienia i zmiana adresu
 
 | Element | Opis |
 |---|---|
-| Problem | Wysoki wolumen pytan o paczki i zmiany adresu |
-| Uzytkownik | Klient chce szybko wiedziec, gdzie jest zamowienie |
-| Voicebot | Status, ETA, zmiana adresu przed wysylka |
+| Problem | Wysoki wolumen pytań o paczki i zmiany adresu |
+| Użytkownik | Klient chce szybko wiedzieć, gdzie jest zamówienie |
+| Voicebot | Status, ETA, zmiana adresu przed wysyłka |
 | Architektura | Telefonia -> ASR -> NLU/flow -> OMS API -> TTS |
 | Integracje | OMS, CRM, SMS, contact center |
-| Ryzyka | Bledny adres, status sporny, frustracja przy opoznieniu |
+| Ryzyka | Błędny adres, status sporny, frustracja przy opoznieniu |
 | Metryki | task completion, repeat contact, address correction success |
 
-Przykladowy dialog:
+Przykładowy dialog:
 
-Bot: "Znalazlem zamowienie. Jest przygotowywane do wysylki. Czy chce pan zmienic adres przed nadaniem?"  
-Uzytkownik: "Tak, na Kwiatowa 8."  
-Bot: "Mam Kwiatowa 8. Prosze podac jeszcze miasto."
+Bot: "Znalazlem zamówienie. Jest przygotowywane do wysyłki. Czy chce pan zmienić adres przed nadaniem?"  
+Użytkownik: "Tak, na Kwiatowa 8."  
+Bot: "Mam Kwiatowa 8. Proszę podac jeszcze miasto."
 
 Plan optymalizacji: analiza no-match dla fraz o kurierze, monitorowanie repeat contact po statusie opoznionym.
 
 ## 2. Bankowosc: zastrzezenie karty
 
-Problem: klient zgubil karte lub podejrzewa kradziez.  
-Voicebot: szybka klasyfikacja, weryfikacja, zastrzezenie przez bezpieczne narzedzie lub natychmiastowy handoff.  
-Ryzyka: fraud, zla autoryzacja, zbyt wolny proces.  
+Problem: klient zgubil kartę lub podejrzewa kradziez.  
+Voicebot: szybka klasyfikacja, weryfikacja, zastrzezenie przez bezpieczne narzędzie lub natychmiastowy handoff.  
+Ryzyka: fraud, zła autoryzacja, zbyt wolny proces.  
 Metryki: time to block, false routing, handoff success, security incidents.
 
 Dialog:
 
-Bot: "Czy chce pan zastrzec karte, czy sprawdzic status nowej karty?"  
-Uzytkownik: "Zgubilem karte."  
-Bot: "Rozumiem. Dla bezpieczenstwa przejde do zastrzezenia. Najpierw potwierdze tozsamosc."
+Bot: "Czy chce pan zastrzec kartę, czy sprawdzić status nowej karty?"  
+Użytkownik: "Zgubilem kartę."  
+Bot: "Rozumiem. Dla bezpieczeństwa przejde do zastrzezenia. Najpierw potwierdze tozsamosc."
 
 ## 3. Ubezpieczenia: status szkody
 
-Problem: klienci pytaja o status i brakujace dokumenty.  
-Voicebot: sprawdza status szkody, liste brakow, wysyla link do doslania dokumentow.  
-Ryzyka: bot nie moze obiecywac decyzji odszkodowawczej.  
+Problem: klienci pytają o status i brakujace dokumenty.  
+Voicebot: sprawdza status szkody, listę brakow, wysyła link do doslania dokumentów.  
+Ryzyka: bot nie może obiecywac decyzji odszkodowawczej.  
 Metryki: status completion, link sent, repeat contact, handoff for dispute.
 
 Dialog:
 
-Uzytkownik: "Czy dostane odszkodowanie?"  
-Bot: "Nie moge ocenic decyzji. Mogę sprawdzic aktualny status szkody albo polaczyc z konsultantem."
+Użytkownik: "Czy dostane odszkodowanie?"  
+Bot: "Nie mogę ocenić decyzji. Mogę sprawdzić aktualny status szkody albo połączyć z konsultantem."
 
 ## 4. Medycyna: rezerwacja wizyty
 
@@ -68,74 +68,74 @@ Metryki: booking completion, no-input, handoff for urgent phrases, SMS confirmat
 
 Dialog:
 
-Bot: "Moge pomoc umowic lub przelozyc wizyte. Jesli to nagla sytuacja zdrowotna, prosze skorzystac z pilnej pomocy medycznej."
+Bot: "Mogę pomóc umowic lub przelozyc wizyte. Jeśli to nagłą sytuacja zdrowotną, proszę skorzystać z pilnej pomocy medycznej."
 
 ## 5. Telekomunikacja: awaria internetu
 
-Problem: duzy wolumen awarii i pytan o faktury.  
+Problem: duzy wolumen awarii i pytań o faktury.  
 Voicebot: klasyfikuje problem, sprawdza awarie lokalna, wykonuje prosta diagnostyke, tworzy ticket.  
-Ryzyka: frustracja, wiele wyjatkow, zly endpointing przy opisach.  
+Ryzyka: frustracja, wiele wyjątków, zły endpointing przy opisach.  
 Metryki: ticket completeness, outage detection, handoff after frustration.
 
-## 6. Energetyka: odczyt licznika i status zgloszenia
+## 6. Energetyka: odczyt licznika i status zgłoszenia
 
 Problem: powtarzalne kontakty o odczyty i status awarii.  
-Voicebot: przyjmuje odczyt, sprawdza status, wysyla potwierdzenie.  
-Ryzyka: bledne cyfry, numery PPE, reklamacje rachunku.  
+Voicebot: przyjmuje odczyt, sprawdza status, wysyła potwierdzenie.  
+Ryzyka: błędne cyfry, numery PPE, reklamację rachunku.  
 Metryki: digit accuracy, reading accepted, repeat contact.
 
 ## 7. Administracja publiczna: status sprawy
 
-Problem: obywatele pytaja o status wniosku i wymagane dokumenty.  
+Problem: obywatele pytają o status wniosku i wymagane dokumenty.  
 Voicebot: informuje o statusie i wymaganiach, nie wydaje decyzji administracyjnej.  
-Ryzyka: dostepnosc, jezyk urzedowy, wykluczenie cyfrowe.  
+Ryzyka: dostępność, język urzedowy, wykluczenie cyfrowe.  
 Metryki: status completion, accessibility feedback, handoff.
 
 ## 8. Rekrutacja: pre-screening kandydatow
 
-Problem: duzy wolumen kandydatow i umawianie rozmow.  
-Voicebot: zbiera dostepnosc, podstawowe wymagania, umawia termin.  
+Problem: duzy wolumen kandydatow i umawianie rozmów.  
+Voicebot: zbiera dostępność, podstawowe wymagania, umawia termin.  
 Ryzyka: bias, wrazenie automatycznego odrzucenia, dane osobowe.  
 Metryki: scheduling success, candidate drop-off, fairness review.
 
 ## 9. Windykacja: informacja i deklaracja
 
-Problem: przypomnienia o platnosci i deklaracje.  
+Problem: przypomnienia o płatności i deklaracje.  
 Voicebot: neutralnie informuje, zbiera deklaracje, eskaluje spory.  
 Ryzyka: presja, stres, compliance, agresja.  
 Metryki: promise-to-pay captured, dispute handoff, complaint rate.
 
 Dialog:
 
-Bot: "Moge podac dostepne opcje platnosci albo polaczyc z konsultantem, jesli kwestionuje pan naleznosc."
+Bot: "Mogę podac dostępne opcję płatności albo połączyć z konsultantem, jeśli kwestionuje pan naleznosc."
 
-## 10. Sprzedaz B2B: kwalifikacja leadow
+## 10. Sprzedaż B2B: kwalifikacja leadow
 
-Problem: wiele zapytan o roznej jakosci.  
-Voicebot: kwalifikuje potrzebe, wielkosc firmy, termin, umawia rozmowe.  
+Problem: wiele zapytan o roznej jakości.  
+Voicebot: kwalifikuje potrzebe, wielkosc firmy, termin, umawia rozmowę.  
 Ryzyka: utrata leadow premium, zbyt agresywny ton.  
 Metryki: qualified leads, meeting booked, sales acceptance rate.
 
 ## 11. Helpdesk IT: ticket i instrukcje
 
-Problem: powtarzalne problemy z haslem, VPN, poczta.  
-Voicebot: klasyfikuje, podaje krotkie instrukcje, tworzy ticket, streszcza.  
-Ryzyka: hasla, security incidents, zbyt dlugie instrukcje glosowe.  
+Problem: powtarzalne problemy z hasłem, VPN, poczta.  
+Voicebot: klasyfikuje, podaje krótkie instrukcje, tworzy ticket, streszcza.  
+Ryzyka: hasła, security incidents, zbyt długie instrukcje głosowe.  
 Metryki: ticket completeness, password reset success, escalation quality.
 
 ---
 
-# Porownanie case studies
+# Porównanie case studies
 
-| Branza | Najlepszy start | Najwieksze ryzyko | Handoff |
+| Branża | Najlepszy start | Największe ryzyko | Handoff |
 |---|---|---|---|
-| E-commerce | Status/zmiana adresu | Bledne dane | Status sporny |
+| E-commerce | Status/zmiana adresu | Błędne dane | Status sporny |
 | Bank | Zastrzezenie/status | Fraud/compliance | Szybki |
 | Ubezpieczenia | Status szkody | Obietnica decyzji | Spory |
 | Medycyna | Rezerwacja | Porady zdrowotne | Pilne objawy |
 | Telekom | Awaria/status | Frustracja | Po diagnozie |
-| Energetyka | Odczyt/status | Cyfry/PPE | Reklamacje |
-| Administracja | Status sprawy | Legalizm/dostepnosc | Decyzje |
+| Energetyka | Odczyt/status | Cyfry/PPE | Reklamację |
+| Administracja | Status sprawy | Legalizm/dostępność | Decyzję |
 | Rekrutacja | Umawianie | Bias | Kandydat premium |
 | Windykacja | Informacja | Presja/spor | Spory |
 | B2B sales | Kwalifikacja | Utrata leadu | High-value |
@@ -146,17 +146,17 @@ Metryki: ticket completeness, password reset success, escalation quality.
 # Zbiorcza checklista case study
 
 - Czy problem biznesowy jest konkretny?
-- Czy kontekst uzytkownika jest opisany?
+- Czy kontekst użytkownika jest opisany?
 - Czy zakres bota jest ograniczony?
-- Czy architektura i integracje sa jasne?
-- Czy ryzyka sa opisane?
+- Czy architektura i integracje są jasne?
+- Czy ryzyka są opisane?
 - Czy handoff jest zaprojektowany?
-- Czy metryki sukcesu sa mierzalne?
+- Czy metryki sukcesu są mierzalne?
 - Czy plan optymalizacji istnieje?
 
 ---
 
-# Co bedzie w kolejnej czesci
+# Co będzie w kolejnej części
 
-Kolejna czesc: **Egzamin i certyfikacja Voicebot Specialist**.
+Kolejna część: **Egzamin i certyfikacja Voicebot Specialist**.
 

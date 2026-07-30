@@ -1,18 +1,18 @@
 # Voicebot Specialist Handbook
 
-## Czesc 15: Praca Voicebot Specialist
+## Część 15: Praca Voicebot Specialist
 
 Wersja robocza: 2026-07-29
 
 ---
 
-# Czesc XIV. Praca Voicebot Specialist
+# Część XIV. Praca Voicebot Specialist
 
-## Cel czesci
+## Cel części
 
-Voicebot Specialist to rola laczaca conversation design, analize biznesowa, AI/NLP, podstawy architektury, QA, dane, metryki, compliance i prace z interesariuszami. Nie jest to tylko copywriter dialogow ani tylko osoba konfigurujaca intencje. To specjalista, ktory pomaga organizacji zamienic rozmowy telefoniczne w bezpieczna, mierzalna i uzyteczna automatyzacje.
+Voicebot Specialist to rola łącząca conversation design, analizę biznesowa, AI/NLP, podstawy architektury, QA, dane, metryki, compliance i prace z interesariuszami. Nie jest to tylko copywriter dialogów ani tylko osoba konfigurujaca intencje. To specjalista, który pomaga organizacji zamienic rozmowy telefoniczne w bezpieczna, mierzalna i użyteczna automatyzację.
 
-## Rozdzial 1. Czym zajmuje sie Voicebot Specialist
+## Rozdział 1. Czym zajmuje się Voicebot Specialist
 
 ### Zakres roli
 
@@ -27,22 +27,22 @@ Voicebot Specialist:
 - wspolpracuje z developerami i architektami;
 - przygotowuje test cases;
 - analizuje transkrypcje i metryki;
-- prowadzi optymalizacje po wdrozeniu;
-- dba o UX, etyke, dostepnosc i compliance.
+- prowadzi optymalizację po wdrożeniu;
+- dba o UX, etyke, dostępność i compliance.
 
 ### Czego ta rola nie oznacza
 
-Nie musi byc:
+Nie musi być:
 
 - ekspertem od wszystkich modeli ASR;
 - backend developerem;
 - prawnikiem;
 - konsultantem contact center;
-- jedynym wlascicielem decyzji biznesowych.
+- jedynym właścicielem decyzji biznesowych.
 
-Ale musi umiec rozmawiac z kazda z tych rol.
+Ale musi umieć rozmawiać z każda z tych rol.
 
-## Rozdzial 2. Kompetencje
+## Rozdział 2. Kompetencje
 
 | Obszar | Kompetencje |
 |---|---|
@@ -51,25 +51,25 @@ Ale musi umiec rozmawiac z kazda z tych rol.
 | Technologia | ASR, NLU, LLM, RAG, TTS, integracje, telefonia |
 | Dane | transkrypcje, labeling, test set, confusion matrix |
 | QA | test cases, UAT, regresja, edge cases |
-| Compliance | prywatnosc, zgody, retencja, granice odpowiedzi |
+| Compliance | prywatność, zgody, retencja, granice odpowiedzi |
 | Analityka | metryki, dashboardy, optymalizacja |
 | Komunikacja | warsztaty, wymagania, dokumentacja, RACI |
 
-## Rozdzial 3. Typowy dzien pracy
+## Rozdział 3. Typowy dzien pracy
 
-Przykladowy dzien:
+Przykładowy dzien:
 
-1. Przeglad dashboardu: fallbacki, handoff, no-match, task completion.
+1. Przegląd dashboardu: fallbacki, handoff, no-match, task completion.
 2. Analiza 20 transkrypcji z najgorszego promptu.
 3. Spotkanie z contact center o nowych powodach kontaktu.
 4. Aktualizacja scenariusza i test cases.
-5. Przeglad z developerem mapowania bledow API.
+5. Przegląd z developerem mapowania błędów API.
 6. Review promptu systemowego z compliance.
 7. Przygotowanie backlogu optymalizacji.
 
-## Rozdzial 4. Dokumentacja w pracy Voicebot Specialist
+## Rozdział 4. Dokumentacja w pracy Voicebot Specialist
 
-Najwazniejsze dokumenty:
+Najważniejsze dokumenty:
 
 - brief projektu;
 - karta use case'u;
@@ -79,47 +79,47 @@ Najwazniejsze dokumenty:
 - dokument persony;
 - prompt systemowy;
 - specyfikacja integracji;
-- plan testow;
+- plan testów;
 - raport pilota;
 - dashboard metryk;
 - backlog optymalizacji;
 - dokument handoff;
 - dokumentacja utrzymaniowa.
 
-## Rozdzial 5. Sciezka junior-mid-senior
+## Rozdział 5. Ścieżka junior-mid-senior
 
 | Poziom | Charakterystyka |
 |---|---|
 | Junior | Tworzy proste dialogi, analizuje transkrypcje, przygotowuje frazy, wspiera QA |
 | Mid | Samodzielnie projektuje flow, prowadzi warsztaty, interpretuje metryki, wspolpracuje z IT |
-| Senior | Projektuje strategie voicebotow, architekture konwersacyjna, governance, roadmapy i standardy |
+| Senior | Projektuje strategie voicebotów, architekturę konwersacyjna, governance, roadmapy i standardy |
 
-### Junior powinien umiec
+### Junior powinien umieć
 
-- pisac krotkie prompt'y;
-- rozpoznawac intencje;
-- tworzyc test cases;
-- analizowac no-match;
+- pisac krótkie prompt'y;
+- rozpoznawać intencje;
+- tworzyć test cases;
+- analizować no-match;
 - dokumentowac flow.
 
-### Mid powinien umiec
+### Mid powinien umieć
 
-- prowadzic discovery;
-- projektowac MVP;
+- prowadzić discovery;
+- projektować MVP;
 - definiowac metryki;
-- projektowac handoff;
+- projektować handoff;
 - wspolpracowac z legal/security;
-- prowadzic optymalizacje.
+- prowadzić optymalizację.
 
-### Senior powinien umiec
+### Senior powinien umieć
 
-- tworzyc standardy organizacyjne;
-- oceniac architektury hybrydowe;
-- projektowac governance LLM/RAG;
+- tworzyć standardy organizacyjne;
+- oceniać architektury hybrydowe;
+- projektować governance LLM/RAG;
 - zarzadzac ryzykiem;
 - budowac program certyfikacji lub akademie.
 
-## Rozdzial 6. Portfolio
+## Rozdział 6. Portfolio
 
 Dobre portfolio powinno zawierac:
 
@@ -131,63 +131,63 @@ Dobre portfolio powinno zawierac:
 - fallbacki i handoff;
 - plan QA;
 - metryki sukcesu;
-- analiza po wdrozeniu lub symulacja;
-- refleksja: co bylo ryzykiem i jak je ograniczono.
+- analiza po wdrożeniu lub symulacja;
+- refleksja: co było ryzykiem i jak je ograniczono.
 
-Nie pokazuj danych klientow ani poufnych transkrypcji. Uzywaj anonimizacji lub projektow syntetycznych.
+Nie pokazuj danych klientów ani poufnych transkrypcji. Używaj anonimizacji lub projektow syntetycznych.
 
-## Rozdzial 7. Zadania rekrutacyjne
+## Rozdział 7. Zadania rekrutacyjne
 
-Przyklady:
+Przykłady:
 
 1. Zaprojektuj voicebota do zmiany terminu wizyty.
 2. Przeanalizuj 20 wypowiedzi i zaproponuj intencje.
-3. Napisz fallbacki dla procesu statusu zamowienia.
+3. Napisz fallbacki dla procesu statusu zamówienia.
 4. Zaprojektuj handoff z kontekstem.
 5. Zinterpretuj metryki: wysoki no-input, niski task completion.
 6. Zaproponuj prompt systemowy dla bota FAQ z RAG.
 7. Przygotuj matryce use case'u.
 
-## Rozdzial 8. Pytania na rozmowe kwalifikacyjna
+## Rozdział 8. Pytania na rozmowę kwalifikacyjna
 
-- Czym voicebot rozni sie od IVR?
+- Czym voicebot różni się od IVR?
 - Jak projektujesz fallback?
 - Jak oceniasz dobry use case?
 - Co to jest task completion?
 - Jak testujesz barge-in?
-- Kiedy nie uzywac LLM?
+- Kiedy nie używać LLM?
 - Jak ograniczasz halucynacje?
-- Jakie metryki analizujesz po wdrozeniu?
+- Jakie metryki analizujesz po wdrożeniu?
 - Jak projektujesz handoff?
 - Jak pracujesz z compliance?
 
-## Rozdzial 9. Jak rozwijac sie w tej roli
+## Rozdział 9. Jak rozwijac się w tej roli
 
 Plan rozwoju:
 
-1. Naucz sie contact center i procesow.
-2. Naucz sie conversation design.
+1. Naucz się contact center i procesów.
+2. Naucz się conversation design.
 3. Poznaj ASR, NLU, TTS, LLM, RAG na poziomie praktycznym.
 4. Pracuj z transkrypcjami.
-5. Ucz sie metryk.
-6. Ucz sie QA.
+5. Ucz się metryk.
+6. Ucz się QA.
 7. Poznaj podstawy privacy i compliance.
 8. Buduj portfolio projektow.
-9. Sluchaj prawdziwych rozmow.
-10. Analizuj porazki botow, nie tylko sukcesy.
+9. Sluchaj prawdziwych rozmów.
+10. Analizuj porażki botow, nie tylko sukcesy.
 
 ## Zbiorcza checklista
 
-- Czy rozumiesz pelny cykl zycia voicebota?
-- Czy umiesz rozmawiac z biznesem i IT?
-- Czy potrafisz projektowac dialogi?
-- Czy potrafisz testowac i analizowac metryki?
+- Czy rozumiesz pełny cykl życia voicebota?
+- Czy umiesz rozmawiać z biznesem i IT?
+- Czy potrafisz projektować dialogi?
+- Czy potrafisz testować i analizować metryki?
 - Czy znasz podstawy LLM/RAG i compliance?
 - Czy masz portfolio z dokumentacja?
 
 ---
 
-# Co bedzie w kolejnej czesci
+# Co będzie w kolejnej części
 
-Kolejna czesc: **Szablony, narzedzia i dokumenty projektowe**.
+Kolejna część: **Szablony, narzędzia i dokumenty projektowe**.
 

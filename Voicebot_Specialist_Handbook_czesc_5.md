@@ -1,9 +1,9 @@
 # Voicebot Specialist Handbook
 
-## Czesc 5: Analiza biznesowa i wybor use case'ow
+## Część 5: Analiza biznesowa i wybór use case'ow
 
 Wersja robocza: 2026-07-29  
-Kontynuacja plikow:
+Kontynuacja plików:
 
 - `Voicebot_Specialist_Handbook_czesc_1.md`
 - `Voicebot_Specialist_Handbook_czesc_2.md`
@@ -12,117 +12,117 @@ Kontynuacja plikow:
 
 ---
 
-# Czesc IV. Analiza biznesowa i wybor use case'ow
+# Część IV. Analiza biznesowa i wybór use case'ow
 
-## Cel calej czesci
+## Cel całej części
 
-Najwieksze porazki voicebotow rzadko zaczynaja sie od zlego modelu. Czesto zaczynaja sie od zlego wyboru problemu. Firma chce "wdrozyc AI", ale nie wie, ktore rozmowy warto automatyzowac, gdzie sa dane, jaki jest koszt bledu, jakie integracje sa potrzebne i co bedzie oznaczac sukces.
+Największe porażki voicebotów rzadko zaczynają się od złego modelu. Często zaczynają się od złego wyboru problemu. Firma chce "wdrożyć AI", ale nie wie, które rozmowy warto automatyzowac, gdzie są dane, jaki jest koszt błędu, jakie integracje są potrzebne i co będzie oznaczać sukces.
 
-Ta czesc pokazuje, jak przeprowadzic analize biznesowa przed projektowaniem dialogow i architektury.
+Ta część pokazuje, jak przeprowadzic analizę biznesowa przed projektowaniem dialogów i architektury.
 
-Po tej czesci czytelnik powinien umiec:
+Po tej części czytelnik powinien umieć:
 
 1. Analizowac procesy contact center.
-2. Rozpoznac dobry i zly use case dla voicebota.
-3. Oceniac automatyzowalnosc procesu.
-4. Liczyc potencjalna wartosc biznesowa i ROI.
-5. Zidentyfikowac ryzyka operacyjne, prawne, UX i technologiczne.
-6. Przygotowac brief projektu voicebota.
+2. Rozpoznać dobry i zły use case dla voicebota.
+3. Oceniać automatyzowalnosc procesu.
+4. Liczyc potencjalna wartość biznesowa i ROI.
+5. Zidentyfikować ryzyka operacyjne, prawne, UX i technologiczne.
+6. Przygotować brief projektu voicebota.
 7. Zebrac wymagania od interesariuszy.
 8. Stworzyc business case i matryce priorytetyzacji use case'ow.
 
-Zrodla wspierajace czesc:
+Źródła wspierające część:
 
-- Dokumentacje platform enterprise, szczegolnie AWS Connect, Google Dialogflow CX i Amazon Lex, jako zrodla dotyczace praktycznych parametrow obslugi, timeoutow, intentow, slotow, integracji i handoff.
-- W3C VoiceXML jako zrodlo historycznego myslenia o formularzach, menu, eventach, no-input/no-match i procesach dialogowych.
-- Zrodla branzowe i badawcze o przerwaniach oraz psychologii rozmowy jako uzasadnienie, dlaczego biznesowa analiza musi obejmowac emocje, poczucie kontroli i ryzyko frustracji.
-- Uzupelnienie eksperckie: matryce decyzyjne, ROI, discovery, warsztaty, analiza danych contact center i brief wdrozeniowy.
+- Dokumentacje platform enterprise, szczególnie AWS Connect, Google Dialogflow CX i Amazon Lex, jako źródła dotyczące praktycznych parametrow obsługi, timeoutow, intentów, slotów, integracji i handoff.
+- W3C VoiceXML jako źródło historycznego myślenia o formularzach, menu, eventach, no-input/no-match i procesach dialogowych.
+- Źródła branżowe i badawcze o przerwaniach oraz psychologii rozmowy jako uzasadnienie, dlaczego biznesowa analiza musi obejmować emocje, poczucie kontroli i ryzyko frustracji.
+- Uzupełnienie eksperckie: matryce decyzyjne, ROI, discovery, warsztaty, analiza danych contact center i brief wdrożeniowy.
 
 ---
 
-# Rozdzial 1. Analiza procesow contact center
+# Rozdział 1. Analiza procesów contact center
 
-## 1.1. Cele rozdzialu
+## 1.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, jak dziala contact center jako system operacyjny;
-- analizowac rozmowy telefoniczne wedlug powodow kontaktu, wolumenow, kosztow i wynikow;
-- odrozniac problem klienta od struktury kolejek;
-- przygotowac dane potrzebne do wyboru use case'u.
+- rozumieć, jak działa contact center jako system operacyjny;
+- analizować rozmowy telefoniczne wedlug powodów kontaktu, wolumenow, kosztów i wynikow;
+- odróżniać problem klienta od struktury kolejek;
+- przygotować dane potrzebne do wyboru use case'u.
 
-## 1.2. Kluczowe pojecia
+## 1.2. Kluczowe pojęcia
 
-| Pojecie | Definicja praktyczna |
+| Pojęcie | Definicja praktyczna |
 |---|---|
-| Contact reason | Powod kontaktu klienta, np. status zamowienia, reklamacja, platnosc |
-| Call driver | Czynnik generujacy polaczenia, np. opoznienia dostaw |
-| Queue | Kolejka obslugi w contact center |
-| AHT | Average Handling Time, sredni czas obslugi |
-| FCR | First Contact Resolution, rozwiazanie sprawy przy pierwszym kontakcie |
-| Repeat contact | Ponowny kontakt w tej samej lub powiazanej sprawie |
-| Abandonment | Porzucenie polaczenia przed obsluga |
+| Contact reason | Powod kontaktu klienta, np. status zamówienia, reklamacja, płatność |
+| Call driver | Czynnik generujacy połączenia, np. opóźnienia dostaw |
+| Queue | Kolejka obsługi w contact center |
+| AHT | Average Handling Time, średni czas obsługi |
+| FCR | First Contact Resolution, rozwiązanie sprawy przy pierwszym kontakcie |
+| Repeat contact | Ponowny kontakt w tej samej lub powiązanej sprawie |
+| Abandonment | Porzucenie połączenia przed obsługa |
 | Wrap-up code | Kod/etykieta nadawana po rozmowie przez konsultanta |
 | After-call work | Praca konsultanta po rozmowie, np. notatka, ticket |
 
-## 1.3. Wyjasnienie eksperckie
+## 1.3. Wyjaśnienie eksperckie
 
-Analiza contact center zaczyna sie od prostego pytania:
+Analiza contact center zaczyna się od prostego pytania:
 
 "Dlaczego ludzie dzwonia?"
 
 Ale dobra analiza idzie dalej:
 
-1. Ile jest rozmow danego typu?
-2. Jak dlugo trwaja?
+1. Ile jest rozmów danego typu?
+2. Jak długo trwaja?
 3. Ile razy klient dzwoni ponownie?
-4. Jakie dane konsultant musi sprawdzic?
-5. Jakie akcje konsultant wykonuje?
-6. Jakie sa wyjatki?
-7. Gdzie rozmowa sie psuje?
+4. Jakie dane konsultant musi sprawdzić?
+5. Jakie akcję konsultant wykonuje?
+6. Jakie są wyjatki?
+7. Gdzie rozmową się psuje?
 8. Czy klient jest zwykle spokojny, czy zdenerwowany?
-9. Czy sprawa wymaga decyzji czlowieka?
-10. Czy systemy backendowe wspieraja automatyzacje?
+9. Czy sprawa wymaga decyzji człowieka?
+10. Czy systemy backendowe wspieraja automatyzację?
 
-Wazne: kolejka contact center nie zawsze odpowiada prawdziwemu powodowi kontaktu. Kolejka "obsluga klienta" moze zawierac statusy zamowien, zwroty, reklamacje, faktury, pytania o konto i prosby o konsultanta. Voicebot musi byc projektowany wedlug powodow kontaktu, nie tylko wedlug kolejek.
+Ważne: kolejka contact center nie zawsze odpowiada prawdziwemu powodowi kontaktu. Kolejka "obsługa klienta" może zawierac statusy zamówień, zwroty, reklamację, faktury, pytania o konto i prośby o konsultanta. Voicebot musi być projektowany wedlug powodów kontaktu, nie tylko wedlug kolejek.
 
 ## 1.4. Perspektywa biznesowa
 
-Dane contact center pomagaja oszacowac:
+Dane contact center pomagają oszacowac:
 
 - potencjal automatyzacji;
-- wartosc kosztowa;
-- wplyw na SLA;
-- wplyw na obciazenie konsultantow;
-- sezonowosc;
-- priorytet wdrozenia;
+- wartość kosztowa;
+- wpływ na SLA;
+- wpływ na obciążenie konsultantów;
+- sezonowość;
+- priorytet wdrożenia;
 - ryzyko operacyjne.
 
 Minimalne dane do analizy:
 
-| Dane | Po co sa potrzebne |
+| Dane | Po co są potrzebne |
 |---|---|
-| Liczba rozmow per powod kontaktu | Priorytetyzacja wolumenu |
+| Liczba rozmów per powod kontaktu | Priorytetyzacja wolumenu |
 | AHT per powod | Szacunek kosztu |
-| Transfer rate | Wykrycie zlozonosci |
-| Repeat contact | Ocena realnego rozwiazania sprawy |
-| Abandonment | Identyfikacja problemow dostepnosci |
-| CSAT/NPS | Ocena doswiadczenia |
+| Transfer rate | Wykrycie złożoności |
+| Repeat contact | Ocena realnego rozwiązania sprawy |
+| Abandonment | Identyfikacja problemow dostępności |
+| CSAT/NPS | Ocena doświadczenia |
 | Wrap-up codes | Wstepna klasyfikacja tematow |
-| Nagrania/transkrypcje | Realny jezyk klientow |
+| Nagrania/transkrypcje | Realny język klientów |
 | After-call work | Potencjal automatyzacji po rozmowie |
 
-## 1.5. Perspektywa uzytkownika
+## 1.5. Perspektywa użytkownika
 
-Analiza procesu nie moze patrzec tylko oczami firmy. Powod kontaktu w systemie moze brzmiec "status zamowienia", ale motyw uzytkownika moze byc:
+Analiza procesu nie może patrzec tylko oczami firmy. Powod kontaktu w systemie może brzmieć "status zamówienia", ale motyw użytkownika może być:
 
-- "paczka nie przyszla, a mialem ja dostac";
+- "paczka nie przyszla, a mialem ja dostać";
 - "nie wiem, czy prezent dotrze na czas";
-- "kurier twierdzi, ze mnie nie bylo";
-- "chce zmienic adres, zanim bedzie za pozno";
+- "kurier twierdzi, że mnie nie było";
+- "chce zmienić adres, zanim będzie za późno";
 - "jestem zdenerwowany, bo to kolejny problem".
 
-Ten sam use case ma rozne warianty emocjonalne. Dobry voicebot musi obslugiwac nie tylko informacyjny status, ale tez korekte, frustracje i eskalacje.
+Ten sam use case ma różne warianty emocjonalne. Dobry voicebot musi obsługiwać nie tylko informacyjny status, ale też korektę, frustrację i eskalację.
 
 ## 1.6. Perspektywa technologiczna
 
@@ -130,248 +130,248 @@ Do analizy automatyzacji trzeba zmapowac:
 
 - skad konsultant bierze dane;
 - jakie systemy otwiera;
-- czy systemy maja API;
-- czy dane sa aktualne;
-- jakie sa bledy i braki danych;
-- czy trzeba weryfikowac uzytkownika;
-- jakie akcje sa zapisywane;
-- czy akcje sa odwracalne;
-- jakie dane musza trafic do logow, ticketow i CRM.
+- czy systemy mają API;
+- czy dane są aktualne;
+- jakie są błędy i braki danych;
+- czy trzeba weryfikować użytkownika;
+- jakie akcję są zapisywane;
+- czy akcję są odwracalne;
+- jakie dane muszą trafic do logow, ticketow i CRM.
 
 ## 1.7. Dobre praktyki
 
 - Analizuj nagrania i transkrypcje, nie tylko raporty.
-- Weryfikuj wrap-up codes, bo konsultanci czesto uzywaja ich niespojnie.
+- Weryfikuj wrap-up codes, bo konsultanci często używają ich niespojnie.
 - Patrz na repeat contact, nie tylko AHT.
 - Oddziel sprawy informacyjne od transakcyjnych.
 - Mapuj emocjonalny kontekst kontaktu.
 - Rozmawiaj z konsultantami, nie tylko z menedzerami.
-- Sprawdz, co konsultant robi po rozmowie.
-- Szukaj procesow, gdzie bot moze wykonac akcje, nie tylko udzielic informacji.
+- Sprawdź, co konsultant robi po rozmowie.
+- Szukaj procesów, gdzie bot może wykonać akcję, nie tylko udzielić informacji.
 
-## 1.8. Typowe bledy
+## 1.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Wybieranie use case'u na podstawie opinii sponsora | Automatyzacja nie tego problemu |
-| Zaufanie tylko do wrap-up codes | Zly obraz powodow kontaktu |
+| Zaufanie tylko do wrap-up codes | Zły obraz powodów kontaktu |
 | Pomijanie repeat contact | Pozorny sukces automatyzacji |
-| Brak analizy nagran | Bot nie zna realnego jezyka klientow |
-| Pomijanie pracy po rozmowie | Niedoszacowanie wartosci automatyzacji |
-| Analiza kolejek zamiast powodow kontaktu | Zly model intencji |
+| Brak analizy nagrań | Bot nie zna realnego języka klientów |
+| Pomijanie pracy po rozmowie | Niedoszacowanie wartości automatyzacji |
+| Analiza kolejek zamiast powodów kontaktu | Zły model intencji |
 
 ## 1.9. Checklista analizy contact center
 
-- Czy mamy dane o wolumenie rozmow?
+- Czy mamy dane o wolumenie rozmów?
 - Czy znamy AHT per powod kontaktu?
 - Czy mamy repeat contact?
 - Czy mamy abandonment?
-- Czy mamy CSAT lub inna miare jakosci?
+- Czy mamy CSAT lub inna miare jakości?
 - Czy mamy nagrania lub transkrypcje?
 - Czy znamy prace konsultanta po rozmowie?
-- Czy znamy systemy, z ktorych korzysta konsultant?
+- Czy znamy systemy, z których korzysta konsultant?
 - Czy znamy typowe wyjatki?
 - Czy rozmawialismy z konsultantami?
 
 ## 1.10. Mini case study
 
-Firma e-commerce wskazala "reklamacje" jako najwiekszy obszar automatyzacji, bo mial najdluzszy AHT. Analiza nagran pokazala jednak, ze "status zamowienia" mial cztery razy wiekszy wolumen i wysoki repeat contact, bo klienci nie ufali informacjom e-mail. Wdrozenie voicebota do statusu i zmiany adresu dalo szybszy efekt niz automatyzacja reklamacji. Reklamacje pozostaly w planie, ale jako drugi etap z czesciowym wsparciem konsultanta.
+Firma e-commerce wskazala "reklamację" jako największy obszar automatyzacji, bo miał najdluzszy AHT. Analiza nagrań pokazala jednak, że "status zamówienia" miał cztery razy większy wolumen i wysoki repeat contact, bo klienci nie ufali informacjom e-mail. Wdrożenie voicebota do statusu i zmiany adresu dało szybszy efekt niż automatyzacja reklamacji. Reklamację pozostały w planie, ale jako drugi etap z czesciowym wsparciem konsultanta.
 
-## 1.11. Cwiczenia
+## 1.11. Ćwiczenia
 
-1. Przygotuj liste danych potrzebnych od contact center.
+1. Przygotuj listę danych potrzebnych od contact center.
 2. Wybierz jedna kolejke i rozbij ja na powody kontaktu.
-3. Wskaz trzy miejsca, gdzie wrap-up codes moga klamac.
-4. Opisz, co konsultant robi po rozmowie i czy bot moze to zautomatyzowac.
+3. Wskaż trzy miejsca, gdzie wrap-up codes mogą klamac.
+4. Opisz, co konsultant robi po rozmowie i czy bot może to zautomatyzowac.
 
 ## 1.12. Podsumowanie
 
-Analiza contact center to podstawa dobrego wyboru use case'u. Bez niej projekt voicebota opiera sie na intuicji, a intuicja czesto prowadzi do automatyzacji procesu, ktory jest glosny politycznie, ale nie najwazniejszy operacyjnie.
+Analiza contact center to podstawa dobrego wyboru use case'u. Bez niej projekt voicebota opiera się na intuicji, a intuicja często prowadzi do automatyzacji procesu, który jest głośny politycznie, ale nie najwazniejszy operacyjnie.
 
 ---
 
-# Rozdzial 2. Jak rozpoznac dobry use case dla voicebota
+# Rozdział 2. Jak rozpoznać dobry use case dla voicebota
 
-## 2.1. Cele rozdzialu
+## 2.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozpoznawac cechy dobrego use case'u;
-- odrozniac use case latwy, sredni i ryzykowny;
-- oceniac dopasowanie kanalu glosowego;
-- unikac automatyzacji procesow, ktore powinny pozostac u czlowieka lub w innym kanale.
+- rozpoznawać cechy dobrego use case'u;
+- odróżniać use case łatwy, średni i ryzykowny;
+- oceniać dopasowanie kanału głosowego;
+- unikać automatyzacji procesów, które powinny pozostać u człowieka lub w innym kanale.
 
-## 2.2. Kluczowe pojecia
+## 2.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Use case | Konkretny przypadek uzycia voicebota w okreslonym procesie |
+| Use case | Konkretny przypadek użycia voicebota w okreslonym procesie |
 | Candidate use case | Kandydat do automatyzacji |
-| MVP use case | Zakres pierwszej wersji wdrozenia |
+| MVP use case | Zakres pierwszej wersji wdrożenia |
 | Automation fit | Dopasowanie procesu do automatyzacji |
-| Voice fit | Dopasowanie procesu do kanalu glosowego |
+| Voice fit | Dopasowanie procesu do kanału głosowego |
 | Risk profile | Profil ryzyka biznesowego, prawnego, technicznego i UX |
 
-## 2.3. Wyjasnienie eksperckie
+## 2.3. Wyjaśnienie eksperckie
 
 Dobry use case dla pierwszego voicebota ma zwykle cechy:
 
 1. Wysoki wolumen.
 2. Powtarzalny przebieg.
-3. Jasny cel uzytkownika.
+3. Jasny cel użytkownika.
 4. Niewielka liczba wymaganych danych.
-5. Dostepne integracje lub mozliwosc bezpiecznego ticketu.
-6. Niski lub kontrolowalny koszt bledu.
-7. Mozliwy szybki handoff.
-8. Dane historyczne do projektowania i testow.
+5. Dostępne integracje lub możliwość bezpiecznego ticketu.
+6. Niski lub kontrolowalny koszt błędu.
+7. Możliwy szybki handoff.
+8. Dane historyczne do projektowania i testów.
 9. Mierzalny wynik.
 10. Akceptowalny poziom emocji.
 
-Nie oznacza to, ze voicebot nie moze kiedys obslugiwac trudnych procesow. Oznacza to, ze pierwszy use case powinien budowac zaufanie i dane, nie testowac granice organizacji.
+Nie oznacza to, że voicebot nie może kiedys obsługiwać trudnych procesów. Oznacza to, że pierwszy use case powinien budowac zaufanie i dane, nie testować granice organizacji.
 
 ## 2.4. Klasy use case'ow
 
-| Klasa | Charakterystyka | Przyklady | Rekomendacja |
+| Klasa | Charakterystyka | Przykłady | Rekomendacja |
 |---|---|---|---|
-| Latwy | Informacyjny, powtarzalny, niski koszt bledu | Status zamowienia, godziny otwarcia, status zgloszenia | Dobry na start |
-| Sredni | Transakcyjny, wymaga integracji i walidacji | Zmiana terminu, rezerwacja, reset hasla | Dobry po discovery |
-| Trudny | Wiele wyjatkow, emocje, compliance | Reklamacje, windykacja, decyzje finansowe | Ostroznie, czesto hybrydowo |
-| Bardzo ryzykowny | Dane wrazliwe, decyzje medyczne/prawne, kryzys | Porady medyczne, decyzje kredytowe, sytuacje zagrozenia | Zwykle nie jako automatyzacja end-to-end |
+| Łatwy | Informacyjny, powtarzalny, niski koszt błędu | Status zamówienia, godziny otwarcia, status zgłoszenia | Dobry na start |
+| Średni | Transakcyjny, wymaga integracji i walidacji | Zmiana terminu, rezerwacja, reset hasła | Dobry po discovery |
+| Trudny | Wiele wyjątków, emocje, compliance | Reklamację, windykacja, decyzję finansowe | Ostrożnie, często hybrydowo |
+| Bardzo ryzykowny | Dane wrażliwe, decyzję medyczne/prawne, kryzys | Porady medyczne, decyzję kredytowe, sytuację zagrozenia | Zwykle nie jako automatyzacja end-to-end |
 
 ## 2.5. Perspektywa biznesowa
 
 Dobry use case ma nie tylko potencjal oszczednosci. Ma:
 
-- jasnego wlasciciela;
+- jasnego właściciela;
 - zdefiniowany wynik;
 - dane do pomiaru przed i po;
-- gotowosc operacyjna;
-- akceptacje contact center;
-- dostepne systemy;
+- gotowość operacyjną;
+- akceptację contact center;
+- dostępne systemy;
 - plan utrzymania.
 
-Use case bez wlasciciela biznesowego szybko zostaje "projektem AI", ktory nikt nie utrzymuje.
+Use case bez właściciela biznesowego szybko zostaje "projektem AI", który nikt nie utrzymuje.
 
-## 2.6. Perspektywa uzytkownika
+## 2.6. Perspektywa użytkownika
 
-Dla uzytkownika dobry use case to taki, w ktorym voicebot:
+Dla użytkownika dobry use case to taki, w którym voicebot:
 
 - skraca droge;
 - nie wymaga czytania ekranu;
-- nie zmusza do sluchania wielu opcji;
+- nie zmusza do słuchania wielu opcji;
 - nie odbiera kontroli;
-- pozwala szybko poprawic;
-- daje czlowieka, gdy sprawa jest nietypowa.
+- pozwala szybko poprawić;
+- daje człowieka, gdy sprawa jest nietypowa.
 
-Proces moze byc atrakcyjny dla firmy, ale zly dla uzytkownika. Przyklad: dlugie odczytywanie regulaminu glosem, ktore firma chce automatyzowac, ale uzytkownik wolalby dostac link.
+Proces może być atrakcyjny dla firmy, ale zły dla użytkownika. Przykład: długie odczytywanie regulaminu głosem, które firma chce automatyzowac, ale użytkownik wolalby dostać link.
 
 ## 2.7. Perspektywa technologiczna
 
 Technologicznie dobry use case:
 
 - ma jasne intencje;
-- ma encje mozliwe do zebrania glosem;
-- ma system zrodlowy;
+- ma encje możliwe do zebrania głosem;
+- ma system źródłowy;
 - ma API lub obejscie procesowe;
-- ma jasne bledy integracji;
-- ma niezbyt duzo wariantow wyjatkowych;
-- ma mozliwy tryb testowy;
+- ma jasne błędy integracji;
+- ma niezbyt dużo wariantów wyjatkowych;
+- ma możliwy tryb testowy;
 - nie wymaga od ASR perfekcyjnego rozpoznania trudnych danych bez fallbacku.
 
 ## 2.8. Dobre praktyki
 
-- Zaczynaj od use case'u, ktory ma mierzalny wynik.
-- Unikaj na start procesow z wysoka emocjonalnoscia.
-- Upewnij sie, ze bot moze realnie wykonac akcje.
-- Sprawdz, czy kanal glosowy pomaga uzytkownikowi.
-- Uwzglednij handoff od poczatku.
+- Zaczynaj od use case'u, który ma mierzalny wynik.
+- Unikaj na start procesów z wysoka emocjonalnoscia.
+- Upewnij się, że bot może realnie wykonać akcję.
+- Sprawdź, czy kanał głosowy pomaga użytkownikowi.
+- Uwzglednij handoff od początku.
 - Wybierz MVP z ograniczonym, ale wartosciowym zakresem.
 - Zdefiniuj "poza zakresem".
 
-## 2.9. Typowe bledy
+## 2.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| "Najpierw zrobmy najtrudniejszy proces" | Dlugie wdrozenie i duze ryzyko porazki |
-| Brak definicji wyniku | Nie wiadomo, czy bot dziala |
+| "Najpierw zrobmy najtrudniejszy proces" | Długie wdrożenie i duze ryzyko porażki |
+| Brak definicji wyniku | Nie wiadomo, czy bot działa |
 | Use case bez integracji | Bot tylko odsyla |
 | Proces z wieloma wyjatkami jako MVP | Chaos scenariuszy |
-| Brak handoff | Uzytkownik utknie |
-| Automatyzacja procesu, ktory lepiej dziala w formularzu | Gorsze UX |
+| Brak handoff | Użytkownik utknie |
+| Automatyzacja procesu, który lepiej działa w formularzu | Gorsze UX |
 
 ## 2.10. Checklista dobrego use case'u
 
-- Czy problem wystepuje czesto?
-- Czy uzytkownik ma jasny cel?
-- Czy rozmowa glosowa jest dobrym kanalem?
+- Czy problem występuje często?
+- Czy użytkownik ma jasny cel?
+- Czy rozmowa głosowa jest dobrym kanałem?
 - Czy proces jest powtarzalny?
 - Czy mamy dane historyczne?
 - Czy mamy integracje?
-- Czy koszt bledu jest akceptowalny?
+- Czy koszt błędu jest akceptowalny?
 - Czy jest szybki handoff?
-- Czy sukces da sie zmierzyc?
+- Czy sukces da się zmierzyc?
 - Czy zakres MVP jest ograniczony?
 
 ## 2.11. Mini case study
 
-Siec klinik rozwaza voicebota do "obslugi pacjentow". Po analizie wybrano MVP: potwierdzanie i przekladanie wizyt. Proces ma wysoki wolumen, jasne intencje, integracje z kalendarzem i niski koszt bledu, jesli bot potwierdza termin SMS-em. Pytania medyczne zostaly poza zakresem i trafiaja do czlowieka. To dobry use case, bo laczy wartosc biznesowa i bezpieczny zakres.
+Siec klinik rozwaza voicebota do "obsługi pacjentow". Po analizie wybrano MVP: potwierdzanie i przekladanie wizyt. Proces ma wysoki wolumen, jasne intencje, integracje z kalendarzem i niski koszt błędu, jeśli bot potwierdza termin SMS-em. Pytania medyczne zostały poza zakresem i trafiaja do człowieka. To dobry use case, bo łączy wartość biznesowa i bezpieczny zakres.
 
-## 2.12. Cwiczenia
+## 2.12. Ćwiczenia
 
-1. Wybierz trzy kandydaty use case'ow i oznacz je jako latwe/srednie/trudne.
-2. Wskaz, ktory najlepiej nadaje sie na MVP.
+1. Wybierz trzy kandydaty use case'ow i oznacz je jako łatwe/średnie/trudne.
+2. Wskaż, który najlepiej nadaje się na MVP.
 3. Dla wybranego use case'u opisz zakres i poza zakresem.
-4. Wypisz warunki, ktore automatycznie prowadza do konsultanta.
+4. Wypisz warunki, które automatycznie prowadza do konsultanta.
 
 ## 2.13. Podsumowanie
 
-Dobry use case nie jest najbardziej efektowny. Jest wystarczajaco wartosciowy, powtarzalny, mierzalny i bezpieczny, aby organizacja mogla nauczyc sie automatyzacji bez niszczenia zaufania klientow.
+Dobry use case nie jest najbardziej efektowny. Jest wystarczajaco wartosciowy, powtarzalny, mierzalny i bezpieczny, aby organizacja mogła nauczyc się automatyzacji bez niszczenia zaufania klientów.
 
 ---
 
-# Rozdzial 3. Ocena automatyzowalnosci procesu
+# Rozdział 3. Ocena automatyzowalnosci procesu
 
-## 3.1. Cele rozdzialu
+## 3.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- oceniac, czy proces nadaje sie do automatyzacji;
-- rozkladac proces na kroki i decyzje;
-- identyfikowac miejsca wymagajace czlowieka;
-- uzywac matrycy automatyzowalnosci.
+- oceniać, czy proces nadaje się do automatyzacji;
+- rozkladac proces na kroki i decyzję;
+- identyfikowac miejsca wymagające człowieka;
+- używać matrycy automatyzowalnosci.
 
-## 3.2. Kluczowe pojecia
+## 3.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Automatyzowalnosc | Stopien, w jakim proces moze byc wykonany przez system |
-| Deterministycznosc | Czy decyzje sa oparte na jasnych regułach |
+| Automatyzowalnosc | Stopien, w jakim proces może być wykonany przez system |
+| Deterministycznosc | Czy decyzję są oparte na jasnych regułach |
 | Exception rate | Odsetek spraw nietypowych |
-| Human judgment | Ocena wymagajaca doswiadczenia, empatii lub odpowiedzialnosci |
-| Data availability | Dostepnosc danych potrzebnych do procesu |
-| Reversibility | Mozliwosc cofniecia akcji |
+| Human judgment | Ocena wymagająca doświadczenia, empatii lub odpowiedzialności |
+| Data availability | Dostępność danych potrzebnych do procesu |
+| Reversibility | Możliwość cofniecia akcji |
 
-## 3.3. Wyjasnienie eksperckie
+## 3.3. Wyjaśnienie eksperckie
 
-Proces nadaje sie do automatyzacji, gdy:
+Proces nadaje się do automatyzacji, gdy:
 
 - ma powtarzalne kroki;
-- decyzje sa oparte na danych i regułach;
-- wymagane informacje da sie zebrac glosem;
-- dane sa dostepne;
-- bledy mozna wykryc lub odwrócić;
-- wyjatki mozna przekazac do czlowieka;
-- wynik mozna mierzyc.
+- decyzję są oparte na danych i regułach;
+- wymagane informacje da się zebrac głosem;
+- dane są dostępne;
+- błędy można wykryć lub odwrócić;
+- wyjatki można przekazać do człowieka;
+- wynik można mierzyć.
 
-Proces slabo nadaje sie do automatyzacji, gdy:
+Proces slabo nadaje się do automatyzacji, gdy:
 
 - wymaga negocjacji;
 - wymaga oceny moralnej/prawnej/medycznej;
-- ma duzo wyjatkow;
-- dane sa niespojnie zapisane;
-- koszt bledu jest wysoki;
-- uzytkownik jest zwykle w silnych emocjach;
-- proces zmienia sie czesto i nie ma wlasciciela.
+- ma dużo wyjątków;
+- dane są niespojnie zapisane;
+- koszt błędu jest wysoki;
+- użytkownik jest zwykle w silnych emocjach;
+- proces zmienia się często i nie ma właściciela.
 
 ## 3.4. Matryca automatyzowalnosci procesu
 
@@ -379,129 +379,129 @@ Skala 1-5, gdzie 5 oznacza najlepsze dopasowanie do automatyzacji.
 
 | Kryterium | 1 punkt | 3 punkty | 5 punktow |
 |---|---|---|---|
-| Powtarzalnosc | Kazda sprawa inna | Kilka typowych wariantow | Bardzo podobne rozmowy |
-| Jasnosc celu | Uzytkownicy nie wiedza, czego chca | Cel czesciowo jasny | Cel latwy do rozpoznania |
-| Dane | Brak danych/systemow | Dane sa, ale niespojnie | Dane sa dostepne przez API |
-| Reguly | Decyzje uznaniowe | Czesciowo regułowe | Jasne reguly |
-| Wyjatki | Wiele wyjatkow | Umiarkowanie | Niewiele |
-| Koszt bledu | Wysoki | Sredni | Niski lub odwracalny |
-| Kanal glosowy | Glos przeszkadza | Glos wystarcza | Glos jest wygodny |
-| Emocje | Wysokie | Srednie | Niskie |
-| Handoff | Trudny | Mozliwy | Latwy i szybki |
+| Powtarzalnosc | Każda sprawa inna | Kilka typowych wariantów | Bardzo podobne rozmowy |
+| Jasnosc celu | Użytkownicy nie wiedza, czego chca | Cel czesciowo jasny | Cel łatwy do rozpoznania |
+| Dane | Brak danych/systemów | Dane są, ale niespojnie | Dane są dostępne przez API |
+| Reguly | Decyzję uznaniowe | Czesciowo regułowe | Jasne reguły |
+| Wyjatki | Wiele wyjątków | Umiarkowanie | Niewiele |
+| Koszt błędu | Wysoki | Średni | Niski lub odwracalny |
+| Kanał głosowy | Głos przeszkadza | Głos wystarcza | Głos jest wygodny |
+| Emocje | Wysokie | Średnie | Niskie |
+| Handoff | Trudny | Możliwy | Łatwy i szybki |
 | Pomiar sukcesu | Niejasny | Czesciowy | Jasny i mierzalny |
 
 Interpretacja:
 
 - 42-50: bardzo dobry kandydat.
 - 34-41: dobry kandydat po doprecyzowaniu.
-- 25-33: mozliwy pilot, ale z ryzykami.
+- 25-33: możliwy pilot, ale z ryzykami.
 - 15-24: raczej nie jako MVP.
 - Ponizej 15: nie automatyzowac end-to-end.
 
 ## 3.5. Perspektywa biznesowa
 
-Automatyzowalnosc nie oznacza, ze 100% spraw obsluzy bot. Dojrzala automatyzacja czesto zaklada:
+Automatyzowalnosc nie oznacza, że 100% spraw obsluzy bot. Dojrzala automatyzacja często zakłada:
 
 - 60-80% prostych przypadkow automatycznie;
-- 10-30% przypadkow z czesciowa automatyzacja i handoff;
-- kilka procent przypadkow od razu do czlowieka.
+- 10-30% przypadkow z częściowa automatyzacja i handoff;
+- kilka procent przypadkow od razu do człowieka.
 
-Pytanie nie brzmi: "Czy bot obsluzy wszystko?". Brzmi: "Ktora czesc procesu mozna bezpiecznie i sensownie przeniesc do automatyzacji?".
+Pytanie nie brzmi: "Czy bot obsluzy wszystko?". Brzmi: "Która część procesu można bezpiecznie i sensownie przeniesc do automatyzacji?".
 
-## 3.6. Perspektywa uzytkownika
+## 3.6. Perspektywa użytkownika
 
-Automatyzacja powinna zmniejszac wysilek uzytkownika. Jesli bot wymaga wiecej krokow niz konsultant lub formularz, use case jest zle zaprojektowany.
+Automatyzacja powinna zmniejszać wysiłek użytkownika. Jeśli bot wymaga więcej krokow niż konsultant lub formularz, use case jest źle zaprojektowany.
 
 Dobry test:
 
-"Czy uzytkownik po rozmowie z botem powie: to bylo szybkie, czy: firma nie chciala ze mna rozmawiac?"
+"Czy użytkownik po rozmowie z botem powie: to było szybkie, czy: firma nie chciała że mna rozmawiać?"
 
 ## 3.7. Perspektywa technologiczna
 
 Technologia ocenia automatyzowalnosc przez:
 
-- jak trudne sa dane do rozpoznania przez ASR;
-- czy intencje sa rozroznialne;
-- czy sloty sa walidowalne;
+- jak trudne są dane do rozpoznania przez ASR;
+- czy intencje są rozroznialne;
+- czy sloty są walidowalne;
 - czy API wspiera proces;
-- czy mozna zachowac stan;
-- czy mozna wykonac akcje idempotentnie;
+- czy można zachować stan;
+- czy można wykonać akcję idempotentnie;
 - czy jest sandbox;
-- czy monitoring wykryje bledy.
+- czy monitoring wykryje błędy.
 
 ## 3.8. Dobre praktyki
 
 - Oceniaj proces krok po kroku.
-- Nie automatyzuj decyzji, jesli mozna automatyzowac przygotowanie danych dla czlowieka.
-- Dla ryzykownych procesow stosuj human-in-the-loop.
-- Oddziel automatyzacje rozmowy od automatyzacji decyzji.
+- Nie automatyzuj decyzji, jeśli można automatyzowac przygotowanie danych dla człowieka.
+- Dla ryzykownych procesów stosuj human-in-the-loop.
+- Oddziel automatyzację rozmowy od automatyzacji decyzji.
 - Wybieraj zakres MVP jako podzbior procesu.
 - Ustal progi confidence i handoff.
 
-## 3.9. Typowe bledy
+## 3.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Ocena procesu jako calosci | Pomija czesci, ktore da sie automatyzowac |
+| Ocena procesu jako całości | Pomija części, które da się automatyzowac |
 | Automatyzacja decyzji uznaniowych | Ryzyko skarg i compliance |
-| Brak oceny kosztu bledu | Zbyt ryzykowny zakres |
-| Brak handoff dla wyjatkow | Bot blokuje sprawe |
-| Zakladanie idealnych danych | Produkcja zaskakuje |
+| Brak oceny kosztu błędu | Zbyt ryzykowny zakres |
+| Brak handoff dla wyjątków | Bot blokuje sprawę |
+| Zakładanie idealnych danych | Produkcja zaskakuje |
 
 ## 3.10. Checklista automatyzowalnosci
 
 - Czy proces ma powtarzalne kroki?
-- Czy decyzje sa regułowe?
-- Czy potrzebne dane sa dostepne?
-- Czy dane mozna zebrac glosem?
-- Czy wyjatki sa znane?
-- Czy blad jest odwracalny?
-- Czy handoff jest mozliwy?
+- Czy decyzję są regułowe?
+- Czy potrzebne dane są dostępne?
+- Czy dane można zebrac głosem?
+- Czy wyjatki są znane?
+- Czy błąd jest odwracalny?
+- Czy handoff jest możliwy?
 - Czy sukces jest mierzalny?
-- Czy istnieje wlasciciel procesu?
-- Czy zakres MVP mozna ograniczyc?
+- Czy istnieje właściciel procesu?
+- Czy zakres MVP można ograniczyc?
 
 ## 3.11. Mini case study
 
-Firma leasingowa chce automatyzowac zmiane danych umowy. Pelny proces jest ryzykowny, bo niektore zmiany wymagaja aneksu i oceny prawnej. Analiza automatyzowalnosci dzieli proces: bot moze zebrac typ zmiany, zweryfikowac klienta, sprawdzic wymagane dokumenty i utworzyc ticket. Sama decyzja i aneks pozostaja u konsultanta. Automatyzacja czesciowa daje wartosc bez ryzyka pelnej automatycznej decyzji.
+Firma leasingowa chce automatyzowac zmianę danych umowy. Pełny proces jest ryzykowny, bo niektore zmiany wymagają aneksu i oceny prawnej. Analiza automatyzowalnosci dzieli proces: bot może zebrac typ zmiany, zweryfikowac klienta, sprawdzić wymagane dokumenty i utworzyc ticket. Sama decyzja i aneks pozostają u konsultanta. Automatyzacja częściowa daje wartość bez ryzyka pelnej automatycznej decyzji.
 
-## 3.12. Cwiczenia
+## 3.12. Ćwiczenia
 
 1. Ocen jeden proces matryca automatyzowalnosci.
 2. Podziel proces na kroki automatyczne i ludzkie.
-3. Wskaz koszt bledu dla kazdego kroku.
+3. Wskaż koszt błędu dla każdego kroku.
 4. Zaprojektuj human-in-the-loop dla decyzji ryzykownej.
 
 ## 3.13. Podsumowanie
 
-Automatyzowalnosc to nie zero-jedynkowa cecha procesu. Najczesciej automatyzuje sie fragmenty: identyfikacje, klasyfikacje, zebranie danych, sprawdzenie statusu, utworzenie ticketu, podsumowanie. Dobra analiza znajduje bezpieczny zakres, nie forsuje pelnej automatyzacji.
+Automatyzowalnosc to nie zero-jedynkowa cecha procesu. Najczesciej automatyzuje się fragmenty: identyfikacje, klasyfikacje, zebranie danych, sprawdzenie statusu, utworzenie ticketu, podsumowanie. Dobra analiza znajduje bezpieczny zakres, nie forsuje pelnej automatyzacji.
 
 ---
 
-# Rozdzial 4. Wartosc biznesowa, metryki i ROI
+# Rozdział 4. Wartość biznesowa, metryki i ROI
 
-## 4.1. Cele rozdzialu
+## 4.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- liczyc potencjalna wartosc voicebota;
-- rozumiec metryki biznesowe przed wdrozeniem;
-- unikac naiwnych kalkulacji ROI;
-- laczyc metryki kosztowe z jakosciowymi.
+- liczyc potencjalna wartość voicebota;
+- rozumieć metryki biznesowe przed wdrożeniem;
+- unikać naiwnych kalkulacji ROI;
+- łączyć metryki kosztowe z jakosciowymi.
 
-## 4.2. Kluczowe pojecia
+## 4.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | ROI | Return on Investment, zwrot z inwestycji |
 | Cost per contact | Koszt pojedynczego kontaktu |
 | Deflection | Przeniesienie kontaktu z konsultanta do automatyzacji |
-| Containment | Rozmowa zakonczona bez konsultanta |
-| Task completion | Sprawa zakonczona sukcesem |
-| Assisted automation | Bot wspiera czlowieka, ale nie obsluguje end-to-end |
-| Opportunity cost | Koszt utraconych mozliwosci lub czasu konsultantow |
+| Containment | Rozmowa zakończona bez konsultanta |
+| Task completion | Sprawa zakończona sukcesem |
+| Assisted automation | Bot wspiera człowieka, ale nie obsługuje end-to-end |
+| Opportunity cost | Koszt utraconych możliwości lub czasu konsultantów |
 
-## 4.3. Wyjasnienie eksperckie
+## 4.3. Wyjaśnienie eksperckie
 
 Prosty model ROI:
 
@@ -514,33 +514,33 @@ Wartosc miesieczna =
   - koszt utrzymania
 ```
 
-Ale ten model jest za prosty, jesli nie uwzglednia:
+Ale ten model jest za prosty, jeśli nie uwzględnia:
 
 - repeat contact;
-- kosztow wdrozenia;
-- kosztow integracji;
-- kosztow utrzymania bazy wiedzy;
-- kosztow optymalizacji;
-- kosztow licencji/minut/tokenow;
-- kosztow QA;
+- kosztów wdrożenia;
+- kosztów integracji;
+- kosztów utrzymania bazy wiedzy;
+- kosztów optymalizacji;
+- kosztów licencji/minut/tokenow;
+- kosztów QA;
 - wplywu na CSAT;
-- wplywu na konsultantow;
-- kosztu bledow i reklamacji.
+- wplywu na konsultantów;
+- kosztu błędów i reklamacji.
 
-Lepsza kalkulacja rozroznia:
+Lepsza kalkulacja rozróżnia:
 
-1. Oszczednosc bezposrednia: mniej rozmow u konsultantow.
-2. Oszczednosc posrednia: krotsze rozmowy dzieki prekwalifikacji i podsumowaniom.
-3. Wartosc jakosciowa: lepsza dostepnosc, mniej porzuconych polaczen.
-4. Wartosc danych: lepsze tagowanie powodow kontaktu.
-5. Koszty stale i zmienne.
+1. Oszczędność bezposrednia: mniej rozmów u konsultantów.
+2. Oszczędność posrednia: krotsze rozmowy dzięki prekwalifikacji i podsumowaniom.
+3. Wartość jakościowa: lepsza dostępność, mniej porzuconych połączeń.
+4. Wartość danych: lepsze tagowanie powodów kontaktu.
+5. Koszty stałe i zmienne.
 6. Ryzyka i koszt niepowodzenia.
 
 ## 4.4. Perspektywa biznesowa
 
-Metryki przed wdrozeniem:
+Metryki przed wdrożeniem:
 
-- wolumen rozmow;
+- wolumen rozmów;
 - AHT;
 - koszt minuty/kontaktu;
 - FCR;
@@ -550,10 +550,10 @@ Metryki przed wdrozeniem:
 - transfer rate;
 - CSAT;
 - after-call work;
-- sezonowosc;
+- sezonowość;
 - koszt nadgodzin lub outsourcingu.
 
-Metryki po wdrozeniu:
+Metryki po wdrożeniu:
 
 - task completion rate;
 - automation rate;
@@ -565,20 +565,20 @@ Metryki po wdrozeniu:
 - koszt rozmowy bota;
 - koszt utrzymania;
 - liczba ticketow poprawnie utworzonych;
-- jakosc handoff.
+- jakość handoff.
 
-## 4.5. Perspektywa uzytkownika
+## 4.5. Perspektywa użytkownika
 
-ROI nie moze byc osiagany przez pogorszenie doswiadczenia. Jesli bot zatrzymuje klienta, ale nie rozwiazuje sprawy, firma przenosi koszt na uzytkownika.
+ROI nie może być osiagany przez pogorszenie doświadczenia. Jeśli bot zatrzymuje klienta, ale nie rozwiązuje sprawy, firma przenosi koszt na użytkownika.
 
 Dlatego w business case trzeba dodac metryki ochronne:
 
 - repeat contact;
 - abandonment po rozmowie z botem;
-- prosby o konsultanta;
+- prośby o konsultanta;
 - negatywne feedbacki;
 - skargi;
-- czas do rozwiazania sprawy;
+- czas do rozwiązania sprawy;
 - customer effort score.
 
 ## 4.6. Perspektywa technologiczna
@@ -593,48 +593,48 @@ Koszty technologiczne:
 - RAG/hosting bazy wiedzy;
 - integracje;
 - monitoring;
-- storage nagran/transkrypcji;
+- storage nagrań/transkrypcji;
 - QA i testy regresji;
 - development i utrzymanie.
 
-W generatywnych voicebotach koszt moze rosnac z dlugoscia wypowiedzi. Conversation design wplywa wiec bezposrednio na koszt.
+W generatywnych voicebotach koszt może rosnac z dlugoscia wypowiedzi. Conversation design wpływa więc bezpośrednio na koszt.
 
 ## 4.7. Dobre praktyki
 
 - Licz ROI konserwatywnie.
-- Uzywaj task completion, nie samego containment.
+- Używaj task completion, nie samego containment.
 - Uwzgledniaj repeat contact.
 - Oddziel deflection od skutecznej automatyzacji.
-- Licz koszt utrzymania po wdrozeniu.
+- Licz koszt utrzymania po wdrożeniu.
 - Uwzgledniaj koszty tokenow/minut.
 - Dodaj metryki ochronne UX i compliance.
-- Porownuj wyniki z baseline sprzed wdrozenia.
+- Porownuj wyniki z baseline sprzed wdrożenia.
 
-## 4.8. Typowe bledy
+## 4.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | ROI oparty na 100% automatyzacji | Nierealne oczekiwania |
-| Brak kosztow utrzymania | Niedoszacowanie budzetu |
-| Brak repeat contact | Pozorna oszczednosc |
-| Brak kosztu integracji | Projekt drozszy niz plan |
-| Mierzenie tylko wolumenu bota | Brak informacji o skutecznosci |
-| Brak metryk UX | Oszczednosc kosztem klienta |
+| Brak kosztów utrzymania | Niedoszacowanie budzetu |
+| Brak repeat contact | Pozorna oszczędność |
+| Brak kosztu integracji | Projekt drozszy niż plan |
+| Mierzenie tylko wolumenu bota | Brak informacji o skuteczności |
+| Brak metryk UX | Oszczędność kosztem klienta |
 
 ## 4.9. Praktyczny model business case
 
-| Element | Przyklad |
+| Element | Przykład |
 |---|---|
-| Wolumen miesieczny use case'u | 50 000 rozmow |
-| Sredni koszt rozmowy konsultanta | 12 zl |
-| Realistyczny udzial rozmow kwalifikujacych sie do bota | 70% |
+| Wolumen miesieczny use case'u | 50 000 rozmów |
+| Średni koszt rozmowy konsultanta | 12 zl |
+| Realistyczny udzial rozmów kwalifikujacych się do bota | 70% |
 | Oczekiwany task completion bota po optymalizacji | 60% |
 | Rozmowy skutecznie zautomatyzowane | 21 000 |
 | Potencjal brutto | 252 000 zl |
 | Koszt technologii i utrzymania | 80 000 zl |
-| Szacowana wartosc netto | 172 000 zl miesiecznie |
+| Szacowana wartość netto | 172 000 zl miesiecznie |
 
-Uwaga: to przyklad struktury, nie uniwersalna obietnica. Kazdy projekt wymaga wlasnych danych.
+Uwaga: to przykład struktury, nie uniwersalna obietnica. Każdy projekt wymaga własnych danych.
 
 ## 4.10. Checklista ROI
 
@@ -642,7 +642,7 @@ Uwaga: to przyklad struktury, nie uniwersalna obietnica. Kazdy projekt wymaga wl
 - Czy znamy koszt kontaktu?
 - Czy znamy AHT?
 - Czy znamy baseline FCR/repeat contact?
-- Czy zalozenia task completion sa realistyczne?
+- Czy założenia task completion są realistyczne?
 - Czy uwzgledniono koszty technologii?
 - Czy uwzgledniono koszty utrzymania?
 - Czy uwzgledniono koszty integracji?
@@ -651,85 +651,85 @@ Uwaga: to przyklad struktury, nie uniwersalna obietnica. Kazdy projekt wymaga wl
 
 ## 4.11. Mini case study
 
-Operator telekomunikacyjny zakladal ROI na podstawie 80% containment dla awarii internetu. Pilot pokazal containment 55%, ale konsultanci otrzymywali lepsze podsumowania i mieli krotszy AHT o 90 sekund. Po doliczeniu assisted automation projekt nadal mial dodatni efekt, choc inny niz pierwotnie zakladano. Wniosek: business case powinien uwzgledniac zarowno automatyzacje end-to-end, jak i wsparcie konsultanta.
+Operator telekomunikacyjny zakladal ROI na podstawie 80% containment dla awarii internetu. Pilot pokazal containment 55%, ale konsultanci otrzymywali lepsze podsumowania i mieli krótszy AHT o 90 sekund. Po doliczeniu assisted automation projekt nadal miał dodatni efekt, choć inny niż pierwotnie zakladano. Wniosek: business case powinien uwzględniać zarowno automatyzację end-to-end, jak i wsparcie konsultanta.
 
-## 4.12. Cwiczenia
+## 4.12. Ćwiczenia
 
-1. Policz prosty ROI dla use case'u statusu zamowienia.
+1. Policz prosty ROI dla use case'u statusu zamówienia.
 2. Dodaj do kalkulacji repeat contact.
 3. Przygotuj trzy scenariusze: pesymistyczny, bazowy, optymistyczny.
-4. Wskaz metryki ochronne UX.
+4. Wskaż metryki ochronne UX.
 
 ## 4.13. Podsumowanie
 
-ROI voicebota nie polega na mnozeniu wolumenu przez koszt konsultanta i wpisaniu wysokiego containment. Dojrzaly business case uwzglednia skutecznosc, jakosc, repeat contact, koszty utrzymania, integracje i ryzyka.
+ROI voicebota nie polega na mnozeniu wolumenu przez koszt konsultanta i wpisaniu wysokiego containment. Dojrzaly business case uwzględnia skuteczność, jakość, repeat contact, koszty utrzymania, integracje i ryzyka.
 
 ---
 
-# Rozdzial 5. Kiedy nie wdrazac voicebota
+# Rozdział 5. Kiedy nie wdrażać voicebota
 
-## 5.1. Cele rozdzialu
+## 5.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozpoznawac sytuacje, w ktorych voicebot jest zlym rozwiazaniem;
-- argumentowac przeciwko wdrozeniu w sposob profesjonalny;
-- proponowac alternatywy: IVR, chatbot, formularz, agent assist, analityka rozmow;
-- chronić organizacje przed kosztowna automatyzacja bez wartosci.
+- rozpoznawać sytuację, w których voicebot jest złym rozwiazaniem;
+- argumentowac przeciwko wdrożeniu w sposób profesjonalny;
+- proponowac alternatywy: IVR, chatbot, formularz, agent assist, analityka rozmów;
+- chronić organizacje przed kosztowna automatyzacja bez wartości.
 
-## 5.2. Kluczowe pojecia
+## 5.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Poor fit | Slabe dopasowanie procesu do voicebota |
 | Premature automation | Automatyzacja przed uporzadkowaniem procesu |
-| Process debt | Dlug procesowy: chaos procedur, danych i odpowiedzialnosci |
-| Human-in-the-loop | Czlowiek pozostaje w kluczowej decyzji |
+| Process debt | Dlug procesowy: chaos procedur, danych i odpowiedzialności |
+| Human-in-the-loop | Człowiek pozostaje w kluczowej decyzji |
 | Agent assist | AI wspiera konsultanta zamiast zastapienia rozmowy |
 
-## 5.3. Wyjasnienie eksperckie
+## 5.3. Wyjaśnienie eksperckie
 
-Nie nalezy wdrazac voicebota, gdy:
+Nie należy wdrażać voicebota, gdy:
 
 1. Proces nie jest zrozumiany.
 2. Nie ma danych o powodach kontaktu.
-3. Nie ma wlasciciela procesu.
-4. Systemy backendowe sa niedostepne lub niespojnie.
+3. Nie ma właściciela procesu.
+4. Systemy backendowe są niedostepne lub niespojnie.
 5. Klienci dzwonia w silnym kryzysie.
-6. Bledy maja wysoki koszt i brak mozliwosci odwolania.
+6. Błędy mają wysoki koszt i brak możliwości odwolania.
 7. Zakres jest politycznie narzucony, ale niemierzalny.
 8. Organizacja nie ma zasobow na utrzymanie.
-9. Bot ma ukryc problem operacyjny zamiast go rozwiazac.
-10. Inny kanal jest wyraznie lepszy.
+9. Bot ma ukryc problem operacyjny zamiast go rozwiązać.
+10. Inny kanał jest wyraznie lepszy.
 
-Przyklad:
+Przykład:
 
-Jesli 40% kontaktow dotyczy blednych faktur spowodowanych problemem w systemie billingowym, voicebot moze tylko taniej obslugiwac skutek. Lepszym projektem moze byc naprawa billingu albo proaktywna komunikacja.
+Jeśli 40% kontaktów dotyczy błędnych faktur spowodowanych problemem w systemie billingowym, voicebot może tylko taniej obsługiwać skutek. Lepszym projektem może być naprawa billingu albo proaktywna komunikacja.
 
 ## 5.4. Perspektywa biznesowa
 
-Decyzja "nie wdrazamy voicebota teraz" moze byc bardzo profesjonalna. Moze oznaczac:
+Decyzja "nie wdrazamy voicebota teraz" może być bardzo profesjonalna. Może oznaczać:
 
 - najpierw porzadkujemy dane;
-- najpierw wdrazamy tagowanie rozmow;
+- najpierw wdrazamy tagowanie rozmów;
 - najpierw budujemy API;
 - najpierw zmniejszamy call drivers;
 - najpierw uruchamiamy agent assist;
 - najpierw robimy pilota analitycznego.
 
-Voicebot nie powinien byc plasterkiem na zly proces, jesli proces wymaga naprawy.
+Voicebot nie powinien być plasterkiem na zły proces, jeśli proces wymaga naprawy.
 
-## 5.5. Perspektywa uzytkownika
+## 5.5. Perspektywa użytkownika
 
-Uzytkownik odczuwa zly moment wdrozenia jako:
+Użytkownik odczuwa zły moment wdrożenia jako:
 
-- "firma zaslania sie botem";
+- "firma zaslania się botem";
 - "bot nic nie wie";
-- "musze powtarzac dane";
-- "nie moge dojsc do czlowieka";
+- "musze powtarzać dane";
+- "nie mogę dojść do człowieka";
 - "system nie rozumie mojej sytuacji".
 
-Wrazliwe use case'y, jak zdrowie, finanse, windykacja czy reklamacje, wymagaja szczegolnej ostroznosci.
+Wrażliwe use case'y, jak zdrowie, finanse, windykacja czy reklamację, wymagają szczególnej ostrożności.
 
 ## 5.6. Perspektywa technologiczna
 
@@ -739,10 +739,10 @@ Czerwone flagi technologiczne:
 - brak stabilnego identyfikatora klienta/sprawy;
 - brak transkrypcji;
 - brak sandboxa;
-- brak mozliwosci handoff;
+- brak możliwości handoff;
 - brak logow;
 - brak zgody na przechowywanie danych;
-- brak testow telefonii;
+- brak testów telefonii;
 - brak kontroli nad baza wiedzy;
 - brak mechanizmow bezpieczeństwa LLM.
 
@@ -750,77 +750,77 @@ Czerwone flagi technologiczne:
 
 | Problem | Alternatywa |
 |---|---|
-| Duzy wolumen prostych pytan tekstowych | Chatbot lub lepsze FAQ |
-| Klienci szukaja dokumentow | Portal self-service |
+| Duzy wolumen prostych pytań tekstowych | Chatbot lub lepsze FAQ |
+| Klienci szukaja dokumentów | Portal self-service |
 | Trzeba zebrac wiele pol | Formularz |
 | Konsultanci traca czas na notatki | Agent assist i automatyczne podsumowania |
-| Brak wiedzy o powodach kontaktu | Analityka rozmow |
-| Zly routing | Nowy IVR lub routing intent-based |
+| Brak wiedzy o powodach kontaktu | Analityka rozmów |
+| Zły routing | Nowy IVR lub routing intent-based |
 | Problem wynika z awarii procesu | Naprawa procesu i komunikacja proaktywna |
 
 ## 5.8. Dobre praktyki
 
-- Miej odwage odradzic voicebota, gdy nie ma dopasowania.
+- Miej odwage odradzić voicebota, gdy nie ma dopasowania.
 - Proponuj alternatywe, nie samo "nie".
 - Oddziel potrzebe automatyzacji od potrzeby analityki.
-- Najpierw napraw call drivers, jesli to one generuja ruch.
-- Wrazliwe procesy zaczynaj od agent assist lub prekwalifikacji.
-- Warunkuj wdrozenie wymaganiami: API, dane, handoff, monitoring.
+- Najpierw napraw call drivers, jeśli to one generuja ruch.
+- Wrażliwe procesy zaczynaj od agent assist lub prekwalifikacji.
+- Warunkuj wdrożenie wymaganiami: API, dane, handoff, monitoring.
 
-## 5.9. Typowe bledy
+## 5.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Wdrozenie mimo braku danych | Bot projektowany na domyslach |
-| Automatyzacja chaosu | Chaos staje sie szybszy |
+| Wdrożenie mimo braku danych | Bot projektowany na domyslach |
+| Automatyzacja chaosu | Chaos staje się szybszy |
 | Brak alternatywy dla klienta | Frustracja |
 | Automatyzacja tylko dla redukcji kosztu | Utrata zaufania |
-| Ignorowanie procesu podstawowego | Voicebot obsluguje objawy |
+| Ignorowanie procesu podstawowego | Voicebot obsługuje objawy |
 
-## 5.10. Checklista "nie wdrazac jeszcze"
+## 5.10. Checklista "nie wdrażać jeszcze"
 
 - Czy brakuje danych o powodach kontaktu?
 - Czy proces jest niespojny?
 - Czy nie ma API?
-- Czy nie ma wlasciciela biznesowego?
+- Czy nie ma właściciela biznesowego?
 - Czy nie ma handoff?
-- Czy koszt bledu jest wysoki?
-- Czy sprawy sa silnie emocjonalne?
+- Czy koszt błędu jest wysoki?
+- Czy sprawy są silnie emocjonalne?
 - Czy sukces jest niemierzalny?
 - Czy bot ma ukryc problem procesu?
-- Czy lepszy bylby inny kanal?
+- Czy lepszy bylby inny kanał?
 
 ## 5.11. Mini case study
 
-Firma energetyczna chciala voicebota do reklamacji wysokich rachunkow. Analiza pokazala, ze glowna przyczyna kontaktow to nie brak automatyzacji, lecz nieczytelne faktury i opoznione odczyty. Zamiast voicebota end-to-end wdrozono: proaktywne SMS-y, lepsza strone wyjasniajaca fakture, agent assist dla konsultantow i voicebota tylko do statusu zgloszenia. Wolumen reklamacji spadl bez ryzykownej automatyzacji sporow.
+Firma energetyczna chciała voicebota do reklamacji wysokich rachunkow. Analiza pokazala, że główna przyczyna kontaktów to nie brak automatyzacji, lecz nieczytelne faktury i opóźnione odczyty. Zamiast voicebota end-to-end wdrożono: proaktywne SMS-y, lepsza strone wyjasniajaca fakture, agent assist dla konsultantów i voicebota tylko do statusu zgłoszenia. Wolumen reklamacji spadl bez ryzykownej automatyzacji sporow.
 
-## 5.12. Cwiczenia
+## 5.12. Ćwiczenia
 
-1. Wybierz proces i znajdz argumenty przeciwko voicebotowi.
+1. Wybierz proces i znajdź argumenty przeciwko voicebotowi.
 2. Zaproponuj alternatywe dla voicebota.
-3. Zdefiniuj warunki, po ktorych proces bedzie gotowy.
-4. Przygotuj komunikat do sponsora, dlaczego warto zaczac od analityki.
+3. Zdefiniuj warunki, po których proces będzie gotowy.
+4. Przygotuj komunikat do sponsora, dlaczego warto zacząć od analityki.
 
 ## 5.13. Podsumowanie
 
-Dobry Voicebot Specialist nie jest osoba, ktora zawsze rekomenduje voicebota. Jest osoba, ktora potrafi wskazac, gdzie automatyzacja glosowa ma sens, a gdzie najpierw trzeba uporzadkowac proces, dane lub kanal.
+Dobry Voicebot Specialist nie jest osoba, która zawsze rekomenduje voicebota. Jest osoba, która potrafi wskazac, gdzie automatyzacja głosowa ma sens, a gdzie najpierw trzeba uporzadkowac proces, dane lub kanał.
 
 ---
 
-# Rozdzial 6. Brief projektu voicebota
+# Rozdział 6. Brief projektu voicebota
 
-## 6.1. Cele rozdzialu
+## 6.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- przygotowac profesjonalny brief projektu;
+- przygotować profesjonalny brief projektu;
 - zebrac minimalny zestaw informacji przed discovery;
 - uporzadkowac oczekiwania biznesu, IT, contact center i compliance;
-- stworzyc dokument, ktory moze byc punktem startu wyceny, warsztatow i projektu.
+- stworzyc dokument, który może być punktem startu wyceny, warsztatow i projektu.
 
-## 6.2. Kluczowe pojecia
+## 6.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Brief | Dokument startowy opisujacy problem, cele, zakres i ograniczenia projektu |
 | Scope | Zakres projektu |
@@ -829,20 +829,20 @@ Czytelnik nauczy sie:
 | Success criteria | Kryteria sukcesu |
 | Constraint | Ograniczenie, np. prawne, technologiczne, czasowe |
 
-## 6.3. Wyjasnienie eksperckie
+## 6.3. Wyjaśnienie eksperckie
 
-Brief nie jest pelna specyfikacja. Jest narzedziem do rozpoczecia rozmowy i wykrycia luk. Dobry brief odpowiada:
+Brief nie jest pełna specyfikacja. Jest narzędziem do rozpoczecia rozmowy i wykrycia luk. Dobry brief odpowiada:
 
 - jaki problem biznesowy rozwiazujemy;
 - dla kogo;
 - w jakim kanale;
-- jakich rozmow dotyczy;
-- jakie sa wolumeny;
-- jakie systemy sa potrzebne;
-- jakie sa ograniczenia prawne;
+- jakich rozmów dotyczy;
+- jakie są wolumeny;
+- jakie systemy są potrzebne;
+- jakie są ograniczenia prawne;
 - jak zmierzymy sukces;
-- kto podejmuje decyzje;
-- jaki jest plan wdrozenia.
+- kto podejmuje decyzję;
+- jaki jest plan wdrożenia.
 
 ## 6.4. Szablon briefu projektu voicebota
 
@@ -907,7 +907,7 @@ Brief nie jest pelna specyfikacja. Jest narzedziem do rozpoczecia rozmowy i wykr
 - Ryzyka odpowiedzi AI:
 
 8. Handoff
-- Kiedy bot przekazuje do czlowieka?
+- Kiedy bot przekazuje do człowieka?
 - Do jakiej kolejki?
 - Jakie dane przekazuje?
 - Czy konsultant widzi podsumowanie?
@@ -929,58 +929,58 @@ Brief nie jest pelna specyfikacja. Jest narzedziem do rozpoczecia rozmowy i wykr
 
 ## 6.5. Perspektywa biznesowa
 
-Brief zmusza organizacje do konkretu. Zdanie "chcemy automatyzowac obsluge klienta" staje sie:
+Brief zmusza organizacje do konkretu. Zdanie "chcemy automatyzowac obsługę klienta" staje się:
 
-"Chcemy zautomatyzowac 30% rozmow o status zamowienia i zmiane adresu, ktore maja miesiecznie 40 000 polaczen i sredni AHT 4 minuty, przy zachowaniu repeat contact ponizej baseline."
+"Chcemy zautomatyzowac 30% rozmów o status zamówienia i zmianę adresu, które mają miesiecznie 40 000 połączeń i średni AHT 4 minuty, przy zachowaniu repeat contact ponizej baseline."
 
-To jest roznica miedzy haslem a projektem.
+To jest różnica między hasłem a projektem.
 
-## 6.6. Perspektywa uzytkownika
+## 6.6. Perspektywa użytkownika
 
-Brief powinien zawierac opis uzytkownika:
+Brief powinien zawierac opis użytkownika:
 
 - kim jest;
 - w jakiej sytuacji dzwoni;
-- co juz wie;
+- co już wie;
 - jakie ma emocje;
 - jakie ma ograniczenia;
-- co bedzie dla niego sukcesem;
-- kiedy bedzie chcial czlowieka.
+- co będzie dla niego sukcesem;
+- kiedy będzie chcial człowieka.
 
-Bez tego projekt latwo staje sie automatyzacja dla firmy, nie dla klienta.
+Bez tego projekt łatwo staje się automatyzacja dla firmy, nie dla klienta.
 
 ## 6.7. Perspektywa technologiczna
 
 Brief musi ujawnic zaleznosci:
 
-- API, ktorych nie ma;
-- dane, ktorych nie wolno przechowywac;
-- systemy, ktore nie maja sandboxa;
-- contact center, ktore nie wspiera przekazania kontekstu;
-- TTS, ktory nie radzi sobie z nazwami;
+- API, których nie ma;
+- dane, których nie wolno przechowywac;
+- systemy, które nie mają sandboxa;
+- contact center, które nie wspiera przekazania kontekstu;
+- TTS, który nie radzi sobie z nazwami;
 - brak transkrypcji do treningu.
 
 ## 6.8. Dobre praktyki
 
 - Brief wypelniaj z interesariuszami, nie samodzielnie.
 - Nie ukrywaj brakow danych.
-- Oddziel cele od zalozen.
+- Oddziel cele od założeń.
 - Wpisz poza zakresem.
 - Wpisz ryzyka.
 - Wpisz warunki handoff.
 - Wpisz minimalne kryteria pilota.
 - Aktualizuj brief po discovery.
 
-## 6.9. Typowe bledy
+## 6.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Brief jako prezentacja marketingowa | Brak konkretu do projektu |
-| Brak out of scope | Zakres rosnie bez kontroli |
-| Brak danych baseline | Nie da sie mierzyc efektu |
-| Brak interesariuszy IT/legal | Problemy wychodza za pozno |
-| Brak kryteriow sukcesu | Pilot nie ma jasnej oceny |
-| Brak ryzyk | Fałszywe poczucie gotowosci |
+| Brak out of scope | Zakres rośnie bez kontroli |
+| Brak danych baseline | Nie da się mierzyć efektu |
+| Brak interesariuszy IT/legal | Problemy wychodza za późno |
+| Brak kryteriów sukcesu | Pilot nie ma jasnej oceny |
+| Brak ryzyk | Fałszywe poczucie gotowości |
 
 ## 6.10. Checklista briefu
 
@@ -992,56 +992,56 @@ Brief musi ujawnic zaleznosci:
 - Czy znamy ryzyka prawne?
 - Czy znamy warunki handoff?
 - Czy sukces jest mierzalny?
-- Czy jest wlasciciel biznesowy?
-- Czy brief zostal zatwierdzony przez kluczowych interesariuszy?
+- Czy jest właściciel biznesowy?
+- Czy brief został zatwierdzony przez kluczowych interesariuszy?
 
 ## 6.11. Mini case study
 
-Firma B2B rozpoczela projekt od hasla "voicebot do leadow". Brief ujawnil, ze polaczenia przychodza z trzech zrodel, leady maja rozna wartosc, a zespol sprzedazy nie chce automatycznej kwalifikacji dla najwiekszych kont. Zakres MVP zmieniono: bot kwalifikuje male zapytania, umawia rozmowe i tworzy rekord CRM, ale konta strategiczne ida bezposrednio do handlowca. Brief uratowal projekt przed konfliktem z sales.
+Firma B2B rozpoczela projekt od hasła "voicebot do leadow". Brief ujawnil, że połączenia przychodza z trzech źródeł, leady mają różna wartość, a zespół sprzedaży nie chce automatycznej kwalifikacji dla największych kont. Zakres MVP zmieniono: bot kwalifikuje male zapytania, umawia rozmowę i tworzy rekord CRM, ale konta strategiczne ida bezpośrednio do handlowca. Brief uratowal projekt przed konfliktem z sales.
 
-## 6.12. Cwiczenia
+## 6.12. Ćwiczenia
 
-1. Wypelnij brief dla use case'u statusu zamowienia.
-2. Wpisz 5 elementow poza zakresem.
-3. Wpisz 5 kryteriow sukcesu pilota.
-4. Wskaz interesariuszy, ktorzy musza zatwierdzic brief.
+1. Wypelnij brief dla use case'u statusu zamówienia.
+2. Wpisz 5 elementów poza zakresem.
+3. Wpisz 5 kryteriów sukcesu pilota.
+4. Wskaż interesariuszy, którzy muszą zatwierdzic brief.
 
 ## 6.13. Podsumowanie
 
-Brief jest pierwszym filtrem dojrzalosci projektu. Dobry brief nie rozwiazuje wszystkiego, ale pokazuje, czy organizacja wie, co chce automatyzowac, dlaczego, dla kogo i jak pozna, ze sie udalo.
+Brief jest pierwszym filtrem dojrzalosci projektu. Dobry brief nie rozwiązuje wszystkiego, ale pokazuje, czy organizacja wie, co chce automatyzowac, dlaczego, dla kogo i jak późna, że się udalo.
 
 ---
 
-# Rozdzial 7. Zbieranie wymagan i praca z interesariuszami
+# Rozdział 7. Zbieranie wymagań i praca z interesariuszami
 
-## 7.1. Cele rozdzialu
+## 7.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
 - identyfikowac interesariuszy projektu voicebota;
-- prowadzic warsztaty discovery;
-- zbierac wymagania funkcjonalne, niefunkcjonalne i compliance;
-- radzic sobie ze sprzecznymi oczekiwaniami.
+- prowadzić warsztaty discovery;
+- zbierać wymagania funkcjonalne, niefunkcjonalne i compliance;
+- radzić sobie że sprzecznymi oczekiwaniami.
 
-## 7.2. Kluczowe pojecia
+## 7.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Stakeholder mapping | Mapa interesariuszy |
-| Functional requirements | Co system ma robic |
-| Non-functional requirements | Jak system ma dzialac, np. latency, bezpieczenstwo |
+| Functional requirements | Co system ma robić |
+| Non-functional requirements | Jak system ma działać, np. latency, bezpieczeństwo |
 | Compliance requirements | Wymagania prawne i regulacyjne |
 | Acceptance criteria | Warunki akceptacji |
-| RACI | Podzial odpowiedzialnosci: Responsible, Accountable, Consulted, Informed |
+| RACI | Podzial odpowiedzialności: Responsible, Accountable, Consulted, Informed |
 
-## 7.3. Wyjasnienie eksperckie
+## 7.3. Wyjaśnienie eksperckie
 
-Projekt voicebota dotyka wielu zespolow:
+Projekt voicebota dotyka wielu zespołów:
 
 - sponsor biznesowy;
 - product owner;
 - contact center manager;
-- liderzy zespolow konsultantow;
+- liderzy zespołów konsultantów;
 - konsultanci;
 - IT;
 - solution architect;
@@ -1054,147 +1054,147 @@ Projekt voicebota dotyka wielu zespolow:
 - operations;
 - vendor/platform owner.
 
-Kazdy ma inny punkt widzenia. Sponsor chce efektu. Contact center chce odciazenia. Konsultanci boja sie trudniejszych rozmow po bocie. Legal chce kontroli. IT chce bezpiecznych integracji. UX chce naturalnosci. Voicebot Specialist musi zrobic z tego jeden wykonalny zakres.
+Każdy ma inny punkt widzenia. Sponsor chce efektu. Contact center chce odciazenia. Konsultanci boja się trudniejszych rozmów po bocie. Legal chce kontroli. IT chce bezpiecznych integracji. UX chce naturalności. Voicebot Specialist musi zrobić z tego jeden wykonalny zakres.
 
-## 7.4. Typy wymagan
+## 7.4. Typy wymagań
 
-| Typ | Przyklady |
+| Typ | Przykłady |
 |---|---|
 | Funkcjonalne | Bot sprawdza status, zmienia termin, tworzy ticket |
-| Konwersacyjne | Bot obsluguje korekte, no-input, no-match, barge-in |
-| Integracyjne | Bot laczy sie z CRM i kalendarzem |
-| Bezpieczenstwa | Szyfrowanie, autoryzacja API, maskowanie danych |
-| Compliance | Zgody, informacja o bocie, retencja nagran |
-| Operacyjne | Godziny dzialania, kolejki handoff, SLA |
+| Konwersacyjne | Bot obsługuje korektę, no-input, no-match, barge-in |
+| Integracyjne | Bot łączy się z CRM i kalendarzem |
+| Bezpieczeństwa | Szyfrowanie, autoryzacja API, maskowanie danych |
+| Compliance | Zgody, informacja o bocie, retencja nagrań |
+| Operacyjne | Godziny działania, kolejki handoff, SLA |
 | Analityczne | Metryki, dashboardy, eksport danych |
-| Jakosciowe | Testy ASR, UAT, testy regresji |
-| UX | Ton, persona, dostepnosc, eskalacja |
+| Jakościowe | Testy ASR, UAT, testy regresji |
+| UX | Ton, persona, dostępność, eskalacja |
 
 ## 7.5. Perspektywa biznesowa
 
-Najwieksze ryzyko interesariuszy to sprzeczne cele:
+Największe ryzyko interesariuszy to sprzeczne cele:
 
 - biznes chce wysoki containment;
 - CX chce szybki handoff;
-- legal chce dlugie komunikaty;
-- UX chce krotkie komunikaty;
+- legal chce długie komunikaty;
+- UX chce krótkie komunikaty;
 - IT chce minimalny zakres integracji;
-- contact center chce pelny kontekst;
+- contact center chce pełny kontekst;
 - marketing chce brand voice;
-- operations chce stabilnosc.
+- operations chce stabilność.
 
-Rola Voicebot Specialist polega na zamianie sporow w decyzje projektowe z konsekwencjami.
+Rola Voicebot Specialist polega na zamianie sporow w decyzję projektowe z konsekwencjami.
 
-Przyklad:
+Przykład:
 
-Legal chce odczytac dlugi disclaimer. UX wskazuje, ze uzytkownicy beda przerywac. Decyzja: skrocic disclaimer do prawnie wymaganego minimum, wyslac pelna tresc SMS/e-mail, ograniczyc barge-in tylko w krytycznej frazie i logowac odtworzenie.
+Legal chce odczytac długi disclaimer. UX wskazuje, że użytkownicy będą przerywać. Decyzja: skrócić disclaimer do prawnie wymaganego minimum, wysłać pełna treść SMS/e-mail, ograniczyc barge-in tylko w krytycznej frazie i logowac odtworzenie.
 
-## 7.6. Perspektywa uzytkownika
+## 7.6. Perspektywa użytkownika
 
-Wymagania nie moga pochodzic tylko z organizacji. Trzeba uwzglednic:
+Wymagania nie mogą pochodzic tylko z organizacji. Trzeba uwzględnić:
 
-- realne frazy z rozmow;
+- realne frazy z rozmów;
 - typowe emocje;
 - poziom kompetencji cyfrowych;
-- dostepnosc;
-- potrzebe czlowieka;
-- sytuacje, w ktorych uzytkownik nie ma danych pod reka.
+- dostępność;
+- potrzebe człowieka;
+- sytuację, w których użytkownik nie ma danych pod reka.
 
 ## 7.7. Perspektywa technologiczna
 
-Wymagania powinny byc testowalne.
+Wymagania powinny być testowalne.
 
-Zle:
+Źle:
 
-"Bot ma szybko odpowiadac."
-
-Lepsze:
-
-"Dla 95% tur bez integracji pierwsze audio odpowiedzi powinno pojawic sie ponizej 1,2 s od konca tury uzytkownika."
-
-Zle:
-
-"Bot ma dobrze rozumiec klientow."
+"Bot ma szybko odpowiadać."
 
 Lepsze:
 
-"Dla intencji status_zamowienia recall na zestawie testowym minimum 90%, a false positive do anulowania zamowienia ponizej 1%."
+"Dla 95% tur bez integracji pierwsze audio odpowiedzi powinno pojawic się ponizej 1,2 s od końca tury użytkownika."
+
+Źle:
+
+"Bot ma dobrze rozumieć klientów."
+
+Lepsze:
+
+"Dla intencji status_zamowienia recall na zestawie testowym minimum 90%, a false positive do anulowania zamówienia ponizej 1%."
 
 ## 7.8. Dobre praktyki
 
 - Mapuj interesariuszy przed warsztatami.
-- Rozmawiaj z konsultantami i sluchaj nagran.
+- Rozmawiaj z konsultantami i sluchaj nagrań.
 - Zapisuj wymagania jako testowalne zdania.
 - Oddziel "must have" od "nice to have".
-- Dokumentuj decyzje i kompromisy.
-- Ustal wlasciciela kazdego wymagania.
-- Uzywaj RACI.
-- Wciagnij legal/security wcześnie.
+- Dokumentuj decyzję i kompromisy.
+- Ustal właściciela każdego wymagania.
+- Używaj RACI.
+- Wciągnij legal/security wcześnie.
 
-## 7.9. Typowe bledy
+## 7.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Warsztaty tylko z managementem | Brak realnego obrazu rozmow |
+| Warsztaty tylko z managementem | Brak realnego obrazu rozmów |
 | Brak legal/security na starcie | Blokady pod koniec |
 | Wymagania nietestowalne | Spory przy odbiorze |
-| Brak RACI | Decyzje sie rozmywaja |
-| Pomijanie konsultantow | Handoff i realne wyjatki sa zle zaprojektowane |
+| Brak RACI | Decyzję się rozmywaja |
+| Pomijanie konsultantów | Handoff i realne wyjatki są źle zaprojektowane |
 | Brak dokumentacji kompromisow | Powracajace spory |
 
-## 7.10. Checklista wymagan
+## 7.10. Checklista wymagań
 
 - Czy mamy mape interesariuszy?
-- Czy mamy wlasciciela biznesowego?
+- Czy mamy właściciela biznesowego?
 - Czy mamy wymagania funkcjonalne?
 - Czy mamy wymagania niefunkcjonalne?
 - Czy mamy wymagania compliance?
-- Czy wymagania sa testowalne?
+- Czy wymagania są testowalne?
 - Czy mamy priorytety must/should/could?
 - Czy mamy RACI?
-- Czy decyzje sa zapisane?
+- Czy decyzję są zapisane?
 - Czy konsultanci byli zaangazowani?
 
 ## 7.11. Mini case study
 
-W projekcie bankowym biznes chcial, aby bot automatycznie odpowiadal na pytania o karty. Legal wskazal, ze czesc pytan dotyczy indywidualnej sytuacji klienta i regulacji. IT wskazalo brak API do niektorych limitow. Po warsztatach zakres podzielono: ogolne informacje przez RAG, indywidualne dane po weryfikacji przez API, a sporne lub regulowane interpretacje do konsultanta. Wymagania staly sie jasne i testowalne.
+W projekcie bankowym biznes chcial, aby bot automatycznie odpowiadał na pytania o karty. Legal wskazal, że część pytań dotyczy indywidualnej sytuacji klienta i regulacji. IT wskazalo brak API do niektorych limitow. Po warsztatach zakres podzielono: ogólne informacje przez RAG, indywidualne dane po weryfikacji przez API, a sporne lub regulowane interpretacje do konsultanta. Wymagania stały się jasne i testowalne.
 
-## 7.12. Cwiczenia
+## 7.12. Ćwiczenia
 
 1. Zrob mape interesariuszy dla voicebota medycznego.
-2. Napisz 5 wymagan testowalnych.
+2. Napisz 5 wymagań testowalnych.
 3. Przygotuj RACI dla decyzji o handoff.
 4. Opisz konflikt UX vs legal i zaproponuj kompromis.
 
 ## 7.13. Podsumowanie
 
-Voicebot jest projektem przekrojowym. Wymagania musza laczyc biznes, UX, technologie, operacje i compliance. Im wczesniej ujawnione zostana konflikty, tym taniej mozna je rozwiazac.
+Voicebot jest projektem przekrojowym. Wymagania muszą łączyć biznes, UX, technologie, operacje i compliance. Im wcześniej ujawnione zostana konflikty, tym taniej można je rozwiązać.
 
 ---
 
-# Rozdzial 8. Business case i decyzja o MVP
+# Rozdział 8. Business case i decyzja o MVP
 
-## 8.1. Cele rozdzialu
+## 8.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- przygotowac business case dla voicebota;
-- zdecydowac, co powinno wejsc do MVP;
-- oddzielic wizje docelowa od pierwszego zakresu;
-- zdefiniowac kryteria przejscia z pilota na produkcje.
+- przygotować business case dla voicebota;
+- zdecydowac, co powinno wejść do MVP;
+- oddzielić wizje docelowa od pierwszego zakresu;
+- zdefiniowac kryteria przejścia z pilota na produkcję.
 
-## 8.2. Kluczowe pojecia
+## 8.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Business case | Uzasadnienie biznesowe inwestycji |
-| MVP | Minimum Viable Product, pierwsza wersja dajaca wartosc i dane |
-| Pilot | Ograniczone wdrozenie testujace zalozenia |
+| MVP | Minimum Viable Product, pierwsza wersja dajaca wartość i dane |
+| Pilot | Ograniczone wdrożenie testujace założenia |
 | Soft launch | Stopniowe udostepnianie produkcyjne |
-| Go/no-go criteria | Kryteria decyzji, czy przejsc dalej |
+| Go/no-go criteria | Kryteria decyzji, czy przejść dalej |
 | Roadmap | Plan rozwoju po MVP |
 
-## 8.3. Wyjasnienie eksperckie
+## 8.3. Wyjaśnienie eksperckie
 
 Business case powinien zawierac:
 
@@ -1203,7 +1203,7 @@ Business case powinien zawierac:
 3. Wybrany use case.
 4. Alternatywy.
 5. Zakres MVP.
-6. Architekture wysokiego poziomu.
+6. Architekturę wysokiego poziomu.
 7. Wymagane integracje.
 8. Ryzyka.
 9. Koszty.
@@ -1212,30 +1212,30 @@ Business case powinien zawierac:
 12. Kryteria pilota i go/no-go.
 13. Plan utrzymania.
 
-MVP voicebota nie oznacza "najmniejszy bot". Oznacza najmniejszy zakres, ktory:
+MVP voicebota nie oznacza "najmniejszy bot". Oznacza najmniejszy zakres, który:
 
-- daje realna wartosc;
-- moze byc bezpiecznie wdrozony;
+- daje realną wartość;
+- może być bezpiecznie wdrozony;
 - pozwala zebrac dane;
 - ma jasny handoff;
-- mozna zmierzyc.
+- można zmierzyc.
 
 ## 8.4. Perspektywa biznesowa
 
-MVP powinien byc wybrany tak, aby:
+MVP powinien być wybrany tak, aby:
 
 - sponsor widzial efekt;
-- contact center odczulo pomoc;
-- uzytkownicy mieli dobra sciezke;
-- IT moglo dostarczyc integracje;
-- legal mogl zatwierdzic ryzyko;
-- zespol mogl optymalizowac po wdrozeniu.
+- contact center odczulo pomóc;
+- użytkownicy mieli dobra ścieżkę;
+- IT mogło dostarczyc integracje;
+- legal mógł zatwierdzic ryzyko;
+- zespół mógł optymalizować po wdrożeniu.
 
-Nie warto wkładac do MVP wszystkiego, co mozliwe. Nadmierny zakres opoznia uczenie sie.
+Nie warto wkładac do MVP wszystkiego, co możliwe. Nadmierny zakres opoznia uczenie się.
 
-## 8.5. Perspektywa uzytkownika
+## 8.5. Perspektywa użytkownika
 
-MVP nie moze byc wymowka dla slabego UX. Uzytkownik nie wie, ze to MVP. W pierwszej wersji mozna ograniczyc zakres, ale nie mozna ograniczyc podstaw:
+MVP nie może być wymowka dla slabego UX. Użytkownik nie wie, że to MVP. W pierwszej wersji można ograniczyc zakres, ale nie można ograniczyc podstaw:
 
 - jasne powitanie;
 - dobry fallback;
@@ -1248,7 +1248,7 @@ MVP nie moze byc wymowka dla slabego UX. Uzytkownik nie wie, ze to MVP. W pierws
 
 MVP powinno minimalizowac zlozonosc:
 
-- 1-3 glowne intencje;
+- 1-3 główne intencje;
 - ograniczona liczba integracji;
 - kontrolowany flow;
 - proste, mierzalne metryki;
@@ -1258,24 +1258,24 @@ MVP powinno minimalizowac zlozonosc:
 
 ## 8.7. Dobre praktyki
 
-- Wybieraj MVP z najwyzszym stosunkiem wartosci do ryzyka.
+- Wybieraj MVP z najwyzszym stosunkiem wartości do ryzyka.
 - Ogranicz zakres domeny.
-- Nie ograniczaj mechanizmow bezpieczenstwa i handoff.
+- Nie ograniczaj mechanizmow bezpieczeństwa i handoff.
 - Zdefiniuj go/no-go przed pilotem.
-- Ustal baseline przed wdrozeniem.
+- Ustal baseline przed wdrożeniem.
 - Przygotuj plan optymalizacji po 2, 4 i 8 tygodniach.
-- Komunikuj MVP jako kontrolowany etap, nie ostateczna jakosc.
+- Komunikuj MVP jako kontrolowany etap, nie ostateczna jakość.
 
-## 8.8. Typowe bledy
+## 8.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| MVP bez integracji | Brak realnej wartosci |
+| MVP bez integracji | Brak realnej wartości |
 | MVP bez handoff | Ryzyko UX |
-| MVP ze zbyt szerokim zakresem | Opoznienie i chaos |
+| MVP że zbyt szerokim zakresem | Opóźnienie i chaos |
 | Brak go/no-go | Pilot trwa bez decyzji |
-| Brak baseline | Nie da sie udowodnic efektu |
-| Brak planu utrzymania | Bot starzeje sie po wdrozeniu |
+| Brak baseline | Nie da się udowodnic efektu |
+| Brak planu utrzymania | Bot starzeje się po wdrożeniu |
 
 ## 8.9. Szablon business case
 
@@ -1352,76 +1352,76 @@ MVP powinno minimalizowac zlozonosc:
 
 ## 8.10. Kryteria go/no-go dla pilota
 
-Przykladowe kryteria:
+Przykładowe kryteria:
 
 | Obszar | Go | No-go |
 |---|---|---|
 | Task completion | >= 60% dla MVP | < 40% bez jasnej przyczyny |
 | Fallback rate | <= 15-20% | > 30% w kluczowym flow |
-| Handoff quality | Konsultant dostaje kontekst | Brak kontekstu lub zle przekazania |
-| ASR critical data | Dane krytyczne potwierdzane poprawnie | Czeste bledy bez recovery |
-| CSAT | Nie gorszy niz baseline lub w ustalonym progu | Znaczny spadek i skargi |
+| Handoff quality | Konsultant dostaje kontekst | Brak kontekstu lub źle przekazania |
+| ASR critical data | Dane krytyczne potwierdzane poprawnie | Częste błędy bez recovery |
+| CSAT | Nie gorszy niż baseline lub w ustalonym progu | Znaczny spadek i skargi |
 | Compliance | Brak krytycznych naruszen | Naruszenie polityk lub danych |
-| Stability | Brak powtarzalnych awarii | Czeste timeouty/rozlaczenia |
+| Stability | Brak powtarzalnych awarii | Częste timeouty/rozłączenia |
 
 ## 8.11. Mini case study
 
-Firma ubezpieczeniowa planowala MVP z piecioma use case'ami. Po business case ograniczono zakres do statusu szkody i doslania dokumentow. To mialo dostepne API, jasny wynik i duzy wolumen. Sprzedaz nowych polis i interpretacje OWU zostaly w roadmapie. Pilot mial jasne kryteria: task completion 55%, poprawne utworzenie linku do doslania dokumentow, handoff z kontekstem i brak krytycznych naruszen compliance.
+Firma ubezpieczeniowa planowala MVP z piecioma use case'ami. Po business case ograniczono zakres do statusu szkody i doslania dokumentów. To miało dostępne API, jasny wynik i duzy wolumen. Sprzedaż nowych polis i interpretacje OWU zostały w roadmapie. Pilot miał jasne kryteria: task completion 55%, poprawne utworzenie linku do doslania dokumentów, handoff z kontekstem i brak krytycznych naruszen compliance.
 
-## 8.12. Cwiczenia
+## 8.12. Ćwiczenia
 
 1. Przygotuj business case dla jednego use case'u.
 2. Okresl zakres MVP i out of scope.
-3. Zdefiniuj 5 kryteriow go/no-go.
+3. Zdefiniuj 5 kryteriów go/no-go.
 4. Przygotuj roadmapę na 3 etapy.
 
 ## 8.13. Podsumowanie
 
-Business case zamienia pomysl na decyzje inwestycyjna. MVP zamienia duza wizje w kontrolowany eksperyment operacyjny. Dobrze zaprojektowany pilot nie ma udowodnic, ze AI jest modne. Ma sprawdzic, czy konkretny proces mozna automatyzowac bezpiecznie i z wartoscia.
+Business case zamienia pomysl na decyzję inwestycyjna. MVP zamienia duza wizje w kontrolowany eksperyment operacyjny. Dobrze zaprojektowany pilot nie ma udowodnic, że AI jest modne. Ma sprawdzić, czy konkretny proces można automatyzowac bezpiecznie i z wartością.
 
 ---
 
-# Rozdzial 9. Pelna matryca oceny use case'u
+# Rozdział 9. Pełna matryca oceny use case'u
 
-## 9.1. Cele rozdzialu
+## 9.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- stosowac pelna matryce priorytetyzacji use case'ow;
-- porownywac kandydatow w sposob przejrzysty;
-- oddzielac wartosc od wykonalnosci i ryzyka;
-- przygotowac rekomendacje dla sponsora.
+- stosować pełna matryce priorytetyzacji use case'ow;
+- porownywac kandydatow w sposób przejrzysty;
+- oddzielac wartość od wykonalnosci i ryzyka;
+- przygotować rekomendacje dla sponsora.
 
-## 9.2. Matryca glowna
+## 9.2. Matryca główna
 
-Skala 1-5. Wagi mozna dostosowac do organizacji. Wersja ponizej jest rekomendowana dla pierwszych wdrozen enterprise.
+Skala 1-5. Wagi można dostosowac do organizacji. Wersja ponizej jest rekomendowana dla pierwszych wdrożeń enterprise.
 
 | Obszar | Kryterium | Waga | Pytanie |
 |---|---|---:|---|
-| Wartosc | Wolumen | 3 | Czy sprawa wystepuje czesto? |
-| Wartosc | Koszt kontaktu/AHT | 2 | Czy rozmowy sa kosztowne lub dlugie? |
-| Wartosc | Wplyw na SLA/abandonment | 2 | Czy automatyzacja poprawi dostepnosc? |
-| Wartosc | Wplyw na konsultantow | 2 | Czy odciaza powtarzalna prace? |
-| Wartosc | Wartosc danych | 1 | Czy bot poprawi tagowanie i wiedze o klientach? |
-| Wykonalnosc | Powtarzalnosc procesu | 3 | Czy rozmowy sa podobne? |
-| Wykonalnosc | Jasnosc celu uzytkownika | 2 | Czy intencje sa latwe do rozpoznania? |
-| Wykonalnosc | Dostepnosc danych | 2 | Czy mamy nagrania/transkrypcje? |
-| Wykonalnosc | Dostepnosc API | 3 | Czy systemy wspieraja automatyzacje? |
-| Wykonalnosc | Latwosc testowania | 1 | Czy mozna zbudowac test set i sandbox? |
-| UX | Dopasowanie do glosu | 2 | Czy glos jest wygodnym kanalem? |
-| UX | Niskie obciazenie poznawcze | 2 | Czy uzytkownik nie musi pamietac zbyt wiele? |
+| Wartość | Wolumen | 3 | Czy sprawa występuje często? |
+| Wartość | Koszt kontaktu/AHT | 2 | Czy rozmowy są kosztowne lub długie? |
+| Wartość | Wpływ na SLA/abandonment | 2 | Czy automatyzacja poprawi dostępność? |
+| Wartość | Wpływ na konsultantów | 2 | Czy odciaza powtarzalna prace? |
+| Wartość | Wartość danych | 1 | Czy bot poprawi tagowanie i wiedzę o klientach? |
+| Wykonalność | Powtarzalnosc procesu | 3 | Czy rozmowy są podobne? |
+| Wykonalność | Jasnosc celu użytkownika | 2 | Czy intencje są łatwe do rozpoznania? |
+| Wykonalność | Dostępność danych | 2 | Czy mamy nagrania/transkrypcje? |
+| Wykonalność | Dostępność API | 3 | Czy systemy wspieraja automatyzację? |
+| Wykonalność | Latwosc testowania | 1 | Czy można zbudowac test set i sandbox? |
+| UX | Dopasowanie do głosu | 2 | Czy głos jest wygodnym kanałem? |
+| UX | Niskie obciążenie poznawcze | 2 | Czy użytkownik nie musi pamiętać zbyt wiele? |
 | UX | Emocje | 2 | Czy sprawa zwykle nie jest silnie konfliktowa? |
-| UX | Latwosc handoff | 3 | Czy mozna szybko przejsc do czlowieka? |
-| Ryzyko | Koszt bledu | 3 | Czy blad ma ograniczone skutki? |
-| Ryzyko | Compliance | 3 | Czy ryzyka prawne sa kontrolowalne? |
-| Ryzyko | Dane wrazliwe | 2 | Czy nie przetwarzamy nadmiarowo danych wrazliwych? |
+| UX | Latwosc handoff | 3 | Czy można szybko przejść do człowieka? |
+| Ryzyko | Koszt błędu | 3 | Czy błąd ma ograniczone skutki? |
+| Ryzyko | Compliance | 3 | Czy ryzyka prawne są kontrolowalne? |
+| Ryzyko | Dane wrażliwe | 2 | Czy nie przetwarzamy nadmiarowo danych wrażliwych? |
 | Ryzyko | Zmiennosc procesu | 1 | Czy proces jest stabilny? |
-| Operacje | Wlasciciel biznesowy | 2 | Czy jest osoba decyzyjna? |
-| Operacje | Gotowosc contact center | 2 | Czy operacje sa gotowe na handoff i zmiany? |
+| Operacje | Właściciel biznesowy | 2 | Czy jest osoba decyzyjna? |
+| Operacje | Gotowość contact center | 2 | Czy operacje są gotowe na handoff i zmiany? |
 
-## 9.3. Sposob liczenia
+## 9.3. Sposób liczenia
 
-Dla kazdego kryterium:
+Dla każdego kryterium:
 
 ```text
 wynik_kryterium = ocena 1-5 x waga
@@ -1433,102 +1433,102 @@ Interpretacja:
 
 - 170-215: bardzo dobry kandydat na MVP lub szybki pilot.
 - 135-169: dobry kandydat, wymaga doprecyzowania ryzyk.
-- 100-134: kandydat na pozniejszy etap lub ograniczony pilot.
+- 100-134: kandydat na późniejszy etap lub ograniczony pilot.
 - 70-99: raczej wspierac konsultanta, nie automatyzowac end-to-end.
 - Ponizej 70: nie rekomendowac jako voicebot w obecnym stanie.
 
 ## 9.4. Progi blokujace
 
-Niezaleznie od wyniku punktowego, use case wymaga zatrzymania lub zmiany zakresu, jesli:
+Niezaleznie od wyniku punktowego, use case wymaga zatrzymania lub zmiany zakresu, jeśli:
 
-- brak wlasciciela biznesowego;
-- brak mozliwosci handoff;
+- brak właściciela biznesowego;
+- brak możliwości handoff;
 - wysokie ryzyko prawne bez akceptacji compliance;
-- brak danych i brak mozliwosci pilota;
-- proces wymaga decyzji medycznej/prawnej/finansowej bez czlowieka;
-- brak zgody na monitoring i analize rozmow;
-- brak stabilnego systemu zrodlowego dla danych krytycznych.
+- brak danych i brak możliwości pilota;
+- proces wymaga decyzji medycznej/prawnej/finansowej bez człowieka;
+- brak zgody na monitoring i analizę rozmów;
+- brak stabilnego systemu źródłowego dla danych krytycznych.
 
-## 9.5. Przykladowa ocena
+## 9.5. Przykładowa ocena
 
 | Use case | Wynik | Interpretacja |
 |---|---:|---|
-| Status zamowienia | 186 | Bardzo dobry MVP |
+| Status zamówienia | 186 | Bardzo dobry MVP |
 | Zmiana terminu wizyty | 164 | Dobry kandydat po sprawdzeniu integracji |
-| Reklamacja faktury | 112 | Raczej etap pozniejszy, czesciowa automatyzacja |
+| Reklamacja faktury | 112 | Raczej etap późniejszy, częściowa automatyzacja |
 | Porada medyczna | 58 | Nie automatyzowac end-to-end |
-| Agent assist dla konsultanta reklamacji | 152 | Dobra alternatywa dla pelnego voicebota |
+| Agent assist dla konsultanta reklamacji | 152 | Dobra alternatywa dla pełnego voicebota |
 
 ## 9.6. Jak przedstawic rekomendacje
 
-Dobra rekomendacja dla sponsora powinna miec strukture:
+Dobra rekomendacja dla sponsora powinna mieć strukture:
 
 1. Rekomendowany use case.
 2. Dlaczego ten.
 3. Co jest poza zakresem.
-4. Jakie sa wymagane integracje.
-5. Jakie sa ryzyka.
+4. Jakie są wymagane integracje.
+5. Jakie są ryzyka.
 6. Jak mierzymy sukces.
 7. Co robimy w pilocie.
 8. Co zostawiamy na roadmapie.
 
-Przyklad:
+Przykład:
 
-"Rekomendujemy MVP dla statusu zamowienia i zmiany adresu przed wysylka. Use case ma wysoki wolumen, powtarzalny przebieg, dostepne API i niski koszt bledu przy potwierdzeniu SMS. Poza zakresem MVP zostaja reklamacje i anulowania po wysylce. Sukces mierzymy przez task completion, repeat contact, fallback rate, handoff quality i CSAT."
+"Rekomendujemy MVP dla statusu zamówienia i zmiany adresu przed wysyłka. Use case ma wysoki wolumen, powtarzalny przebieg, dostępne API i niski koszt błędu przy potwierdzeniu SMS. Poza zakresem MVP zostają reklamację i anulowania po wysylce. Sukces mierzymy przez task completion, repeat contact, fallback rate, handoff quality i CSAT."
 
 ## 9.7. Checklista matrycy
 
 - Czy oceniono wszystkie kandydaty ta sama metoda?
-- Czy sa dane, czy tylko opinie?
+- Czy są dane, czy tylko opinie?
 - Czy uwzgledniono ryzyko UX?
 - Czy uwzgledniono compliance?
-- Czy sa progi blokujace?
+- Czy są progi blokujace?
 - Czy wynik pokazano razem z uzasadnieniem?
 - Czy rekomendacja zawiera out of scope?
 - Czy jest plan pilota?
 
-## 9.8. Cwiczenia
+## 9.8. Ćwiczenia
 
-1. Ocen trzy use case'y pelna matryca.
-2. Wskaz progi blokujace.
+1. Ocen trzy use case'y pełna matryca.
+2. Wskaż progi blokujace.
 3. Przygotuj rekomendacje dla sponsora.
 4. Zaproponuj alternatywe dla use case'u z niskim wynikiem.
 
 ## 9.9. Podsumowanie
 
-Matryca nie podejmuje decyzji za zespol. Pomaga prowadzic rozmowe na podstawie kryteriow, a nie glosnosci interesariuszy. Najlepsza decyzja laczy wartosc, wykonalnosc, UX, ryzyko i gotowosc operacyjna.
+Matryca nie podejmuje decyzji za zespół. Pomaga prowadzić rozmowę na podstawie kryteriów, a nie głośności interesariuszy. Najlepsza decyzja łączy wartość, wykonalność, UX, ryzyko i gotowość operacyjną.
 
 ---
 
-# 10. Zbiorcza checklista po Czesci IV
+# 10. Zbiorcza checklista po Części IV
 
-- Czy znasz glowne powody kontaktu?
+- Czy znasz główne powody kontaktu?
 - Czy masz dane baseline: wolumen, AHT, FCR, repeat contact, CSAT?
 - Czy analizowales nagrania lub transkrypcje?
 - Czy rozmawiales z konsultantami?
-- Czy wybrany use case ma jasny cel uzytkownika?
+- Czy wybrany use case ma jasny cel użytkownika?
 - Czy proces jest powtarzalny?
-- Czy kanal glosowy jest dobrym wyborem?
-- Czy potrzebne integracje sa dostepne?
-- Czy koszt bledu jest kontrolowalny?
-- Czy handoff jest mozliwy?
-- Czy business case uwzglednia koszty utrzymania?
-- Czy ROI uwzglednia repeat contact?
+- Czy kanał głosowy jest dobrym wyborem?
+- Czy potrzebne integracje są dostępne?
+- Czy koszt błędu jest kontrolowalny?
+- Czy handoff jest możliwy?
+- Czy business case uwzględnia koszty utrzymania?
+- Czy ROI uwzględnia repeat contact?
 - Czy brief zawiera out of scope?
-- Czy wymagania sa testowalne?
+- Czy wymagania są testowalne?
 - Czy MVP ma jasne kryteria go/no-go?
 - Czy use case przeszedl matryce oceny?
 
 ---
 
-# 11. Co bedzie w kolejnej czesci
+# 11. Co będzie w kolejnej części
 
-Kolejna czesc powinna opracowac **Czesc V. Projektowanie dialogow i scenariuszy**:
+Kolejna część powinna opracowac **Część V. Projektowanie dialogów i scenariuszy**:
 
 1. Intencje, encje, sloty i konteksty.
 2. Flow, happy path, unhappy paths, fallback path i escalation path.
 3. Repair strategies i confirmation strategies.
 4. Disambiguation, multi-intent handling i interruptions.
-5. Dialogi transakcyjne, informacyjne, sprzedazowe, windykacyjne, medyczne/rezerwacyjne i ankietowe.
-6. Przyklady dobrych i zlych dialogow z analiza.
+5. Dialogi transakcyjne, informacyjne, sprzedażowe, windykacyjne, medyczne/rezerwacyjne i ankietowe.
+6. Przykłady dobrych i złych dialogów z analiza.
 

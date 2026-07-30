@@ -1,24 +1,24 @@
 # Voicebot Specialist Handbook
 
-## Bibliografia, zrodla i mapa wykorzystania
+## Bibliografia, źródła i mapa wykorzystania
 
 Wersja robocza: 2026-07-29
 
 ---
 
-# 1. Zasada uczciwosci zrodlowej
+# 1. Zasada uczciwosci źródłowej
 
-Podrecznik laczy trzy warstwy:
+Podręcznik łączy trzy warstwy:
 
-1. Wiedza bezposrednio wsparta zrodlami naukowymi, dokumentacyjnymi i technicznymi.
-2. Synteza ekspercka, czyli laczenie wielu zrodel w praktyczne modele, checklisty i procesy.
-3. Uzupelnienia praktyczne wynikajace z doswiadczenia wdrozeniowego, szczegolnie w obszarach briefow, ROI, dokumentacji, QA, metryk, operating model i szablonow.
+1. Wiedza bezpośrednio wsparta źródłami naukowymi, dokumentacyjnymi i technicznymi.
+2. Synteza ekspercka, czyli łączenie wielu źródeł w praktyczne modele, checklisty i procesy.
+3. Uzupełnienia praktyczne wynikające z doświadczenia wdrożeniowego, szczególnie w obszarach briefów, ROI, dokumentacji, QA, metryk, operating model i szablonów.
 
-Checklisty, matryce i szablony sa w duzej czesci autorska synteza ekspercka. Nie nalezy ich traktowac jako cytatu z jednego zrodla, lecz jako praktyczne narzedzia zbudowane na podstawie literatury, dokumentacji platform i standardow wdrozen enterprise.
+Checklisty, matryce i szablony są w dużej części autorską synteza ekspercka. Nie należy ich traktować jako cytatu z jednego źródła, lecz jako praktyczne narzędzia zbudowane na podstawie literatury, dokumentacji platform i standardów wdrożeń enterprise.
 
 ---
 
-# 2. Zrodla naukowe i badawcze
+# 2. Źródła naukowe i badawcze
 
 ## Rozmowa, turn-taking, przerwania, interakcja
 
@@ -38,15 +38,15 @@ Checklisty, matryce i szablony sa w duzej czesci autorska synteza ekspercka. Nie
 - MDPI, review recent advances in turn-taking modelling in conversational systems: https://www.mdpi.com/2227-7080/13/12/591
 - CHI/Paper Guild, LLM-powered voice agents supporting interruptions and backchannels with older adults: https://pgl.jp/papers/10.1145/3706598.3714228
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 1: mapa wiedzy i barge-in.
-- Czesc 4: conversation design i turn-taking.
-- Czesc 10: QA barge-in/turn-taking.
-- Czesc 14: etyka i dostepnosc.
-- Czesc 19: psychologia rozmowy.
+- Część 1: mapa wiedzy i barge-in.
+- Część 4: conversation design i turn-taking.
+- Część 10: QA barge-in/turn-taking.
+- Część 14: etyka i dostępność.
+- Część 19: psychologia rozmowy.
 
-## Odbior uzytkownika, UX, zaufanie i ocena systemow mowy
+## Odbiór użytkownika, UX, zaufanie i ocena systemów mowy
 
 - Cambridge Core, SASSI - Subjective Assessment of Speech System Interfaces: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/29E49E8449B9E96CDEE2581D0000BA98/S1351324900002497a.pdf/towards-a-tool-for-the-subjective-assessment-of-speech-system-interfaces-sassi.pdf
 - CMU summary, PARADISE framework for evaluating spoken dialogue agents: https://www.cs.cmu.edu/~aliceo/dialogdiscussions.html
@@ -60,20 +60,20 @@ Najmocniej wspierane czesci:
 
 Charakter:
 
-- Zrodla badawcze i metodyczne.
-- Wspieraja rozdzialy o badaniu odbioru, satysfakcji, wysilku uzytkownika, zaufaniu, transparentnosci i akceptacji voicebotow.
-- Sa szczegolnie wazne przy przejsciu od metryk technicznych do oceny "czy rozmowa byla dobra dla czlowieka".
+- Źródła badawcze i metodyczne.
+- Wspierają rozdziały o badaniu odbioru, satysfakcji, wysiłku użytkownika, zaufaniu, transparentności i akceptacji voicebotów.
+- Są szczególnie ważne przy przejśćiu od metryk technicznych do oceny "czy rozmową była dobra dla człowieka".
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 10: testy z uzytkownikami i badanie odbioru.
-- Czesc 11: metryki odbioru, wysilku, zaufania i satysfakcji.
-- Czesc 14: transparentnosc, etyka i dostepnosc.
-- Czesc 19: psychologia rozmowy z voicebotem.
+- Część 10: testy z użytkownikami i badanie odbioru.
+- Część 11: metryki odbioru, wysiłku, zaufania i satysfakcji.
+- Część 14: transparentność, etyka i dostępność.
+- Część 19: psychologia rozmowy z voicebotem.
 
 ---
 
-# 3. Zrodla branzowe o barge-in i interruption handling
+# 3. Źródła branżowe o barge-in i interruption handling
 
 - RunEdge, barge-in interruption handling on-device voice: https://www.runedge.ai/blog/barge-in-interruption-handling-on-device-voice
 - Telli, what is barge-in: https://www.telli.com/ai-voice-agents/article/what-is-barge-in
@@ -87,16 +87,16 @@ Najmocniej wspierane czesci:
 
 Charakter:
 
-- Zrodla produktowe/branzowe.
-- Uzywane pomocniczo do praktycznego jezyka, listy problemow, metryk barge-in i testow.
-- Nie powinny byc traktowane jako glowny fundament naukowy.
+- Źródła produktowe/branżowe.
+- Używane pomocniczo do praktycznego języka, listy problemow, metryk barge-in i testów.
+- Nie powinny być traktowane jako główny fundament naukowy.
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 1: barge-in.
-- Czesc 4: przerwania w dialogu.
-- Czesc 10: QA barge-in.
-- Czesc 11: metryki przerwan.
+- Część 1: barge-in.
+- Część 4: przerwania w dialogu.
+- Część 10: QA barge-in.
+- Część 11: metryki przerwań.
 
 ---
 
@@ -111,16 +111,16 @@ Najmocniej wspierane czesci:
 
 Charakter:
 
-- Zrodla techniczne/dokumentacyjne.
-- Wspieraja rozdzialy o architekturze, realtime, turn detection, interruption handling, LLM voice agents, latency i observability.
+- Źródła techniczne/dokumentacyjne.
+- Wspierają rozdziały o architekturze, realtime, turn detection, interruption handling, LLM voice agents, latency i observability.
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 1: barge-in i turn-taking.
-- Czesc 3: architektura voicebota.
-- Czesc 8: LLM/RAG/realtime voice.
-- Czesc 10: QA realtime i barge-in.
-- Czesc 11: metryki techniczne.
+- Część 1: barge-in i turn-taking.
+- Część 3: architektura voicebota.
+- Część 8: LLM/RAG/realtime voice.
+- Część 10: QA realtime i barge-in.
+- Część 11: metryki techniczne.
 
 ---
 
@@ -142,16 +142,16 @@ Najmocniej wspierane czesci:
 Charakter:
 
 - Dokumentacja techniczna i produktowa platform.
-- Szczegolnie wazna dla konfiguracji speech, barge-in, slotow, timeoutow, dialogow i contact center.
+- Szczególnie ważna dla konfiguracji speech, barge-in, slotów, timeoutow, dialogów i contact center.
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 2: fundamenty i historia IVR/VoiceXML.
-- Czesc 3: architektura.
-- Czesc 4: conversation design.
-- Czesc 9: integracje.
-- Czesc 10: QA.
-- Czesc 12: wdrozenie w organizacji.
+- Część 2: fundamenty i historia IVR/VoiceXML.
+- Część 3: architektura.
+- Część 4: conversation design.
+- Część 9: integracje.
+- Część 10: QA.
+- Część 12: wdrożenie w organizacji.
 
 ---
 
@@ -161,18 +161,18 @@ Najmocniej wspierane czesci:
 
 Charakter:
 
-- Zrodlo techniczne/modelowe.
-- Uzywane jako przyklad kierunku technicznego: klasyfikacja przerwan i rozroznianie prawdziwych/falszywych barge-in.
+- Źródło techniczne/modelowe.
+- Używane jako przykład kierunku technicznego: klasyfikacja przerwań i rozróżnianie prawdziwych/fałszywych barge-in.
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 1: barge-in.
-- Czesc 7: dane i jakosc rozumienia.
-- Czesc 10: QA przerwan.
+- Część 1: barge-in.
+- Część 7: dane i jakość rozumienia.
+- Część 10: QA przerwań.
 
 ---
 
-# 7. Prawo, prywatnosc i AI governance - zrodla oficjalne dodatkowo zweryfikowane
+# 7. Prawo, prywatność i AI governance - źródła oficjalne dodatkowo zweryfikowane
 
 - Regulation (EU) 2016/679, GDPR/RODO, EUR-Lex: https://eur-lex.europa.eu/eli/reg/2016/679/oj
 - European Commission, EU data protection legal framework: https://commission.europa.eu/law/law-topic/data-protection/legal-framework-eu-data-protection_en
@@ -188,59 +188,59 @@ Najmocniej wspierane czesci:
 
 Charakter:
 
-- Oficjalne zrodla prawne i regulacyjne.
-- Wykorzystane przede wszystkim w czesci o privacy, security, compliance, odpowiedzialnym AI, governance i dostepnosci poznawczej.
+- Oficjalne źródła prawne i regulacyjne.
+- Wykorzystane przede wszystkim w części o privacy, security, compliance, odpowiedzialnym AI, governance i dostępności poznawczej.
 
-Najmocniej wspierane czesci:
+Najmocniej wspierane części:
 
-- Czesc 13: Bezpieczenstwo, prywatnosc, prawo i compliance.
-- Czesc 14: Etyka, dostepnosc i odpowiedzialne projektowanie.
-- Czesc 18: Certyfikacja.
+- Część 13: Bezpieczeństwo, prywatność, prawo i compliance.
+- Część 14: Etyka, dostępność i odpowiedzialne projektowanie.
+- Część 18: Certyfikacja.
 
 ---
 
-# 8. Mapa czesci podrecznika do zrodel
+# 8. Mapa części podręcznika do źródeł
 
-| Plik | Czesc | Glowne zrodla |
+| Plik | Część | Główne źródła |
 |---|---|---|
-| czesc_1 | Mapa wiedzy, spis tresci, barge-in | Zrodla A, B, C, D, E |
+| czesc_1 | Mapa wiedzy, spis treści, barge-in | Źródła A, B, C, D, E |
 | czesc_2 | Fundamenty | VoiceXML, platformy enterprise, LiveKit/OpenAI |
 | czesc_3 | Architektura | LiveKit, OpenAI Realtime, Dialogflow, AWS, Lex, VoiceXML |
 | czesc_4 | Conversation design | Skantze, VoiceXML, LiveKit, platformy enterprise |
 | czesc_5 | Analiza biznesowa/use case | Synteza ekspercka + dokumentacje enterprise |
 | czesc_6 | Dialogi i scenariusze | VoiceXML, Dialogflow, Lex, synteza ekspercka |
-| czesc_7 | Dane/trening/jakosc | Dialogflow/Lex, ASR/NLU praktyki, synteza ekspercka |
+| czesc_7 | Dane/trening/jakość | Dialogflow/Lex, ASR/NLU praktyki, synteza ekspercka |
 | czesc_8 | LLM/RAG | OpenAI Realtime, LiveKit, synteza ekspercka LLM/RAG |
 | czesc_9 | Integracje | AWS/Google/OpenAI, synteza enterprise API |
-| czesc_10 | QA | VoiceXML, LiveKit, OpenAI, platformy enterprise, zrodla barge-in |
-| czesc_11 | Metryki/analityka | Dokumentacje zdarzen + synteza ekspercka contact center |
-| czesc_12 | Wdrozenie | Synteza ekspercka enterprise delivery |
+| czesc_10 | QA | VoiceXML, LiveKit, OpenAI, platformy enterprise, źródła barge-in |
+| czesc_11 | Metryki/analityka | Dokumentacje zdarzeń + synteza ekspercka contact center |
+| czesc_12 | Wdrożenie | Synteza ekspercka enterprise delivery |
 | czesc_13 | Prawo/compliance | GDPR, EDPB, AI Act, synteza privacy/security |
-| czesc_14 | Etyka/dostepnosc | EDPB, AI Act, badania interakcji, synteza UX |
+| czesc_14 | Etyka/dostępność | EDPB, AI Act, badania interakcji, synteza UX |
 | czesc_15 | Rola zawodowa | Synteza ekspercka |
 | czesc_16 | Szablony | Synteza ekspercka |
-| czesc_17 | Case studies | Synteza ekspercka + wnioski z poprzednich czesci |
+| czesc_17 | Case studies | Synteza ekspercka + wnioski z poprzednich części |
 | czesc_18 | Certyfikacja | Synteza ekspercka programu kompetencji |
-| czesc_19 | Psychologia | Zrodla interakcji, turn-taking, przerwania + synteza psychologiczna UX |
+| czesc_19 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
 
 ---
 
-# 9. Obszary wymagajace szczegolnej weryfikacji przed publikacja komercyjna
+# 9. Obszary wymagające szczególnej weryfikacji przed publikacją komercyjną
 
-Przed traktowaniem podrecznika jako finalnego materialu akademickiego lub certyfikacyjnego warto wykonac:
+Przed traktowaniem podręcznika jako finalnego materiału akademickiego lub certyfikacyjnego warto wykonać:
 
-1. Review prawne czesci XII-XIII przez prawnika/DPO.
-2. Review techniczne czesci architektonicznych przez solution architecta voice/contact center.
+1. Review prawne części XII-XIII przez prawnika/DPO.
+2. Review techniczne części architektonicznych przez solution architecta voice/contact center.
 3. Review ASR/NLU/LLM przez AI engineer lub ML specialist.
-4. Review accessibility przez eksperta dostepnosci.
-5. Review case studies przez ekspertow branzowych.
-6. Dodanie przypisow per rozdzial, jesli material ma miec standard akademicki.
+4. Review accessibility przez eksperta dostępności.
+5. Review case studies przez ekspertów branżowych.
+6. Dodanie przypisów per rozdział, jeśli materiał ma mieć standard akademicki.
 7. Ujednolicenie terminologii polskiej i angielskiej.
-8. Decyzje, czy zachowac ASCII czy przejsc na pelne polskie znaki.
+8. Decyzja, czy zachować ASCII czy przejść na pełne polskie znaki.
 
 ---
 
 # 10. Koniec bibliografii
 
-Ten plik zbiera linki przekazane w briefie oraz dodatkowe oficjalne zrodla prawne zweryfikowane podczas pracy nad czescia compliance.
+Ten plik zbiera linki przekazane w briefie oraz dodatkowe oficjalne źródła prawne zweryfikowane podczas pracy nad częścią compliance.
 

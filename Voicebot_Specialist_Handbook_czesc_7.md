@@ -1,9 +1,9 @@
 # Voicebot Specialist Handbook
 
-## Czesc 7: Dane, trening i jakosc rozumienia
+## Część 7: Dane, trening i jakość rozumienia
 
 Wersja robocza: 2026-07-29  
-Kontynuacja plikow:
+Kontynuacja plików:
 
 - `Voicebot_Specialist_Handbook_czesc_1.md`
 - `Voicebot_Specialist_Handbook_czesc_2.md`
@@ -14,66 +14,66 @@ Kontynuacja plikow:
 
 ---
 
-# Czesc VI. Dane, trening i jakosc rozumienia
+# Część VI. Dane, trening i jakość rozumienia
 
-## Cel calej czesci
+## Cel całej części
 
-Voicebot nie rozumie uzytkownikow dlatego, ze zespol wpisal ladne intencje do dokumentu. Rozumie ich wtedy, gdy ma dobrze zebrane, opisane, przetestowane i stale aktualizowane dane. Dane w voicebotach sa trudniejsze niz w chatbotach, bo mowa przechodzi przez ASR, zawiera pauzy, powtorzenia, poprawki, urwane zdania, emocje, akcenty, szum i bledy transkrypcji.
+Voicebot nie rozumie użytkowników dlatego, że zespół wpisal ladne intencje do dokumentu. Rozumie ich wtedy, gdy ma dobrze zebrane, opisane, przetestowane i stałe aktualizowane dane. Dane w voicebotach są trudniejsze niż w chatbotach, bo mowa przechodzi przez ASR, zawiera pauzy, powtórzenia, poprawki, urwane zdania, emocje, akcenty, szum i błędy transkrypcji.
 
-Ta czesc pokazuje, jak budowac i utrzymywac jakosc rozumienia w voicebocie.
+Ta część pokazuje, jak budowac i utrzymywać jakość rozumienia w voicebocie.
 
-Po tej czesci czytelnik powinien umiec:
+Po tej części czytelnik powinien umieć:
 
-1. Zbierac i przygotowywac dane z rozmow.
-2. Pracowac z transkrypcjami i nagraniami.
-3. Projektowac dane treningowe dla intencji i encji.
-4. Tworzyc slowniki, synonimy i dane syntetyczne.
-5. Rozpoznawac bledy etykietowania.
-6. Analizowac jakosc ASR i jej wplyw na NLU.
-7. Testowac NLU przy pomocy confusion matrix, precision, recall i F1.
-8. Prowadzic continuous training i analize nierozpoznanych wypowiedzi.
+1. Zbierac i przygotowywac dane z rozmów.
+2. Pracować z transkrypcjami i nagraniami.
+3. Projektować dane treningowe dla intencji i encji.
+4. Tworzyć słowniki, synonimy i dane syntetyczne.
+5. Rozpoznawać błędy etykietowania.
+6. Analizowac jakość ASR i jej wpływ na NLU.
+7. Testować NLU przy pomocy confusion matrix, precision, recall i F1.
+8. Prowadzić continuous training i analizę nierozpoznanych wypowiedzi.
 
-Zrodla wspierajace czesc:
+Źródła wspierające część:
 
 - Dokumentacje Google Dialogflow CX i Amazon Lex: intencje, parametry, sloty, confidence, no-match, speech settings.
-- Dokumentacje LiveKit i OpenAI Realtime: streaming ASR, partials, turn detection, interruption handling i logi rozmow realtime.
-- Zrodla naukowe o turn-taking i przerwaniach: uzasadnienie, dlaczego dane glosowe musza obejmowac overlap, pauzy, barge-in i false interruptions.
-- Uzupelnienie eksperckie: praktyki data labeling, test set design, confusion analysis, continuous improvement i governance danych.
+- Dokumentacje LiveKit i OpenAI Realtime: streaming ASR, partials, turn detection, interruption handling i logi rozmów realtime.
+- Źródła naukowe o turn-taking i przerwaniach: uzasadnienie, dlaczego dane głosowe muszą obejmować overlap, pauzy, barge-in i false interruptions.
+- Uzupełnienie eksperckie: praktyki data labeling, test set design, confusion analysis, continuous improvement i governance danych.
 
 ---
 
-# Rozdzial 1. Zbieranie danych i transkrypcje rozmow
+# Rozdział 1. Zbieranie danych i transkrypcje rozmów
 
-## 1.1. Cele rozdzialu
+## 1.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, jakie dane sa potrzebne do projektowania i trenowania voicebota;
-- odrozniac nagrania, transkrypcje, logi i metadane;
-- oceniac jakosc danych z contact center;
-- przygotowac dane zgodnie z prywatnoscia i compliance.
+- rozumieć, jakie dane są potrzebne do projektowania i trenowania voicebota;
+- odróżniać nagrania, transkrypcje, logi i metadane;
+- oceniać jakość danych z contact center;
+- przygotować dane zgodnie z prywatnoscia i compliance.
 
-## 1.2. Kluczowe pojecia
+## 1.2. Kluczowe pojęcia
 
-| Pojecie | Definicja praktyczna |
+| Pojęcie | Definicja praktyczna |
 |---|---|
-| Nagranie | Audio rozmowy, zwykle najblizsze realnemu doswiadczeniu uzytkownika |
-| Transkrypcja | Tekstowy zapis rozmowy, automatyczny lub manualny |
-| Log dialogowy | Zapis zdarzen systemu: intencje, sloty, fallbacki, handoff, API |
-| Metadane | Dane opisujace rozmowe, np. kolejka, data, AHT, wynik, segment klienta |
-| Redakcja danych | Usuwanie lub maskowanie danych osobowych/wrazliwych |
-| Sampling | Dobor probki rozmow do analizy |
+| Nagranie | Audio rozmowy, zwykle najblizsze realnemu doświadczeniu użytkownika |
+| Transkrypcją | Tekstowy zapis rozmowy, automatyczny lub manualny |
+| Log dialogowy | Zapis zdarzeń systemu: intencje, sloty, fallbacki, handoff, API |
+| Metadane | Dane opisujace rozmowę, np. kolejka, data, AHT, wynik, segment klienta |
+| Redakcja danych | Usuwanie lub maskowanie danych osobowych/wrażliwych |
+| Sampling | Dobor probki rozmów do analizy |
 | Annotation | Oznaczanie fragmentow danych etykietami |
 
-## 1.3. Wyjasnienie eksperckie
+## 1.3. Wyjaśnienie eksperckie
 
-Najlepsze dane do voicebota pochodza z realnych rozmow. Raporty contact center pokazuja wolumeny, ale nie pokazuja jezyka uzytkownikow. Konsultanci moga opisac typowe sprawy, ale nie zawsze pamietaja wszystkie warianty. Dopiero nagrania i transkrypcje pokazuja, jak ludzie naprawde mowia:
+Najlepsze dane do voicebota pochodza z realnych rozmów. Raporty contact center pokazują wolumeny, ale nie pokazują języka użytkowników. Konsultanci mogą opisać typowe sprawy, ale nie zawsze pamiętają wszystkie warianty. Dopiero nagrania i transkrypcje pokazują, jak ludzie naprawde mówią:
 
 - chaotycznie;
 - z przerwami;
-- niepelnych zdaniach;
-- potocznym jezykiem;
-- ze skrotami;
+- niepełnych zdaniach;
+- potocznym językiem;
+- że skrótami;
 - z emocjami;
 - w wielu intencjach naraz;
 - z poprawkami;
@@ -81,194 +81,194 @@ Najlepsze dane do voicebota pochodza z realnych rozmow. Raporty contact center p
 
 Minimalny pakiet danych do projektu:
 
-1. Nagrania rozmow.
+1. Nagrania rozmów.
 2. Transkrypcje.
 3. Powod kontaktu lub wrap-up code.
 4. Wynik rozmowy.
 5. AHT.
 6. Transfer/handoff.
-7. Repeat contact, jesli dostepny.
-8. Segment klienta, jesli istotny i zgodny z polityka danych.
+7. Repeat contact, jeśli dostępny.
+8. Segment klienta, jeśli istotny i zgodny z polityka danych.
 9. Informacja o zgodach i retencji.
 
 Uwaga praktyczna:
 
-Jesli nie masz transkrypcji, zacznij od probki nagran. Nie projektuj intencji tylko z glow menedzerow i nazw kolejek. To prosta droga do bota, ktory rozumie organizacje, ale nie rozumie klientow.
+Jeśli nie masz transkrypcji, zacznij od probki nagrań. Nie projektuj intencji tylko z glow menedzerow i nazw kolejek. To prosta droga do bota, który rozumie organizacje, ale nie rozumie klientów.
 
 ## 1.4. Perspektywa biznesowa
 
-Dane odpowiadaja na pytania:
+Dane odpowiadają na pytania:
 
-- ktore use case'y maja najwiekszy wolumen;
+- które use case'y mają największy wolumen;
 - jak ludzie formuluja potrzeby;
-- jakie sa najczestsze wyjatki;
+- jakie są najczestsze wyjatki;
 - gdzie konsultant traci czas;
-- gdzie uzytkownik sie frustruje;
-- ktore sprawy powinny isc do czlowieka;
-- jakie sa luki w procesie.
+- gdzie użytkownik się frustruje;
+- które sprawy powinny isc do człowieka;
+- jakie są luki w procesie.
 
-Bez danych biznes nie ma baseline. Bez baseline nie da sie uczciwie powiedziec, czy voicebot poprawil proces.
+Bez danych biznes nie ma baseline. Bez baseline nie da się uczciwie powiedzieć, czy voicebot poprawil proces.
 
-## 1.5. Perspektywa uzytkownika
+## 1.5. Perspektywa użytkownika
 
-Uzytkownik nie mowi tak, jak firma nazywa procesy. Firma mowi "dyspozycja zmiany harmonogramu dostawy". Uzytkownik mowi:
+Użytkownik nie mówi tak, jak firma nazywa procesy. Firma mówi "dyspozycja zmiany harmonogramu dostawy". Użytkownik mówi:
 
-- "nie bedzie mnie jutro";
-- "kurier ma przyjechac w zly dzien";
-- "przelozcie paczke";
-- "chce inna godzine";
+- "nie będzie mnie jutro";
+- "kurier ma przyjechać w zły dzien";
+- "przelozcie paczkę";
+- "chce inna godzinę";
 - "nie dam rady odebrac".
 
-Analiza danych pomaga projektowac pod jezyk uzytkownika, nie pod jezyk regulaminu.
+Analiza danych pomaga projektować pod język użytkownika, nie pod język regulaminu.
 
 ## 1.6. Perspektywa technologiczna
 
-Dane musza byc przygotowane technicznie:
+Dane muszą być przygotowane technicznie:
 
 - format audio;
-- jakosc nagran;
-- rozdzielenie kanalow, jesli dostepne;
-- diarization, czyli kto mowi;
+- jakość nagrań;
+- rozdzielenie kanałów, jeśli dostępne;
+- diarization, czyli kto mówi;
 - timestampy;
 - anonimizacja;
 - eksport transkrypcji;
 - powiazanie transkrypcji z metadanymi;
 - identyfikator rozmowy;
-- wersja modelu lub systemu, jesli dane sa z produkcyjnego bota.
+- wersja modelu lub systemu, jeśli dane są z produkcyjnego bota.
 
 ## 1.7. Dobre praktyki
 
-- Zbieraj probke z roznych dni, godzin, kolejek i segmentow.
-- Nie opieraj sie tylko na najlepszych lub najczystszych rozmowach.
-- Uwzglednij rozmowy zakonczone sukcesem i porazka.
-- Zachowaj zwiazek miedzy transkrypcja, audio i wynikiem.
+- Zbieraj probke z różnych dni, godzin, kolejek i segmentow.
+- Nie opieraj się tylko na najlepszych lub najczystszych rozmowąch.
+- Uwzglednij rozmowy zakonczone sukcesem i porażka.
+- Zachowaj związek między transkrypcją, audio i wynikiem.
 - Maskuj dane osobowe przed szeroka analiza.
 - Zapisuj, skad pochodza dane i z jakiego okresu.
-- Oddziel dane do treningu, walidacji i testow.
+- Oddziel dane do treningu, walidacji i testów.
 
-## 1.8. Typowe bledy
+## 1.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Projektowanie na podstawie 20 recznie wybranych rozmow | Dane sa niereprezentatywne |
-| Brak nagran, tylko wrap-up codes | Brak realnego jezyka klientow |
-| Pomieszanie danych treningowych i testowych | Wyniki testow sa sztucznie wysokie |
-| Brak anonimizacji | Ryzyko prywatnosci |
-| Brak danych o wyniku rozmowy | Nie wiadomo, ktore frazy prowadza do sukcesu |
-| Brak timestampow | Trudno analizowac przerwania i timing |
+| Projektowanie na podstawie 20 ręcznie wybranych rozmów | Dane są niereprezentatywne |
+| Brak nagrań, tylko wrap-up codes | Brak realnego języka klientów |
+| Pomieszanie danych treningowych i testowych | Wyniki testów są sztucznie wysokie |
+| Brak anonimizacji | Ryzyko prywatności |
+| Brak danych o wyniku rozmowy | Nie wiadomo, które frazy prowadza do sukcesu |
+| Brak timestampow | Trudno analizować przerwania i timing |
 
 ## 1.9. Checklista danych startowych
 
 - Czy mamy nagrania?
 - Czy mamy transkrypcje?
-- Czy mamy metadane rozmow?
+- Czy mamy metadane rozmów?
 - Czy znamy wynik rozmowy?
 - Czy mamy dane o transferach i repeat contact?
-- Czy dane sa z reprezentatywnego okresu?
-- Czy dane sa zgodne z polityka prywatnosci?
-- Czy dane osobowe sa maskowane?
+- Czy dane są z reprezentatywnego okresu?
+- Czy dane są zgodne z polityka prywatności?
+- Czy dane osobowe są maskowane?
 - Czy mamy podzial train/validation/test?
-- Czy mozemy wrocic z transkrypcji do audio przy analizie bledow?
+- Czy możemy wrócić z transkrypcji do audio przy analizie błędów?
 
 ## 1.10. Mini case study
 
-Firma kurierska chciala trenowac intencje na podstawie kategorii z CRM. Kategoria "dostawa" obejmowala status, zmiane adresu, zmiane terminu, skarge na kuriera i pytania o odbior osobisty. Po analizie 500 transkrypcji zespół rozbil temat na cele uzytkownika. Model intencji stal sie stabilniejszy, a flow przestalo wrzucac wszystkie sprawy do jednego worka.
+Firma kurierska chciała trenowac intencje na podstawie kategorii z CRM. Kategoria "dostawa" obejmowala status, zmianę adresu, zmianę terminu, skargę na kuriera i pytania o odbiór osobisty. Po analizie 500 transkrypcji zespół rozbił temat na cele użytkownika. Model intencji stał się stabilniejszy, a flow przestało wrzucać wszystkie sprawy do jednego worka.
 
-## 1.11. Cwiczenia
+## 1.11. Ćwiczenia
 
-1. Zaprojektuj plan probkowania 1000 rozmow z contact center.
-2. Wypisz metadane, ktore chcesz miec przy kazdej rozmowie.
+1. Zaprojektuj plan probkowania 1000 rozmów z contact center.
+2. Wypisz metadane, które chcesz mieć przy każdej rozmowie.
 3. Opisz, jak zamaskujesz dane osobowe.
-4. Wskaz, jakie rozmowy musza wejsc do probki, aby nie byla zbyt "ladna".
+4. Wskaż, jakie rozmowy muszą wejść do probki, aby nie była zbyt "ladna".
 
 ## 1.12. Podsumowanie
 
-Jakosc voicebota zaczyna sie od jakosci danych. Dobre dane sa reprezentatywne, powiazane z wynikiem rozmowy, bezpiecznie przetworzone i zachowuja kontakt z realnym audio. Bez tego projektowanie rozumienia jest zgadywaniem.
+Jakość voicebota zaczyna się od jakości danych. Dobre dane są reprezentatywne, powiązane z wynikiem rozmowy, bezpiecznie przetworzone i zachowuja kontakt z realnym audio. Bez tego projektowanie rozumienia jest zgadywaniem.
 
 ---
 
-# Rozdzial 2. Dane treningowe, frazy uzytkownikow i klasy intencji
+# Rozdział 2. Dane treningowe, frazy użytkowników i klasy intencji
 
-## 2.1. Cele rozdzialu
+## 2.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
 - budowac zestawy fraz treningowych;
-- odrozniac frazy realne od sztucznych;
-- projektowac klasy intencji;
-- unikac nierownowagi i zbyt podobnych intencji.
+- odróżniać frazy realne od sztucznych;
+- projektować klasy intencji;
+- unikać nierownowagi i zbyt podobnych intencji.
 
-## 2.2. Kluczowe pojecia
+## 2.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Training utterance | Fraza uzytkownika uzywana do trenowania lub konfiguracji rozpoznawania intencji |
-| Intent class | Klasa intencji, do ktorej przypisuje sie wypowiedzi |
+| Training utterance | Fraza użytkownika używana do trenowania lub konfiguracji rozpoznawania intencji |
+| Intent class | Klasa intencji, do której przypisuje się wypowiedzi |
 | Positive example | Fraza nalezaca do intencji |
-| Negative example | Fraza nienalezaca do intencji, ale podobna lub ryzykowna |
-| Class imbalance | Nierowna liczba przykladow miedzy klasami |
-| Ambiguous utterance | Wypowiedz mozliwa do przypisania do wiecej niz jednej intencji |
+| Negative example | Fraza nienalezaca do intencji, ale podobną lub ryzykowna |
+| Class imbalance | Nierowna liczba przykładów między klasami |
+| Ambiguous utterance | Wypowiedź możliwa do przypisania do więcej niż jednej intencji |
 
-## 2.3. Wyjasnienie eksperckie
+## 2.3. Wyjaśnienie eksperckie
 
-Dane treningowe powinny odzwierciedlac realny sposob mowienia. Dla intencji `sprawdz_status_zamowienia` przyklady moga wygladac tak:
+Dane treningowe powinny odzwierciedlać realny sposób mówienia. Dla intencji `sprawdz_status_zamowienia` przykłady mogą wyglądac tak:
 
-- "gdzie jest moje zamowienie";
+- "gdzie jest moje zamówienie";
 - "co z moja paczka";
-- "kiedy bedzie dostawa";
-- "czy zamowienie juz wyszlo";
+- "kiedy będzie dostawa";
+- "czy zamówienie już wyszlo";
 - "nie dostalem paczki";
-- "kurier mial byc wczoraj";
-- "chce sprawdzic status";
-- "mam numer zamowienia i chce wiedziec, gdzie jest".
+- "kurier miał być wczoraj";
+- "chce sprawdzić status";
+- "mam numer zamówienia i chce wiedzieć, gdzie jest".
 
 Nie wystarczy wpisac:
 
-- "sprawdz status zamowienia";
-- "status zamowienia";
+- "sprawdź status zamówienia";
+- "status zamówienia";
 - "chce status".
 
-Takie frazy sa zbyt czyste. Prawdziwi uzytkownicy mowia kontekstowo i emocjonalnie.
+Takie frazy są zbyt czyste. Prawdziwi użytkownicy mówią kontekstowo i emocjonalnie.
 
 ## 2.4. Perspektywa biznesowa
 
-Klasy intencji decyduja o:
+Klasy intencji decydują o:
 
-- raportowaniu powodow kontaktu;
+- raportowaniu powodów kontaktu;
 - routingu;
 - automatyzacji;
 - backlogu optymalizacji;
 - priorytetach biznesowych.
 
-Jesli dane treningowe sa zle, dashboard moze klamac. Bot moze raportowac "status", gdy w rzeczywistosci klient sklada skarge na opoznienie.
+Jeśli dane treningowe są źle, dashboard może klamac. Bot może raportowac "status", gdy w rzeczywistosci klient składa skargę na opóźnienie.
 
-## 2.5. Perspektywa uzytkownika
+## 2.5. Perspektywa użytkownika
 
-Uzytkownik nie powinien dopasowywac jezyka do modelu. Model powinien uwzgledniac:
+Użytkownik nie powinien dopasowywac języka do modelu. Model powinien uwzględniać:
 
 - frazy potoczne;
-- skroty;
+- skróty;
 - emocje;
 - niedopowiedzenia;
 - wypowiedzi z danymi;
 - wypowiedzi bez danych;
-- prosby posrednie;
+- prośby posrednie;
 - negacje i korekty.
 
-Przyklad:
+Przykład:
 
-"No wlasnie o to chodzi, ze znowu nie przyjechal" moze oznaczac problem z dostawa, ale wymaga kontekstu. Bez kontekstu to moze byc trudne do jednoznacznej klasyfikacji.
+"No właśnie o to chodzi, że znowu nie przyjechał" może oznaczać problem z dostawa, ale wymaga kontekstu. Bez kontekstu to może być trudne do jednoznacznej klasyfikacji.
 
 ## 2.6. Perspektywa technologiczna
 
-Dataset intencji powinien miec:
+Dataset intencji powinien mieć:
 
 - unikalny identyfikator frazy;
 - tekst frazy;
 - intencje;
-- zrodlo: realna/syntetyczna;
-- jezyk;
-- kanal;
+- źródło: realna/syntetyczna;
+- język;
+- kanał;
 - data dodania;
 - etykietujacy;
 - confidence/zgoda etykietujacych;
@@ -280,97 +280,97 @@ Przydatna tabela:
 | utterance_id | text | intent | source | notes |
 |---|---|---|---|---|
 | u001 | gdzie jest moja paczka | sprawdz_status_zamowienia | real | czesta fraza |
-| u002 | kurier nie przyjechal | problem_z_dostawa | real | moze mylic sie ze statusem |
-| u003 | chce zmienic adres | zmien_adres_dostawy | real | jasna intencja |
+| u002 | kurier nie przyjechał | problem_z_dostawa | real | może mylić się że statusem |
+| u003 | chce zmienić adres | zmień_adres_dostawy | real | jasna intencja |
 
 ## 2.7. Dobre praktyki
 
 - Zaczynaj od realnych fraz.
-- Dodawaj sztuczne frazy tylko jako uzupelnienie.
-- Zbieraj przyklady negatywne dla podobnych intencji.
+- Dodawaj sztuczne frazy tylko jako uzupełnienie.
+- Zbieraj przykłady negatywne dla podobnych intencji.
 - Nie tworz intencji bez wystarczajacych danych.
 - Pilnuj balansu klas.
 - Oznaczaj frazy wieloznaczne.
 - Regularnie przegladaj confusion matrix.
 - Wersjonuj dataset.
 
-## 2.8. Typowe bledy
+## 2.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Same sztuczne frazy | Model nie zna realnego jezyka |
-| Zbyt malo przykladow dla rzadkich intencji | Niski recall |
-| Brak negatywnych przykladow | Wysoki false positive |
+| Same sztuczne frazy | Model nie zna realnego języka |
+| Zbyt mało przykładów dla rzadkich intencji | Niski recall |
+| Brak negatywnych przykładów | Wysoki false positive |
 | Zbyt podobne intencje | Confusion |
-| Brak wersjonowania danych | Nie wiadomo, co zmienilo jakosc |
-| Przepisywanie fraz na ladna polszczyzne | Utrata realnego jezyka uzytkownika |
+| Brak wersjonowania danych | Nie wiadomo, co zmienilo jakość |
+| Przepisywanie fraz na ladna polszczyzne | Utrata realnego języka użytkownika |
 
 ## 2.9. Checklista datasetu intencji
 
-- Czy frazy sa realne?
-- Czy sa warianty potoczne?
-- Czy sa frazy emocjonalne?
-- Czy sa frazy krotkie i dlugie?
-- Czy sa przyklady negatywne?
-- Czy klasy sa wzglednie zbalansowane?
-- Czy frazy wieloznaczne sa oznaczone?
+- Czy frazy są realne?
+- Czy są warianty potoczne?
+- Czy są frazy emocjonalne?
+- Czy są frazy krótkie i długie?
+- Czy są przykłady negatywne?
+- Czy klasy są względnie zbalansowane?
+- Czy frazy wieloznaczne są oznaczone?
 - Czy dataset ma wersje?
 - Czy jest oddzielny test set?
 
 ## 2.10. Mini case study
 
-Voicebot bankowy mylil `zastrzez_karte` z `zamow_nowa_karte`, bo dataset zawieral sztuczne frazy typu "chce karte". Po analizie rozmow dodano realne wypowiedzi: "zgubilem karte", "ktos mi ukradl portfel", "chce zablokowac platnosci", "karta nie przyszla". Intencje rozdzielono przez cel: blokada istniejącej karty vs zamowienie/wysylka nowej. False positive dla zastrzegania spadl.
+Voicebot bankowy mylil `zastrzez_kartę` z `zamow_nowa_kartę`, bo dataset zawieral sztuczne frazy typu "chce kartę". Po analizie rozmów dodano realne wypowiedzi: "zgubilem kartę", "ktos mi ukradl portfel", "chce zablokowac płatności", "karta nie przyszla". Intencje rozdzielono przez cel: blokada istniejącej karty vs zamówienie/wysyłka nowej. False positive dla zastrzegania spadl.
 
-## 2.11. Cwiczenia
+## 2.11. Ćwiczenia
 
-1. Zbierz 30 fraz dla intencji "zmien termin wizyty".
-2. Dodaj 10 negatywnych przykladow podobnych, ale nienalezacych.
-3. Wskaz frazy wieloznaczne.
+1. Zbierz 30 fraz dla intencji "zmień termin wizyty".
+2. Dodaj 10 negatywnych przykładów podobnych, ale nienalezacych.
+3. Wskaż frazy wieloznaczne.
 4. Zaprojektuj format tabeli datasetu.
 
 ## 2.12. Podsumowanie
 
-Dane treningowe sa mapa realnego jezyka uzytkownikow. Im bardziej sa sztuczne, tym bardziej bot bedzie dzialal tylko w prezentacji. Dobre dane zawieraja potocznosc, niedoskonalosc i kontekst prawdziwych rozmow.
+Dane treningowe są mapa realnego języka użytkowników. Im bardziej są sztuczne, tym bardziej bot będzie działał tylko w prezentacji. Dobre dane zawieraja potocznosc, niedoskonalosc i kontekst prawdziwych rozmów.
 
 ---
 
-# Rozdzial 3. Encje, slowniki, synonimy i dane syntetyczne
+# Rozdział 3. Encje, słowniki, synonimy i dane syntetyczne
 
-## 3.1. Cele rozdzialu
+## 3.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- projektowac encje domenowe;
-- tworzyc slowniki i synonimy;
-- rozumiec wartosc i ryzyka danych syntetycznych;
-- przygotowywac dane dla nazw wlasnych, produktow, kodow i wariantow jezykowych.
+- projektować encje domenowe;
+- tworzyć słowniki i synonimy;
+- rozumieć wartość i ryzyka danych syntetycznych;
+- przygotowywac dane dla nazw własnych, produktow, kodów i wariantów językowych.
 
-## 3.2. Kluczowe pojecia
+## 3.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Entity | Fragment wypowiedzi reprezentujacy dane, np. data, miasto, produkt |
 | System entity | Encja wbudowana, np. data, liczba, waluta |
 | Custom entity | Encja domenowa, np. nazwa pakietu, typ awarii |
-| Synonym | Alternatywne okreslenie tej samej wartosci |
-| Canonical value | Ujednolicona wartosc zapisywana w systemie |
-| Synthetic data | Dane wygenerowane sztucznie jako uzupelnienie realnych przykladow |
-| Gazetteer | Slownik nazw, np. miejsc, produktow, marek |
+| Synonym | Alternatywne okreslenie tej samej wartości |
+| Canonical value | Ujednolicona wartość zapisywana w systemie |
+| Synthetic data | Dane wygenerowane sztucznie jako uzupełnienie realnych przykładów |
+| Gazetteer | Słownik nazw, np. miejsc, produktow, marek |
 
-## 3.3. Wyjasnienie eksperckie
+## 3.3. Wyjaśnienie eksperckie
 
-Encje sa potrzebne wtedy, gdy bot musi wyodrebnic dane z wypowiedzi:
+Encje są potrzebne wtedy, gdy bot musi wyodrebnic dane z wypowiedzi:
 
 - "na piatek" -> data;
 - "Kwiatowa osiem" -> adres;
-- "VPN" -> usluga IT;
+- "VPN" -> usługa IT;
 - "pakiet rodzinny" -> produkt;
 - "czternasta do szesnastej" -> okno czasowe;
-- "Warszawa Mokotow" -> lokalizacja.
+- "Warszawa Mokotow" -> lokalizacją.
 
-Slowniki i synonimy pomagaja normalizowac jezyk:
+Słowniki i synonimy pomagają normalizowac język:
 
-| Wypowiedz uzytkownika | Wartosc kanoniczna |
+| Wypowiedź użytkownika | Wartość kanoniczna |
 |---|---|
 | net, internet, wifi | internet_service |
 | karta, plastik, debetowka | debit_card |
@@ -379,177 +379,177 @@ Slowniki i synonimy pomagaja normalizowac jezyk:
 
 Uwaga praktyczna:
 
-Nie kazdy synonim jest bezpieczny. "Internet" i "Wi-Fi" moga znaczyc dla uzytkownika to samo, ale technologicznie moga prowadzic do innych diagnoz. Slownik musi byc konsultowany z ekspertami domenowymi.
+Nie każdy synonim jest bezpieczny. "Internet" i "Wi-Fi" mogą znaczyc dla użytkownika to samo, ale technologicznie mogą prowadzić do innych diagnoz. Słownik musi być konsultowany z ekspertami domenowymi.
 
 ## 3.4. Perspektywa biznesowa
 
-Encje i slowniki wplywaja na:
+Encje i słowniki wpływają na:
 
-- jakosc raportowania;
+- jakość raportowania;
 - poprawne routing;
 - integracje;
 - wyszukiwanie w CRM;
 - segmentacje problemow;
-- analize trendow.
+- analizę trendow.
 
-Jesli bot nie normalizuje "net", "wifi" i "internet", raporty beda rozproszone. Jesli normalizuje zbyt agresywnie, moze ukryc roznice wazne dla procesu.
+Jeśli bot nie normalizuje "net", "wifi" i "internet", raporty będą rozproszone. Jeśli normalizuje zbyt agresywnie, może ukryc różnice ważne dla procesu.
 
-## 3.5. Perspektywa uzytkownika
+## 3.5. Perspektywa użytkownika
 
-Uzytkownik uzywa wlasnych slow. Nie mowi "usluga szerokopasmowego dostepu do internetu", tylko "net". Dobry bot powinien rozumiec potoczne synonimy, ale przy ryzyku doprecyzowac:
+Użytkownik używa własnych słów. Nie mówi "usługa szerokopasmowego dostępu do internetu", tylko "net". Dobry bot powinien rozumieć potoczne synonimy, ale przy ryzyku doprecyzowac:
 
-"Czy chodzi o internet domowy, czy o Wi-Fi w telefonie?"
+"Czy chodzi o internet domowy, czy o Wi-Fi w telefonię?"
 
 ## 3.6. Perspektywa technologiczna
 
-Dobre encje maja:
+Dobre encje mają:
 
 - nazwe;
 - opis;
 - typ;
-- wartosci kanoniczne;
+- wartości kanoniczne;
 - synonimy;
-- przyklady;
-- reguly walidacji;
-- zrodlo prawdy;
+- przykłady;
+- reguły walidacji;
+- źródło prawdy;
 - ownera;
 - strategie aktualizacji.
 
-Dane syntetyczne sa przydatne do:
+Dane syntetyczne są przydatne do:
 
-- uzupelnienia rzadkich wariantow;
-- testowania edge case'ow;
+- uzupełnienia rzadkich wariantów;
+- testowania edge case'ów;
 - generowania parafraz;
-- pokrycia odmian jezykowych;
-- przygotowania testow przed produkcja.
+- pokrycia odmian językowych;
+- przygotowania testów przed produkcją.
 
 Ryzyka danych syntetycznych:
 
-- brzmia zbyt ladnie;
-- powtarzaja styl generatora;
+- brzmią zbyt ladnie;
+- powtarzają styl generatora;
 - nie oddaja szumu ASR;
 - wprowadzaja nieistniejace frazy;
 - zaburzaja rozklad klas;
-- tworza falszywe poczucie pokrycia.
+- tworza fałszywe poczucie pokrycia.
 
 ## 3.7. Dobre praktyki
 
-- Uzywaj realnych danych jako podstawy.
+- Używaj realnych danych jako podstawy.
 - Tworz synonimy z konsultantami i ekspertami domenowymi.
-- Odróżniaj synonimy potoczne od technicznie rownowaznych.
-- Normalizuj do wartosci kanonicznych.
+- Odróżniaj synonimy potoczne od technicznie równoważnych.
+- Normalizuj do wartości kanonicznych.
 - Testuj encje na transkrypcjach ASR, nie tylko na tekstach manualnych.
 - Oznaczaj dane syntetyczne jako syntetyczne.
 - Nie mieszaj bez kontroli danych syntetycznych z test setem.
 
-## 3.8. Typowe bledy
+## 3.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Slownik tylko z nazw oficjalnych | Bot nie rozumie potocznego jezyka |
-| Zbyt szerokie synonimy | Bledna normalizacja |
-| Brak ownera slownika | Slownik starzeje sie |
-| Dane syntetyczne jako wiekszosc datasetu | Model uczy sie sztucznego jezyka |
-| Brak testow ASR dla encji | Bot nie radzi sobie z wymowa |
-| Brak walidacji encji | Zle dane trafiaja do API |
+| Słownik tylko z nazw oficjalnych | Bot nie rozumie potocznego języka |
+| Zbyt szerokie synonimy | Błędna normalizacja |
+| Brak ownera słownika | Słownik starzeje się |
+| Dane syntetyczne jako większość datasetu | Model uczy się sztucznego języka |
+| Brak testów ASR dla encji | Bot nie radzi sobie z wymowa |
+| Brak walidacji encji | Źle dane trafiaja do API |
 
 ## 3.9. Checklista encji i slownikow
 
 - Czy encja jest potrzebna do procesu?
-- Czy ma wartosci kanoniczne?
+- Czy ma wartości kanoniczne?
 - Czy ma potoczne synonimy?
-- Czy synonimy sa zatwierdzone przez domenę?
+- Czy synonimy są zatwierdzone przez domenę?
 - Czy encja ma walidacje?
 - Czy testowano ja na audio/ASR?
 - Czy ma ownera?
-- Czy dane syntetyczne sa oznaczone?
+- Czy dane syntetyczne są oznaczone?
 - Czy syntetyki nie trafily do glownego test setu?
 
 ## 3.10. Mini case study
 
-W voicebocie helpdeskowym encja `system` zawierala oficjalne nazwy aplikacji. Uzytkownicy mowili jednak "poczta", "maile", "outlook", "skrzynka". Bot nie rozpoznawal problemow z e-mailem. Po dodaniu synonimow i wartosci kanonicznej `email_service` poprawila sie klasyfikacja, ale zostawiono doprecyzowanie, gdy uzytkownik mowil "konto", bo moglo oznaczac konto pocztowe, bankowe lub systemowe.
+W voicebocie helpdeskowym encja `system` zawierala oficjalne nazwy aplikacji. Użytkownicy mowili jednak "poczta", "maile", "outlook", "skrzynka". Bot nie rozpoznawal problemow z e-mailem. Po dodaniu synonimow i wartości kanonicznej `email_service` poprawila się klasyfikacja, ale zostawiono doprecyzowanie, gdy użytkownik mówił "konto", bo mogło oznaczać konto pocztowe, bankowe lub systemowe.
 
-## 3.11. Cwiczenia
+## 3.11. Ćwiczenia
 
-1. Zbuduj slownik synonimow dla 10 produktow lub spraw.
-2. Oznacz, ktore synonimy sa ryzykowne.
+1. Zbuduj słownik synonimow dla 10 produktow lub spraw.
+2. Oznacz, które synonimy są ryzykowne.
 3. Wygeneruj 20 syntetycznych fraz i oznacz je jako syntetyczne.
 4. Zaprojektuj walidacje dla encji "data wizyty".
 
 ## 3.12. Podsumowanie
 
-Encje i slowniki sa miejscem, gdzie jezyk uzytkownika spotyka sie z systemami firmy. Dobre slowniki rozumieja potocznosc, ale nie gubia precyzji biznesowej.
+Encje i słowniki są miejscem, gdzie język użytkownika spotyka się z systemami firmy. Dobre słowniki rozumieja potocznosc, ale nie gubia precyzji biznesowej.
 
 ---
 
-# Rozdzial 4. Bledy etykietowania i governance danych
+# Rozdział 4. Błędy etykietowania i governance danych
 
-## 4.1. Cele rozdzialu
+## 4.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozpoznawac typowe bledy labelingu;
+- rozpoznawać typowe błędy labelingu;
 - organizowac proces etykietowania;
-- mierzyc spojnosc anotatorow;
-- utrzymywac dataset jako aktywo produktu.
+- mierzyć spójność anotatorow;
+- utrzymywać dataset jako aktywo produktu.
 
-## 4.2. Kluczowe pojecia
+## 4.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Labeling | Przypisywanie etykiet, np. intencji, encji, emocji |
 | Annotation guideline | Instrukcja etykietowania |
-| Inter-annotator agreement | Zgodnosc miedzy etykietujacymi |
+| Inter-annotator agreement | Zgodność między etykietujacymi |
 | Gold set | Zweryfikowany zestaw referencyjny |
-| Data drift | Zmiana jezyka, tematow lub rozkladu danych w czasie |
+| Data drift | Zmiana języka, tematow lub rozkladu danych w czasie |
 | Taxonomy | Uporzadkowany system kategorii |
 
-## 4.3. Wyjasnienie eksperckie
+## 4.3. Wyjaśnienie eksperckie
 
-Etykietowanie nie jest mechaniczna praca administracyjna. To decyzja interpretacyjna. Jesli dwie osoby inaczej rozumieja intencje, dataset bedzie niespojny, a model bedzie trenowany na sprzecznych sygnalach.
+Etykietowanie nie jest mechaniczna praca administracyjna. To decyzja interpretacyjna. Jeśli dwie osoby inaczej rozumieja intencje, dataset będzie niespojny, a model będzie trenowany na sprzecznych sygnalach.
 
 Typowe problemy:
 
 - etykiety zbyt szerokie;
 - etykiety zbyt podobne;
 - brak instrukcji "poza zakresem";
-- etykietowanie wedlug slow kluczowych, nie celu;
+- etykietowanie wedlug słów kluczowych, nie celu;
 - ignorowanie kontekstu;
 - etykietowanie naprawy jako nowej intencji;
 - mieszanie intencji z emocja;
 - brak drugiej weryfikacji trudnych przypadkow.
 
-Przyklad:
+Przykład:
 
-Uzytkownik: "No super, kolejny raz paczka nie doszla."
+Użytkownik: "No super, kolejny raz paczka nie doszla."
 
-Mozliwe etykiety:
+Możliwe etykiety:
 
 - `problem_z_dostawa`;
-- sygnal frustracji;
+- sygnał frustracji;
 - potencjalnie `sprawdz_status_zamowienia`.
 
-Dobra anotacja moze miec etykiete glowna `problem_z_dostawa` oraz dodatkowy tag `frustration_signal`.
+Dobra anotacja może mieć etykiete główna `problem_z_dostawa` oraz dodatkowy tag `frustration_signal`.
 
 ## 4.4. Perspektywa biznesowa
 
 Niespojna taksonomia powoduje:
 
 - slabe modele;
-- zle raporty;
-- konflikty miedzy dzialami;
+- źle raporty;
+- konflikty między dzialami;
 - trudne utrzymanie;
-- bledne decyzje o priorytetach.
+- błędne decyzję o priorytetach.
 
-Dataset powinien miec ownera, proces zmian i review. To nie jest jednorazowy plik Excel.
+Dataset powinien mieć ownera, proces zmian i review. To nie jest jednorazowy plik Excel.
 
-## 4.5. Perspektywa uzytkownika
+## 4.5. Perspektywa użytkownika
 
-Zly labeling powoduje, ze bot zle interpretuje cel uzytkownika. Jesli wszystkie negatywne wypowiedzi trafiaja do "reklamacji", bot moze kierowac do procesu reklamacyjnego osoby, ktore chcialy tylko statusu po opoznieniu.
+Zły labeling powoduje, że bot źle interpretuje cel użytkownika. Jeśli wszystkie negatywne wypowiedzi trafiaja do "reklamacji", bot może kierowac do procesu reklamacyjnego osoby, które chcialy tylko statusu po opoznieniu.
 
 ## 4.6. Perspektywa technologiczna
 
-Proces labeling powinien obejmowac:
+Proces labeling powinien obejmować:
 
 - annotation guideline;
 - przykłady graniczne;
@@ -565,20 +565,20 @@ Proces labeling powinien obejmowac:
 ## 4.7. Dobre praktyki
 
 - Zanim etykietujesz, napisz guideline.
-- Dodaj przyklady pozytywne, negatywne i graniczne.
-- Etykietuj cel, nie slowo kluczowe.
+- Dodaj przykłady pozytywne, negatywne i graniczne.
+- Etykietuj cel, nie słowo kluczowe.
 - Oznaczaj emocje osobno od intencji.
 - Oznaczaj multi-intent, nie kasuj drugiego celu.
 - Tworz gold set.
-- Mierz zgodnosc anotatorow.
+- Mierz zgodność anotatorow.
 - Regularnie przegladaj taxonomy.
 
-## 4.8. Typowe bledy
+## 4.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Brak guideline | Kazdy etykietuje inaczej |
-| Etykietowanie po slowach kluczowych | Zle intencje |
+| Brak guideline | Każdy etykietuje inaczej |
+| Etykietowanie po slowach kluczowych | Źle intencje |
 | Brak out-of-scope | Model lapie wszystko |
 | Brak gold setu | Nie ma punktu odniesienia |
 | Brak review trudnych przypadkow | Sprzeczne dane |
@@ -587,10 +587,10 @@ Proces labeling powinien obejmowac:
 ## 4.9. Checklista labelingu
 
 - Czy istnieje guideline?
-- Czy kazda intencja ma zakres i poza zakresem?
-- Czy sa przyklady graniczne?
+- Czy każda intencja ma zakres i poza zakresem?
+- Czy są przykłady graniczne?
 - Czy mamy etykiete out-of-scope?
-- Czy emocje sa tagowane osobno?
+- Czy emocje są tagowane osobno?
 - Czy multi-intent ma zasady?
 - Czy jest gold set?
 - Czy mierzymy agreement?
@@ -598,81 +598,81 @@ Proces labeling powinien obejmowac:
 
 ## 4.10. Mini case study
 
-W projekcie ubezpieczeniowym anotatorzy etykietowali "chce wiedziec, czy dostane odszkodowanie" raz jako FAQ, raz jako status szkody, raz jako decyzje. Po warsztacie ustalono guideline: pytania o indywidualna decyzje trafiaja do `ocena_indywidualna_poza_zakresem`, a bot moze tylko sprawdzic status lub przekazac do konsultanta. Zmniejszylo to ryzyko, ze bot zacznie udzielac interpretacji poza zakresem.
+W projekcie ubezpieczeniowym anotatorzy etykietowali "chce wiedzieć, czy dostane odszkodowanie" raz jako FAQ, raz jako status szkody, raz jako decyzję. Po warsztacie ustalono guideline: pytania o indywidualną decyzję trafiaja do `ocena_indywidualna_poza_zakresem`, a bot może tylko sprawdzić status lub przekazać do konsultanta. Zmniejszylo to ryzyko, że bot zacznie udzielac interpretacji poza zakresem.
 
-## 4.11. Cwiczenia
+## 4.11. Ćwiczenia
 
 1. Napisz guideline dla trzech intencji.
 2. Oznacz 10 fraz granicznych.
 3. Zaprojektuj zasade dla multi-intent.
-4. Opisz, jak mierzysz zgodnosc anotatorow.
+4. Opisz, jak mierzysz zgodność anotatorow.
 
 ## 4.12. Podsumowanie
 
-Labeling jest fundamentem jakosci rozumienia. Bez jasnych zasad dataset staje sie zbiorem opinii. Z jasnymi zasadami staje sie aktywem, ktore mozna rozwijac, testowac i audytowac.
+Labeling jest fundamentem jakości rozumienia. Bez jasnych zasad dataset staje się zbiorem opinii. Z jasnymi zasadami staje się aktywem, które można rozwijac, testować i audytowac.
 
 ---
 
-# Rozdzial 5. Jakosc ASR: akcenty, halas, tempo i sposob mowienia
+# Rozdział 5. Jakość ASR: akcenty, hałas, tempo i sposób mówienia
 
-## 5.1. Cele rozdzialu
+## 5.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec czynniki wplywajace na ASR;
-- odrozniac blad ASR od bledu NLU;
-- projektowac testy ASR dla realnych warunkow;
+- rozumieć czynniki wplywajace na ASR;
+- odróżniać błąd ASR od błędu NLU;
+- projektować testy ASR dla realnych warunków;
 - przygotowywac dialog odporny na niedoskonala transkrypcje.
 
-## 5.2. Kluczowe pojecia
+## 5.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| ASR error | Blad rozpoznawania mowy |
-| WER | Word Error Rate, blad na poziomie slow |
-| Entity error | Blad rozpoznania waznej encji, np. numeru lub daty |
-| Partial transcript | Czesciowa transkrypcja w trakcie wypowiedzi |
-| Final transcript | Ostateczna transkrypcja tury |
-| Acoustic condition | Warunki audio: halas, echo, jakosc polaczenia |
+| ASR error | Błąd rozpoznawania mowy |
+| WER | Word Error Rate, błąd na poziomie słów |
+| Entity error | Błąd rozpoznania waznej encji, np. numeru lub daty |
+| Partial transcript | Czesciowa transkrypcją w trakcie wypowiedzi |
+| Final transcript | Ostateczna transkrypcją tury |
+| Acoustic condition | Warunki audio: hałas, echo, jakość połączenia |
 | Accent robustness | Odpornosc na akcenty i warianty wymowy |
 
-## 5.3. Wyjasnienie eksperckie
+## 5.3. Wyjaśnienie eksperckie
 
-ASR moze zrobic blad nawet wtedy, gdy uzytkownik mowi poprawnie. Powody:
+ASR może zrobić błąd nawet wtedy, gdy użytkownik mówi poprawnie. Powody:
 
-- halas ulicy;
-- glosnomowiacy telefon;
+- hałas ulicy;
+- głośnomówiący telefon;
 - slaby zasieg;
 - szybka mowa;
 - cicha mowa;
 - akcent regionalny;
 - wada wymowy;
-- obcy jezyk w nazwach;
+- obcy język w nazwach;
 - cyfry i litery;
-- nazwy wlasne;
+- nazwy własne;
 - emocje;
 - barge-in i overlap.
 
-Nie kazdy blad ASR ma ten sam koszt. WER moze byc umiarkowanie wysoki, ale bot nadal dziala, jesli najwazniejsza intencja i encje sa poprawne. Odwrotnie: transkrypcja moze byc prawie idealna, ale jedna zle rozpoznana cyfra moze zepsuc proces.
+Nie każdy błąd ASR ma ten sam koszt. WER może być umiarkowanie wysoki, ale bot nadal działa, jeśli najwazniejsza intencja i encje są poprawne. Odwrotnie: transkrypcją może być prawie idealna, ale jedna źle rozpoznana cyfra może zepsuc proces.
 
 ## 5.4. Perspektywa biznesowa
 
-Jakosc ASR wplywa na:
+Jakość ASR wpływa na:
 
 - udane identyfikacje;
-- bledy transakcyjne;
+- błędy transakcyjne;
 - czas rozmowy;
-- frustracje;
-- koszt konsultantow;
+- frustrację;
+- koszt konsultantów;
 - wiarygodnosc automatyzacji.
 
-W procesach wysokiego ryzyka trzeba mierzyc nie tylko WER, ale tez critical field accuracy: poprawnosc danych krytycznych.
+W procesach wysokiego ryzyka trzeba mierzyć nie tylko WER, ale też critical field accuracy: poprawność danych krytycznych.
 
-## 5.5. Perspektywa uzytkownika
+## 5.5. Perspektywa użytkownika
 
-Uzytkownik nie powinien placic za blad ASR wysilkiem i poczuciem winy. Komunikaty powinny brzmiec:
+Użytkownik nie powinien płacic za błąd ASR wysilkiem i poczuciem winy. Komunikaty powinny brzmieć:
 
-"Nie mam pewnosci, czy dobrze uslyszalem. Prosze powtorzyc ostatnie trzy cyfry."
+"Nie mam pewności, czy dobrze uslyszalem. Proszę powtórzyć ostatnie trzy cyfry."
 
 Nie:
 
@@ -680,16 +680,16 @@ Nie:
 
 ## 5.6. Perspektywa technologiczna
 
-Test ASR powinien obejmowac:
+Test ASR powinien obejmować:
 
 - realne rozmowy telefoniczne;
-- rozne urzadzenia;
-- rozne poziomy halasu;
+- różne urządzenia;
+- różne poziomy hałasu;
 - osoby starsze;
 - akcenty i gwary;
-- szybka i wolna mowe;
-- krotkie odpowiedzi;
-- dlugie opisy;
+- szybka i wolna mowę;
+- krótkie odpowiedzi;
+- długie opisy;
 - cyfry, daty, kwoty, adresy;
 - barge-in;
 - osoby trzecie w tle.
@@ -710,82 +710,82 @@ Metryki:
 - Testuj ASR w kanale produkcyjnym.
 - Tworz custom vocabulary.
 - Dziel kody i numery na grupy.
-- Uzywaj DTMF jako alternatywy dla danych trudnych.
+- Używaj DTMF jako alternatywy dla danych trudnych.
 - Potwierdzaj dane krytyczne.
-- Analizuj bledy ASR osobno od NLU.
-- Mierz wplyw ASR na wynik procesu.
-- Nie obwiniaj uzytkownika w komunikatach.
+- Analizuj błędy ASR osobno od NLU.
+- Mierz wpływ ASR na wynik procesu.
+- Nie obwiniaj użytkownika w komunikatach.
 
-## 5.8. Typowe bledy
+## 5.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Testy tylko na czystych nagraniach | Produkcja wypada gorzej |
-| Mierzenie tylko ogolnego WER | Pomijasz dane krytyczne |
-| Brak DTMF dla kodow | Duza frustracja |
-| Brak slownika nazw | Bot myli produkty i miejscowosci |
-| Brak analizy endpointing | ASR wydaje sie winny, ale problemem jest ucinanie |
-| Brak testow osob starszych lub akcentow | System dziala nierowno dla grup uzytkownikow |
+| Mierzenie tylko ogólnego WER | Pomijasz dane krytyczne |
+| Brak DTMF dla kodów | Duza frustracja |
+| Brak słownika nazw | Bot myli produkty i miejscowosci |
+| Brak analizy endpointing | ASR wydaje się winny, ale problemem jest ucinanie |
+| Brak testów osób starszych lub akcentow | System działa nierowno dla grup użytkowników |
 
 ## 5.9. Checklista ASR QA
 
-- Czy testujemy realny kanal telefoniczny?
+- Czy testujemy realny kanał telefoniczny?
 - Czy mamy probki z halasem?
-- Czy mamy rozne akcenty i tempo mowy?
+- Czy mamy różne akcenty i tempo mowy?
 - Czy testujemy cyfry i kody?
-- Czy testujemy nazwy wlasne?
+- Czy testujemy nazwy własne?
 - Czy mierzymy entity accuracy?
 - Czy mierzymy digit accuracy?
 - Czy analizujemy endpointing?
 - Czy mamy alternatywe DTMF?
-- Czy komunikaty repair sa przyjazne?
+- Czy komunikaty repair są przyjazne?
 
 ## 5.10. Mini case study
 
-Voicebot medyczny zle rozpoznawal nazwiska pacjentow i nazwy miejscowosci. Zespol przestal probowac "idealnie rozpoznawac nazwisko" jako glowny sposob identyfikacji. Wprowadzono identyfikacje po numerze telefonu i dacie urodzenia, potwierdzenie tylko fragmentow danych oraz mozliwosc DTMF dla kodu SMS. ASR nadal nie byl idealny, ale proces stal sie odporniejszy.
+Voicebot medyczny źle rozpoznawal nazwiska pacjentow i nazwy miejscowosci. Zespół przestal próbować "idealnie rozpoznawać nazwisko" jako główny sposób identyfikacji. Wprowadzono identyfikacje po numerze telefonu i dacie urodzenia, potwierdzenie tylko fragmentow danych oraz możliwość DTMF dla kodu SMS. ASR nadal nie był idealny, ale proces stał się odporniejszy.
 
-## 5.11. Cwiczenia
+## 5.11. Ćwiczenia
 
 1. Zaprojektuj test ASR dla numeru polisy.
-2. Wypisz 20 nazw wymagajacych custom vocabulary.
-3. Zaprojektuj repair dla zle rozpoznanej daty.
+2. Wypisz 20 nazw wymagających custom vocabulary.
+3. Zaprojektuj repair dla źle rozpoznanej daty.
 4. Okresl metryke "critical field accuracy" dla wybranego procesu.
 
 ## 5.12. Podsumowanie
 
-ASR nigdy nie jest neutralny. Jego bledy trzeba rozumiec, mierzyc i kompensowac projektem dialogu. Dobra jakosc voicebota nie wymaga perfekcyjnego ASR, ale wymaga swiadomej pracy z jego ograniczeniami.
+ASR nigdy nie jest neutralny. Jego błędy trzeba rozumieć, mierzyć i kompensowac projektem dialogu. Dobra jakość voicebota nie wymaga perfekcyjnego ASR, ale wymaga swiadomej pracy z jego ograniczeniami.
 
 ---
 
-# Rozdzial 6. Testowanie NLU: confusion matrix, precision, recall i F1
+# Rozdział 6. Testowanie NLU: confusion matrix, precision, recall i F1
 
-## 6.1. Cele rozdzialu
+## 6.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- oceniac jakosc rozpoznawania intencji;
-- interpretowac confusion matrix;
-- rozumiec precision, recall i F1;
-- zamieniac wyniki testow na decyzje projektowe.
+- oceniać jakość rozpoznawania intencji;
+- interpretować confusion matrix;
+- rozumieć precision, recall i F1;
+- zamieniać wyniki testów na decyzję projektowe.
 
-## 6.2. Kluczowe pojecia
+## 6.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Test set | Zestaw danych do niezaleznej oceny modelu |
-| Confusion matrix | Tabela pokazujaca, ktore klasy model myli ze soba |
-| Precision | Jaki odsetek przewidywan danej intencji byl poprawny |
-| Recall | Jaki odsetek prawdziwych przypadkow danej intencji zostal znaleziony |
-| F1 | Srednia harmoniczna precision i recall |
-| False positive | Model wykryl intencje, ktorej nie bylo |
-| False negative | Model nie wykryl intencji, ktora byla |
-| Threshold | Prog pewnosci decyzji |
+| Confusion matrix | Tabela pokazujaca, które klasy model myli że soba |
+| Precision | Jaki odsetek przewidywan danej intencji był poprawny |
+| Recall | Jaki odsetek prawdziwych przypadkow danej intencji został znaleziony |
+| F1 | Średnia harmoniczna precision i recall |
+| False positive | Model wykryl intencje, której nie było |
+| False negative | Model nie wykryl intencji, która była |
+| Threshold | Prog pewności decyzji |
 
-## 6.3. Wyjasnienie eksperckie
+## 6.3. Wyjaśnienie eksperckie
 
-Nie wystarczy powiedziec "model ma 90% accuracy". W voicebotach wazne jest, ktore bledy robi.
+Nie wystarczy powiedzieć "model ma 90% accuracy". W voicebotach ważne jest, które błędy robi.
 
-Przyklad:
+Przykład:
 
 - Model myli `sprawdz_status` z `informacja_o_dostawie`: umiarkowany koszt.
 - Model myli `anuluj_zamowienie` z `sprawdz_status`: wysoki koszt.
@@ -793,7 +793,7 @@ Przyklad:
 
 Confusion matrix pokazuje, gdzie model myli klasy.
 
-Przyklad uproszczony:
+Przykład uproszczony:
 
 | Prawdziwa \ Przewidziana | status | zmiana_adresu | anulowanie | konsultant |
 |---|---:|---:|---:|---:|
@@ -804,31 +804,31 @@ Przyklad uproszczony:
 
 Wnioski:
 
-- `status` i `zmiana_adresu` czasem sie myla, warto dodac disambiguation.
-- `konsultant` ma false negatives, trzeba poprawic, bo uzytkownik moze utknac.
-- `anulowanie` ma wysoka stawke, nawet male bledy wymagaja potwierdzen.
+- `status` i `zmiana_adresu` czasem się myla, warto dodac disambiguation.
+- `konsultant` ma false negatives, trzeba poprawić, bo użytkownik może utknac.
+- `anulowanie` ma wysoka stawke, nawet male błędy wymagają potwierdzeń.
 
 ## 6.4. Precision i recall praktycznie
 
-Precision odpowiada: gdy model mowi "to jest intencja X", jak czesto ma racje?
+Precision odpowiada: gdy model mówi "to jest intencja X", jak często ma rację?
 
 Recall odpowiada: z wszystkich prawdziwych przypadkow intencji X, ile model znalazl?
 
-Przyklad:
+Przykład:
 
 Intencja `popros_o_konsultanta`:
 
-- Wysoki recall jest krytyczny, bo nie chcemy ignorowac prosb o czlowieka.
-- Precision tez wazne, ale false positive moze co najwyzej czesciej eskalowac.
+- Wysoki recall jest krytyczny, bo nie chcemy ignorować prosb o człowieka.
+- Precision też ważne, ale false positive może co najwyzej częściej eskalować.
 
 Intencja `anuluj_zamowienie`:
 
-- Precision jest krytyczne, bo nie chcemy blednie rozpoznac anulowania.
-- Recall tez wazne, ale mozna dopytac i potwierdzic.
+- Precision jest krytyczne, bo nie chcemy błędnie rozpoznać anulowania.
+- Recall też ważne, ale można dopytać i potwierdzić.
 
 ## 6.5. Perspektywa biznesowa
 
-Metryki NLU trzeba interpretowac przez koszt bledu. Nie wszystkie intencje potrzebuja takiego samego progu.
+Metryki NLU trzeba interpretować przez koszt błędu. Nie wszystkie intencje potrzebuja takiego samego progu.
 
 | Intencja | Priorytet |
 |---|---|
@@ -836,19 +836,19 @@ Metryki NLU trzeba interpretowac przez koszt bledu. Nie wszystkie intencje potrz
 | Anulowanie | Wysoki precision + explicit confirmation |
 | Status | Balans precision/recall |
 | FAQ | Mozliwie wysoki recall, z bezpiecznym fallbackiem |
-| Platnosc | Wysoki precision, compliance |
+| Płatność | Wysoki precision, compliance |
 
-## 6.6. Perspektywa uzytkownika
+## 6.6. Perspektywa użytkownika
 
-Uzytkownik odczuwa bledy NLU jako:
+Użytkownik odczuwa błędy NLU jako:
 
-- bot idzie zla sciezka;
-- bot ignoruje prosbe;
+- bot idzie zła ścieżka;
+- bot ignoruje prośbę;
 - bot pyta o nieistotne dane;
 - bot zmusza do powtarzania;
-- bot nie chce polaczyc z czlowiekiem.
+- bot nie chce połączyć z człowiekiem.
 
-Dlatego testy NLU musza obejmowac frazy emocjonalne i meta-intencje, nie tylko glowne use case'y.
+Dlatego testy NLU muszą obejmować frazy emocjonalne i meta-intencje, nie tylko główne use case'y.
 
 ## 6.7. Perspektywa technologiczna
 
@@ -860,37 +860,37 @@ Dobre testowanie NLU wymaga:
 - metryk per intencja;
 - analizy false positives i false negatives;
 - progow confidence per intencja;
-- testow regresji po kazdej zmianie;
+- testów regresji po każdej zmianie;
 - wersjonowania modelu i datasetu.
 
 ## 6.8. Dobre praktyki
 
-- Nie uzywaj tych samych fraz do treningu i testu.
+- Nie używaj tych samych fraz do treningu i testu.
 - Raportuj metryki per intencja.
 - Analizuj confusion, nie tylko accuracy.
 - Ustal progi per intencja.
 - Dla intencji wysokiego ryzyka stosuj potwierdzenia i handoff.
 - Testuj na transkrypcjach ASR.
-- Trzymaj stale testy regresji.
+- Trzymaj stałe testy regresji.
 
-## 6.9. Typowe bledy
+## 6.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Jedna ogolna accuracy | Ukrywa ryzykowne bledy |
+| Jedna ogólna accuracy | Ukrywa ryzykowne błędy |
 | Testowanie na training set | Fałszywie dobre wyniki |
 | Brak out-of-scope w testach | Bot lapie wszystko |
-| Brak testow meta-intencji | Uzytkownik nie moze sterowac rozmowa |
-| Ten sam threshold dla wszystkich intencji | Zly balans precision/recall |
-| Brak testow regresji | Poprawa jednej intencji psuje inna |
+| Brak testów meta-intencji | Użytkownik nie może sterowac rozmową |
+| Ten sam threshold dla wszystkich intencji | Zły balans precision/recall |
+| Brak testów regresji | Poprawa jednej intencji psuje inna |
 
 ## 6.10. Checklista NLU test
 
 - Czy mamy oddzielny test set?
 - Czy test set zawiera realne frazy?
 - Czy test set zawiera ASR transcripts?
-- Czy sa frazy out-of-scope?
-- Czy sa meta-intencje?
+- Czy są frazy out-of-scope?
+- Czy są meta-intencje?
 - Czy raportujemy precision, recall i F1 per intencja?
 - Czy analizujemy confusion matrix?
 - Czy mamy progi per intencja?
@@ -898,56 +898,56 @@ Dobre testowanie NLU wymaga:
 
 ## 6.11. Mini case study
 
-Voicebot e-commerce mial 91% accuracy, ale uzytkownicy skarzyli sie, ze trudno przejsc do konsultanta. Analiza per intencja pokazala, ze `popros_o_konsultanta` miala recall 62%, bo frazy typu "daj kogos normalnego", "operator", "czlowiek", "nie chce bota" nie byly w datasetcie. Po dodaniu fraz i obnizeniu progu dla tej intencji eskalacja zaczela dzialac lepiej.
+Voicebot e-commerce miał 91% accuracy, ale użytkownicy skarzyli się, że trudno przejść do konsultanta. Analiza per intencja pokazala, że `popros_o_konsultanta` miała recall 62%, bo frazy typu "daj kogos normalnego", "operator", "człowiek", "nie chce bota" nie były w datasetcie. Po dodaniu fraz i obnizeniu progu dla tej intencji eskalacja zaczęła działać lepiej.
 
-## 6.12. Cwiczenia
+## 6.12. Ćwiczenia
 
-1. Zinterpretuj przykladowa confusion matrix.
-2. Wybierz intencje, dla ktorej wazniejszy jest precision.
-3. Wybierz intencje, dla ktorej wazniejszy jest recall.
+1. Zinterpretuj przykładowa confusion matrix.
+2. Wybierz intencje, dla której ważniejszy jest precision.
+3. Wybierz intencje, dla której ważniejszy jest recall.
 4. Zaprojektuj test set z out-of-scope.
 
 ## 6.13. Podsumowanie
 
-Testowanie NLU to nie ranking modelu. To analiza ryzyka bledow. Najwazniejsze pytanie brzmi: ktore pomylki sa akceptowalne, ktore wymagaja doprecyzowania, a ktore musza prowadzic do potwierdzenia lub czlowieka.
+Testowanie NLU to nie ranking modelu. To analiza ryzyka błędów. Najważniejsze pytanie brzmi: które pomylki są akceptowalne, które wymagają doprecyzowania, a które muszą prowadzić do potwierdzenia lub człowieka.
 
 ---
 
-# Rozdzial 7. Analiza nierozpoznanych wypowiedzi i continuous training
+# Rozdział 7. Analiza nierozpoznanych wypowiedzi i continuous training
 
-## 7.1. Cele rozdzialu
+## 7.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- prowadzic analize no-match i fallbackow;
-- wykrywac luki w intencjach;
+- prowadzić analizę no-match i fallbackow;
+- wykrywać luki w intencjach;
 - budowac backlog optymalizacji;
-- utrzymywac voicebota po wdrozeniu.
+- utrzymywać voicebota po wdrożeniu.
 
-## 7.2. Kluczowe pojecia
+## 7.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Unrecognized utterance | Wypowiedz nierozpoznana lub zle rozpoznana |
-| No-match analysis | Analiza wypowiedzi, ktorych system nie dopasowal |
-| Drift | Zmiana jezyka lub tematow w czasie |
+| Unrecognized utterance | Wypowiedź nierozpoznana lub źle rozpoznana |
+| No-match analysis | Analiza wypowiedzi, których system nie dopasowal |
+| Drift | Zmiana języka lub tematow w czasie |
 | Continuous training | Cykliczne doskonalenie danych i modeli |
-| Regression test | Test sprawdzajacy, czy zmiana nie popsula poprzednich zachowan |
-| Optimization backlog | Lista zmian oparta na danych produkcyjnych |
+| Regression test | Test sprawdzający, czy zmiana nie popsuła poprzednich zachowan |
+| Optimization backlog | Lista zmian opartą na danych produkcyjnych |
 
-## 7.3. Wyjasnienie eksperckie
+## 7.3. Wyjaśnienie eksperckie
 
-Po wdrozeniu zaczyna sie prawdziwa nauka. Produkcja ujawnia:
+Po wdrożeniu zaczyna się prawdziwa nauka. Produkcja ujawnia:
 
 - nowe frazy;
 - nowe problemy;
-- sezonowosc;
-- bledy ASR;
+- sezonowość;
+- błędy ASR;
 - nieznane intencje;
-- zle fallbacki;
+- źle fallbacki;
 - przerwania w konkretnych promptach;
-- miejsca, gdzie uzytkownicy chca czlowieka;
-- zmiany produktowe, ktorych bot nie zna.
+- miejsca, gdzie użytkownicy chca człowieka;
+- zmiany produktowe, których bot nie zna.
 
 Proces continuous training:
 
@@ -964,19 +964,19 @@ Proces continuous training:
 
 ## 7.4. Perspektywa biznesowa
 
-Continuous training jest kosztem utrzymania, ale tez zrodlem wartosci. Pokazuje:
+Continuous training jest kosztem utrzymania, ale też źródłem wartości. Pokazuje:
 
-- czego klienci zaczeli pytac;
-- ktore procesy generuja nowe kontakty;
+- czego klienci zaczeli pytać;
+- które procesy generuja nowe kontakty;
 - gdzie firma ma problem operacyjny;
 - jakie nowe use case'y warto dodac;
-- ktore obietnice bota nie pokrywaja sie z rzeczywistoscia.
+- które obietnice bota nie pokrywaja się z rzeczywistoscia.
 
-Bot bez utrzymania starzeje sie. Produkty, procedury, ceny, regulaminy i jezyk uzytkownikow sie zmieniaja.
+Bot bez utrzymania starzeje się. Produkty, procedury, ceny, regulaminy i język użytkowników się zmieniaja.
 
-## 7.5. Perspektywa uzytkownika
+## 7.5. Perspektywa użytkownika
 
-Uzytkownik oczekuje, ze bot bedzie znal aktualne sprawy. Jesli firma zmienila procedure zwrotow, a bot nadal odpowiada stara wersja, traci zaufanie. Jesli sezonowo pojawia sie nowy temat, np. opoznienia dostaw przed swietami, bot powinien zostac szybko zaktualizowany.
+Użytkownik oczekuje, że bot będzie znal aktualne sprawy. Jeśli firma zmienila procedure zwrotow, a bot nadal odpowiada stara wersja, traci zaufanie. Jeśli sezonowo pojawia się nowy temat, np. opóźnienia dostaw przed swietami, bot powinien zostać szybko zaktualizowany.
 
 ## 7.6. Perspektywa technologiczna
 
@@ -984,69 +984,69 @@ Continuous training wymaga:
 
 - pipeline eksportu danych;
 - anonimizacji;
-- narzedzia do anotacji;
+- narzędzia do anotacji;
 - wersjonowania datasetow;
-- testow automatycznych;
+- testów automatycznych;
 - procesu review;
 - release management;
 - rollback;
 - dashboardu metryk przed/po.
 
-Zmiany nie powinny byc wrzucane bez testow. Dodanie fraz do jednej intencji moze pogorszyc inna.
+Zmiany nie powinny być wrzucane bez testów. Dodanie fraz do jednej intencji może pogorszyć inna.
 
 ## 7.7. Kategorie przyczyn no-match
 
-| Przyczyna | Co zrobic |
+| Przyczyna | Co zrobić |
 |---|---|
 | Brak intencji | Dodaj intencje lub rozszerz zakres |
 | Zbyt podobne intencje | Scal intencje lub dodaj disambiguation |
-| Blad ASR | Popraw slownik, dialog, DTMF, ASR config |
-| Zly prompt | Przepisz pytanie, podaj przyklady |
+| Błąd ASR | Popraw słownik, dialog, DTMF, ASR config |
+| Zły prompt | Przepisz pytanie, podaj przykłady |
 | Brak danych/integracji | Dodaj integracje lub handoff |
 | Out-of-scope | Dodaj elegancka odmowe i routing |
 | Frustracja | Skroc flow, dodaj handoff |
-| Zmiana biznesowa | Zaktualizuj baze wiedzy/flow |
+| Zmiana biznesowa | Zaktualizuj bazę wiedzy/flow |
 
 ## 7.8. Dobre praktyki
 
-- Analizuj no-match regularnie, szczegolnie po starcie.
+- Analizuj no-match regularnie, szczególnie po starcie.
 - Grupuj wypowiedzi, nie poprawiaj pojedynczych przypadkow impulsywnie.
-- Dla istotnych lub powtarzalnych bledow dodawaj test regresji.
+- Dla istotnych lub powtarzalnych błędów dodawaj test regresji.
 - Mierz efekt po zmianie.
 - Oddziel zmiany danych od zmian flow.
 - Utrzymuj changelog modelu i datasetu.
-- Wlacz konsultantow w interpretacje trudnych fraz.
+- Wlacz konsultantów w interpretacje trudnych fraz.
 - Ustal rytm release, np. tygodniowy lub dwutygodniowy.
 
-## 7.9. Typowe bledy
+## 7.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Brak opiekuna po wdrozeniu | Bot przestaje pasowac do rzeczywistosci |
+| Brak opiekuna po wdrożeniu | Bot przestaje pasować do rzeczywistosci |
 | Dodawanie fraz bez analizy confusion | Poprawa jednego psuje drugie |
-| Brak testow regresji | Niespodziewane regresje |
+| Brak testów regresji | Niespodziewane regresję |
 | Poprawianie wszystkiego naraz | Nie wiadomo, co zadzialalo |
-| Ignorowanie out-of-scope | Bot probuje odpowiadac na wszystko |
+| Ignorowanie out-of-scope | Bot próbuje odpowiadać na wszystko |
 | Brak monitoringu sezonowosci | Bot nie reaguje na zmiany |
 
 ## 7.10. Checklista continuous training
 
 - Czy mamy regularny eksport no-match?
 - Czy mamy proces anonimizacji?
-- Czy mamy narzedzie anotacji?
+- Czy mamy narzędzie anotacji?
 - Czy mamy review trudnych przypadkow?
 - Czy mamy backlog optymalizacji?
-- Czy kazda zmiana ma test regresji?
+- Czy każda zmiana ma test regresji?
 - Czy dataset jest wersjonowany?
 - Czy model/flow ma changelog?
-- Czy mierzymy efekt po wdrozeniu?
+- Czy mierzymy efekt po wdrożeniu?
 - Czy jest owner utrzymania?
 
 ## 7.11. Mini case study
 
-Po wdrozeniu voicebota zwrotowego w e-commerce pojawily sie setki fraz "paczkomat", "kod nadania", "etykieta nie dziala". Bot mial intencje "jak zrobic zwrot", ale nie rozumial problemow z etykieta. Analiza no-match pokazala nowy use case: problemy z nadaniem zwrotu. Zespol dodal intencje, krotki flow diagnostyczny i SMS z nowym linkiem do etykiety. Fallback rate spadl, a konsultanci dostawali mniej prostych spraw.
+Po wdrożeniu voicebota zwrotowego w e-commerce pojawily się setki fraz "paczkomat", "kod nadania", "etykieta nie działa". Bot miał intencje "jak zrobić zwrot", ale nie rozumiał problemow z etykieta. Analiza no-match pokazala nowy use case: problemy z nadaniem zwrotu. Zespół dodal intencje, krótki flow diagnostyczny i SMS z nowym linkiem do etykiety. Fallback rate spadl, a konsultanci dostawali mniej prostych spraw.
 
-## 7.12. Cwiczenia
+## 7.12. Ćwiczenia
 
 1. Zaprojektuj tygodniowy proces analizy no-match.
 2. Stworz kategorie przyczyn fallbackow dla swojego use case'u.
@@ -1055,56 +1055,56 @@ Po wdrozeniu voicebota zwrotowego w e-commerce pojawily sie setki fraz "paczkoma
 
 ## 7.13. Podsumowanie
 
-Voicebot po wdrozeniu nie jest skonczony. Produkcja jest zrodlem najwazniejszych danych. Continuous training zamienia nieudane rozmowy w konkretne usprawnienia, ale tylko wtedy, gdy proces jest regularny, kontrolowany i testowany.
+Voicebot po wdrożeniu nie jest skończony. Produkcja jest źródłem najważniejszych danych. Continuous training zamienia nieudane rozmowy w konkretne usprawnienia, ale tylko wtedy, gdy proces jest regularny, kontrolowany i testowany.
 
 ---
 
-# Rozdzial 8. Dashboard jakosci rozumienia
+# Rozdział 8. Dashboard jakości rozumienia
 
-## 8.1. Cele rozdzialu
+## 8.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- projektowac dashboard dla ASR/NLU;
-- laczyc metryki techniczne z konwersacyjnymi;
-- wykrywac problemy wymagajace optymalizacji;
-- raportowac jakosc w sposob zrozumialy dla biznesu i technologii.
+- projektować dashboard dla ASR/NLU;
+- łączyć metryki techniczne z konwersacyjnymi;
+- wykrywać problemy wymagające optymalizacji;
+- raportowac jakość w sposób zrozumiały dla biznesu i technologii.
 
 ## 8.2. Kluczowe metryki
 
 | Metryka | Co mierzy | Po co |
 |---|---|---|
-| Intent accuracy | Poprawnosc klasyfikacji intencji | Ogolna jakosc NLU |
-| Precision per intent | Trafnosc przewidywan intencji | Ryzyko false positive |
+| Intent accuracy | Poprawność klasyfikacji intencji | Ogólna jakość NLU |
+| Precision per intent | Trafność przewidywan intencji | Ryzyko false positive |
 | Recall per intent | Wykrywanie prawdziwych przypadkow | Ryzyko false negative |
 | Fallback rate | Odsetek nierozpoznanych sytuacji | Luki danych/flow |
 | No-input rate | Brak mowy/inputu | Prompt, audio, UX |
 | No-match rate | Input poza oczekiwaniem | NLU, prompt, zakres |
-| ASR critical field accuracy | Poprawnosc danych krytycznych | Ryzyko transakcyjne |
-| Entity accuracy | Poprawnosc encji | Jakosc slot filling |
-| Disambiguation success | Skutecznosc doprecyzowania | Czy bot naprawia niepewnosc |
-| Repeat after bot question | Powtorzenia uzytkownika | Slaby prompt lub ASR |
-| Handoff after misunderstanding | Eskalacje po niezrozumieniu | Frustracja i ryzyko UX |
+| ASR critical field accuracy | Poprawność danych krytycznych | Ryzyko transakcyjne |
+| Entity accuracy | Poprawność encji | Jakość slot filling |
+| Disambiguation success | Skuteczność doprecyzowania | Czy bot naprawia niepewność |
+| Repeat after bot question | Powtórzenia użytkownika | Slaby prompt lub ASR |
+| Handoff after misunderstanding | Eskalację po niezrozumieniu | Frustracja i ryzyko UX |
 
-## 8.3. Wyjasnienie eksperckie
+## 8.3. Wyjaśnienie eksperckie
 
-Dashboard jakosci rozumienia powinien odpowiadac na pytania:
+Dashboard jakości rozumienia powinien odpowiadać na pytania:
 
-1. Czy bot rozpoznaje glowne intencje?
-2. Ktore intencje myli?
-3. Ktore sloty sa najtrudniejsze?
-4. Gdzie pojawia sie no-input?
-5. Gdzie pojawia sie no-match?
+1. Czy bot rozpoznaje główne intencje?
+2. Które intencje myli?
+3. Które sloty są najtrudniejsze?
+4. Gdzie pojawia się no-input?
+5. Gdzie pojawia się no-match?
 6. Czy problemy wynikaja z ASR, NLU, promptu czy procesu?
 7. Czy ostatnia zmiana poprawila wynik?
-8. Czy jakosc jest stabilna w czasie?
+8. Czy jakość jest stabilna w czasie?
 
-Nie wystarczy pokazac jedna liczbe. Potrzebne sa widoki:
+Nie wystarczy pokazać jedna liczbę. Potrzebne są widoki:
 
 - per intencja;
 - per flow;
 - per prompt;
-- per kanal;
+- per kanał;
 - per segment;
 - w czasie;
 - przed/po release.
@@ -1113,25 +1113,25 @@ Nie wystarczy pokazac jedna liczbe. Potrzebne sa widoki:
 
 Biznes potrzebuje interpretacji:
 
-Zle:
+Źle:
 
 "NLU F1 wynosi 0,82."
 
 Lepsze:
 
-"Bot dobrze rozpoznaje status zamowienia, ale myli zmiane adresu z reklamacja dostawy. To powoduje 12% dodatkowych handoffow w tym flow. Rekomendujemy scalenie czesci intencji i pytanie doprecyzowujace."
+"Bot dobrze rozpoznaje status zamówienia, ale myli zmianę adresu z reklamacja dostawy. To powoduje 12% dodatkowych handoffow w tym flow. Rekomendujemy scalenie części intencji i pytanie doprecyzowujace."
 
-## 8.5. Perspektywa uzytkownika
+## 8.5. Perspektywa użytkownika
 
-Dashboard powinien wykrywac miejsca, gdzie uzytkownik cierpi:
+Dashboard powinien wykrywać miejsca, gdzie użytkownik cierpi:
 
 - powtarza te sama informacje;
-- jest przekierowywany po kilku bledach;
+- jest przekierowywany po kilku błędach;
 - przerywa botowi;
-- milczy po niezrozumialym pytaniu;
-- porzuca rozmowe.
+- milczy po niezrozumiałym pytaniu;
+- porzuca rozmowę.
 
-Jakość rozumienia nie jest tylko metryka modelu. To odczuwalna jakosc rozmowy.
+Jakość rozumienia nie jest tylko metryka modelu. To odczuwalna jakość rozmowy.
 
 ## 8.6. Perspektywa technologiczna
 
@@ -1155,22 +1155,22 @@ Dashboard wymaga dobrych logow:
 - Pokazuj metryki per intencja i per flow.
 - Dodaj trend w czasie.
 - Dodaj widok po release.
-- Laczy metryki z przykladami transkrypcji.
+- Łączy metryki z przykladami transkrypcji.
 - Oznaczaj przyczyne problemu po analizie.
 - Pokazuj top no-match phrases.
 - Pokazuj critical field accuracy dla danych wysokiego ryzyka.
-- Dashboard powinien prowadzic do backlogu, nie tylko raportowac.
+- Dashboard powinien prowadzić do backlogu, nie tylko raportowac.
 
-## 8.8. Typowe bledy
+## 8.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Dashboard tylko dla wolumenu | Brak informacji o jakosci |
-| Jedna accuracy dla calego bota | Ukryte problemy intencji krytycznych |
-| Brak prompt_id | Nie wiadomo, ktore pytanie generuje blad |
+| Dashboard tylko dla wolumenu | Brak informacji o jakości |
+| Jedna accuracy dla całego bota | Ukryte problemy intencji krytycznych |
+| Brak prompt_id | Nie wiadomo, które pytanie generuje błąd |
 | Brak wersji modelu | Nie wiadomo, co zmienilo wynik |
-| Brak przykladow rozmow | Metryki bez interpretacji |
-| Brak polaczenia z backlogiem | Raport nie prowadzi do dzialania |
+| Brak przykładów rozmów | Metryki bez interpretacji |
+| Brak połączenia z backlogiem | Raport nie prowadzi do działania |
 
 ## 8.9. Checklista dashboardu
 
@@ -1181,35 +1181,35 @@ Dashboard wymaga dobrych logow:
 - Czy widac handoff reasons?
 - Czy widac wersje modelu/flow?
 - Czy widac trend przed/po release?
-- Czy dashboard pokazuje przyklady rozmow?
+- Czy dashboard pokazuje przykłady rozmów?
 - Czy wyniki tworza backlog optymalizacji?
 
 ## 8.10. Mini case study
 
-Dashboard voicebota rezerwacyjnego pokazywal stabilny task completion, ale wzrost no-input przy pytaniu o lokalizacje. Analiza prompt_id pokazala, ze po zmianie copy bot pytal: "Jaka placowka jest preferowana?", zamiast "W ktorym miescie chce pani wizyte?". Uzytkownicy milczeli, bo pytanie bylo zbyt formalne. Po zmianie promptu no-input spadl.
+Dashboard voicebota rezerwacyjnego pokazywal stabilny task completion, ale wzrost no-input przy pytaniu o lokalizacje. Analiza prompt_id pokazala, że po zmianie copy bot pytal: "Jaka placowka jest preferowana?", zamiast "W którym miescie chce pani wizyte?". Użytkownicy milczeli, bo pytanie było zbyt formalne. Po zmianie promptu no-input spadl.
 
-## 8.11. Cwiczenia
+## 8.11. Ćwiczenia
 
-1. Zaprojektuj dashboard jakosci rozumienia dla statusu zamowienia.
-2. Wskaz 5 metryk dla ASR.
-3. Wskaz 5 metryk dla NLU.
+1. Zaprojektuj dashboard jakości rozumienia dla statusu zamówienia.
+2. Wskaż 5 metryk dla ASR.
+3. Wskaż 5 metryk dla NLU.
 4. Opisz, jak dashboard generuje backlog.
 
 ## 8.12. Podsumowanie
 
-Dashboard jakosci rozumienia laczy dane techniczne z doswiadczeniem uzytkownika. Jego celem nie jest dekoracja raportowa, lecz szybkie wykrywanie, gdzie bot nie rozumie ludzi i co trzeba poprawic.
+Dashboard jakości rozumienia łączy dane techniczne z doświadczeniem użytkownika. Jego celem nie jest dekoracja raportowa, lecz szybkie wykrywanie, gdzie bot nie rozumie ludzi i co trzeba poprawić.
 
 ---
 
-# 9. Zbiorcza checklista po Czesci VI
+# 9. Zbiorcza checklista po Części VI
 
 - Czy masz reprezentatywne nagrania i transkrypcje?
-- Czy dane sa zgodne z prywatnoscia i retencja?
-- Czy masz metadane rozmow i wynik kontaktu?
-- Czy dataset ma realne frazy uzytkownikow?
-- Czy intencje maja przyklady pozytywne i negatywne?
-- Czy encje maja slowniki, synonimy i walidacje?
-- Czy dane syntetyczne sa oznaczone?
+- Czy dane są zgodne z prywatnoscia i retencja?
+- Czy masz metadane rozmów i wynik kontaktu?
+- Czy dataset ma realne frazy użytkowników?
+- Czy intencje mają przykłady pozytywne i negatywne?
+- Czy encje mają słowniki, synonimy i walidacje?
+- Czy dane syntetyczne są oznaczone?
 - Czy istnieje guideline etykietowania?
 - Czy jest gold set?
 - Czy testujesz ASR w realnym kanale?
@@ -1218,22 +1218,22 @@ Dashboard jakosci rozumienia laczy dane techniczne z doswiadczeniem uzytkownika.
 - Czy raportujesz precision, recall i F1 per intencja?
 - Czy masz test set oddzielony od treningu?
 - Czy analizujesz no-match i fallbacki regularnie?
-- Czy kazda optymalizacja ma test regresji?
-- Czy dashboard pokazuje jakosc per intencja, flow i prompt?
+- Czy każda optymalizacja ma test regresji?
+- Czy dashboard pokazuje jakość per intencja, flow i prompt?
 
 ---
 
-# 10. Co bedzie w kolejnej czesci
+# 10. Co będzie w kolejnej części
 
-Kolejna czesc powinna opracowac **Czesc VII. LLM, RAG i generatywna AI w voicebotach**:
+Kolejna część powinna opracowac **Część VII. LLM, RAG i generatywna AI w voicebotach**:
 
-1. Kiedy uzywac LLM w voicebocie, a kiedy nie.
+1. Kiedy używać LLM w voicebocie, a kiedy nie.
 2. Voicebot deterministyczny vs generatywny.
 3. Hybryda flow-based + LLM.
 4. Prompt systemowy voicebota.
 5. Ograniczanie odpowiedzi modelu.
 6. RAG i przygotowanie bazy wiedzy.
 7. Halucynacje, guardrails, prompt injection.
-8. Function calling i narzedzia.
-9. Latency, koszty i observability dla LLM voicebotow.
-10. Przykladowe prompty systemowe dla kilku typow voicebotow.
+8. Function calling i narzędzia.
+9. Latency, koszty i observability dla LLM voicebotów.
+10. Przykładowe prompty systemowe dla kilku typów voicebotów.

@@ -1,16 +1,16 @@
 # Voicebot Specialist Handbook
 
-## Czesc 16: Szablony, narzedzia i dokumenty projektowe
+## Część 16: Szablony, narzędzia i dokumenty projektowe
 
 Wersja robocza: 2026-07-29
 
 ---
 
-# Czesc XV. Szablony, narzedzia i dokumenty projektowe
+# Część XV. Szablony, narzędzia i dokumenty projektowe
 
-## Cel czesci
+## Cel części
 
-Ta czesc zawiera praktyczne szablony do wykorzystania w projektach voicebotow. Kazdy szablon mozna skopiowac do dokumentacji projektu i dostosowac do organizacji, branzy oraz platformy.
+Ta część zawiera praktyczne szablony do wykorzystania w projektach voicebotów. Każdy szablon można skopiowac do dokumentacji projektu i dostosowac do organizacji, branży oraz platformy.
 
 ---
 
@@ -50,7 +50,7 @@ Termin MVP:
 
 ```text
 Nazwa use case'u:
-Cel uzytkownika:
+Cel użytkownika:
 Cel biznesowy:
 Powod kontaktu:
 Wolumen:
@@ -71,9 +71,9 @@ Rekomendacja: MVP / pozniej / nie wdrazac
 | Wolumen |  | 3 |  |  |
 | Powtarzalnosc |  | 3 |  |  |
 | Jasnosc celu |  | 2 |  |  |
-| Dostepnosc danych |  | 2 |  |  |
-| Dostepnosc API |  | 3 |  |  |
-| Koszt bledu |  | 3 |  |  |
+| Dostępność danych |  | 2 |  |  |
+| Dostępność API |  | 3 |  |  |
+| Koszt błędu |  | 3 |  |  |
 | Emocje |  | 2 |  |  |
 | Compliance |  | 3 |  |  |
 | Latwosc handoff |  | 3 |  |  |
@@ -136,7 +136,7 @@ Aktualizacja:
 
 ## 8. Tabela fraz treningowych
 
-| ID | Fraza | Intencja | Encje | Zrodlo | Real/synthetic | Uwagi | Wersja |
+| ID | Fraza | Intencja | Encje | Źródło | Real/synthetic | Uwagi | Wersja |
 |---|---|---|---|---|---|---|---|
 
 ## 9. Dokument persony voicebota
@@ -164,7 +164,7 @@ Wersja:
 Model:
 Zakres:
 Poza zakresem:
-Styl glosowy:
+Styl głosowy:
 Zasady odpowiedzi:
 Zasady narzedzi:
 Zasady RAG:
@@ -191,13 +191,13 @@ Timeout:
 Retry:
 Idempotency:
 Bledy:
-Komunikaty uzytkownika:
+Komunikaty użytkownika:
 Logi:
 Security:
 Test cases:
 ```
 
-## 12. Plan testow
+## 12. Plan testów
 
 ```text
 Zakres:
@@ -236,8 +236,8 @@ Raport:
 - Legal/compliance zatwierdzone.
 - Security zatwierdzone.
 - Handoff przetestowany.
-- Dashboard dziala.
-- Alerty dzialaja.
+- Dashboard działa.
+- Alerty działają.
 - Runbook gotowy.
 - Rollback gotowy.
 - Hypercare zaplanowany.
@@ -264,10 +264,10 @@ Backlog:
 
 ## 16. Dashboard metryk
 
-| Metryka | Definicja | Zrodlo | Czestotliwosc | Owner | Prog alarmowy |
+| Metryka | Definicja | Źródło | Częstotliwość | Owner | Prog alarmowy |
 |---|---|---|---|---|---|
 
-## 17. Raport z analizy rozmow
+## 17. Raport z analizy rozmów
 
 ```text
 Probka:
@@ -322,16 +322,16 @@ Kontakt awaryjny:
 
 # Zbiorcza checklista dokumentacji
 
-- Czy kazdy dokument ma ownera?
+- Czy każdy dokument ma ownera?
 - Czy jest wersjonowany?
 - Czy jest powiazany z testami?
 - Czy zawiera out of scope?
 - Czy zawiera ryzyka?
-- Czy jest uzyteczny dla biznesu, IT, QA i compliance?
+- Czy jest użyteczny dla biznesu, IT, QA i compliance?
 
 ---
 
-# Co bedzie w kolejnej czesci
+# Co będzie w kolejnej części
 
-Kolejna czesc: **Case studies**.
+Kolejna część: **Case studies**.
 

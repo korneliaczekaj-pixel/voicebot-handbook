@@ -1,34 +1,34 @@
 # Voicebot Specialist Handbook
 
-## Czesc 3: Architektura voicebota
+## Część 3: Architektura voicebota
 
 Wersja robocza: 2026-07-29  
-Kontynuacja plikow:
+Kontynuacja plików:
 
 - `Voicebot_Specialist_Handbook_czesc_1.md`
 - `Voicebot_Specialist_Handbook_czesc_2.md`
 
 ---
 
-# Czesc II. Architektura voicebota
+# Część II. Architektura voicebota
 
-## Cel calej czesci
+## Cel całej części
 
-Ta czesc wyjasnia, jak voicebot dziala "pod maska". Voicebot nie jest jednym modelem ani jednym skryptem dialogowym. Jest lancuchem komponentow pracujacych w czasie rzeczywistym: telefonia, streaming audio, ASR, NLU lub LLM, dialog manager, logika biznesowa, integracje, TTS, monitoring, analityka i human handoff.
+Ta część wyjaśnia, jak voicebot działa "pod maska". Voicebot nie jest jednym modelem ani jednym skryptem dialogowym. Jest lancuchem komponentów pracujacych w czasie rzeczywistym: telefonia, streaming audio, ASR, NLU lub LLM, dialog manager, logika biznesowa, integracje, TTS, monitoring, analityka i human handoff.
 
-Po tej czesci czytelnik powinien umiec:
+Po tej części czytelnik powinien umieć:
 
-1. Opisac podstawowy przeplyw audio i danych w voicebocie.
-2. Rozumiec role telefonii, SIP, VoIP, gatewaya i contact center.
-3. Wyjasnic, co robia ASR, NLU, dialog manager, LLM, RAG i TTS.
-4. Wskazac typowe miejsca opoznien i bledow.
-5. Rozroznic architekture rule-based, intent-based, generative i hybrid AI.
-6. Przygotowac wymagania wysokiego poziomu dla zespolu technicznego.
-7. Rozmawiac z architektem, developerem, dostawca platformy i zespołem contact center bez gubienia sensu biznesowego.
+1. Opisać podstawowy przepływ audio i danych w voicebocie.
+2. Rozumieć role telefonii, SIP, VoIP, gatewaya i contact center.
+3. Wyjaśnić, co robia ASR, NLU, dialog manager, LLM, RAG i TTS.
+4. Wskazac typowe miejsca opóźnień i błędów.
+5. Rozróżnić architekturę rule-based, intent-based, generative i hybrid AI.
+6. Przygotować wymagania wysokiego poziomu dla zespolu technicznego.
+7. Rozmawiać z architektem, developerem, dostawca platformy i zespołem contact center bez gubienia sensu biznesowego.
 
-Zrodla wspierajace czesc:
+Źródła wspierające część:
 
-- W3C VoiceXML 2.0: historyczny i nadal pouczajacy model dialogow audio, formularzy, gramatyk, zdarzen, promptow i input collection.
+- W3C VoiceXML 2.0: historyczny i nadal pouczajacy model dialogów audio, formularzy, gramatyk, zdarzeń, promptów i input collection.
 - Google Dialogflow CX advanced speech: end-of-speech sensitivity, smart endpointing, no-speech timeout, barge-in, partial response playback.
 - AWS Connect i Amazon Lex: streaming ASR, end-of-turn confidence, silence timeout, allow-interrupt, slot-level speech controls.
 - LiveKit: pipeline voice agents, VAD, endpointing, turn detection, adaptive interruption handling, aligned transcripts.
@@ -38,53 +38,53 @@ Zrodla wspierajace czesc:
 
 ## Architektura w prostych slowach
 
-Architekture voicebota mozna porownac do dobrze zorganizowanej recepcji telefonicznej. Najpierw ktos odbiera polaczenie i zapewnia, ze dzwiek dociera w dobra strone. Potem ktos zapisuje, co powiedzial klient. Nastepnie ktos interpretuje sens wypowiedzi: czy chodzi o status zamowienia, reklamacje, termin dostawy czy konsultanta. Potem system sprawdza reguly procesu i dane w firmowych systemach. Na koncu uklada odpowiedz, zamienia ja na glos i mowi do uzytkownika.
+Architekturę voicebota można porównać do dobrze zorganizowanej recepcji telefonicznej. Najpierw ktos odbiera połączenie i zapewnia, że dźwięk dociera w dobra strone. Potem ktos zapisuje, co powiedział klient. Następnie ktos interpretuje sens wypowiedzi: czy chodzi o status zamówienia, reklamację, termin dostawy czy konsultanta. Potem system sprawdza reguły procesu i dane w firmowych systemach. Na koncu uklada odpowiedź, zamienia ja na głos i mówi do użytkownika.
 
-W prawdziwym voicebocie te "osoby" sa komponentami technicznymi: telefonia, ASR, NLU lub LLM, dialog manager, integracje i TTS. Gdy rozmowa sie psuje, przyczyna moze lezec w dowolnym miejscu. Uzytkownik mowi wyraznie, ale telefonia znieksztalca dzwiek. ASR zapisuje zle slowo. NLU wybiera zla intencje. Integracja nie odpowiada. TTS dziwnie czyta date. Dlatego nie wystarczy powiedziec "AI zle zrozumiala". Trzeba umiec znalezc warstwe, na ktorej powstal blad.
+W prawdziwym voicebocie te "osoby" są komponentami technicznymi: telefonia, ASR, NLU lub LLM, dialog manager, integracje i TTS. Gdy rozmową się psuje, przyczyna może lezec w dowolnym miejscu. Użytkownik mówi wyraznie, ale telefonia znieksztalca dźwięk. ASR zapisuje źle słowo. NLU wybiera zła intencje. Integracja nie odpowiada. TTS dziwnie czyta datę. Dlatego nie wystarczy powiedzieć "AI źle zrozumiała". Trzeba umieć znaleźć warstwę, na której powstal błąd.
 
-Najprostsza mapa myslenia:
+Najprostsza mapa myślenia:
 
 ```text
-glos -> tekst -> znaczenie -> decyzja -> dane -> odpowiedz -> glos
+głos -> tekst -> znaczenie -> decyzja -> dane -> odpowiedź -> głos
 ```
 
-To zdanie jest mala mapa calej architektury. Kazdy rozdzial tej czesci rozwija jeden fragment tej drogi.
+To zdanie jest mala mapa całej architektury. Każdy rozdział tej części rozwija jeden fragment tej drogi.
 
 ---
 
-# Rozdzial 1. Architektura wysokiego poziomu: od glosu uzytkownika do akcji systemu
+# Rozdział 1. Architektura wysokiego poziomu: od głosu użytkownika do akcji systemu
 
-## 1.1. Cele rozdzialu
+## 1.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- opisac pelny przeplyw rozmowy voicebota;
-- rozroznic komponenty audio, jezykowe, dialogowe, biznesowe i operacyjne;
-- rozumiec, dlaczego blad moze powstac na wielu warstwach;
-- przygotowac prosty diagram architektury dla projektu.
+- opisać pełny przepływ rozmowy voicebota;
+- rozróżnić komponenty audio, językowe, dialogowe, biznesowe i operacyjne;
+- rozumieć, dlaczego błąd może powstac na wielu warstwach;
+- przygotować prosty diagram architektury dla projektu.
 
-## 1.2. Kluczowe pojecia
+## 1.2. Kluczowe pojęcia
 
-| Pojecie | Definicja praktyczna |
+| Pojęcie | Definicja praktyczna |
 |---|---|
-| Pipeline voicebota | Sekwencja komponentow przetwarzajacych rozmowe od audio do odpowiedzi |
-| Audio stream | Strumien dzwieku przesylany w czasie rzeczywistym |
+| Pipeline voicebota | Sekwencja komponentów przetwarzajacych rozmowę od audio do odpowiedzi |
+| Audio stream | Strumien dźwięku przesylany w czasie rzeczywistym |
 | ASR/STT | Automatic Speech Recognition / Speech-to-Text, zamiana mowy na tekst |
 | NLU | Natural Language Understanding, interpretacja intencji i encji |
 | Dialog manager | Komponent zarzadzajacy stanem rozmowy i kolejnymi krokami |
-| Business logic | Reguly procesu, decyzje, walidacje, obsluga wyjatkow |
-| Backend integration | Polaczenie z CRM, ERP, ticketingiem, kalendarzem, platnosciami itd. |
-| TTS | Text-to-Speech, zamiana tekstu na mowe |
-| Observability | Logi, metryki, tracing, transkrypcje, monitoring jakosci i kosztow |
+| Business logic | Reguly procesu, decyzję, walidacje, obsługa wyjątków |
+| Backend integration | Połączenie z CRM, ERP, ticketingiem, kalendarzem, płatnościami itd. |
+| TTS | Text-to-Speech, zamiana tekstu na mowę |
+| Observability | Logi, metryki, tracing, transkrypcje, monitoring jakości i kosztów |
 | Human handoff | Przekazanie rozmowy do konsultanta wraz z kontekstem |
 
-## 1.3. Wyjasnienie eksperckie
+## 1.3. Wyjaśnienie eksperckie
 
-Najprostszy przeplyw voicebota wyglada tak:
+Najprostszy przepływ voicebota wygląda tak:
 
 ```text
 Uzytkownik mowi
-  -> telefonia / kanal audio
+  -> telefonia / kanał audio
   -> streaming audio
   -> VAD / endpointing / turn detection
   -> ASR
@@ -94,22 +94,22 @@ Uzytkownik mowi
   -> integracje
   -> odpowiedz tekstowa
   -> TTS
-  -> audio do uzytkownika
+  -> audio do użytkownika
   -> logi, metryki, transkrypcje, monitoring
 ```
 
-W praktyce ten przeplyw nie jest liniowy jak fabryczna tasma. Dzieje sie wiele procesow rownolegle:
+W praktyce ten przepływ nie jest liniowy jak fabryczna tasma. Dzieje się wiele procesów równolegle:
 
-- system slucha, gdy uzytkownik mowi;
-- system moze generowac odpowiedz, zanim ma finalna transkrypcje, jesli architektura wspiera preemptive generation;
-- system moze odtwarzac TTS i jednoczesnie nasluchiwac barge-in;
-- system moze wywolywac API, a w tym czasie odtwarzac komunikat wypelniajacy cisze;
+- system słucha, gdy użytkownik mówi;
+- system może generowac odpowiedź, zanim ma finalna transkrypcje, jeśli architektura wspiera preemptive generation;
+- system może odtwarzać TTS i jednocześnie nasłuchiwać barge-in;
+- system może wywolywac API, a w tym czasie odtwarzać komunikat wypelniajacy ciszę;
 - monitoring zbiera dane w tle;
-- dialog manager aktualizuje stan rozmowy po kazdym kroku.
+- dialog manager aktualizuje stan rozmowy po każdym kroku.
 
 Uwaga praktyczna:
 
-Voicebot jest tak dobry, jak jego najslabsza warstwa. Swietny LLM nie naprawi zlej telefonii, a dobry ASR nie naprawi scenariusza, ktory pyta o trzy rzeczy naraz.
+Voicebot jest tak dobry, jak jego najslabsza warstwa. Świetny LLM nie naprawi złej telefonii, a dobry ASR nie naprawi scenariusza, który pyta o trzy rzeczy naraz.
 
 ## 1.4. Perspektywa biznesowa
 
@@ -117,270 +117,270 @@ Architektura decyduje o:
 
 - czasie reakcji;
 - koszcie rozmowy;
-- mozliwosci skalowania;
-- jakosci rozumienia;
+- możliwości skalowania;
+- jakości rozumienia;
 - poziomie kontroli nad odpowiedziami;
-- latwosci integracji;
+- łatwośći integracji;
 - ryzyku compliance;
-- latwosci pozniejszej optymalizacji.
+- łatwośći pozniejszej optymalizacji.
 
-Dla biznesu architektura nie jest "tematem IT". To wybor modelu operacyjnego. Inna architektura pasuje do prostego statusu zamowienia, inna do voicebota medycznego, inna do generatywnego helpdesku IT.
+Dla biznesu architektura nie jest "tematem IT". To wybór modelu operacyjnego. Inna architektura pasuje do prostego statusu zamówienia, inna do voicebota medycznego, inna do generatywnego helpdesku IT.
 
-## 1.5. Perspektywa uzytkownika
+## 1.5. Perspektywa użytkownika
 
-Uzytkownik nie widzi architektury, ale czuje jej konsekwencje:
+Użytkownik nie widzi architektury, ale czuje jej konsekwencje:
 
 - czy bot odpowiada szybko;
 - czy ucina wypowiedzi;
-- czy pozwala przerwac;
+- czy pozwala przerwać;
 - czy poprawnie czyta nazwiska, daty, numery i kwoty;
-- czy pamieta kontekst;
+- czy pamięta kontekst;
 - czy sprawa zostaje wykonana, a nie tylko omowiona;
-- czy konsultant po przekazaniu wie, co sie dzialo.
+- czy konsultant po przekazaniu wie, co się dzialo.
 
 ## 1.6. Perspektywa technologiczna
 
-Kazdy komponent ma wejscia, wyjscia i ryzyka:
+Każdy komponent ma wejścia, wyjścia i ryzyka:
 
 | Komponent | Wejscie | Wyjscie | Typowe ryzyka |
 |---|---|---|---|
-| Telefonia | Polaczenie glosowe | Strumien audio | Kodeki, jitter, echo, opoznienia |
+| Telefonia | Połączenie głosowe | Strumien audio | Kodeki, jitter, echo, opóźnienia |
 | VAD | Audio | Informacja: mowa/brak mowy | Szum jako mowa, cicha mowa jako cisza |
 | Endpointing | Audio/ASR partials | Decyzja: koniec tury | Ucinanie lub martwa cisza |
-| ASR | Audio | Transkrypcja | Akcent, halas, nazwy wlasne, cyfry |
-| NLU | Tekst | Intencja, encje | Bledna klasyfikacja, brak danych |
-| LLM | Tekst/kontekst | Odpowiedz/decyzja/narzedzie | Halucynacje, latency, koszt |
-| Dialog manager | Stan + interpretacja | Nastepny krok | Utrata kontekstu, zly fallback |
-| Integracje | Zapytania API | Dane/akcje | Timeouty, bledy, brak spojnosci |
-| TTS | Tekst | Audio | Zla wymowa, tempo, nienaturalnosc |
+| ASR | Audio | Transkrypcją | Akcent, hałas, nazwy własne, cyfry |
+| NLU | Tekst | Intencja, encje | Błędna klasyfikacja, brak danych |
+| LLM | Tekst/kontekst | Odpowiedź/decyzja/narzędzie | Halucynacje, latency, koszt |
+| Dialog manager | Stan + interpretacja | Następny krok | Utrata kontekstu, zły fallback |
+| Integracje | Zapytania API | Dane/akcję | Timeouty, błędy, brak spójności |
+| TTS | Tekst | Audio | Zła wymowa, tempo, nienaturalnosc |
 | Monitoring | Zdarzenia/logi | Metryki/alerty | Brak danych do diagnostyki |
 
 ## 1.7. Dobre praktyki
 
-- Rysuj architekture jako przeplyw audio, tekstu, decyzji i danych.
+- Rysuj architekturę jako przepływ audio, tekstu, decyzji i danych.
 - Oznacz miejsca, gdzie powstaje latency.
-- Oznacz miejsca, gdzie trzeba logowac decyzje.
+- Oznacz miejsca, gdzie trzeba logowac decyzję.
 - Oddziel stan rozmowy od tekstu generowanej odpowiedzi.
-- Projektuj fallback dla kazdego komponentu krytycznego.
-- Wymagaj testow end-to-end przez prawdziwy kanal.
+- Projektuj fallback dla każdego komponentu krytycznego.
+- Wymagaj testów end-to-end przez prawdziwy kanał.
 - Nie oceniaj voicebota tylko na podstawie demo w przegladarce.
 
-## 1.8. Typowe bledy
+## 1.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Brak diagramu architektury | Interesariusze nie rozumieja zaleznosci i kosztow |
+| Brak diagramu architektury | Interesariusze nie rozumieja zaleznosci i kosztów |
 | Traktowanie voicebota jako jednego komponentu | Trudna diagnostyka |
-| Brak logowania ASR partials i decyzji dialogowych | Nie wiadomo, czemu bot zle odpowiedzial |
+| Brak logowania ASR partials i decyzji dialogowych | Nie wiadomo, czemu bot źle odpowiedział |
 | Brak planu timeoutow integracji | Cisza lub przypadkowe fallbacki |
 | Brak osobnej polityki handoff | Konsultant dostaje klienta bez kontekstu |
 
 ## 1.9. Checklista architektury wysokiego poziomu
 
-- Czy mamy rozrysowany przeplyw audio?
-- Czy wiemy, gdzie konczy sie telefonia, a zaczyna voice platform?
+- Czy mamy rozrysowany przepływ audio?
+- Czy wiemy, gdzie kończy się telefonia, a zaczyna voice platform?
 - Czy znamy ASR, NLU/LLM i TTS?
 - Czy dialog manager przechowuje stan rozmowy?
-- Czy integracje maja retry, timeout i fallback?
-- Czy TTS mozna przerwac?
+- Czy integracje mają retry, timeout i fallback?
+- Czy TTS można przerwać?
 - Czy system loguje transkrypcje, intencje, encje, zdarzenia, metryki?
 - Czy handoff przekazuje kontekst do konsultanta?
-- Czy mamy plan awarii dla komponentow krytycznych?
+- Czy mamy plan awarii dla komponentów krytycznych?
 
 ## 1.10. Mini case study
 
-Firma kurierska wdraza voicebota do statusu przesylek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem sledzenia. Bot rozpoznaje intencje "status paczki", ale i tak odsyla do strony internetowej. Po zmianie architektury dodano identyfikacje po numerze telefonu, integracje tracking API, potwierdzenie przesylki i handoff dla statusow spornych. Dopiero wtedy bot zaczal realnie rozwiazywac sprawe.
+Firma kurierska wdraza voicebota do statusu przesylek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem sledzenia. Bot rozpoznaje intencje "status paczki", ale i tak odsyla do strony internetowej. Po zmianie architektury dodano identyfikacje po numerze telefonu, integracje tracking API, potwierdzenie przesyłki i handoff dla statusow spornych. Dopiero wtedy bot zaczął realnie rozwiazywac sprawę.
 
-## 1.11. Cwiczenia
+## 1.11. Ćwiczenia
 
 1. Narysuj tekstowy diagram architektury voicebota do umawiania wizyt.
-2. Wskaz trzy miejsca, gdzie moze powstac latency.
-3. Wskaz trzy miejsca, gdzie trzeba logowac decyzje.
+2. Wskaż trzy miejsca, gdzie może powstac latency.
+3. Wskaż trzy miejsca, gdzie trzeba logowac decyzję.
 4. Opisz fallback, gdy integracja CRM nie odpowiada.
 
 ## 1.12. Podsumowanie
 
-Architektura voicebota to lancuch decyzji o dzwieku, jezyku, dialogu, danych i operacjach. Specjalista nie musi byc inzynierem kazdego komponentu, ale musi rozumiec zaleznosci, bo to one decyduja o jakosci rozmowy.
+Architektura voicebota to lancuch decyzji o dźwięku, języku, dialogu, danych i operacjach. Specjalista nie musi być inzynierem każdego komponentu, ale musi rozumieć zaleznosci, bo to one decydują o jakości rozmowy.
 
 ---
 
-# Rozdzial 2. Kanal telefoniczny, SIP, VoIP, contact center i telephony gateway
+# Rozdział 2. Kanał telefoniczny, SIP, VoIP, contact center i telephony gateway
 
-## 2.1. Cele rozdzialu
+## 2.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec podstawy kanalu telefonicznego;
-- wyjasnic role SIP, VoIP i gatewaya;
-- wiedziec, jak voicebot laczy sie z contact center;
-- rozpoznawac ograniczenia telefonii w projektowaniu rozmowy.
+- rozumieć podstawy kanału telefonicznego;
+- wyjaśnić role SIP, VoIP i gatewaya;
+- wiedzieć, jak voicebot łączy się z contact center;
+- rozpoznawać ograniczenia telefonii w projektowaniu rozmowy.
 
-## 2.2. Kluczowe pojecia
+## 2.2. Kluczowe pojęcia
 
-| Pojecie | Definicja praktyczna |
+| Pojęcie | Definicja praktyczna |
 |---|---|
 | PSTN | Klasyczna publiczna siec telefoniczna |
-| VoIP | Przesylanie glosu przez siec IP |
+| VoIP | Przesylanie głosu przez siec IP |
 | SIP | Protokol inicjowania, modyfikowania i konczenia sesji komunikacyjnych |
 | RTP | Protokol transportu mediow, np. audio w czasie rzeczywistym |
-| Telephony gateway | Warstwa laczaca telefonie z aplikacja voicebota |
-| Contact center platform | System obslugi kolejek, konsultantow, routingow, nagran i raportow |
-| DTMF | Tonowe sygnaly klawiatury telefonu |
+| Telephony gateway | Warstwa łącząca telefonię z aplikacja voicebota |
+| Contact center platform | System obsługi kolejek, konsultantów, routingow, nagrań i raportow |
+| DTMF | Tonowe sygnały klawiatury telefonu |
 | Call transfer | Przekazanie rozmowy do innej kolejki lub konsultanta |
-| ANI/CLI | Numer dzwoniacego, jesli dostepny |
+| ANI/CLI | Numer dzwoniacego, jeśli dostępny |
 
-## 2.3. Wyjasnienie eksperckie
+## 2.3. Wyjaśnienie eksperckie
 
-Voicebot telefoniczny nie zaczyna sie w modelu AI. Zaczyna sie od polaczenia. Uzytkownik dzwoni, siec telefoniczna zestawia rozmowe, contact center albo gateway odbiera polaczenie, a audio jest przekazywane do systemu voicebota.
+Voicebot telefoniczny nie zaczyna się w modelu AI. Zaczyna się od połączenia. Użytkownik dzwoni, siec telefoniczna zestawia rozmowę, contact center albo gateway odbiera połączenie, a audio jest przekazywane do systemu voicebota.
 
-Typowy przeplyw:
+Typowy przepływ:
 
 ```text
-Telefon uzytkownika
+Telefon użytkownika
   -> operator / PSTN / VoIP
   -> SIP trunk lub platforma contact center
   -> telephony gateway
   -> voicebot runtime
   -> ASR / dialog / TTS
-  -> powrot audio do uzytkownika
+  -> powrot audio do użytkownika
 ```
 
-SIP jest czesto warstwa sygnalizacyjna: kto dzwoni, dokad, kiedy odebrano, kiedy rozlaczono, jak przekazac rozmowe. Audio najczesciej plynie osobnym strumieniem mediow. Dla Voicebot Specialist najwazniejsze nie jest recytowanie szczegolow protokolow, ale rozumienie konsekwencji:
+SIP jest często warstwa sygnalizacyjna: kto dzwoni, dokad, kiedy odebrano, kiedy rozlaczono, jak przekazać rozmowę. Audio najczesciej plynie osobnym strumieniem mediow. Dla Voicebot Specialist najważniejsze nie jest recytowanie szczegółów protokolow, ale rozumienie konsekwencji:
 
-- telefonia dodaje opoznienia;
-- kodeki moga ograniczac jakosc audio;
+- telefonia dodaje opóźnienia;
+- kodeki mogą ograniczac jakość audio;
 - przekazanie do konsultanta wymaga zachowania kontekstu;
 - nagrania i transkrypcje podlegaja zasadom prawnym;
-- DTMF moze byc potrzebne dla kodow, wyborow i awaryjnej obslugi;
-- caller ID moze pomoc w identyfikacji, ale nie moze byc jedyna weryfikacja w procesach wrazliwych.
+- DTMF może być potrzebne dla kodów, wyborów i awaryjnej obsługi;
+- caller ID może pomóc w identyfikacji, ale nie może być jedyna weryfikacja w procesach wrażliwych.
 
 ## 2.4. Perspektywa biznesowa
 
-Telefonia decyduje o mozliwosci wdrozenia w realnym contact center:
+Telefonia decyduje o możliwości wdrożenia w realnym contact center:
 
-- Czy voicebot moze odbierac czesc ruchu?
-- Czy moze oddac rozmowe do odpowiedniej kolejki?
+- Czy voicebot może odbierac część ruchu?
+- Czy może oddać rozmowę do odpowiedniej kolejki?
 - Czy konsultant zobaczy transkrypcje i podsumowanie?
-- Czy da sie mierzyc kolejki, transfery i abandoned calls?
-- Czy system dziala w godzinach szczytu?
+- Czy da się mierzyć kolejki, transfery i abandoned calls?
+- Czy system działa w godzinach szczytu?
 - Czy koszt minut audio jest przewidywalny?
 
-Dla biznesu wazne jest tez, czy voicebot bedzie warstwa przed contact center, elementem platformy contact center, czy osobna usluga polaczona przez SIP/API.
+Dla biznesu ważne jest też, czy voicebot będzie warstwa przed contact center, elementem platformy contact center, czy osobna usługa połączona przez SIP/API.
 
-## 2.5. Perspektywa uzytkownika
+## 2.5. Perspektywa użytkownika
 
-Uzytkownik odczuwa telefonie jako:
+Użytkownik odczuwa telefonię jako:
 
-- jakosc dzwieku;
-- opoznienie;
-- martwa cisze;
-- latwosc lub trudnosc przekazania do konsultanta;
-- koniecznosc powtarzania danych po transferze;
+- jakość dźwięku;
+- opóźnienie;
+- martwa ciszę;
+- łatwość lub trudnosc przekazania do konsultanta;
+- konieczność powtarzania danych po transferze;
 - przerwanie rozmowy przy blednym przekazaniu.
 
-Najgorszy handoff to taki, w ktorym uzytkownik po pieciu minutach rozmowy z botem slyszy od konsultanta: "W czym moge pomoc?". To sygnal, ze architektura nie przekazala kontekstu.
+Najgorszy handoff to taki, w którym użytkownik po pieciu minutach rozmowy z botem słyszy od konsultanta: "W czym mogę pomóc?". To sygnał, że architektura nie przekazala kontekstu.
 
 ## 2.6. Perspektywa technologiczna
 
 Wymagania techniczne dla telefonii:
 
-- obsluga inbound i/lub outbound;
+- obsługa inbound i/lub outbound;
 - SIP trunk lub natywna integracja contact center;
 - streaming audio do ASR/voice runtime;
-- obsluga DTMF;
+- obsługa DTMF;
 - transfer blind/attended, zalezne od platformy;
 - przekazywanie metadanych rozmowy;
 - nagrywanie i/lub eksport audio;
 - synchronizacja transkrypcji z audio;
-- monitoring jakosci polaczenia;
+- monitoring jakości połączenia;
 - mechanizmy awaryjne.
 
 ## 2.7. Dobre praktyki
 
-- Testuj voicebota przez ten sam kanal, ktory bedzie na produkcji.
-- Nie oceniaj ASR na podstawie studyjnych nagran, jesli produkcja to telefon.
+- Testuj voicebota przez ten sam kanał, który będzie na produkcji.
+- Nie oceniaj ASR na podstawie studyjnych nagrań, jeśli produkcja to telefon.
 - Zachowaj DTMF jako alternatywe w krytycznych danych.
-- Projektuj handoff jako przeplyw danych, nie tylko transfer audio.
-- Ustal, kto jest wlascicielem nagran: platforma contact center, voicebot czy klient.
-- Uzgodnij retencje i dostepy do nagran oraz transkrypcji.
+- Projektuj handoff jako przepływ danych, nie tylko transfer audio.
+- Ustal, kto jest właścicielem nagrań: platforma contact center, voicebot czy klient.
+- Uzgodnij retencję i dostepy do nagrań oraz transkrypcji.
 
-## 2.8. Typowe bledy
+## 2.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Testowanie tylko w aplikacji webowej | Produkcyjna telefonia zachowuje sie inaczej |
+| Testowanie tylko w aplikacji webowej | Produkcyjna telefonia zachowuje się inaczej |
 | Brak DTMF fallback | Problemy z numerami, kodami i halasem |
 | Brak przekazania kontekstu do konsultanta | Powtarzanie danych i frustracja |
 | Nieuzgodnione nagrywanie | Ryzyko prawne |
-| Brak monitoringu jakosci polaczenia | Trudno odroznic blad bota od zlego audio |
+| Brak monitoringu jakości połączenia | Trudno odróżnić błąd bota od złego audio |
 
 ## 2.9. Checklista telefonii
 
-- Czy znamy kanal: PSTN, VoIP, WebRTC, SIP?
-- Czy znamy kodeki i jakosc audio?
-- Czy voicebot bedzie przed contact center czy w srodku platformy?
+- Czy znamy kanał: PSTN, VoIP, WebRTC, SIP?
+- Czy znamy kodeki i jakość audio?
+- Czy voicebot będzie przed contact center czy w środku platformy?
 - Czy transfer do konsultanta jest technicznie wspierany?
 - Czy przekazujemy kontekst rozmowy?
 - Czy obslugujemy DTMF?
 - Czy nagrywamy rozmowy?
 - Czy informujemy o nagrywaniu i automatyzacji?
-- Czy testujemy outbound, jesli dotyczy?
+- Czy testujemy outbound, jeśli dotyczy?
 - Czy mamy plan awarii, gdy voicebot nie odpowiada?
 
 ## 2.10. Mini case study
 
-Przychodnia wdraza voicebota do potwierdzania wizyt outbound. Technicznie bot dziala dobrze w testach webowych, ale w telefonii czesc pacjentow odpowiada bardzo krotko: "tak", "nie", "przelozyc". ASR w slabej jakosci polaczenia myli "nie" z szumem. Zespol dodaje DTMF jako alternatywe: "Moze pani powiedziec tak lub nacisnac 1". Completion rate rosnie, bo architektura uwzglednia realny kanal.
+Przychodnia wdraza voicebota do potwierdzania wizyt outbound. Technicznie bot działa dobrze w testach webowych, ale w telefonii część pacjentow odpowiada bardzo krótko: "tak", "nie", "przelozyc". ASR w slabej jakości połączenia myli "nie" z szumem. Zespół dodaje DTMF jako alternatywe: "Może pani powiedzieć tak lub nacisnac 1". Completion rate rośnie, bo architektura uwzględnia realny kanał.
 
-## 2.11. Cwiczenia
+## 2.11. Ćwiczenia
 
-1. Opisz, jak voicebot bedzie polaczony z contact center w twoim projekcie.
-2. Wskaz, ktore dane trzeba przekazac konsultantowi.
+1. Opisz, jak voicebot będzie połączony z contact center w twoim projekcie.
+2. Wskaż, które dane trzeba przekazać konsultantowi.
 3. Zaprojektuj fallback DTMF dla kodu SMS.
-4. Wypisz ryzyka prawne zwiazane z nagrywaniem.
+4. Wypisz ryzyka prawne związane z nagrywaniem.
 
 ## 2.12. Podsumowanie
 
-Telefonia nie jest dodatkiem do voicebota. Jest jego srodowiskiem pracy. Jakosc polaczenia, transfery, DTMF, nagrania i kontekst handoff bezposrednio wplywaja na to, czy automatyzacja bedzie dzialac w prawdziwym contact center.
+Telefonia nie jest dodatkiem do voicebota. Jest jego srodowiskiem pracy. Jakość połączenia, transfery, DTMF, nagrania i kontekst handoff bezpośrednio wpływają na to, czy automatyzacja będzie działać w prawdziwym contact center.
 
 ---
 
-# Rozdzial 3. Streaming audio, latency i czas rzeczywisty
+# Rozdział 3. Streaming audio, latency i czas rzeczywisty
 
-## 3.1. Cele rozdzialu
+## 3.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, czym jest streaming audio;
-- wskazac zrodla opoznien w voicebocie;
-- projektowac rozmowe z uwzglednieniem latency;
-- rozumiec roznice miedzy WebRTC, WebSocket i SIP na poziomie odpowiedzialnosci projektowej.
+- rozumieć, czym jest streaming audio;
+- wskazac źródła opóźnień w voicebocie;
+- projektować rozmowę z uwzglednieniem latency;
+- rozumieć różnice między WebRTC, WebSocket i SIP na poziomie odpowiedzialności projektowej.
 
-## 3.2. Kluczowe pojecia
+## 3.2. Kluczowe pojęcia
 
-| Pojecie | Definicja praktyczna |
+| Pojęcie | Definicja praktyczna |
 |---|---|
-| Streaming audio | Przesylanie dzwieku na biezaco, w malych fragmentach |
-| Frame | Krotki blok audio, np. kilkanascie lub kilkadziesiat ms |
-| Latency | Opoznienie od zdarzenia do reakcji systemu |
-| Jitter | Zmiennosc opoznienia pakietow |
+| Streaming audio | Przesylanie dźwięku na biezaco, w malych fragmentach |
+| Frame | Krótki blok audio, np. kilkanascie lub kilkadziesiat ms |
+| Latency | Opóźnienie od zdarzenia do reakcji systemu |
+| Jitter | Zmiennosc opóźnienia pakietow |
 | Buffer | Bufor przechowujacy fragmenty audio |
-| Realtime agent | Agent reagujacy w czasie rozmowy, bez dlugiego oczekiwania na pelne nagranie |
-| WebRTC | Technologia realtime audio/wideo, czesto uzywana w aplikacjach webowych |
-| WebSocket | Dwukierunkowe polaczenie do przesylania zdarzen i danych, w tym audio |
-| SIP | Czesciowo standardowy sposob laczenia z telefonia/contact center |
+| Realtime agent | Agent reagujacy w czasie rozmowy, bez dlugiego oczekiwania na pełne nagranie |
+| WebRTC | Technologia realtime audio/wideo, często używana w aplikacjach webowych |
+| WebSocket | Dwukierunkowe połączenie do przesylania zdarzeń i danych, w tym audio |
+| SIP | Czesciowo standardowy sposób łączenia z telefonia/contact center |
 
-## 3.3. Wyjasnienie eksperckie
+## 3.3. Wyjaśnienie eksperckie
 
-Voicebot nie powinien czekac, az uzytkownik skonczy cala rozmowe i dopiero potem przetwarzac audio. Musi przetwarzac strumien na biezaco:
+Voicebot nie powinien czekac, az użytkownik skonczy cała rozmowę i dopiero potem przetwarzac audio. Musi przetwarzac strumien na biezaco:
 
-- VAD wykrywa, czy pojawia sie mowa.
+- VAD wykrywa, czy pojawia się mowa.
 - ASR generuje partial transcripts.
-- Endpointing decyduje, czy tura uzytkownika sie skonczyla.
-- Dialog manager przygotowuje odpowiedz.
+- Endpointing decyduje, czy tura użytkownika się skończyła.
+- Dialog manager przygotowuje odpowiedź.
 - TTS zaczyna syntezowac audio.
-- System monitoruje, czy uzytkownik nie przerywa.
+- System monitoruje, czy użytkownik nie przerywa.
 
-Latency voicebota sklada sie z wielu malych opoznien:
+Latency voicebota składa się z wielu malych opóźnień:
 
 ```text
 latency telefonii
@@ -395,42 +395,42 @@ latency telefonii
 = odczuwalna zwloka
 ```
 
-Dla uzytkownika liczy sie calosc, nie to, ktory komponent byl szybki. Bot z szybkim LLM, ale wolnym endpointingiem i wolnym TTS, nadal brzmi wolno.
+Dla użytkownika liczy się całość, nie to, który komponent był szybki. Bot z szybkim LLM, ale wolnym endpointingiem i wolnym TTS, nadal brzmi wolno.
 
 ## 3.4. Perspektywa biznesowa
 
-Latency wplywa na:
+Latency wpływa na:
 
 - AHT;
 - abandonment;
-- frustracje;
-- liczbe powtorzen;
-- eskalacje;
+- frustrację;
+- liczbę powtórzeń;
+- eskalację;
 - koszt minut rozmowy;
 - postrzegana kompetencje bota.
 
-W procesach wysokowolumenowych nawet 1 sekunda dodatkowego czasu na rozmowe moze generowac duzy koszt. Ale zbyt agresywne skracanie latency moze zwiekszyc ucinanie wypowiedzi i bledy. Optymalizacja latency to balans, nie wyscig do najnizszej liczby.
+W procesach wysokowolumenowych nawet 1 sekunda dodatkowego czasu na rozmowę może generowac duzy koszt. Ale zbyt agresywne skracanie latency może zwiększyć ucinanie wypowiedzi i błędy. Optymalizacja latency to balans, nie wyscig do najnizszej liczby.
 
-## 3.5. Perspektywa uzytkownika
+## 3.5. Perspektywa użytkownika
 
-Uzytkownik interpretuje opoznienia psychologicznie:
+Użytkownik interpretuje opóźnienia psychologicznie:
 
-- krotka pauza po trudnym pytaniu moze brzmiec naturalnie;
-- dluga cisza po prostym "tak" brzmi jak awaria;
-- odpowiedz zbyt szybka po zlozonej wypowiedzi moze brzmiec jak brak sluchania;
+- krótka pauza po trudnym pytaniu może brzmieć naturalnie;
+- długa cisza po prostym "tak" brzmi jak awaria;
+- odpowiedź zbyt szybka po zlozonej wypowiedzi może brzmieć jak brak słuchania;
 - bot mowiacy podczas przerwania brzmi jak ignorujacy.
 
-Projektowanie latency musi uwzgledniac typ dialogu. Potwierdzenie "tak/nie" powinno byc szybkie. Analiza reklamacji moze miec krotki filler: "Sprawdzam to".
+Projektowanie latency musi uwzględniać typ dialogu. Potwierdzenie "tak/nie" powinno być szybkie. Analiza reklamacji może mieć krótki filler: "Sprawdzam to".
 
 ## 3.6. Perspektywa technologiczna
 
 W nowoczesnych architekturach:
 
-- WebRTC i SIP moga pozwalac serwerowi zarzadzac buforem audio i ucinaniem nieodtworzonego audio przy przerwaniu.
-- WebSocket czesto oznacza, ze klient zarzadza playbackiem, wiec musi sam zatrzymywac audio i synchronizowac truncation.
-- Realtime modele moga skrocic pipeline, ale wymagaja innych mechanizmow kontroli, monitoringu i testow.
+- WebRTC i SIP mogą pozwalać serwerowi zarzadzac buforem audio i ucinaniem nieodtworzonego audio przy przerwaniu.
+- WebSocket często oznacza, że klient zarzadza playbackiem, więc musi sam zatrzymywac audio i synchronizowac truncation.
+- Realtime modele mogą skrócić pipeline, ale wymagają innych mechanizmow kontroli, monitoringu i testów.
 
-Wazne parametry:
+Ważne parametry:
 
 - czas do pierwszego tokenu/fragmentu odpowiedzi;
 - czas do pierwszego audio TTS;
@@ -443,22 +443,22 @@ Wazne parametry:
 
 - Mierz latency end-to-end, nie tylko latency modelu.
 - Mierz osobno: endpointing, ASR, LLM/NLU, API, TTS, playback.
-- Projektuj filler prompts dla dlugich integracji.
-- Nie otwieraj mikrofonu na kolejny slot, jesli backend jeszcze nie jest gotowy.
-- Testuj w realnej sieci i przez telefonie.
-- Ustal budzet latency dla kazdego typu kroku.
+- Projektuj filler prompts dla długich integracji.
+- Nie otwieraj mikrofonu na kolejny slot, jeśli backend jeszcze nie jest gotowy.
+- Testuj w realnej sieci i przez telefonię.
+- Ustal budzet latency dla każdego typu kroku.
 - Optymalizuj najpierw miejsca najczesciej wystepujace.
 
-## 3.8. Typowe bledy
+## 3.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Mierzenie tylko czasu odpowiedzi LLM | Pomija ASR, TTS, endpointing i telefonie |
+| Mierzenie tylko czasu odpowiedzi LLM | Pomija ASR, TTS, endpointing i telefonię |
 | Brak fillerow przy API | Martwa cisza |
-| Za niski endpointing timeout | Ucinanie uzytkownika |
+| Za niski endpointing timeout | Ucinanie użytkownika |
 | Za wysoki endpointing timeout | Rozmowa brzmi ospale |
-| Brak pomiaru latency barge-in | Bot przegaduje uzytkownika |
-| Za dlugie prompt'y | Wysokie AHT i wiecej przerwan |
+| Brak pomiaru latency barge-in | Bot przegaduje użytkownika |
+| Za długie prompt'y | Wysokie AHT i więcej przerwań |
 
 ## 3.9. Checklista latency
 
@@ -468,202 +468,202 @@ Wazne parametry:
 - Czy mierzymy czas integracji?
 - Czy mierzymy czas TTS?
 - Czy mierzymy czas zatrzymania TTS po przerwaniu?
-- Czy mamy filler dla operacji dluzszych niz ok. 1-2 sekundy?
-- Czy bot nie mowi, zanim dane sa gotowe?
-- Czy rozne sloty maja rozne ustawienia endpointing?
+- Czy mamy filler dla operacji dłuższych niż ok. 1-2 sekundy?
+- Czy bot nie mówi, zanim dane są gotowe?
+- Czy różne sloty mają różne ustawienia endpointing?
 
 ## 3.10. Mini case study
 
-Voicebot bankowy podczas weryfikacji klienta wywoluje API antyfraudowe, ktore czasem odpowiada po 4 sekundach. Pierwsza wersja bota milczy. Uzytkownicy mowia "halo?" albo przerywaja. Druga wersja odtwarza krotki komunikat: "Chwileczke, sprawdzam dane", ale nie otwiera jeszcze kolejnego pytania. Barge-in pozostaje wlaczony, aby uzytkownik mogl poprosic o konsultanta. Martwa cisza spada, a liczba porzuconych rozmow maleje.
+Voicebot bankowy podczas weryfikacji klienta wywołuje API antyfraudowe, które czasem odpowiada po 4 sekundach. Pierwsza wersja bota milczy. Użytkownicy mówią "halo?" albo przerywają. Druga wersja odtwarza krótki komunikat: "Chwileczkę, sprawdzam dane", ale nie otwiera jeszcze kolejnego pytania. Barge-in pozostaje włączony, aby użytkownik mógł poprosić o konsultanta. Martwa cisza spada, a liczba porzuconych rozmów maleje.
 
-## 3.11. Cwiczenia
+## 3.11. Ćwiczenia
 
-1. Rozpisz budzet latency dla procesu statusu zamowienia.
-2. Wskaz, ktory krok moze byc najwolniejszy.
+1. Rozpisz budzet latency dla procesu statusu zamówienia.
+2. Wskaż, który krok może być najwolniejszy.
 3. Zaprojektuj filler prompt dla sprawdzania danych.
-4. Okresl, gdzie latency moze byc akceptowalna, a gdzie nie.
+4. Okresl, gdzie latency może być akceptowalna, a gdzie nie.
 
 ## 3.12. Podsumowanie
 
-Realtime w voicebocie to nie tylko szybki model. To zsynchronizowany system audio, decyzji, API i TTS. Naturalna rozmowa wymaga kontroli opoznien, endpointing i przerwan w kazdym kroku.
+Realtime w voicebocie to nie tylko szybki model. To zsynchronizowany system audio, decyzji, API i TTS. Naturalna rozmową wymaga kontroli opóźnień, endpointing i przerwań w każdym kroku.
 
 ---
 
-# Rozdzial 4. ASR: od mowy do tekstu
+# Rozdział 4. ASR: od mowy do tekstu
 
-## 4.1. Cele rozdzialu
+## 4.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec role ASR w voicebocie;
-- rozpoznawac czynniki pogarszajace rozpoznawanie;
-- projektowac dialogi odporne na bledy ASR;
-- wspolpracowac z zespolami technicznymi przy testach ASR.
+- rozumieć role ASR w voicebocie;
+- rozpoznawać czynniki pogarszajace rozpoznawanie;
+- projektować dialogi odporne na błędy ASR;
+- wspolpracowac z zespołami technicznymi przy testach ASR.
 
-## 4.2. Kluczowe pojecia
+## 4.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | ASR/STT | Technologia zamiany mowy na tekst |
-| Transcript | Transkrypcja wypowiedzi |
-| Partial transcript | Czesciowa hipoteza ASR podczas mowienia |
-| Final transcript | Ustabilizowana transkrypcja po zakonczeniu tury |
-| Confidence | Ocena pewnosci rozpoznania |
-| Word error rate | Metryka bledow transkrypcji |
-| Custom vocabulary | Slownik nazw, terminow, produktow, skrótow |
-| Diarization | Rozroznianie mowcow |
-| Noise robustness | Odpornosc na halas |
+| Transcript | Transkrypcją wypowiedzi |
+| Partial transcript | Czesciowa hipoteza ASR podczas mówienia |
+| Final transcript | Ustabilizowana transkrypcją po zakonczeniu tury |
+| Confidence | Ocena pewności rozpoznania |
+| Word error rate | Metryka błędów transkrypcji |
+| Custom vocabulary | Słownik nazw, terminow, produktow, skrótów |
+| Diarization | Rozróżnianie mowcow |
+| Noise robustness | Odpornosc na hałas |
 
-## 4.3. Wyjasnienie eksperckie
+## 4.3. Wyjaśnienie eksperckie
 
-ASR jest pierwsza warstwa interpretacji jezyka. Jesli ASR zle przepisze wypowiedz, kolejne komponenty moga podjac zla decyzje. Ale ASR nie musi byc idealny, aby voicebot dzialal. Musi byc wystarczajaco dobry dla konkretnego procesu i zaprojektowany z mechanizmami naprawy.
+ASR jest pierwsza warstwa interpretacji języka. Jeśli ASR źle przepisze wypowiedź, kolejne komponenty mogą podjac zła decyzję. Ale ASR nie musi być idealny, aby voicebot działał. Musi być wystarczajaco dobry dla konkretnego procesu i zaprojektowany z mechanizmami naprawy.
 
-Przyklady bledow ASR:
+Przykłady błędów ASR:
 
 - "Kwiatowa osiem" -> "światowa 8";
 - "nie" -> brak rozpoznania;
-- "PESEL" -> losowy ciag slow;
-- nazwa firmy -> zwykle slowo;
+- "PESEL" -> losowy ciąg słów;
+- nazwa firmy -> zwykle słowo;
 - "chce konsultanta" -> "chce konsultacje";
 - numer "15" -> "50".
 
-Dobry projekt zaklada, ze ASR bedzie sie mylil przy:
+Dobry projekt zakłada, że ASR będzie się mylil przy:
 
-- nazwach wlasnych;
+- nazwach własnych;
 - cyfrach;
 - adresach;
 - kodach;
 - obcych nazwach;
-- mowie w halasie;
+- mówię w hałasie;
 - krotkich odpowiedziach;
-- emocjach i podniesionym glosie.
+- emocjach i podniesionym głosie.
 
 ## 4.4. Perspektywa biznesowa
 
-Jakosc ASR wplywa na:
+Jakość ASR wpływa na:
 
 - task completion;
-- liczbe powtorzen;
+- liczbę powtórzeń;
 - czas rozmowy;
-- frustracje;
-- bledy transakcyjne;
-- koszt obslugi;
+- frustrację;
+- błędy transakcyjne;
+- koszt obsługi;
 - zaufanie do automatyzacji.
 
-Nie kazdy blad ASR ma ten sam koszt. Bledne rozpoznanie pytania FAQ moze skonczyc sie fallbackiem. Bledne rozpoznanie numeru konta, adresu dostawy albo zgody moze miec realne skutki finansowe lub prawne.
+Nie każdy błąd ASR ma ten sam koszt. Błędne rozpoznanie pytania FAQ może skończyć się fallbackiem. Błędne rozpoznanie numeru konta, adresu dostawy albo zgody może mieć realne skutki finansowe lub prawne.
 
-## 4.5. Perspektywa uzytkownika
+## 4.5. Perspektywa użytkownika
 
-Uzytkownik nie wie, czy zawinil ASR, NLU czy integracja. Slyszy tylko:
+Użytkownik nie wie, czy zawinil ASR, NLU czy integracja. Słyszy tylko:
 
 - "bot mnie nie rozumie";
-- "musze powtarzac";
+- "musze powtarzać";
 - "bot przekrecil moje dane";
 - "system nie radzi sobie z moim nazwiskiem";
-- "lepiej poczekam na czlowieka".
+- "lepiej poczekam na człowieka".
 
-Dlatego komunikaty naprawcze nie powinny obwiniac uzytkownika. Zamiast "Powiedzial pan niepoprawnie" lepiej: "Nie mam pewnosci, czy dobrze uslyszalem. Prosze powtorzyc numer powoli, po trzy cyfry."
+Dlatego komunikaty naprawcze nie powinny obwiniac użytkownika. Zamiast "Powiedział pan niepoprawnie" lepiej: "Nie mam pewności, czy dobrze uslyszalem. Proszę powtórzyć numer powoli, po trzy cyfry."
 
 ## 4.6. Perspektywa technologiczna
 
 Wymagania ASR:
 
-- jezyk i wariant jezyka;
+- język i wariant języka;
 - model telefoniczny lub szerokopasmowy;
 - streaming partials;
 - timestampy;
 - confidence;
 - custom vocabulary;
 - wsparcie dla cyfr, dat, kwot;
-- diarization, jesli potrzebna;
-- mozliwosc eksportu audio i transkrypcji;
-- zgodnosc z retencja danych.
+- diarization, jeśli potrzebna;
+- możliwość eksportu audio i transkrypcji;
+- zgodność z retencja danych.
 
-Ustawienia ASR powinny byc zalezne od kontekstu. Dla "tak/nie" potrzebna jest szybka detekcja. Dla numeru klienta trzeba tolerowac pauzy. Dla opisu reklamacji potrzebne jest dluzsze okno i lepsze przetwarzanie swobodnej mowy.
+Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest szybka detekcja. Dla numeru klienta trzeba tolerowac pauzy. Dla opisu reklamacji potrzebne jest dłuższe okno i lepsze przetwarzanie swobodnej mowy.
 
 ## 4.7. Dobre praktyki
 
 - Testuj ASR na realnych nagraniach telefonicznych.
 - Zbieraj frazy i nazwy charakterystyczne dla domeny.
-- Uzywaj custom vocabulary dla produktow, miejsc, marek, skrótow.
+- Używaj custom vocabulary dla produktow, miejsc, marek, skrótów.
 - Projektuj potwierdzenia dla danych wysokiego ryzyka.
-- Dziel dlugie numery na grupy.
-- Daj alternatywe DTMF dla kodow i numerow.
+- Dziel długie numery na grupy.
+- Daj alternatywe DTMF dla kodów i numerow.
 - Analizuj ASR errors osobno od NLU errors.
-- Nie oceniaj ASR tylko na podstawie ogolnego WER; oceniaj skutki dla procesu.
+- Nie oceniaj ASR tylko na podstawie ogólnego WER; oceniaj skutki dla procesu.
 
-## 4.8. Typowe bledy
+## 4.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Brak testow na realnym audio | Produkcja gorsza niz demo |
-| Brak slownika domenowego | Bledy nazw produktow i firm |
-| Brak potwierdzen dla danych krytycznych | Ryzyko blednej akcji |
+| Brak testów na realnym audio | Produkcja gorsza niż demo |
+| Brak słownika domenowego | Błędy nazw produktow i firm |
+| Brak potwierdzeń dla danych krytycznych | Ryzyko błędnej akcji |
 | Za szybkie endpointing przy cyfrach | Ucinanie numerow |
-| Traktowanie confidence jako prawdy | Bledne decyzje przy pewnych, ale zlych transkrypcjach |
-| Brak zapisu audio do diagnostyki | Trudno poprawic system |
+| Traktowanie confidence jako prawdy | Błędne decyzję przy pewnych, ale złych transkrypcjach |
+| Brak zapisu audio do diagnostyki | Trudno poprawić system |
 
 ## 4.9. Checklista ASR
 
-- Czy ASR jest dobrany do kanalu telefonicznego?
-- Czy wspiera jezyk i wariant regionalny?
+- Czy ASR jest dobrany do kanału telefonicznego?
+- Czy wspiera język i wariant regionalny?
 - Czy mamy custom vocabulary?
-- Czy testujemy akcenty, halas, osoby starsze, szybka mowe?
+- Czy testujemy akcenty, hałas, osoby starsze, szybka mowę?
 - Czy mamy partials i final transcripts?
 - Czy mamy timestampy?
-- Czy dane krytyczne sa potwierdzane?
+- Czy dane krytyczne są potwierdzane?
 - Czy istnieje DTMF fallback?
-- Czy analizujemy bledy ASR w raportach?
+- Czy analizujemy błędy ASR w raportach?
 - Czy retencja audio/transkrypcji jest zgodna z polityka?
 
 ## 4.10. Mini case study
 
-Voicebot ubezpieczeniowy zbiera numer polisy. Uzytkownicy mowia numer w roznych grupach: "AB 123 45", "A B jeden dwa trzy", "a-be sto dwadziescia trzy". ASR myli litery i cyfry. Zespol zmienia projekt: bot prosi o numer w grupach, potwierdza kazda grupe, pozwala uzyc klawiatury telefonu i dodaje slownik prefiksow polis. Spada liczba nieudanych identyfikacji.
+Voicebot ubezpieczeniowy zbiera numer polisy. Użytkownicy mówią numer w różnych grupach: "AB 123 45", "A B jeden dwa trzy", "a-be sto dwadziescia trzy". ASR myli litery i cyfry. Zespół zmienia projekt: bot prosi o numer w grupach, potwierdza każda grupe, pozwala użyć klawiatury telefonu i dodaje słownik prefiksow polis. Spada liczba nieudanych identyfikacji.
 
-## 4.11. Cwiczenia
+## 4.11. Ćwiczenia
 
-1. Wypisz 20 slow domenowych, ktore powinny byc w custom vocabulary.
+1. Wypisz 20 słów domenowych, które powinny być w custom vocabulary.
 2. Zaprojektuj potwierdzenie dla adresu.
 3. Zaprojektuj zbieranie numeru klienta w grupach.
-4. Opisz, jak odroznisz blad ASR od bledu NLU.
+4. Opisz, jak odroznisz błąd ASR od błędu NLU.
 
 ## 4.12. Podsumowanie
 
-ASR nie jest neutralnym przepisywaczem mowy. Jest zrodlem niepewnosci, ktora trzeba projektowac, testowac i monitorowac. Dobry voicebot nie zaklada idealnej transkrypcji, tylko umie dzialac mimo jej niedoskonalosci.
+ASR nie jest neutralnym przepisywaczem mowy. Jest źródłem niepewności, która trzeba projektować, testować i monitorowac. Dobry voicebot nie zakłada idealnej transkrypcji, tylko umie działać mimo jej niedoskonalosci.
 
 ---
 
-# Rozdzial 5. NLU/NLP: intencje, encje, sloty i rozumienie wypowiedzi
+# Rozdział 5. NLU/NLP: intencje, encje, sloty i rozumienie wypowiedzi
 
-## 5.1. Cele rozdzialu
+## 5.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec role NLU w voicebocie;
+- rozumieć role NLU w voicebocie;
 - definiowac intencje, encje i sloty;
-- odrozniac klasyfikacje intencji od zarzadzania dialogiem;
-- rozpoznawac ograniczenia NLU w kanale glosowym.
+- odróżniać klasyfikacje intencji od zarzadzania dialogiem;
+- rozpoznawać ograniczenia NLU w kanale głosowym.
 
-## 5.2. Kluczowe pojecia
+## 5.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Intent | Cel wypowiedzi uzytkownika, np. "sprawdz_status" |
+| Intent | Cel wypowiedzi użytkownika, np. "sprawdz_status" |
 | Entity | Informacja wyodrebniona z wypowiedzi, np. data, miasto, numer |
-| Slot | Pole wymagane do wykonania zadania, np. numer zamowienia |
-| Utterance | Przykladowa wypowiedz uzytkownika |
-| Confidence | Pewnosc klasyfikacji |
+| Slot | Pole wymagane do wykonania zadania, np. numer zamówienia |
+| Utterance | Przykładowa wypowiedź użytkownika |
+| Confidence | Pewność klasyfikacji |
 | Disambiguation | Doprecyzowanie, gdy mozliwych jest kilka interpretacji |
-| Multi-intent | Wypowiedz zawierajaca wiecej niz jeden cel |
-| Context | Stan rozmowy, ktory zmienia interpretacje wypowiedzi |
+| Multi-intent | Wypowiedź zawierajaca więcej niż jeden cel |
+| Context | Stan rozmowy, który zmienia interpretacje wypowiedzi |
 
-## 5.3. Wyjasnienie eksperckie
+## 5.3. Wyjaśnienie eksperckie
 
-NLU odpowiada na pytanie: "Co uzytkownik probuje zrobic i jakie informacje juz podal?". Przyklad:
+NLU odpowiada na pytanie: "Co użytkownik próbuje zrobić i jakie informacje już podal?". Przykład:
 
-Uzytkownik: "Chce przelozyc dostawe na piatek po poludniu."
+Użytkownik: "Chce przelozyc dostawe na piatek po poludniu."
 
-Mozliwa interpretacja:
+Możliwa interpretacja:
 
 ```text
 intent: change_delivery_date
@@ -675,25 +675,25 @@ slots filled:
   desired_time_window = afternoon
 ```
 
-NLU nie powinno samo decydowac, czy zmiana jest mozliwa. To nalezy do logiki biznesowej i integracji. NLU rozpoznaje znaczenie wypowiedzi, dialog manager decyduje, co dalej, a backend sprawdza realne mozliwosci.
+NLU nie powinno samo decydowac, czy zmiana jest możliwa. To należy do logiki biznesowej i integracji. NLU rozpoznaje znaczenie wypowiedzi, dialog manager decyduje, co dalej, a backend sprawdza realne możliwości.
 
-W kanale glosowym NLU pracuje na transkrypcji ASR, wiec dostaje tekst potencjalnie bledny. Dlatego klasy intencji musza byc projektowane z uwzglednieniem:
+W kanale głosowym NLU pracuje na transkrypcji ASR, więc dostaje tekst potencjalnie błędny. Dlatego klasy intencji muszą być projektowane z uwzglednieniem:
 
-- typowych bledow transkrypcji;
+- typowych błędów transkrypcji;
 - krotkich odpowiedzi;
-- przerwan;
+- przerwań;
 - korekt;
-- niepelnych zdan;
+- niepełnych zdań;
 - emocji;
 - wielointencyjnosci.
 
 ## 5.4. Perspektywa biznesowa
 
-Model intencji jest mapa procesow firmy. Jesli intencje sa zle zaprojektowane, bot nie tylko zle rozumie jezyk, ale tez zle odzwierciedla biznes.
+Model intencji jest mapa procesów firmy. Jeśli intencje są źle zaprojektowane, bot nie tylko źle rozumie język, ale też źle odzwierciedla biznes.
 
-Zly model:
+Zły model:
 
-- jedna intencja "reklamacja" obejmuje fakture, produkt, dostawe, platnosc, zwrot i gwarancje;
+- jedna intencja "reklamacja" obejmuje fakture, produkt, dostawe, płatność, zwrot i gwarancje;
 - brak oddzielnej intencji "konsultant";
 - brak intencji korekty;
 - brak intencji "nie wiem";
@@ -703,30 +703,30 @@ Dobry model:
 
 - rozdziela sprawy wedlug akcji, danych i procesu;
 - ma intencje obslugowe i meta-intencje;
-- przewiduje korekty, eskalacje i zmiane tematu;
+- przewiduje korekty, eskalację i zmianę tematu;
 - jest powiazany z raportowaniem.
 
-## 5.5. Perspektywa uzytkownika
+## 5.5. Perspektywa użytkownika
 
-Uzytkownik mowi po swojemu:
+Użytkownik mówi po swojemu:
 
 - "gdzie jest paczka";
-- "kurier mial byc wczoraj";
-- "nie mam przesylki";
-- "chce wiedziec, co z moim zamowieniem";
-- "zmiencie mi adres, bo tam nikogo nie bedzie";
+- "kurier miał być wczoraj";
+- "nie mam przesyłki";
+- "chce wiedzieć, co z moim zamówieniem";
+- "zmiencie mi adres, bo tam nikogo nie będzie";
 - "dobra, jednak konsultant".
 
-Bot nie powinien wymagac idealnych komend. Ale nie powinien tez udawac, ze rozumie, gdy pewnosc jest niska. Lepiej dopytac:
+Bot nie powinien wymagać idealnych komend. Ale nie powinien też udawać, że rozumie, gdy pewność jest niska. Lepiej dopytać:
 
-"Czy chodzi o sprawdzenie statusu przesylki, czy o zmiane adresu dostawy?"
+"Czy chodzi o sprawdzenie statusu przesyłki, czy o zmianę adresu dostawy?"
 
 ## 5.6. Perspektywa technologiczna
 
-NLU moze byc:
+NLU może być:
 
 - klasycznym modelem intencji i encji;
-- czescia platformy dialogowej;
+- częścią platformy dialogowej;
 - klasyfikatorem LLM;
 - hybryda reguł, modeli i LLM;
 - osobnym serwisem w architekturze.
@@ -735,9 +735,9 @@ Wymagania:
 
 - lista intencji;
 - definicje intencji;
-- pozytywne i negatywne przyklady;
+- pozytywne i negatywne przykłady;
 - encje systemowe i domenowe;
-- slowniki;
+- słowniki;
 - threshold confidence;
 - strategie disambiguation;
 - analiza confusion matrix;
@@ -746,85 +746,85 @@ Wymagania:
 
 ## 5.7. Dobre praktyki
 
-- Projektuj intencje wedlug celu uzytkownika, nie struktury organizacyjnej firmy.
+- Projektuj intencje wedlug celu użytkownika, nie struktury organizacyjnej firmy.
 - Nie tworz zbyt podobnych intencji bez dobrych danych.
-- Dodaj intencje meta: konsultant, powtorz, anuluj, stop, nie rozumiem.
+- Dodaj intencje meta: konsultant, powtórz, anuluj, stop, nie rozumiem.
 - Oddziel intencje informacyjne od transakcyjnych.
 - Testuj multi-intent.
 - Regularnie analizuj nierozpoznane wypowiedzi.
 - Utrzymuj dataset testowy.
-- Nie zmieniaj modelu bez testow regresji.
+- Nie zmieniaj modelu bez testów regresji.
 
-## 5.8. Typowe bledy
+## 5.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Zbyt szerokie intencje | Bot rozumie ogolny temat, ale nie wie, co zrobic |
+| Zbyt szerokie intencje | Bot rozumie ogólny temat, ale nie wie, co zrobić |
 | Zbyt waskie intencje | Confusion i trudne utrzymanie |
-| Brak negatywnych przykladow | Model myli podobne sprawy |
+| Brak negatywnych przykładów | Model myli podobne sprawy |
 | Brak intencji korekty | Przerwania psuja flow |
-| Brak intencji eskalacji | Uzytkownik walczy z botem |
-| Trenowanie na sztucznych frazach bez walidacji | Produkcja rozni sie od testow |
+| Brak intencji eskalacji | Użytkownik walczy z botem |
+| Trenowanie na sztucznych frazach bez walidacji | Produkcja różni się od testów |
 
 ## 5.9. Checklista NLU
 
-- Czy kazda intencja ma jasna definicje?
-- Czy intencje odpowiadaja akcjom/procesom?
-- Czy mamy przyklady realnych wypowiedzi?
-- Czy mamy negatywne przyklady?
-- Czy encje sa potrzebne do wykonania zadania?
-- Czy sloty maja walidacje?
-- Czy jest strategia niskiej pewnosci?
+- Czy każda intencja ma jasna definicje?
+- Czy intencje odpowiadają akcjom/procesom?
+- Czy mamy przykłady realnych wypowiedzi?
+- Czy mamy negatywne przykłady?
+- Czy encje są potrzebne do wykonania zadania?
+- Czy sloty mają walidacje?
+- Czy jest strategia niskiej pewności?
 - Czy jest disambiguation?
 - Czy analizujemy confusion matrix?
 - Czy model ma wersjonowanie i testy regresji?
 
 ## 5.10. Mini case study
 
-W telekomie intencje "awaria internetu", "wolny internet" i "brak internetu" myla sie w modelu. Biznes chce trzy osobne raporty, ale uzytkownicy mowia podobnie. Zespol zmienia model: jedna intencja "problem_z_internetem", a typ problemu zbierany jest jako slot po pytaniu doprecyzowujacym. Model staje sie stabilniejszy, a biznes nadal dostaje raport przez slot "problem_type".
+W telekomie intencje "awaria internetu", "wolny internet" i "brak internetu" myla się w modelu. Biznes chce trzy osobne raporty, ale użytkownicy mówią podobnie. Zespół zmienia model: jedna intencja "problem_z_internetem", a typ problemu zbierany jest jako slot po pytaniu doprecyzowujacym. Model staje się stabilniejszy, a biznes nadal dostaje raport przez slot "problem_type".
 
-## 5.11. Cwiczenia
+## 5.11. Ćwiczenia
 
 1. Zaprojektuj 10 intencji dla voicebota e-commerce.
-2. Dla trzech intencji napisz po 10 fraz uzytkownika.
-3. Wskaz dwie intencje, ktore moga sie mylic.
+2. Dla trzech intencji napisz po 10 fraz użytkownika.
+3. Wskaż dwie intencje, które mogą się mylić.
 4. Zaprojektuj pytanie disambiguation.
 
 ## 5.12. Podsumowanie
 
-NLU jest mostem miedzy jezykiem uzytkownika a procesem biznesowym. Dobre intencje nie sa lista tematow, lecz mapa tego, co uzytkownik chce osiagnac i jakie dane sa potrzebne, aby system mogl dzialac.
+NLU jest mostem między językiem użytkownika a procesem biznesowym. Dobre intencje nie są lista tematow, lecz mapa tego, co użytkownik chce osiągnąć i jakie dane są potrzebne, aby system mógł działać.
 
 ---
 
-# Rozdzial 6. Dialog manager, business logic i zarzadzanie stanem
+# Rozdział 6. Dialog manager, business logic i zarzadzanie stanem
 
-## 6.1. Cele rozdzialu
+## 6.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec roznice miedzy NLU a dialog managerem;
-- projektowac stan rozmowy;
-- rozpoznawac role logiki biznesowej;
-- przygotowac wymagania dla flow, slot filling, fallback i recovery.
+- rozumieć różnice między NLU a dialog managerem;
+- projektować stan rozmowy;
+- rozpoznawać role logiki biznesowej;
+- przygotować wymagania dla flow, slot filling, fallback i recovery.
 
-## 6.2. Kluczowe pojecia
+## 6.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Dialog manager | Komponent decydujacy o nastepnym kroku rozmowy |
+| Dialog manager | Komponent decydujacy o następnym kroku rozmowy |
 | State | Aktualny stan rozmowy i zebrane informacje |
 | Slot filling | Proces zbierania brakujacych danych |
 | Policy | Regula decydujaca, co bot robi w danej sytuacji |
-| Context stack | Pamiec aktywnych tematow i procesow |
-| Recovery | Powrot do sensownego miejsca po bledzie lub przerwaniu |
-| Business rule | Regula biznesowa, np. "adres mozna zmienic tylko przed wysylka" |
-| Transaction boundary | Moment, w ktorym akcja zostaje zatwierdzona |
+| Context stack | Pamięć aktywnych tematow i procesów |
+| Recovery | Powrót do sensownego miejsca po błędzie lub przerwaniu |
+| Business rule | Regula biznesowa, np. "adres można zmienić tylko przed wysyłka" |
+| Transaction boundary | Moment, w którym akcja zostaje zatwierdzona |
 
-## 6.3. Wyjasnienie eksperckie
+## 6.3. Wyjaśnienie eksperckie
 
-NLU mowi: "uzytkownik chce zmienic adres". Dialog manager pyta: "czy mamy wszystkie dane i co teraz?". Business logic sprawdza: "czy adres mozna jeszcze zmienic dla tego zamowienia?".
+NLU mówi: "użytkownik chce zmienić adres". Dialog manager pyta: "czy mamy wszystkie dane i co teraz?". Business logic sprawdza: "czy adres można jeszcze zmienić dla tego zamówienia?".
 
-Przyklad stanu:
+Przykład stanu:
 
 ```text
 current_intent: change_delivery_address
@@ -840,91 +840,91 @@ handoff_requested: false
 
 Bez stanu bot nie prowadzi rozmowy, tylko reaguje na pojedyncze wypowiedzi. Stan pozwala:
 
-- pamietac, co juz zebrano;
-- wracac po przerwaniu;
-- obslugiwac korekty;
-- unikac powtarzania pytan;
-- przekazac kontekst konsultantowi;
+- pamiętać, co już zebrano;
+- wracać po przerwaniu;
+- obsługiwać korekty;
+- unikać powtarzania pytań;
+- przekazać kontekst konsultantowi;
 - logowac proces.
 
 ## 6.4. Perspektywa biznesowa
 
-Business logic chroni proces przed blednymi akcjami. Przyklady:
+Business logic chroni proces przed blednymi akcjami. Przykłady:
 
-- nie mozna anulowac zamowienia po wysylce;
-- nie mozna zmienic adresu po przekazaniu kurierowi;
-- nie mozna udzielic informacji o polisie bez weryfikacji;
-- nie mozna zarezerwowac terminu, ktory jest juz zajety;
-- nie mozna przyjac zgody, jesli uzytkownik przerwal wymagany komunikat.
+- nie można anulowac zamówienia po wysylce;
+- nie można zmienić adresu po przekazaniu kurierowi;
+- nie można udzielić informacji o polisie bez weryfikacji;
+- nie można zarezerwowac terminu, który jest już zajety;
+- nie można przyjac zgody, jeśli użytkownik przerwal wymagany komunikat.
 
-Dialog manager musi wiedziec, kiedy pytac dalej, kiedy wykonac akcje, kiedy powiedziec "nie moge tego zrobic" i kiedy eskalowac.
+Dialog manager musi wiedzieć, kiedy pytać dalej, kiedy wykonać akcję, kiedy powiedzieć "nie mogę tego zrobić" i kiedy eskalować.
 
-## 6.5. Perspektywa uzytkownika
+## 6.5. Perspektywa użytkownika
 
-Dobry stan rozmowy sprawia, ze uzytkownik czuje:
+Dobry stan rozmowy sprawia, że użytkownik czuje:
 
-- "bot pamieta, co powiedzialem";
-- "nie musze zaczynac od nowa";
-- "mogę poprawic jeden element";
+- "bot pamięta, co powiedzialem";
+- "nie musze zaczynać od nowa";
+- "mogę poprawić jeden element";
 - "system wie, gdzie jestesmy w procesie".
 
-Zly stan rozmowy objawia sie jako:
+Zły stan rozmowy objawia się jako:
 
-- powtarzanie tych samych pytan;
+- powtarzanie tych samych pytań;
 - reset po przerwaniu;
 - utrata danych po fallbacku;
 - przekazanie konsultantowi bez kontekstu.
 
 ## 6.6. Perspektywa technologiczna
 
-State management musi byc:
+State management musi być:
 
 - jawny;
 - wersjonowany;
 - odporny na przerwania;
 - zgodny z retencja danych;
 - ograniczony do danych potrzebnych;
-- dostepny dla handoff;
-- logowany w sposob bezpieczny.
+- dostępny dla handoff;
+- logowany w sposób bezpieczny.
 
-W voicebotach LLM wazne jest oddzielenie:
+W voicebotach LLM ważne jest oddzielenie:
 
 - stabilnego stanu procesu;
 - historii rozmowy;
 - aktualnego planu odpowiedzi;
 - generowanego tekstu;
-- wyniku narzedzi/API.
+- wyniku narzędzi/API.
 
-Jesli LLM generuje odpowiedz, ale uzytkownik przerywa, stan nie powinien slepo przejsc dalej. Trzeba wiedziec, czy akcja zostala wykonana, czy tylko zapowiedziana.
+Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slepo przejść dalej. Trzeba wiedzieć, czy akcja została wykonana, czy tylko zapowiedziana.
 
 ## 6.7. Dobre praktyki
 
 - Zapisuj stan jako jawne pola, nie tylko historie czatu.
 - Oddziel dane potwierdzone od niepotwierdzonych.
-- Projektuj korekte slotu.
+- Projektuj korektę slotu.
 - Projektuj anulowanie akcji.
 - Projektuj recovery po przerwaniu.
 - Projektuj licznik fallbackow.
 - Ustal granice transakcji.
 - Przekazuj stan do konsultanta w czytelnym podsumowaniu.
 
-## 6.8. Typowe bledy
+## 6.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Trzymanie stanu tylko w promptcie LLM | Nieprzewidywalnosc i utrata kontroli |
-| Brak rozroznienia danych potwierdzonych | Bledne akcje |
-| Brak korekty slotu | Uzytkownik musi zaczynac od nowa |
-| Brak transaction boundary | Bot moze sugerowac wykonanie akcji, ktora sie nie wykonala |
-| Brak context handoff | Konsultant nie wie, co sie dzialo |
+| Brak rozroznienia danych potwierdzonych | Błędne akcję |
+| Brak korekty slotu | Użytkownik musi zaczynać od nowa |
+| Brak transaction boundary | Bot może sugerowac wykonanie akcji, która się nie wykonala |
+| Brak context handoff | Konsultant nie wie, co się dzialo |
 
 ## 6.9. Checklista dialog managera
 
-- Czy kazdy proces ma jasno opisane stany?
-- Czy wiemy, jakie sloty sa wymagane?
-- Czy kazdy slot ma walidacje?
-- Czy dane krytyczne sa potwierdzane?
-- Czy mozna poprawic pojedynczy slot?
+- Czy każdy proces ma jasno opisane stany?
+- Czy wiemy, jakie sloty są wymagane?
+- Czy każdy slot ma walidacje?
+- Czy dane krytyczne są potwierdzane?
+- Czy można poprawić pojedynczy slot?
 - Czy jest licznik fallbackow?
 - Czy jest polityka eskalacji?
 - Czy stan jest przekazywany do konsultanta?
@@ -933,106 +933,106 @@ Jesli LLM generuje odpowiedz, ale uzytkownik przerywa, stan nie powinien slepo p
 
 ## 6.10. Mini case study
 
-Voicebot rezerwacyjny zbiera date i godzine wizyty. Uzytkownik mowi: "Nie, jednak czwartek". W pierwszej wersji bot interpretuje to jako nowa rozmowe i pyta od poczatku o specjalizacje. Po poprawie stan rozmowy przechowuje specjalizacje, lokalizacje i lekarza, a korekta dotyczy tylko slotu `appointment_date`. Bot mowi: "Zmieniam date na czwartek. Godzina 15:30 nadal pasuje?"
+Voicebot rezerwacyjny zbiera datę i godzinę wizyty. Użytkownik mówi: "Nie, jednak czwartek". W pierwszej wersji bot interpretuje to jako nowa rozmowę i pyta od początku o specjalizacje. Po poprawie stan rozmowy przechowuje specjalizacje, lokalizacje i lekarza, a korekta dotyczy tylko slotu `appointment_datę`. Bot mówi: "Zmieniam datę na czwartek. Godzina 15:30 nadal pasuje?"
 
-## 6.11. Cwiczenia
+## 6.11. Ćwiczenia
 
 1. Zdefiniuj stan dla procesu zmiany adresu dostawy.
 2. Oznacz dane potwierdzone i niepotwierdzone.
-3. Zaprojektuj korekte jednego slotu.
+3. Zaprojektuj korektę jednego slotu.
 4. Opisz, co przekazesz konsultantowi po handoff.
 
 ## 6.12. Podsumowanie
 
-Dialog manager jest sercem voicebota procesowego. To on sprawia, ze rozmowa nie jest seria losowych odpowiedzi, lecz kontrolowana droga do wyniku. W voicebotach generatywnych jawny stan jest jeszcze wazniejszy, bo chroni proces przed nieprzewidywalnoscia modelu.
+Dialog manager jest sercem voicebota procesowego. To on sprawia, że rozmową nie jest seria losowych odpowiedzi, lecz kontrolowana droga do wyniku. W voicebotach generatywnych jawny stan jest jeszcze ważniejszy, bo chroni proces przed nieprzewidywalnoscia modelu.
 
 ---
 
-# Rozdzial 7. Integracje backendowe i logika procesow
+# Rozdział 7. Integracje backendowe i logika procesów
 
-## 7.1. Cele rozdzialu
+## 7.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, po co voicebotowi integracje;
-- projektowac wymagania API dla procesow glosowych;
-- przewidywac timeouty, bledy i retry;
-- rozumiec, jak integracje wplywaja na UX rozmowy.
+- rozumieć, po co voicebotowi integracje;
+- projektować wymagania API dla procesów głosowych;
+- przewidywać timeouty, błędy i retry;
+- rozumieć, jak integracje wpływają na UX rozmowy.
 
-## 7.2. Kluczowe pojecia
+## 7.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| API | Interfejs pozwalajacy systemom wymieniac dane |
+| API | Interfejs pozwalajacy systemom wymieniać dane |
 | Webhook | Wywolanie HTTP do zewnetrznego systemu w reakcji na zdarzenie |
 | CRM | System zarzadzania relacjami z klientami |
 | ERP | System zarzadzania zasobami firmy |
-| Ticketing | System obslugi zgloszen |
-| Timeout | Maksymalny czas oczekiwania na odpowiedz systemu |
-| Retry | Ponowienie zapytania po bledzie |
-| Idempotency | Wlasciwosc, dzieki ktorej ponowienie akcji nie powoduje duplikatu |
+| Ticketing | System obsługi zgloszen |
+| Timeout | Maksymalny czas oczekiwania na odpowiedź systemu |
+| Retry | Ponowienie zapytania po błędzie |
+| Idempotency | Właściwość, dzięki której ponowienie akcji nie powoduje duplikatu |
 | PII | Dane osobowe |
 
-## 7.3. Wyjasnienie eksperckie
+## 7.3. Wyjaśnienie eksperckie
 
-Voicebot bez integracji moze informowac. Voicebot z integracjami moze dzialac.
+Voicebot bez integracji może informowac. Voicebot z integracjami może działać.
 
-Przyklady:
+Przykłady:
 
-- status zamowienia: integracja z order management;
+- status zamówienia: integracja z order management;
 - wizyta: integracja z kalendarzem;
 - reklamacja: ticketing;
-- windykacja: system platnosci i saldo;
-- helpdesk IT: system zgloszen, katalog uslug, baza uzytkownikow;
+- windykacja: system płatności i saldo;
+- helpdesk IT: system zgloszen, katalog usług, baza użytkowników;
 - bank: system autoryzacji, karty, transakcje.
 
-Integracje musza byc projektowane pod rozmowe glosowa. Uzytkownik czeka na linii. Timeout, ktory w aplikacji webowej jest drobnym opoznieniem, w rozmowie telefonicznej staje sie cisza i frustracja.
+Integracje muszą być projektowane pod rozmowę głosowa. Użytkownik czeka na linii. Timeout, który w aplikacji webowej jest drobnym opoznieniem, w rozmowie telefonicznej staje się cisza i frustracja.
 
 ## 7.4. Perspektywa biznesowa
 
-Integracje decyduja, czy bot:
+Integracje decydują, czy bot:
 
-- realnie rozwiazuje sprawe;
+- realnie rozwiązuje sprawę;
 - tylko zbiera dane dla konsultanta;
 - tworzy ticket;
 - wykonuje transakcje;
 - redukuje koszt;
-- poprawia jakosc danych.
+- poprawia jakość danych.
 
-Najwazniejsze pytania biznesowe:
+Najważniejsze pytania biznesowe:
 
-- Jakie akcje bot moze wykonywac sam?
-- Jakie akcje wymagaja potwierdzenia?
-- Jakie akcje wymagaja czlowieka?
-- Jakie dane bot moze odczytac?
-- Jakie dane bot moze zapisac?
+- Jakie akcję bot może wykonywac sam?
+- Jakie akcję wymagają potwierdzenia?
+- Jakie akcję wymagają człowieka?
+- Jakie dane bot może odczytac?
+- Jakie dane bot może zapisać?
 - Co robimy, gdy integracja nie odpowiada?
 
-## 7.5. Perspektywa uzytkownika
+## 7.5. Perspektywa użytkownika
 
-Uzytkownik odczuwa dobra integracje jako sprawczosc:
+Użytkownik odczuwa dobra integracje jako sprawczosc:
 
 "Bot sprawdzil, zmienil, potwierdzil, wyslal."
 
-Zla integracja brzmi jak:
+Zła integracja brzmi jak:
 
-"Nie mam teraz dostepu do tych danych", "prosze zadzwonic pozniej", "polacze z konsultantem" po kilku minutach zbierania informacji.
+"Nie mam teraz dostępu do tych danych", "proszę zadzwonic później", "połączę z konsultantem" po kilku minutach zbierania informacji.
 
-Jesli bot zbiera dane, a potem integracja pada, komunikat musi byc uczciwy:
+Jeśli bot zbiera dane, a potem integracja pada, komunikat musi być uczciwy:
 
-"Mam juz potrzebne informacje, ale system rezerwacji teraz nie odpowiada. Moge utworzyc zgloszenie dla konsultanta albo wyslac link do samodzielnej zmiany terminu."
+"Mam już potrzebne informacje, ale system rezerwacji teraz nie odpowiada. Mogę utworzyc zgłoszenie dla konsultanta albo wysłać link do samodzielnej zmiany terminu."
 
 ## 7.6. Perspektywa technologiczna
 
 Specyfikacja integracji powinna zawierac:
 
 - nazwe systemu;
-- wlasciciela systemu;
+- właściciela systemu;
 - endpointy/API;
 - autoryzacje;
 - dane wejsciowe;
 - dane wyjsciowe;
-- bledy i kody odpowiedzi;
+- błędy i kody odpowiedzi;
 - timeout;
 - retry;
 - idempotency key dla akcji zapisujacych;
@@ -1046,81 +1046,81 @@ Specyfikacja integracji powinna zawierac:
 
 - Projektuj timeouty z perspektywy rozmowy.
 - Nie wykonuj akcji krytycznych bez potwierdzenia.
-- Uzywaj idempotency dla zapisow, np. rezerwacji lub platnosci.
+- Używaj idempotency dla zapisow, np. rezerwacji lub płatności.
 - Oddziel odczyt danych od modyfikacji danych.
 - Daj fallback, gdy integracja nie odpowiada.
 - Loguj request ID i wynik akcji.
-- Nie wypowiadaj danych wrazliwych bez potrzeby.
-- Przekazuj konsultantowi, ktore API zawiodlo i co bot juz zebral.
+- Nie wypowiadaj danych wrażliwych bez potrzeby.
+- Przekazuj konsultantowi, które API zawiodlo i co bot już zebral.
 
-## 7.8. Typowe bledy
+## 7.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Integracja dopiero po projekcie dialogu | Flow nie pasuje do realnych danych |
 | Brak timeoutow | Martwa cisza |
 | Brak idempotency | Duplikaty rezerwacji lub zgloszen |
-| Brak rozroznienia bledow | Bot daje zly komunikat |
-| Brak sandboxa | Testy sa ryzykowne |
-| Nadmierne odczytywanie danych | Ryzyko prywatnosci |
+| Brak rozroznienia błędów | Bot daje zły komunikat |
+| Brak sandboxa | Testy są ryzykowne |
+| Nadmierne odczytywanie danych | Ryzyko prywatności |
 
 ## 7.9. Checklista integracji
 
-- Czy wiemy, ktore systemy sa potrzebne?
-- Czy API istnieje i jest dostepne?
-- Czy mamy wlasciciela systemu?
+- Czy wiemy, które systemy są potrzebne?
+- Czy API istnieje i jest dostępne?
+- Czy mamy właściciela systemu?
 - Czy mamy dokumentacje endpointow?
 - Czy znamy timeout i SLA?
 - Czy mamy retry?
-- Czy akcje zapisujace sa idempotentne?
+- Czy akcję zapisujace są idempotentne?
 - Czy mamy sandbox?
-- Czy bledy sa mapowane na komunikaty uzytkownika?
-- Czy dane wrazliwe sa maskowane w logach?
+- Czy błędy są mapowane na komunikaty użytkownika?
+- Czy dane wrażliwe są maskowane w logach?
 
 ## 7.10. Mini case study
 
-Voicebot umawia wizyty serwisowe. API kalendarza czasem tworzy rezerwacje, ale odpowiedz wraca z opoznieniem i bot ponawia request. Powstaja duplikaty. Po poprawce dodano idempotency key oparty o identyfikator rozmowy i proponowany slot wizyty. Ponowienie requestu zwraca te sama rezerwacje zamiast tworzyc nowa.
+Voicebot umawia wizyty serwisowe. API kalendarza czasem tworzy rezerwacje, ale odpowiedź wraca z opoznieniem i bot ponawia request. Powstają duplikaty. Po poprawce dodano idempotency key oparty o identyfikator rozmowy i proponowany slot wizyty. Ponowienie requestu zwraca te sama rezerwacje zamiast tworzyć nowa.
 
-## 7.11. Cwiczenia
+## 7.11. Ćwiczenia
 
-1. Przygotuj specyfikacje integracji dla statusu zamowienia.
+1. Przygotuj specyfikacje integracji dla statusu zamówienia.
 2. Zaprojektuj komunikat dla timeoutu API.
-3. Wskaz akcje wymagajaca idempotency.
-4. Wypisz dane, ktorych nie powinno byc w logach.
+3. Wskaż akcję wymagająca idempotency.
+4. Wypisz dane, których nie powinno być w logach.
 
 ## 7.12. Podsumowanie
 
-Integracje zamieniaja voicebota z rozmowcy w wykonawce procesu. Musza byc projektowane z uwzglednieniem czasu rozmowy, ryzyka bledow, prywatnosci i handoff. Dobra integracja jest niewidoczna dla uzytkownika, bo sprawa po prostu idzie do przodu.
+Integracje zamieniają voicebota z rozmowcy w wykonawce procesu. Muszą być projektowane z uwzglednieniem czasu rozmowy, ryzyka błędów, prywatności i handoff. Dobra integracja jest niewidoczna dla użytkownika, bo sprawa po prostu idzie do przodu.
 
 ---
 
-# Rozdzial 8. Bazy wiedzy, RAG i odpowiedzi informacyjne
+# Rozdział 8. Bazy wiedzy, RAG i odpowiedzi informacyjne
 
-## 8.1. Cele rozdzialu
+## 8.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec role bazy wiedzy w voicebocie;
-- wyjasnic, czym jest RAG;
-- przygotowac wymagania dla tresci informacyjnych;
-- rozpoznawac ryzyka nieaktualnych lub zbyt dlugich odpowiedzi.
+- rozumieć role bazy wiedzy w voicebocie;
+- wyjaśnić, czym jest RAG;
+- przygotować wymagania dla treści informacyjnych;
+- rozpoznawać ryzyka nieaktualnych lub zbyt długich odpowiedzi.
 
-## 8.2. Kluczowe pojecia
+## 8.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Knowledge base | Zbior zweryfikowanych informacji dla bota |
-| RAG | Pobieranie informacji ze zrodel i generowanie odpowiedzi na ich podstawie |
+| RAG | Pobieranie informacji że źródeł i generowanie odpowiedzi na ich podstawie |
 | Chunk | Fragment dokumentu indeksowany w bazie wiedzy |
 | Retrieval | Wyszukanie pasujacych fragmentow |
-| Grounding | Oparcie odpowiedzi modelu na zrodlach |
-| Citation | Wskazanie zrodla odpowiedzi, w rozmowie glosowej zwykle jako log lub podsumowanie |
-| Freshness | Aktualnosc wiedzy |
-| Policy answer | Odpowiedz zgodna z polityka firmy, nawet jesli uzytkownik pyta szerzej |
+| Grounding | Oparcie odpowiedzi modelu na źródłach |
+| Citation | Wskazanie źródła odpowiedzi, w rozmowie głosowej zwykle jako log lub podsumowanie |
+| Freshness | Aktualność wiedzy |
+| Policy answer | Odpowiedź zgodna z polityka firmy, nawet jeśli użytkownik pyta szerzej |
 
-## 8.3. Wyjasnienie eksperckie
+## 8.3. Wyjaśnienie eksperckie
 
-Baza wiedzy dla voicebota nie moze byc zrzutem calego intranetu. Musi byc przygotowana pod rozmowe:
+Baza wiedzy dla voicebota nie może być zrzutem całego intranetu. Musi być przygotowana pod rozmowę:
 
 - aktualna;
 - jednoznaczna;
@@ -1128,335 +1128,335 @@ Baza wiedzy dla voicebota nie moze byc zrzutem calego intranetu. Musi byc przygo
 - podzielona na sensowne fragmenty;
 - oznaczona metadanymi;
 - zawierajaca zakres obowiazywania;
-- przetestowana na pytaniach uzytkownikow;
-- przepisana do formatu glosowego tam, gdzie trzeba.
+- przetestowana na pytaniach użytkowników;
+- przepisana do formatu głosowego tam, gdzie trzeba.
 
-RAG dziala w uproszczeniu tak:
+RAG działa w uproszczeniu tak:
 
 ```text
-Pytanie uzytkownika
+Pytanie użytkownika
   -> wyszukanie pasujacych fragmentow bazy
   -> przekazanie fragmentow do modelu
   -> wygenerowanie odpowiedzi
   -> opcjonalna walidacja politykami
-  -> odpowiedz glosowa
+  -> odpowiedź głosowa
 ```
 
-Najwieksze ryzyko: model odpowiada plynnie, ale zle. W kanale glosowym uzytkownik ma mniej mozliwosci samodzielnego sprawdzenia odpowiedzi, wiec trzeba ograniczac zakres i projektowac niepewnosc.
+Największe ryzyko: model odpowiada płynnie, ale źle. W kanale głosowym użytkownik ma mniej możliwości samodzielnego sprawdzenia odpowiedzi, więc trzeba ograniczac zakres i projektować niepewność.
 
 ## 8.4. Perspektywa biznesowa
 
-Baza wiedzy jest produktem operacyjnym. Ktos musi byc wlascicielem:
+Baza wiedzy jest produktem operacyjnym. Ktos musi być właścicielem:
 
-- tresci;
+- treści;
 - aktualizacji;
 - zatwierdzania;
 - wersji;
 - wycofywania nieaktualnych informacji;
-- odpowiedzialnosci za bledy.
+- odpowiedzialności za błędy.
 
-Bez wlasciciela baza szybko staje sie smietnikiem dokumentow. RAG nie naprawi sprzecznych procedur.
+Bez właściciela baza szybko staje się smietnikiem dokumentów. RAG nie naprawi sprzecznych procedur.
 
-## 8.5. Perspektywa uzytkownika
+## 8.5. Perspektywa użytkownika
 
-Uzytkownik chce odpowiedzi:
+Użytkownik chce odpowiedzi:
 
-- krotkiej;
+- krótkiej;
 - konkretnej;
 - dopasowanej do pytania;
-- bez zargonu;
+- bez żargonu;
 - z opcja doprecyzowania;
-- z jasnym sygnalem, gdy bot nie moze rozstrzygnac indywidualnej sprawy.
+- z jasnym sygnalem, gdy bot nie może rozstrzygnąć indywidualnej sprawy.
 
-Przyklad:
+Przykład:
 
-Zle:
+Źle:
 
-"Zgodnie z regulaminem uslug dodatkowych w paragrafie 14 punkt 3..."
+"Zgodnie z regulaminem usług dodatkowych w paragrafie 14 punkt 3..."
 
 Lepsze:
 
-"Zwrot zwykle trwa do 14 dni od przyjecia przesylki. Jesli chce pan, moge sprawdzic status konkretnego zwrotu."
+"Zwrot zwykle trwa do 14 dni od przyjęcia przesyłki. Jeśli chce pan, mogę sprawdzić status konkretnego zwrotu."
 
 ## 8.6. Perspektywa technologiczna
 
 Wymagania RAG:
 
-- zrodla dokumentow;
+- źródła dokumentów;
 - pipeline indeksowania;
 - chunking;
 - embedding/search;
-- metadane: wersja, data, produkt, kraj, jezyk, segment klienta;
-- filtrowanie dostepu;
-- ocena trafnosci retrieval;
-- test set pytan;
+- metadane: wersja, data, produkt, kraj, język, segment klienta;
+- filtrowanie dostępu;
+- ocena trafności retrieval;
+- test set pytań;
 - monitoring odpowiedzi;
-- mechanizm usuwania/aktualizacji zrodel;
+- mechanizm usuwania/aktualizacji źródeł;
 - polityka odpowiedzi "nie wiem".
 
 ## 8.7. Dobre praktyki
 
 - Nie indeksuj wszystkiego.
 - Usuwaj sprzeczne i nieaktualne dokumenty.
-- Tworz wersje "voice-ready" dla najczestszych odpowiedzi.
-- Ograniczaj odpowiedz do 1-3 zdan.
-- Dodawaj opcje: "Moge sprawdzic konkretna sprawe".
+- Twórz wersje "voice-ready" dla najczęstszych odpowiedzi.
+- Ograniczaj odpowiedź do 1-3 zdań.
+- Dodawaj opcję: "Mogę sprawdzić konkretną sprawę".
 - Testuj pytania potoczne, nie tylko formalne.
-- Loguj, z ktorych zrodel skorzystano.
-- Oddziel odpowiedzi ogolne od decyzji indywidualnych.
+- Loguj, z których źródeł skorzystano.
+- Oddziel odpowiedzi ogólne od decyzji indywidualnych.
 
-## 8.8. Typowe bledy
+## 8.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Indeksowanie calego SharePointa bez kuracji | Sprzeczne odpowiedzi |
+| Indeksowanie całego SharePointa bez kuracji | Sprzeczne odpowiedzi |
 | Brak dat waznosci | Odpowiedzi nieaktualne |
-| Za dlugie odpowiedzi RAG | Uzytkownik przerywa |
-| Brak testow retrieval | Model dostaje zle fragmenty |
+| Za długie odpowiedzi RAG | Użytkownik przerywa |
+| Brak testów retrieval | Model dostaje źle fragmenty |
 | Brak polityki "nie wiem" | Halucynacje |
-| Brak wlasciciela tresci | Baza degraduje sie po wdrozeniu |
+| Brak właściciela treści | Baza degraduje się po wdrożeniu |
 
 ## 8.9. Checklista RAG
 
-- Czy wiemy, z jakich zrodel bot moze korzystac?
-- Czy zrodla sa zatwierdzone?
-- Czy dokumenty sa aktualne?
+- Czy wiemy, z jakich źródeł bot może korzystać?
+- Czy źródła są zatwierdzone?
+- Czy dokumenty są aktualne?
 - Czy istnieja metadane?
-- Czy odpowiedzi sa dopasowane do glosu?
-- Czy mamy test set pytan?
+- Czy odpowiedzi są dopasowane do głosu?
+- Czy mamy test set pytań?
 - Czy mierzymy retrieval accuracy?
-- Czy bot moze odmowic odpowiedzi?
-- Czy logujemy zrodla?
+- Czy bot może odmówić odpowiedzi?
+- Czy logujemy źródła?
 - Czy jest proces aktualizacji bazy?
 
 ## 8.10. Mini case study
 
-Firma ubezpieczeniowa indeksuje OWU, FAQ i procedury likwidacji szkody. Bot zaczyna odpowiadac zbyt prawniczo. Zespol tworzy warstwe "voice answers": zatwierdzone, krotkie interpretacje ogolnych zasad, powiazane z dokumentami zrodlowymi. LLM moze uzywac ich do odpowiedzi glosowej, ale przy pytaniu o indywidualna decyzje tworzy zgloszenie albo laczy z konsultantem.
+Firma ubezpieczeniowa indeksuje OWU, FAQ i procedury likwidacji szkody. Bot zaczyna odpowiadać zbyt prawniczo. Zespół tworzy warstwę "voice answers": zatwierdzone, krótkie interpretacje ogólnych zasad, powiązane z dokumentami źródłowymi. LLM może używać ich do odpowiedzi głosowej, ale przy pytaniu o indywidualną decyzję tworzy zgłoszenie albo łączy z konsultantem.
 
-## 8.11. Cwiczenia
+## 8.11. Ćwiczenia
 
-1. Wybierz dokument FAQ i przepisz 5 odpowiedzi do formatu glosowego.
+1. Wybierz dokument FAQ i przepisz 5 odpowiedzi do formatu głosowego.
 2. Zaprojektuj metadane dla bazy wiedzy bankowej.
-3. Wypisz trzy pytania, na ktore bot powinien odpowiedziec "nie moge tego rozstrzygnac".
-4. Przygotuj test retrieval dla 10 pytan.
+3. Wypisz trzy pytania, na które bot powinien odpowiedzieć "nie mogę tego rozstrzygnąć".
+4. Przygotuj test retrieval dla 10 pytań.
 
 ## 8.12. Podsumowanie
 
-RAG moze zwiekszyc uzytecznosc voicebota, ale tylko wtedy, gdy baza wiedzy jest kuratorowana, aktualna i przygotowana pod rozmowe. W przeciwnym razie generatywna plynność ukryje chaos zrodel.
+RAG może zwiększyć użyteczność voicebota, ale tylko wtedy, gdy baza wiedzy jest kuratorowana, aktualna i przygotowana pod rozmowę. W przeciwnym razie generatywna płynność ukryje chaos źródeł.
 
 ---
 
-# Rozdzial 9. TTS: synteza mowy i projektowanie wypowiedzi audio
+# Rozdział 9. TTS: synteza mowy i projektowanie wypowiedzi audio
 
-## 9.1. Cele rozdzialu
+## 9.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec role TTS w doswiadczeniu voicebota;
-- projektowac tekst, ktory dobrze brzmi po odczytaniu;
-- rozpoznawac problemy wymowy, tempa i intonacji;
-- testowac TTS w kontekscie rozmowy.
+- rozumieć role TTS w doświadczeniu voicebota;
+- projektować tekst, który dobrze brzmi po odczytaniu;
+- rozpoznawać problemy wymowy, tempa i intonacji;
+- testować TTS w kontekście rozmowy.
 
-## 9.2. Kluczowe pojecia
+## 9.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | TTS | Text-to-Speech, synteza mowy |
-| Voice persona | Charakter glosu i stylu bota |
+| Voice persona | Charakter głosu i stylu bota |
 | Prosody | Tempo, rytm, akcent, intonacja |
-| SSML | Znaczniki sterujace synteza mowy, jesli platforma wspiera |
-| Pronunciation lexicon | Slownik wymowy |
+| SSML | Znaczniki sterujące synteza mowy, jeśli platforma wspiera |
+| Pronunciation lexicon | Słownik wymowy |
 | Speech output formatting | Formatowanie tekstu pod odczyt |
-| Earcons | Krotkie sygnaly audio wspierajace interakcje |
+| Earcons | Krótkie sygnały audio wspierające interakcje |
 
-## 9.3. Wyjasnienie eksperckie
+## 9.3. Wyjaśnienie eksperckie
 
-TTS nie powinien po prostu odczytywac tekstu napisanego dla ekranu. Tekst glosowy musi byc:
+TTS nie powinien po prostu odczytywać tekstu napisanego dla ekranu. Tekst głosowy musi być:
 
-- krotszy;
+- krótszy;
 - bardziej linearny;
-- latwiejszy do zapamietania;
-- bez nawiasow i zlozonych struktur;
+- łatwiejszy do zapamiętania;
+- bez nawiasów i złożonych struktur;
 - z jasnymi potwierdzeniami;
 - z naturalnym rytmem.
 
-Przyklad:
+Przykład:
 
 Tekst ekranowy:
 
-"Twoja reklamacja nr R/2026/07/18273 zostala przyjeta do rozpatrzenia, a przewidywany termin udzielenia odpowiedzi wynosi 14 dni roboczych od daty otrzymania kompletu dokumentow."
+"Twoja reklamacja nr R/2026/07/18273 została przyjęta do rozpatrzenia, a przewidywany termin udzielenia odpowiedzi wynosi 14 dni roboczych od daty otrzymania kompletu dokumentów."
 
-Tekst glosowy:
+Tekst głosowy:
 
-"Przyjelismy reklamacje. Numer sprawy to R 18 273. Odpowiedz powinna byc w ciagu 14 dni roboczych od otrzymania dokumentow."
+"Przyjęliśmy reklamację. Numer sprawy to R 18 273. Odpowiedź powinna być w ciągu 14 dni roboczych od otrzymania dokumentów."
 
 ## 9.4. Perspektywa biznesowa
 
-TTS wplywa na:
+TTS wpływa na:
 
 - wizerunek marki;
-- zrozumialosc;
+- zrozumiałość;
 - czas rozmowy;
-- liczbe powtorzen;
-- skutecznosc potwierdzen;
+- liczbę powtórzeń;
+- skuteczność potwierdzeń;
 - zaufanie;
-- dostepnosc.
+- dostępność.
 
-Zbyt ekspresyjny glos moze byc nieodpowiedni dla banku lub windykacji. Zbyt mechaniczny moze obnizac zaufanie w opiece medycznej. Glos musi pasowac do kontekstu, a nie tylko brzmiec efektownie.
+Zbyt ekspresyjny głos może być nieodpowiedni dla banku lub windykacji. Zbyt mechaniczny może obniżać zaufanie w opiece medycznej. Głos musi pasować do kontekstu, a nie tylko brzmieć efektownie.
 
-## 9.5. Perspektywa uzytkownika
+## 9.5. Perspektywa użytkownika
 
-Uzytkownik reaguje na:
+Użytkownik reaguje na:
 
 - tempo;
 - ton;
 - pauzy;
-- sposob przepraszania;
-- czytelnosc liczb;
-- latwosc przerwania;
-- brak nadmiernej "ludzkosci".
+- sposób przepraszania;
+- czytelność liczb;
+- łatwość przerwania;
+- brak nadmiernej "ludzkości".
 
-Voicebot powinien brzmiec kompetentnie, spokojnie i transparentnie. Nie musi udawac konsultanta.
+Voicebot powinien brzmieć kompetentnie, spokojnie i transparentnie. Nie musi udawać konsultanta.
 
 ## 9.6. Perspektywa technologiczna
 
 Wymagania TTS:
 
-- jezyk i lokalizacja;
-- stabilnosc glosu;
-- wymowa liczb, dat, kwot, skrótow;
-- mozliwosc slownika wymowy;
-- mozliwosc sterowania pauzami;
+- język i lokalizacja;
+- stabilność głosu;
+- wymowa liczb, dat, kwot, skrótów;
+- możliwość słownika wymowy;
+- możliwość sterowania pauzami;
 - latency syntezy;
 - streaming TTS;
-- mozliwosc przerwania playbacku;
-- licencje i zgody dla glosu;
-- zgodnosc z kanalem telefonicznym.
+- możliwość przerwania playbacku;
+- licencje i zgody dla głosu;
+- zgodność z kanałem telefonicznym.
 
 ## 9.7. Dobre praktyki
 
-- Testuj kazdy wazny komunikat na glos.
+- Testuj każdy ważny komunikat na głos.
 - Projektuj liczby w grupach.
-- Unikaj dlugich zdan podrzednych.
-- Nie uzywaj zargonu.
-- Dodawaj pauzy tam, gdzie uzytkownik musi zapamietac dane.
-- Tworz slownik wymowy dla marek i nazw.
-- Uzywaj spokojnego tonu w bledach.
+- Unikaj długich zdań podrzędnych.
+- Nie używaj żargonu.
+- Dodawaj pauzy tam, gdzie użytkownik musi zapamiętać dane.
+- Tworz słownik wymowy dla marek i nazw.
+- Używaj spokojnego tonu w błędach.
 - Skracaj odpowiedzi generatywne przed TTS.
 
-## 9.8. Typowe bledy
+## 9.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Odczytywanie tekstow z FAQ bez adaptacji | Dlugie, trudne wypowiedzi |
-| Brak testow liczb i dat | Nieczytelne dane |
-| Zbyt szybkie tempo | Powtorzenia |
-| Zbyt emocjonalny glos | Niedopasowanie do branzy |
-| Brak mozliwosci przerwania TTS | Frustracja |
-| Brak slownika wymowy | Smieszne lub mylace odczyty nazw |
+| Odczytywanie tekstów z FAQ bez adaptacji | Długie, trudne wypowiedzi |
+| Brak testów liczb i dat | Nieczytelne dane |
+| Zbyt szybkie tempo | Powtórzenia |
+| Zbyt emocjonalny głos | Niedopasowanie do branży |
+| Brak możliwości przerwania TTS | Frustracja |
+| Brak słownika wymowy | Śmieszne lub mylące odczyty nazw |
 
 ## 9.9. Checklista TTS
 
-- Czy teksty sa pisane pod glos?
+- Czy teksty są pisane pod głos?
 - Czy TTS poprawnie czyta liczby, daty, kwoty, kody?
-- Czy mamy slownik wymowy?
-- Czy tempo jest odpowiednie dla grupy uzytkownikow?
-- Czy komunikaty sa krotkie?
-- Czy glos pasuje do marki i kontekstu?
+- Czy mamy słownik wymowy?
+- Czy tempo jest odpowiednie dla grupy użytkowników?
+- Czy komunikaty są krótkie?
+- Czy głos pasuje do marki i kontekstu?
 - Czy TTS jest streamowany?
-- Czy mozna go zatrzymac przy barge-in?
-- Czy testowalismy przez telefon?
+- Czy można go zatrzymać przy barge-in?
+- Czy testowaliśmy przez telefon?
 
 ## 9.10. Mini case study
 
-Voicebot energetyczny odczytuje numer punktu poboru energii jako jeden dlugi ciag. Uzytkownicy prosza o powtorzenie. Zespol zmienia format: bot czyta numer w grupach po trzy znaki, robi krotkie pauzy i pyta, czy wyslac numer SMS-em. Liczba powtorzen spada.
+Voicebot energetyczny odczytuje numer punktu poboru energii jako jeden długi ciąg. Użytkownicy proszą o powtórzenie. Zespół zmienia format: bot czyta numer w grupach po trzy znaki, robi krótkie pauzy i pyta, czy wysłać numer SMS-em. Liczba powtórzeń spada.
 
-## 9.11. Cwiczenia
+## 9.11. Ćwiczenia
 
-1. Przepisz formalny komunikat prawny na wersje glosowa.
-2. Zaprojektuj sposob odczytu numeru sprawy.
-3. Wypisz 10 slow wymagajacych slownika wymowy.
-4. Zaproponuj ton glosu dla banku, przychodni i e-commerce.
+1. Przepisz formalny komunikat prawny na wersję głosową.
+2. Zaprojektuj sposób odczytu numeru sprawy.
+3. Wypisz 10 słów wymagających słownika wymowy.
+4. Zaproponuj ton głosu dla banku, przychodni i e-commerce.
 
 ## 9.12. Podsumowanie
 
-TTS jest twarza voicebota w kanale audio. Nawet najlepsza logika moze zostac odebrana jako zla, jesli bot mowi za dlugo, zle wymawia dane albo nie daje sie przerwac.
+TTS jest twarzą voicebota w kanale audio. Nawet najlepsza logika może zostać odebrana jako zła, jeśli bot mówi za długo, źle wymawia dane albo nie daje się przerwać.
 
 ---
 
-# Rozdzial 10. Monitoring, logging, analityka i observability
+# Rozdział 10. Monitoring, logging, analityka i observability
 
-## 10.1. Cele rozdzialu
+## 10.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, jakie dane trzeba zbierac z rozmow;
-- odrozniac logi techniczne od analityki biznesowej;
-- projektowac dashboardy operacyjne i jakosciowe;
-- przygotowac wymagania observability dla voicebota.
+- rozumieć, jakie dane trzeba zbierać z rozmów;
+- odróżniać logi techniczne od analityki biznesowej;
+- projektować dashboardy operacyjne i jakościowe;
+- przygotować wymagania observability dla voicebota.
 
-## 10.2. Kluczowe pojecia
+## 10.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Logging | Zapisywanie zdarzen systemowych i dialogowych |
-| Monitoring | Biezace sledzenie stanu systemu |
-| Analytics | Analiza wynikow rozmow i trendow |
-| Trace | Sciezka pojedynczej rozmowy przez komponenty |
+| Logging | Zapisywanie zdarzeń systemowych i dialogowych |
+| Monitoring | Bieżące sledzenie stanu systemu |
+| Analytics | Analiza wynikow rozmów i trendow |
+| Trace | Ścieżka pojedynczej rozmowy przez komponenty |
 | Transcript | Tekstowy zapis rozmowy |
 | Event | Zdarzenie, np. fallback, handoff, API timeout |
 | Dashboard | Widok metryk |
 | Alert | Powiadomienie o problemie |
 
-## 10.3. Wyjasnienie eksperckie
+## 10.3. Wyjaśnienie eksperckie
 
-Nie da sie optymalizowac voicebota, ktorego nie widac. Observability musi pokazac:
+Nie da się optymalizować voicebota, którego nie widac. Observability musi pokazać:
 
-- co uzytkownik powiedzial;
+- co użytkownik powiedział;
 - co ASR rozpoznal;
-- jaka intencja zostala wykryta;
+- jaka intencja została wykryta;
 - jakie sloty zebrano;
 - jakie API wywolano;
-- jaka odpowiedz wygenerowano;
-- kiedy byl fallback;
-- kiedy byl barge-in;
-- kiedy byl handoff;
-- jaki byl wynik rozmowy;
-- ile trwala kazda faza.
+- jaka odpowiedź wygenerowano;
+- kiedy był fallback;
+- kiedy był barge-in;
+- kiedy był handoff;
+- jaki był wynik rozmowy;
+- ile trwala każda faza.
 
 Trzy poziomy danych:
 
-1. Techniczne: latency, bledy API, status ASR/TTS, uptime.
-2. Konwersacyjne: intencje, fallbacki, no-input, przerwania, powtorzenia.
+1. Techniczne: latency, błędy API, status ASR/TTS, uptime.
+2. Konwersacyjne: intencje, fallbacki, no-input, przerwania, powtórzenia.
 3. Biznesowe: task completion, containment, koszt, konwersja, CSAT, repeat contact.
 
 ## 10.4. Perspektywa biznesowa
 
-Dashboard biznesowy powinien odpowiadac:
+Dashboard biznesowy powinien odpowiadać:
 
 - Ile spraw bot zakonczyl skutecznie?
-- Jakie procesy dzialaja najlepiej?
-- Gdzie rosna eskalacje?
-- Ile kosztuje rozmowa?
-- Czy spada liczba kontaktow powtornych?
-- Czy poprawia sie dostepnosc?
-- Czy bot tworzy realna wartosc?
+- Jakie procesy działają najlepiej?
+- Gdzie rosna eskalację?
+- Ile kosztuje rozmową?
+- Czy spada liczba kontaktów powtornych?
+- Czy poprawia się dostępność?
+- Czy bot tworzy realną wartość?
 
-Sama liczba rozmow obsluzonych przez bota nie jest sukcesem. Sukces to wynik sprawy.
+Sama liczba rozmów obsluzonych przez bota nie jest sukcesem. Sukces to wynik sprawy.
 
-## 10.5. Perspektywa uzytkownika
+## 10.5. Perspektywa użytkownika
 
-Monitoring powinien wykrywac sygnaly zlego doswiadczenia:
+Monitoring powinien wykrywać sygnały złego doświadczenia:
 
-- wiele powtorzen;
+- wiele powtórzeń;
 - wiele no-match;
 - przerwania w tych samych promptach;
-- nagle eskalacje po konkretnym komunikacie;
-- długie cisze;
-- rozlaczenia po fallbacku;
-- prosby o konsultanta po bledzie.
+- nagle eskalację po konkretnym komunikacie;
+- długie ciszę;
+- rozłączenia po fallbacku;
+- prośby o konsultanta po błędzie.
 
-Te sygnaly mowia, gdzie uzytkownik traci cierpliwosc.
+Te sygnały mówią, gdzie użytkownik traci cierpliwosc.
 
 ## 10.6. Perspektywa technologiczna
 
@@ -1479,33 +1479,33 @@ Minimalny zestaw logow:
 - outcome;
 - latency per component.
 
-Wymagania prywatnosci:
+Wymagania prywatności:
 
 - maskowanie danych osobowych;
-- kontrola dostepu do transkrypcji;
+- kontrola dostępu do transkrypcji;
 - retencja;
-- audyt dostepu;
-- anonimizacja do analiz, jesli mozliwe.
+- audyt dostępu;
+- anonimizacja do analiz, jeśli możliwe.
 
 ## 10.7. Dobre praktyki
 
-- Projektuj logowanie przed produkcja.
-- Ustal slownik zdarzen.
+- Projektuj logowanie przed produkcją.
+- Ustal słownik zdarzeń.
 - Loguj powody handoff, nie tylko fakt handoff.
 - Oddziel metryki systemowe od biznesowych.
 - Przegladaj transkrypcje regularnie.
 - Tworz backlog optymalizacji na podstawie danych.
-- Monitoruj zmiany po kazdym release.
-- Dbaj o prywatnosc i minimalizacje danych.
+- Monitoruj zmiany po każdym release.
+- Dbaj o prywatność i minimalizacje danych.
 
-## 10.8. Typowe bledy
+## 10.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Brak logow ASR | Nie wiadomo, czy zawinil ASR czy NLU |
-| Brak powodow handoff | Eskalacje sa nieinterpretowalne |
-| Dashboard tylko wolumenowy | Brak wgladu w jakosc |
-| Brak anonimizacji | Ryzyko prywatnosci |
+| Brak powodów handoff | Eskalację są nieinterpretowalne |
+| Dashboard tylko wolumenowy | Brak wgladu w jakość |
+| Brak anonimizacji | Ryzyko prywatności |
 | Brak wersjonowania zmian | Nie wiadomo, co pogorszylo metryki |
 | Brak alertow | Problemy trwaja godzinami lub dniami |
 
@@ -1518,65 +1518,65 @@ Wymagania prywatnosci:
 - Czy logujemy API i timeouty?
 - Czy logujemy barge-in i no-input?
 - Czy logujemy powod handoff?
-- Czy mierzymy latency komponentow?
-- Czy dane wrazliwe sa maskowane?
-- Czy mamy dashboard biznesowy, operacyjny i jakosciowy?
+- Czy mierzymy latency komponentów?
+- Czy dane wrażliwe są maskowane?
+- Czy mamy dashboard biznesowy, operacyjny i jakościowy?
 
 ## 10.10. Mini case study
 
-Voicebot e-commerce ma containment 72%, ale CSAT spada. Analiza logow pokazuje, ze wiele rozmow zakonczonych "contained" dotyczy informacji o zwrocie, ale uzytkownicy dzwonia ponownie po 24 godzinach. Bot informowal ogolnie, ale nie sprawdzal statusu konkretnego zwrotu. Po dodaniu integracji i metryki repeat contact okazuje sie, ze realna skutecznosc byla nizsza niz dashboard containment.
+Voicebot e-commerce ma containment 72%, ale CSAT spada. Analiza logow pokazuje, że wiele rozmów zakonczonych "contained" dotyczy informacji o zwrocie, ale użytkownicy dzwonia ponownie po 24 godzinach. Bot informowal ogólnie, ale nie sprawdzal statusu konkretnego zwrotu. Po dodaniu integracji i metryki repeat contact okazuje się, że realna skuteczność była nizsza niż dashboard containment.
 
-## 10.11. Cwiczenia
+## 10.11. Ćwiczenia
 
-1. Zaprojektuj slownik zdarzen dla voicebota rezerwacyjnego.
-2. Wskaz dane, ktore trzeba maskowac.
-3. Zaproponuj dashboard jakosciowy.
+1. Zaprojektuj słownik zdarzeń dla voicebota rezerwacyjnego.
+2. Wskaż dane, które trzeba maskowac.
+3. Zaproponuj dashboard jakościowy.
 4. Opisz, jak zdiagnozujesz wzrost fallback rate.
 
 ## 10.12. Podsumowanie
 
-Observability jest warunkiem utrzymania voicebota. Bez logow i metryk projekt konczy sie w dniu wdrozenia. Z observability voicebot staje sie produktem, ktory mozna rozwijac.
+Observability jest warunkiem utrzymania voicebota. Bez logow i metryk projekt kończy się w dniu wdrożenia. Z observability voicebot staje się produktem, który można rozwijac.
 
 ---
 
-# Rozdzial 11. Human handoff: przekazanie rozmowy do konsultanta
+# Rozdział 11. Human handoff: przekazanie rozmowy do konsultanta
 
-## 11.1. Cele rozdzialu
+## 11.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozumiec, kiedy voicebot powinien przekazac rozmowe;
-- projektowac handoff jako element UX i architektury;
+- rozumieć, kiedy voicebot powinien przekazać rozmowę;
+- projektować handoff jako element UX i architektury;
 - okreslac dane przekazywane konsultantowi;
-- mierzyc jakosc handoff.
+- mierzyć jakość handoff.
 
-## 11.2. Kluczowe pojecia
+## 11.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
-| Handoff | Przekazanie sprawy do czlowieka |
+| Handoff | Przekazanie sprawy do człowieka |
 | Escalation reason | Powod eskalacji |
 | Context package | Pakiet danych przekazywany konsultantowi |
 | Warm transfer | Przekazanie z kontekstem |
 | Cold transfer | Przekazanie bez kontekstu |
-| Deflection | Proba zatrzymania uzytkownika w automatyzacji |
+| Deflection | Próba zatrzymania użytkownika w automatyzacji |
 | Agent assist | Wsparcie konsultanta przez AI |
 
-## 11.3. Wyjasnienie eksperckie
+## 11.3. Wyjaśnienie eksperckie
 
-Handoff nie jest porazka voicebota. Jest mechanizmem bezpieczenstwa i jakosci. Dobry bot wie, kiedy nie powinien kontynuowac.
+Handoff nie jest porażka voicebota. Jest mechanizmem bezpieczeństwa i jakości. Dobry bot wie, kiedy nie powinien kontynuowac.
 
 Powody handoff:
 
-- uzytkownik prosi o czlowieka;
+- użytkownik prosi o człowieka;
 - niski confidence po kilku probach;
 - wysokie ryzyko compliance;
 - emocje lub agresja;
-- sytuacja medyczna/finansowa/wrazliwa;
+- sytuacja medyczna/finansowa/wrażliwa;
 - brak danych w systemie;
-- blad integracji;
+- błąd integracji;
 - proces poza zakresem;
-- VIP lub szczegolny segment klienta;
+- VIP lub szczególny segment klienta;
 - warunek biznesowy, np. reklamacja sporna.
 
 ## 11.4. Perspektywa biznesowa
@@ -1584,37 +1584,37 @@ Powody handoff:
 Dobry handoff:
 
 - chroni CSAT;
-- zmniejsza eskalacje emocjonalne;
+- zmniejsza eskalację emocjonalne;
 - poprawia produktywnosc konsultanta;
 - daje dane o lukach automatyzacji;
 - pozwala stopniowo rozszerzac zakres bota.
 
-Zly handoff:
+Zły handoff:
 
 - marnuje czas klienta;
-- przerzuca frustracje na konsultanta;
+- przerzuca frustrację na konsultanta;
 - ukrywa problemy bota;
 - obniza zaufanie do automatyzacji.
 
-## 11.5. Perspektywa uzytkownika
+## 11.5. Perspektywa użytkownika
 
-Uzytkownik chce wiedziec:
+Użytkownik chce wiedzieć:
 
-- czy zostanie polaczony;
-- ile moze czekac;
-- czy musi powtarzac dane;
-- czy konsultant bedzie wiedzial, o co chodzi.
+- czy zostanie połączony;
+- ile może czekac;
+- czy musi powtarzać dane;
+- czy konsultant będzie wiedział, o co chodzi.
 
 Dobre sformulowanie:
 
-"Polacze z konsultantem i przekaze, ze chodzi o zmiane adresu w zamowieniu 12345. Prosze zostac na linii."
+"Połączę z konsultantem i przekaze, że chodzi o zmianę adresu w zamówieniu 12345. Proszę zostać na linii."
 
 ## 11.6. Perspektywa technologiczna
 
 Context package powinien zawierac:
 
 - identyfikator rozmowy;
-- zweryfikowanego klienta, jesli dotyczy;
+- zweryfikowanego klienta, jeśli dotyczy;
 - intencje;
 - zebrane sloty;
 - ostatnie pytanie bota;
@@ -1623,97 +1623,97 @@ Context package powinien zawierac:
 - streszczenie rozmowy;
 - transkrypcje lub link do niej;
 - poziom pilnosci;
-- informacje o emocjach/frustracji, ostroznie i jako sygnal, nie diagnoza.
+- informacje o emocjach/frustracji, ostrożnie i jako sygnał, nie diagnoza.
 
 ## 11.7. Dobre praktyki
 
-- Pozwol uzytkownikowi poprosic o czlowieka.
+- Pozwol użytkownikowi poprosić o człowieka.
 - Nie ukrywaj handoff.
 - Przekazuj kontekst.
 - Nie zmuszaj do powtarzania danych.
 - Mierz powod handoff.
-- Daj konsultantowi krotkie podsumowanie, nie sciane tekstu.
-- W procesach wrazliwych eskaluj szybciej.
+- Daj konsultantowi krótkie podsumowanie, nie sciane tekstu.
+- W procesach wrażliwych eskaluj szybciej.
 - Po handoff nie kasuj danych diagnostycznych.
 
-## 11.8. Typowe bledy
+## 11.8. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
-| Handoff tylko po trzech fallbackach | Uzytkownik za pozno trafia do czlowieka |
-| Brak powodu eskalacji | Nie wiadomo, co poprawiac |
-| Brak kontekstu dla konsultanta | Klient powtarza sprawe |
-| Bot walczy z prosba o konsultanta | Frustracja i utrata zaufania |
+| Handoff tylko po trzech fallbackach | Użytkownik za późno trafia do człowieka |
+| Brak powodu eskalacji | Nie wiadomo, co poprawiać |
+| Brak kontekstu dla konsultanta | Klient powtarza sprawę |
+| Bot walczy z prośba o konsultanta | Frustracja i utrata zaufania |
 | Brak metryki handoff success | Nie wiadomo, czy przekazanie pomaga |
 
 ## 11.9. Checklista handoff
 
-- Czy uzytkownik moze poprosic o konsultanta?
+- Czy użytkownik może poprosić o konsultanta?
 - Czy bot zna warunki automatycznej eskalacji?
 - Czy przekazujemy intencje i sloty?
 - Czy przekazujemy powod handoff?
 - Czy konsultant widzi podsumowanie?
-- Czy klient nie musi powtarzac danych?
-- Czy mierzymy czas do polaczenia?
+- Czy klient nie musi powtarzać danych?
+- Czy mierzymy czas do połączenia?
 - Czy mierzymy wynik po handoff?
-- Czy analizujemy handoff jako zrodlo optymalizacji?
+- Czy analizujemy handoff jako źródło optymalizacji?
 
 ## 11.10. Mini case study
 
-Voicebot windykacyjny ma wysoki containment, ale konsultanci zglaszaja bardzo trudne rozmowy po przekazaniu. Analiza pokazuje, ze bot probowal kontynuowac automatyzacje mimo fraz "nie zgadzam sie", "to pomylka", "chce zlozyc skarge". Dodano intencje sporu i szybszy handoff z podsumowaniem. Containment spadl, ale CSAT i compliance risk poprawily sie.
+Voicebot windykacyjny ma wysoki containment, ale konsultanci zgłaszaja bardzo trudne rozmowy po przekazaniu. Analiza pokazuje, że bot probowal kontynuowac automatyzację mimo fraz "nie zgadzam się", "to pomylka", "chce złożyć skargę". Dodano intencje sporu i szybszy handoff z podsumowaniem. Containment spadl, ale CSAT i compliance risk poprawily się.
 
-## 11.11. Cwiczenia
+## 11.11. Ćwiczenia
 
 1. Zaprojektuj context package dla reklamacji.
-2. Wypisz 10 powodow handoff.
+2. Wypisz 10 powodów handoff.
 3. Napisz komunikat przekazania do konsultanta.
-4. Zaproponuj metryke jakosci handoff.
+4. Zaproponuj metryke jakości handoff.
 
 ## 11.12. Podsumowanie
 
-Handoff to nie awaryjne wyjscie ukryte na koncu. To integralny element architektury i doswiadczenia. Dobry voicebot wie, kiedy pomaga automatyzacja, a kiedy najlepsza obsluga to czlowiek z dobrym kontekstem.
+Handoff to nie awaryjne wyjscie ukryte na koncu. To integralny element architektury i doświadczenia. Dobry voicebot wie, kiedy pomaga automatyzacja, a kiedy najlepsza obsługa to człowiek z dobrym kontekstem.
 
 ---
 
-# Rozdzial 12. Porownanie architektur: rule-based, intent-based, generative i hybrid AI
+# Rozdział 12. Porównanie architektur: rule-based, intent-based, generative i hybrid AI
 
-## 12.1. Cele rozdzialu
+## 12.1. Cele rozdziału
 
-Czytelnik nauczy sie:
+Czytelnik nauczy się:
 
-- rozrozniac glowne style architektury voicebotow;
-- dobrac architekture do use case'u;
-- ocenic kompromisy miedzy kontrola, elastycznoscia, kosztem i ryzykiem;
-- projektowac architekture hybrydowa.
+- rozrozniac główne style architektury voicebotów;
+- dobrać architekturę do use case'u;
+- ocenić kompromisy między kontrola, elastycznoscia, kosztem i ryzykiem;
+- projektować architekturę hybrydowa.
 
-## 12.2. Kluczowe pojecia
+## 12.2. Kluczowe pojęcia
 
-| Pojecie | Definicja |
+| Pojęcie | Definicja |
 |---|---|
 | Rule-based | System oparty na regułach, menu i deterministycznych warunkach |
 | Intent-based | System rozpoznajacy intencje i encje, prowadzony przez flow |
 | Generative AI | System wykorzystujacy model generatywny do rozumienia i/lub odpowiedzi |
-| Hybrid AI | Polaczenie flow, reguł, NLU, LLM i narzedzi |
-| Determinism | Przewidywalnosc zachowania |
-| Flexibility | Zdolnosc obslugi zroznicowanych wypowiedzi |
-| Control surface | Miejsca, w ktorych mozna ograniczyc lub nadzorowac zachowanie systemu |
+| Hybrid AI | Połączenie flow, reguł, NLU, LLM i narzędzi |
+| Determinism | Przewidywalność zachowania |
+| Flexibility | Zdolność obsługi zroznicowanych wypowiedzi |
+| Control surface | Miejsca, w których można ograniczyc lub nadzorowac zachowanie systemu |
 
 ## 12.3. Tabela porownawcza
 
 | Kryterium | Rule-based | Intent-based | Generative | Hybrid |
 |---|---|---|---|---|
 | Kontrola | Bardzo wysoka | Wysoka | Nizsza bez guardrails | Wysoka w krytycznych krokach |
-| Elastycznosc jezykowa | Niska | Srednia | Wysoka | Wysoka tam, gdzie potrzebna |
-| Koszt utrzymania | Rosnie z liczba reguł | Rosnie z liczba intencji | Rosnie przez testy i monitoring | Sredni-wysoki, ale kontrolowany |
-| Ryzyko compliance | Niskie-srednie | Srednie | Wysokie bez ograniczen | Kontrolowane |
+| Elastycznosc językowa | Niska | Średnia | Wysoka | Wysoka tam, gdzie potrzebna |
+| Koszt utrzymania | Rosnie z liczba reguł | Rosnie z liczba intencji | Rosnie przez testy i monitoring | Średni-wysoki, ale kontrolowany |
+| Ryzyko compliance | Niskie-średnie | Średnie | Wysokie bez ograniczeń | Kontrolowane |
 | Najlepsze dla | Menu, proste procesy | Contact center task-oriented | Informacje, swobodny opis, asysta | Enterprise voiceboty |
 | Slabosc | Sztywnosc | Dane treningowe i confusion | Halucynacje, latency | Zlozonosc architektury |
 
-## 12.4. Wyjasnienie eksperckie
+## 12.4. Wyjaśnienie eksperckie
 
 ### Rule-based
 
-Dobre dla prostych, przewidywalnych procesow:
+Dobre dla prostych, przewidywalnych procesów:
 
 - routing;
 - proste menu;
@@ -1721,11 +1721,11 @@ Dobre dla prostych, przewidywalnych procesow:
 - DTMF;
 - proste potwierdzenia.
 
-Nie nadaje sie do naturalnego opisu problemu i wielu parafraz.
+Nie nadaje się do naturalnego opisu problemu i wielu parafraz.
 
 ### Intent-based
 
-Najczestszy model voicebotow contact center. Uzytkownik mowi naturalnie w ramach domeny, NLU rozpoznaje intencje, a flow prowadzi proces.
+Najczestszy model voicebotów contact center. Użytkownik mówi naturalnie w ramach domeny, NLU rozpoznaje intencje, a flow prowadzi proces.
 
 Dobre dla:
 
@@ -1733,11 +1733,11 @@ Dobre dla:
 - rezerwacji;
 - reklamacji w okreslonym zakresie;
 - helpdesku;
-- powtarzalnych procesow.
+- powtarzalnych procesów.
 
 ### Generative
 
-LLM daje elastycznosc w rozumieniu i odpowiedziach, szczegolnie dla:
+LLM daje elastycznosc w rozumieniu i odpowiedziach, szczególnie dla:
 
 - FAQ z bazy wiedzy;
 - streszczen;
@@ -1745,49 +1745,49 @@ LLM daje elastycznosc w rozumieniu i odpowiedziach, szczegolnie dla:
 - agent assist;
 - wielointencyjnych wypowiedzi.
 
-Ryzyko: brak kontroli, jesli LLM sam decyduje o wszystkim.
+Ryzyko: brak kontroli, jeśli LLM sam decyduje o wszystkim.
 
 ### Hybrid
 
 Najbardziej praktyczna architektura enterprise:
 
 - flow kontroluje proces;
-- LLM rozumie jezyk i wspiera odpowiedzi;
-- RAG dostarcza wiedze;
-- narzedzia wykonują akcje;
+- LLM rozumie język i wspiera odpowiedzi;
+- RAG dostarcza wiedzę;
+- narzędzia wykonują akcję;
 - guardrails ograniczaja zakres;
-- observability monitoruje jakosc.
+- observability monitoruje jakość.
 
 ## 12.5. Perspektywa biznesowa
 
-Dobor architektury powinien wynikac z:
+Dobor architektury powinien wynikać z:
 
 - ryzyka procesu;
-- potrzeby elastycznosci;
+- potrzeby elastyczności;
 - dojrzalosci danych;
-- wymagan compliance;
+- wymagań compliance;
 - kosztu latency;
-- dostepnosci integracji;
+- dostępności integracji;
 - kompetencji zespolu utrzymaniowego.
 
-Nie kazdy projekt potrzebuje generatywnej AI. Ale coraz wiecej projektow skorzysta z LLM jako komponentu, nie jako calosci systemu.
+Nie każdy projekt potrzebuje generatywnej AI. Ale coraz więcej projektow skorzysta z LLM jako komponentu, nie jako całości systemu.
 
-## 12.6. Perspektywa uzytkownika
+## 12.6. Perspektywa użytkownika
 
-Uzytkownik chce kombinacji:
+Użytkownik chce kombinacji:
 
 - przewidywalnosci przy decyzjach;
-- elastycznosci przy mowieniu;
+- elastyczności przy mowieniu;
 - krotkich odpowiedzi;
-- mozliwosci poprawienia;
+- możliwości poprawienia;
 - braku halucynacji;
 - szybkiej eskalacji.
 
-Architektura hybrydowa najlepiej odpowiada temu napieciu: uzytkownik moze mowic naturalnie, ale krytyczne akcje pozostaja kontrolowane.
+Architektura hybrydowa najlepiej odpowiada temu napieciu: użytkownik może mówić naturalnie, ale krytyczne akcję pozostają kontrolowane.
 
 ## 12.7. Perspektywa technologiczna
 
-Przykladowa architektura hybrydowa:
+Przykładowa architektura hybrydowa:
 
 ```text
 Audio
@@ -1804,36 +1804,36 @@ Audio
   -> monitoring + analytics
 ```
 
-Wazne: LLM nie powinien byc jedynym arbitrem stanu i akcji w procesach wysokiego ryzyka. Powinien byc otoczony walidacja, narzedziami i politykami.
+Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokiego ryzyka. Powinien być otoczony walidacja, narzędziami i politykami.
 
 ## 12.8. Dobre praktyki
 
-- Uzywaj najprostszej architektury, ktora spelnia wymagania.
-- Dla procesow krytycznych utrzymuj deterministyczne kroki.
-- Uzywaj LLM do elastycznosci jezykowej, nie do niekontrolowanej decyzyjnosci.
+- Używaj najprostszej architektury, która spelnia wymagania.
+- Dla procesów krytycznych utrzymuj deterministyczne kroki.
+- Używaj LLM do elastyczności językowej, nie do niekontrolowanej decyzyjnosci.
 - Wersjonuj flow, prompty i bazy wiedzy.
-- Testuj architekture na przypadkach granicznych.
+- Testuj architekturę na przypadkach granicznych.
 - Miej plan degradacji: LLM niedostepny, RAG niedostepny, API niedostepne.
 
-## 12.9. Typowe bledy
+## 12.9. Typowe błędy
 
-| Blad | Konsekwencja |
+| Błąd | Konsekwencja |
 |---|---|
 | Rule-based dla zbyt otwartej rozmowy | Frustracja i no-match |
 | Generative dla procesu wymagajacego scislej kontroli | Ryzyko compliance |
 | Intent-based z setkami podobnych intencji | Confusion i utrzymaniowy chaos |
-| Brak fallbacku, gdy LLM nie dziala | Awaria calego procesu |
+| Brak fallbacku, gdy LLM nie działa | Awaria całego procesu |
 | Brak guardrails | Odpowiedzi poza domena |
-| Brak testow kosztow | Nieprzewidziany koszt produkcji |
+| Brak testów kosztów | Nieprzewidziany koszt produkcji |
 
 ## 12.10. Checklista wyboru architektury
 
-- Czy proces jest prosty czy zlozony?
+- Czy proces jest prosty czy złożony?
 - Czy wymaga naturalnego opisu problemu?
 - Czy wymaga decyzji regulowanych?
 - Czy potrzebuje bazy wiedzy?
 - Czy potrzebuje integracji?
-- Czy odpowiedzi musza byc deterministyczne?
+- Czy odpowiedzi muszą być deterministyczne?
 - Czy mamy dane treningowe?
 - Czy mamy kompetencje utrzymania LLM/RAG?
 - Czy latency generatywna jest akceptowalna?
@@ -1841,18 +1841,18 @@ Wazne: LLM nie powinien byc jedynym arbitrem stanu i akcji w procesach wysokiego
 
 ## 12.11. Mini case study
 
-Administracja publiczna chce voicebota do informacji o wnioskach. Wybrano architekture hybrydowa. Proste statusy ida przez flow i integracje z systemem spraw. Odpowiedzi informacyjne o dokumentach ida przez RAG, ale bot nie interpretuje indywidualnej sytuacji prawnej. Gdy uzytkownik pyta "czy w moim przypadku dostane decyzje pozytywna?", bot wyjasnia, ze nie moze tego ocenic i moze sprawdzic status albo polaczyc z urzednikiem.
+Administracja publiczna chce voicebota do informacji o wnioskach. Wybrano architekturę hybrydowa. Proste statusy ida przez flow i integracje z systemem spraw. Odpowiedzi informacyjne o dokumentach ida przez RAG, ale bot nie interpretuje indywidualnej sytuacji prawnej. Gdy użytkownik pyta "czy w moim przypadku dostane decyzję pozytywna?", bot wyjaśnia, że nie może tego ocenić i może sprawdzić status albo połączyć z urzednikiem.
 
-## 12.12. Cwiczenia
+## 12.12. Ćwiczenia
 
-1. Dla trzech use case'ow wybierz architekture i uzasadnij.
-2. Wskaz, ktore kroki musza byc deterministyczne.
-3. Wskaz, gdzie LLM daje wartosc.
+1. Dla trzech use case'ow wybierz architekturę i uzasadnij.
+2. Wskaż, które kroki muszą być deterministyczne.
+3. Wskaż, gdzie LLM daje wartość.
 4. Zaprojektuj graceful degradation dla awarii RAG.
 
 ## 12.13. Podsumowanie
 
-Nie istnieje jedna najlepsza architektura voicebota. Dobre rozwiazanie wynika z procesu, ryzyka, danych i oczekiwan uzytkownika. W enterprise najczesciej wygrywa hybryda: kontrolowany proces plus elastycznosc AI tam, gdzie naprawde pomaga.
+Nie istnieje jedna najlepsza architektura voicebota. Dobre rozwiązanie wynika z procesu, ryzyka, danych i oczekiwan użytkownika. W enterprise najczesciej wygrywa hybryda: kontrolowany proces plus elastycznosc AI tam, gdzie naprawde pomaga.
 
 ---
 
@@ -1922,31 +1922,31 @@ Voicebot detects handoff condition
 
 ---
 
-# 14. Zbiorcza checklista po Czesci II
+# 14. Zbiorcza checklista po Części II
 
-- Czy potrafisz narysowac architekture voicebota end-to-end?
+- Czy potrafisz narysowac architekturę voicebota end-to-end?
 - Czy rozumiesz role telefonii, SIP/VoIP i contact center?
-- Czy potrafisz wskazac zrodla latency?
-- Czy rozumiesz roznice miedzy VAD, endpointing i ASR?
-- Czy potrafisz wyjasnic role NLU i dialog managera?
+- Czy potrafisz wskazac źródła latency?
+- Czy rozumiesz różnice między VAD, endpointing i ASR?
+- Czy potrafisz wyjaśnić role NLU i dialog managera?
 - Czy wiesz, jak integracje zmieniaja voicebota z informacyjnego w transakcyjnego?
 - Czy rozumiesz ryzyka RAG?
-- Czy potrafisz projektowac tekst pod TTS?
-- Czy wiesz, jakie logi sa potrzebne do optymalizacji?
-- Czy rozumiesz, ze handoff jest czescia architektury?
-- Czy potrafisz dobrac architekture rule-based, intent-based, generative lub hybrid?
+- Czy potrafisz projektować tekst pod TTS?
+- Czy wiesz, jakie logi są potrzebne do optymalizacji?
+- Czy rozumiesz, że handoff jest częścią architektury?
+- Czy potrafisz dobrać architekturę rule-based, intent-based, generative lub hybrid?
 
 ---
 
-# 15. Co bedzie w kolejnej czesci
+# 15. Co będzie w kolejnej części
 
-Kolejna czesc powinna opracowac **Czesc III. Conversation Design dla voicebotow**:
+Kolejna część powinna opracowac **Część III. Conversation Design dla voicebotów**:
 
-1. Roznice miedzy pisaniem tekstu a projektowaniem rozmowy glosowej.
+1. Różnice między pisaniem tekstu a projektowaniem rozmowy głosowej.
 2. Zasady projektowania wypowiedzi voicebota.
 3. Turn-taking w praktyce conversation design.
 4. Persona, ton, styl i formalnosc.
-5. Powitania, pytania, potwierdzenia, reprompt, fallback i zakonczenia.
-6. Projektowanie ciszy, przerwan, barge-in i eskalacji.
-7. Mikrocopy glosowe i projektowanie dla emocji.
+5. Powitania, pytania, potwierdzenia, reprompt, fallback i zakończenia.
+6. Projektowanie ciszy, przerwań, barge-in i eskalacji.
+7. Mikrocopy głosowe i projektowanie dla emocji.
 

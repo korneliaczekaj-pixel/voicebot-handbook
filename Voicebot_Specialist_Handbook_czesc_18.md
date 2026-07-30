@@ -1,16 +1,16 @@
 # Voicebot Specialist Handbook
 
-## Czesc 18: Egzamin i certyfikacja Voicebot Specialist
+## Część 18: Egzamin i certyfikacja Voicebot Specialist
 
 Wersja robocza: 2026-07-29
 
 ---
 
-# Czesc XVII. Egzamin i certyfikacja Voicebot Specialist
+# Część XVII. Egzamin i certyfikacja Voicebot Specialist
 
-## Cel czesci
+## Cel części
 
-Ta czesc proponuje kompletny system certyfikacji kompetencji Voicebot Specialist. Certyfikacja powinna sprawdzac nie tylko znajomosc definicji, ale zdolnosc projektowania, analizowania danych, testowania, oceny ryzyka i pracy z realnym procesem.
+Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Specialist. Certyfikacja powinna sprawdzać nie tylko znajomość definicji, ale zdolność projektowania, analizowania danych, testowania, oceny ryzyka i pracy z realnym procesem.
 
 ---
 
@@ -18,7 +18,7 @@ Ta czesc proponuje kompletny system certyfikacji kompetencji Voicebot Specialist
 
 | Poziom | Charakterystyka |
 |---|---|
-| Foundation | Rozumie podstawy voicebotow, architektury, intencji, flow, QA i metryk |
+| Foundation | Rozumie podstawy voicebotów, architektury, intencji, flow, QA i metryk |
 | Professional | Samodzielnie projektuje use case, scenariusz, testy, metryki i handoff |
 | Expert | Projektuje strategie enterprise, governance LLM/RAG, compliance, roadmapy i programy optymalizacji |
 
@@ -49,7 +49,7 @@ Ta czesc proponuje kompletny system certyfikacji kompetencji Voicebot Specialist
 - enterprise architecture;
 - governance danych i modeli;
 - prompt/RAG governance;
-- branze regulowane;
+- branże regulowane;
 - program certyfikacji;
 - operating model;
 - strategia skalowania;
@@ -61,26 +61,26 @@ Ta czesc proponuje kompletny system certyfikacji kompetencji Voicebot Specialist
 
 | Element | Foundation | Professional | Expert |
 |---|---:|---:|---:|
-| Test wiedzy | 60 pytan | 80 pytan | 100 pytan |
-| Case analysis | 1 krotki | 2 rozbudowane | 3 strategiczne |
-| Zadanie praktyczne | Mini flow | Pelny scenariusz | Program wdrozenia |
+| Test wiedzy | 60 pytań | 80 pytań | 100 pytań |
+| Case analysis | 1 krótki | 2 rozbudowane | 3 strategiczne |
+| Zadanie praktyczne | Mini flow | Pełny scenariusz | Program wdrożenia |
 | Obrona projektu | Nie | Tak | Tak |
 | Portfolio | Opcjonalne | Wymagane | Wymagane |
 
 ---
 
-# 3. Przykladowe pytania testowe
+# 3. Przykładowe pytania testowe
 
-1. Czym voicebot rozni sie od IVR?
-2. Dlaczego kanal glosowy wymaga krotszych komunikatow niz tekst?
+1. Czym voicebot różni się od IVR?
+2. Dlaczego kanał głosowy wymaga krótszych komunikatów niż tekst?
 3. Co oznacza no-input?
 4. Co oznacza no-match?
-5. Kiedy stosowac explicit confirmation?
+5. Kiedy stosować explicit confirmation?
 6. Co to jest barge-in?
-7. Czym barge-in rozni sie od interruption handling?
+7. Czym barge-in różni się od interruption handling?
 8. Co to jest task completion rate?
 9. Dlaczego containment nie wystarcza jako KPI?
-10. Kiedy LLM nie powinien odpowiadac?
+10. Kiedy LLM nie powinien odpowiadać?
 11. Co to jest RAG?
 12. Co to jest prompt injection?
 13. Dlaczego trzeba wersjonowac prompt systemowy?
@@ -93,11 +93,11 @@ Ta czesc proponuje kompletny system certyfikacji kompetencji Voicebot Specialist
 
 ## Zadanie Foundation
 
-Zaprojektuj prosty flow dla voicebota sprawdzajacego status zamowienia:
+Zaprojektuj prosty flow dla voicebota sprawdzającego status zamówienia:
 
 - powitanie;
 - zebranie numeru;
-- odpowiedz statusowa;
+- odpowiedź statusowa;
 - no-input;
 - no-match;
 - handoff.
@@ -106,21 +106,21 @@ Zaprojektuj prosty flow dla voicebota sprawdzajacego status zamowienia:
 
 Dostajesz use case: zmiana terminu wizyty medycznej. Przygotuj:
 
-- karte use case'u;
+- kartę use case'u;
 - intencje i sloty;
 - scenariusz happy path;
 - 5 unhappy paths;
-- polityke barge-in;
+- politykę barge-in;
 - plan QA;
 - metryki sukcesu;
 - ryzyka compliance.
 
 ## Zadanie Expert
 
-Firma ubezpieczeniowa chce wdrozyc program voicebotow w 3 krajach. Przygotuj:
+Firma ubezpieczeniowa chce wdrożyć program voicebotów w 3 krajach. Przygotuj:
 
 - strategie use case'ow;
-- architekture hybrydowa;
+- architekturę hybrydowa;
 - governance RAG;
 - model operacyjny;
 - RACI;
@@ -130,17 +130,17 @@ Firma ubezpieczeniowa chce wdrozyc program voicebotow w 3 krajach. Przygotuj:
 
 ---
 
-# 5. Projekt koncowy
+# 5. Projekt końcowy
 
-Projekt koncowy powinien zawierac:
+Projekt końcowy powinien zawierac:
 
 1. Brief.
 2. Matryce use case'u.
 3. Business case.
-4. Architekture.
+4. Architekturę.
 5. Scenariusz dialogowy.
 6. Intencje, encje, sloty.
-7. Prompt systemowy, jesli LLM.
+7. Prompt systemowy, jeśli LLM.
 8. Specyfikacje integracji.
 9. Plan QA.
 10. Dashboard metryk.
@@ -155,13 +155,13 @@ Projekt koncowy powinien zawierac:
 | Kryterium | Waga | Ocena |
 |---|---:|---|
 | Dopasowanie use case'u | 15% | Czy use case jest sensowny i mierzalny |
-| Conversation design | 20% | Czy dialog jest jasny, odporny na bledy |
-| Architektura | 15% | Czy komponenty i integracje sa realistyczne |
+| Conversation design | 20% | Czy dialog jest jasny, odporny na błędy |
+| Architektura | 15% | Czy komponenty i integracje są realistyczne |
 | QA | 15% | Czy testy obejmuja ryzyka |
 | Metryki | 10% | Czy sukces jest mierzalny |
-| Compliance | 10% | Czy ryzyka sa rozpoznane |
+| Compliance | 10% | Czy ryzyka są rozpoznane |
 | Handoff | 5% | Czy przekazanie jest zaprojektowane |
-| Dokumentacja | 10% | Czy material jest wdrozeniowy |
+| Dokumentacja | 10% | Czy materiał jest wdrożeniowy |
 
 ---
 
@@ -190,34 +190,34 @@ Portfolio Expert:
 - minimum 3 projekty;
 - co najmniej 1 projekt z LLM/RAG;
 - governance lub roadmapa;
-- case z optymalizacja po wdrozeniu;
+- case z optymalizacja po wdrożeniu;
 - analiza ryzyka.
 
 ---
 
-# 9. Przykladowy scenariusz egzaminacyjny
+# 9. Przykładowy scenariusz egzaminacyjny
 
-Firma e-commerce ma 80 000 rozmow miesiecznie. Najczestsze powody: status zamowienia, zwroty, reklamacje, faktury. Contact center ma wysoki repeat contact dla statusu. API statusu istnieje, API reklamacji jest niedostepne. Zaproponuj MVP voicebota.
+Firma e-commerce ma 80 000 rozmów miesiecznie. Najczestsze powody: status zamówienia, zwroty, reklamację, faktury. Contact center ma wysoki repeat contact dla statusu. API statusu istnieje, API reklamacji jest niedostepne. Zaproponuj MVP voicebota.
 
-Oczekiwana odpowiedz:
+Oczekiwana odpowiedź:
 
-- MVP: status zamowienia + podstawowa informacja o zwrocie;
-- reklamacje poza zakresem lub ticket/handoff;
+- MVP: status zamówienia + podstawowa informacja o zwrocie;
+- reklamację poza zakresem lub ticket/handoff;
 - integracja z OMS;
 - SMS z linkiem;
 - metryki: task completion, repeat contact, fallback, handoff;
-- QA: statusy, API timeout, wiele zamowien, no-match, barge-in;
+- QA: statusy, API timeout, wiele zamówień, no-match, barge-in;
 - compliance: informacja o bocie, retencja, minimalizacja.
 
 ---
 
 # 10. Podsumowanie
 
-Certyfikacja Voicebot Specialist powinna sprawdzac praktyczne kompetencje. Najlepszy kandydat nie tylko zna definicje, ale potrafi zaprojektowac proces, przewidziec bledy, mierzyc wyniki i powiedziec, kiedy voicebot nie jest dobrym rozwiazaniem.
+Certyfikacja Voicebot Specialist powinna sprawdzać praktyczne kompetencje. Najlepszy kandydat nie tylko zna definicje, ale potrafi zaprojektować proces, przewidziec błędy, mierzyć wyniki i powiedzieć, kiedy voicebot nie jest dobrym rozwiazaniem.
 
 ---
 
-# Co bedzie w kolejnej czesci
+# Co będzie w kolejnej części
 
-Kolejna czesc: **Psychologia rozmowy z voicebotem**.
+Kolejna część: **Psychologia rozmowy z voicebotem**.
 
