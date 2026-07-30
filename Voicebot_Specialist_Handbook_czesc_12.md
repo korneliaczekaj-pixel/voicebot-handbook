@@ -58,6 +58,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Discovery | Etap poznania problemu, danych, procesów, ryzyk i zakresu |
@@ -146,6 +148,8 @@ Najważniejsze zaleznosci:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nie pomijaj discovery.
 - Zakres MVP trzymaj waski, ale kompletny.
 - Handoff projektuj od początku.
@@ -156,6 +160,8 @@ Najważniejsze zaleznosci:
 - Ustal ownera utrzymania przed produkcją.
 
 ## 1.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -168,6 +174,8 @@ Najważniejsze zaleznosci:
 | Brak ownera BAU | Bot starzeje się |
 
 ## 1.9. Checklista cyklu wdrożenia
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy discovery?
 - Czy mamy audit danych?
@@ -186,6 +194,8 @@ Najważniejsze zaleznosci:
 Firma energetyczna chciała wdrożyć voicebota do wszystkich spraw klienta. Discovery pokazalo, że najlepszym MVP jest status zgłoszenia awarii i odczyt licznika. Reklamację faktur przesunieto na później. Pilot na 10% ruchu ujawnil problemy z numerami punktow poboru, które poprawiono przed skalowaniem. Stopniowe wdrożenie pozwolilo uniknac porażki szerokiego zakresu.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Rozpisz cykl wdrożenia dla voicebota rezerwacyjnego.
 2. Wskaż bramki decyzyjne.
@@ -294,6 +304,8 @@ Discovery musi ujawnic:
 
 ## 2.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Łączy warsztaty z analiza danych.
 - Sluchaj realnych rozmów.
 - Nie ufaj bezkrytycznie wrap-up codes.
@@ -304,6 +316,8 @@ Discovery musi ujawnic:
 
 ## 2.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Discovery jako spotkanie kick-off | Brak realnej analizy |
@@ -313,6 +327,8 @@ Discovery musi ujawnic:
 | Brak rekomendacji no-go | Voicebot forsowany mimo ryzyk |
 
 ## 2.9. Checklista discovery
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy znamy problem biznesowy?
 - Czy mamy dane contact center?
@@ -328,6 +344,8 @@ Discovery musi ujawnic:
 W firmie ubezpieczeniowej biznes wskazal "sprzedaż polis" jako use case. Audit rozmów pokazal, że klienci najczesciej dzwonia po status szkody i listę brakujacych dokumentów. Sprzedaż miała niski wolumen telefoniczny. Rekomendacja discovery przesunela MVP na status szkody, a sprzedaż zostawila jako późniejszy eksperyment.
 
 ## 2.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj listę pytań discovery.
 2. Zaprojektuj probke rozmów do audytu.
@@ -352,6 +370,8 @@ Czytelnik nauczy się:
 - przygotować kryteria sukcesu.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -426,6 +446,8 @@ MVP technicznie musi mieć:
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Prototypuj rozmowę przed pełna implementacja.
 - MVP ograniczaj zakresem, nie jakością.
 - Pilotuj na malym, mierzalnym ruchu.
@@ -434,6 +456,8 @@ MVP technicznie musi mieć:
 - Dokumentuj decyzję scope cut.
 
 ## 3.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -444,6 +468,8 @@ MVP technicznie musi mieć:
 | Brak konsultantów w pilocie | Handoff nie działa operacyjnie |
 
 ## 3.9. Checklista MVP/pilota
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy MVP ma jasny zakres?
 - Czy ma out of scope?
@@ -460,6 +486,8 @@ MVP technicznie musi mieć:
 Siec przychodni uruchomila pilota voicebota do potwierdzania wizyt outbound. Pilot obejmowal 10% wizyt i godziny pracy rejestracji. Po tygodniu okazalo się, że wielu pacjentow mówiło "oddzwonie" zamiast "nie". Dodano osobna intencje i ścieżkę SMS. Dopiero po tej poprawce zwiekszono ruch.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zdefiniuj MVP dla voicebota zwrotow.
 2. Zaprojektuj scope cut.
@@ -484,6 +512,8 @@ Czytelnik nauczy się:
 - zarzadzac incydentami i rollback.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -555,6 +585,8 @@ Runbook powinien mówić:
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Uruchamiaj stopniowo.
 - Hypercare planuj przed go-live.
 - Miej kanał szybkiej komunikacji zespolu.
@@ -566,6 +598,8 @@ Runbook powinien mówić:
 
 ## 4.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Big bang launch | Duze ryzyko masowych problemow |
@@ -575,6 +609,8 @@ Runbook powinien mówić:
 | Monitoring tylko techniczny | Problemy UX niewidoczne |
 
 ## 4.9. Checklista soft launch
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy startujemy na ograniczonym ruchu?
 - Czy contact center jest gotowe?
@@ -591,6 +627,8 @@ Runbook powinien mówić:
 Voicebot e-commerce został włączony najpierw dla 10% rozmów o statusie zamówienia. W pierwszym dniu wykryto wysoki no-match na fraze "paczka stoi w miejscu". Dodano mapowanie do statusu opóźnionej dostawy i skrócony komunikat. Dzięki soft launch problem dotknął ograniczonej liczby klientów.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj ramp-up traffic dla 4 tygodni.
 2. Przygotuj hypercare daily checklist.
@@ -615,6 +653,8 @@ Czytelnik nauczy się:
 - unikać starzenia się bota.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -686,6 +726,8 @@ Operating model powinien okreslac:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Ustal BAU przed produkcją.
 - Miej regularny rytm przegladu metryk.
 - Miej backlog optymalizacji.
@@ -697,6 +739,8 @@ Operating model powinien okreslac:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak ownera po wdrożeniu | Bot się starzeje |
@@ -706,6 +750,8 @@ Operating model powinien okreslac:
 | Brak feedbacku konsultantów | Handoff i wyjatki są ignorowane |
 
 ## 5.9. Checklista BAU
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy jest product owner?
 - Czy jest owner danych?
@@ -722,6 +768,8 @@ Operating model powinien okreslac:
 Voicebot zwrotow działał dobrze przez trzy miesiace. Firma zmienila politykę zwrotow z 30 na 14 dni, ale baza wiedzy bota nie została zaktualizowana. Klienci dostawali błędne informacje. Po incydencie powolano ownera knowledge base i proces zatwierdzania zmian regulaminowych przed publikacją.
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj operating model dla voicebota e-commerce.
 2. Przygotuj miesieczny rytm przeglądów.
@@ -803,6 +851,8 @@ Technicznie rola architekta jest kluczowa, bo voicebot dotyka wielu systemów. A
 
 ## 6.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Ustal RACI na starcie.
 - Zaangazuj legal/security wcześnie.
 - Zaangazuj konsultantów w discovery i UAT.
@@ -812,6 +862,8 @@ Technicznie rola architekta jest kluczowa, bo voicebot dotyka wielu systemów. A
 - Spotkania optymalizacyjne rob cyklicznie.
 
 ## 6.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -823,6 +875,8 @@ Technicznie rola architekta jest kluczowa, bo voicebot dotyka wielu systemów. A
 | Brak BAU owner | Bot zostaje bez opieki |
 
 ## 6.9. Checklista rol
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy jest sponsor?
 - Czy jest PO?
@@ -842,6 +896,8 @@ W projekcie bankowym bot był technicznie gotowy, ale legal zablokowal produkcj�
 
 ## 6.11. Ćwiczenia
 
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
+
 1. Przygotuj RACI dla projektu rezerwacyjnego.
 2. Wskaż role potrzebne w UAT.
 3. Zdefiniuj ownerow BAU.
@@ -854,6 +910,8 @@ Voicebot jest projektem interdyscyplinarnym. Bez jasnych rol odpowiedzialność 
 ---
 
 # 7. Zbiorcza checklista po Części XI
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy wdrożenie ma pełny cykl od discovery do BAU?
 - Czy wykonano audit rozmów?

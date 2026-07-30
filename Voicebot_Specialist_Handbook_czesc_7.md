@@ -55,6 +55,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Nagranie | Audio rozmowy, zwykle najblizsze realnemu doświadczeniu użytkownika |
@@ -138,6 +140,8 @@ Dane muszą być przygotowane technicznie:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zbieraj probke z różnych dni, godzin, kolejek i segmentow.
 - Nie opieraj się tylko na najlepszych lub najczystszych rozmowąch.
 - Uwzglednij rozmowy zakonczone sukcesem i porażka.
@@ -147,6 +151,8 @@ Dane muszą być przygotowane technicznie:
 - Oddziel dane do treningu, walidacji i testów.
 
 ## 1.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -158,6 +164,8 @@ Dane muszą być przygotowane technicznie:
 | Brak timestampow | Trudno analizować przerwania i timing |
 
 ## 1.9. Checklista danych startowych
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy nagrania?
 - Czy mamy transkrypcje?
@@ -175,6 +183,8 @@ Dane muszą być przygotowane technicznie:
 Firma kurierska chciała trenowac intencje na podstawie kategorii z CRM. Kategoria "dostawa" obejmowala status, zmianę adresu, zmianę terminu, skargę na kuriera i pytania o odbiór osobisty. Po analizie 500 transkrypcji zespół rozbił temat na cele użytkownika. Model intencji stał się stabilniejszy, a flow przestało wrzucać wszystkie sprawy do jednego worka.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj plan probkowania 1000 rozmów z contact center.
 2. Wypisz metadane, które chcesz mieć przy każdej rozmowie.
@@ -199,6 +209,8 @@ Czytelnik nauczy się:
 - unikać nierownowagi i zbyt podobnych intencji.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -285,6 +297,8 @@ Przydatna tabela:
 
 ## 2.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zaczynaj od realnych fraz.
 - Dodawaj sztuczne frazy tylko jako uzupełnienie.
 - Zbieraj przykłady negatywne dla podobnych intencji.
@@ -296,6 +310,8 @@ Przydatna tabela:
 
 ## 2.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Same sztuczne frazy | Model nie zna realnego języka |
@@ -306,6 +322,8 @@ Przydatna tabela:
 | Przepisywanie fraz na ladna polszczyzne | Utrata realnego języka użytkownika |
 
 ## 2.9. Checklista datasetu intencji
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy frazy są realne?
 - Czy są warianty potoczne?
@@ -322,6 +340,8 @@ Przydatna tabela:
 Voicebot bankowy mylil `zastrzez_kartę` z `zamow_nowa_kartę`, bo dataset zawieral sztuczne frazy typu "chce kartę". Po analizie rozmów dodano realne wypowiedzi: "zgubilem kartę", "ktos mi ukradl portfel", "chce zablokowac płatności", "karta nie przyszla". Intencje rozdzielono przez cel: blokada istniejącej karty vs zamówienie/wysyłka nowej. False positive dla zastrzegania spadl.
 
 ## 2.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zbierz 30 fraz dla intencji "zmień termin wizyty".
 2. Dodaj 10 negatywnych przykładów podobnych, ale nienalezacych.
@@ -346,6 +366,8 @@ Czytelnik nauczy się:
 - przygotowywac dane dla nazw własnych, produktow, kodów i wariantów językowych.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -434,6 +456,8 @@ Ryzyka danych syntetycznych:
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Używaj realnych danych jako podstawy.
 - Tworz synonimy z konsultantami i ekspertami domenowymi.
 - Odróżniaj synonimy potoczne od technicznie równoważnych.
@@ -443,6 +467,8 @@ Ryzyka danych syntetycznych:
 - Nie mieszaj bez kontroli danych syntetycznych z test setem.
 
 ## 3.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -454,6 +480,8 @@ Ryzyka danych syntetycznych:
 | Brak walidacji encji | Źle dane trafiaja do API |
 
 ## 3.9. Checklista encji i slownikow
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy encja jest potrzebna do procesu?
 - Czy ma wartości kanoniczne?
@@ -470,6 +498,8 @@ Ryzyka danych syntetycznych:
 W voicebocie helpdeskowym encja `system` zawierala oficjalne nazwy aplikacji. Użytkownicy mowili jednak "poczta", "maile", "outlook", "skrzynka". Bot nie rozpoznawal problemow z e-mailem. Po dodaniu synonimow i wartości kanonicznej `email_service` poprawila się klasyfikacja, ale zostawiono doprecyzowanie, gdy użytkownik mówił "konto", bo mogło oznaczać konto pocztowe, bankowe lub systemowe.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zbuduj słownik synonimow dla 10 produktow lub spraw.
 2. Oznacz, które synonimy są ryzykowne.
@@ -494,6 +524,8 @@ Czytelnik nauczy się:
 - utrzymywać dataset jako aktywo produktu.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -564,6 +596,8 @@ Proces labeling powinien obejmować:
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zanim etykietujesz, napisz guideline.
 - Dodaj przykłady pozytywne, negatywne i graniczne.
 - Etykietuj cel, nie słowo kluczowe.
@@ -575,6 +609,8 @@ Proces labeling powinien obejmować:
 
 ## 4.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak guideline | Każdy etykietuje inaczej |
@@ -585,6 +621,8 @@ Proces labeling powinien obejmować:
 | Zmienianie taksonomii bez migracji danych | Chaos wersji |
 
 ## 4.9. Checklista labelingu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy istnieje guideline?
 - Czy każda intencja ma zakres i poza zakresem?
@@ -601,6 +639,8 @@ Proces labeling powinien obejmować:
 W projekcie ubezpieczeniowym anotatorzy etykietowali "chce wiedzieć, czy dostane odszkodowanie" raz jako FAQ, raz jako status szkody, raz jako decyzję. Po warsztacie ustalono guideline: pytania o indywidualną decyzję trafiaja do `ocena_indywidualna_poza_zakresem`, a bot może tylko sprawdzić status lub przekazać do konsultanta. Zmniejszylo to ryzyko, że bot zacznie udzielac interpretacji poza zakresem.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Napisz guideline dla trzech intencji.
 2. Oznacz 10 fraz granicznych.
@@ -625,6 +665,8 @@ Czytelnik nauczy się:
 - przygotowywac dialog odporny na niedoskonala transkrypcje.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -707,6 +749,8 @@ Metryki:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Testuj ASR w kanale produkcyjnym.
 - Tworz custom vocabulary.
 - Dziel kody i numery na grupy.
@@ -718,6 +762,8 @@ Metryki:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Testy tylko na czystych nagraniach | Produkcja wypada gorzej |
@@ -728,6 +774,8 @@ Metryki:
 | Brak testów osób starszych lub akcentow | System działa nierowno dla grup użytkowników |
 
 ## 5.9. Checklista ASR QA
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy testujemy realny kanał telefoniczny?
 - Czy mamy probki z halasem?
@@ -745,6 +793,8 @@ Metryki:
 Voicebot medyczny źle rozpoznawal nazwiska pacjentow i nazwy miejscowosci. Zespół przestal próbować "idealnie rozpoznawać nazwisko" jako główny sposób identyfikacji. Wprowadzono identyfikacje po numerze telefonu i dacie urodzenia, potwierdzenie tylko fragmentow danych oraz możliwość DTMF dla kodu SMS. ASR nadal nie był idealny, ale proces stał się odporniejszy.
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj test ASR dla numeru polisy.
 2. Wypisz 20 nazw wymagających custom vocabulary.
@@ -769,6 +819,8 @@ Czytelnik nauczy się:
 - zamieniać wyniki testów na decyzję projektowe.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -865,6 +917,8 @@ Dobre testowanie NLU wymaga:
 
 ## 6.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nie używaj tych samych fraz do treningu i testu.
 - Raportuj metryki per intencja.
 - Analizuj confusion, nie tylko accuracy.
@@ -874,6 +928,8 @@ Dobre testowanie NLU wymaga:
 - Trzymaj stałe testy regresji.
 
 ## 6.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -885,6 +941,8 @@ Dobre testowanie NLU wymaga:
 | Brak testów regresji | Poprawa jednej intencji psuje inna |
 
 ## 6.10. Checklista NLU test
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy oddzielny test set?
 - Czy test set zawiera realne frazy?
@@ -901,6 +959,8 @@ Dobre testowanie NLU wymaga:
 Voicebot e-commerce miał 91% accuracy, ale użytkownicy skarzyli się, że trudno przejść do konsultanta. Analiza per intencja pokazala, że `popros_o_konsultanta` miała recall 62%, bo frazy typu "daj kogos normalnego", "operator", "człowiek", "nie chce bota" nie były w datasetcie. Po dodaniu fraz i obnizeniu progu dla tej intencji eskalacja zaczęła działać lepiej.
 
 ## 6.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zinterpretuj przykładowa confusion matrix.
 2. Wybierz intencje, dla której ważniejszy jest precision.
@@ -925,6 +985,8 @@ Czytelnik nauczy się:
 - utrzymywać voicebota po wdrożeniu.
 
 ## 7.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1009,6 +1071,8 @@ Zmiany nie powinny być wrzucane bez testów. Dodanie fraz do jednej intencji mo
 
 ## 7.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Analizuj no-match regularnie, szczególnie po starcie.
 - Grupuj wypowiedzi, nie poprawiaj pojedynczych przypadkow impulsywnie.
 - Dla istotnych lub powtarzalnych błędów dodawaj test regresji.
@@ -1020,6 +1084,8 @@ Zmiany nie powinny być wrzucane bez testów. Dodanie fraz do jednej intencji mo
 
 ## 7.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak opiekuna po wdrożeniu | Bot przestaje pasować do rzeczywistosci |
@@ -1030,6 +1096,8 @@ Zmiany nie powinny być wrzucane bez testów. Dodanie fraz do jednej intencji mo
 | Brak monitoringu sezonowosci | Bot nie reaguje na zmiany |
 
 ## 7.10. Checklista continuous training
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy regularny eksport no-match?
 - Czy mamy proces anonimizacji?
@@ -1047,6 +1115,8 @@ Zmiany nie powinny być wrzucane bez testów. Dodanie fraz do jednej intencji mo
 Po wdrożeniu voicebota zwrotowego w e-commerce pojawily się setki fraz "paczkomat", "kod nadania", "etykieta nie działa". Bot miał intencje "jak zrobić zwrot", ale nie rozumiał problemow z etykieta. Analiza no-match pokazala nowy use case: problemy z nadaniem zwrotu. Zespół dodal intencje, krótki flow diagnostyczny i SMS z nowym linkiem do etykiety. Fallback rate spadl, a konsultanci dostawali mniej prostych spraw.
 
 ## 7.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj tygodniowy proces analizy no-match.
 2. Stworz kategorie przyczyn fallbackow dla swojego use case'u.
@@ -1109,6 +1179,8 @@ Czwarta część pokazuje przykładowe transkrypcje. Przy każdej problematyczne
 Piąta część pokazuje trend przed i po zmianie. Jeśli dodano nowe frazy treningowe, zmieniono prompt albo wypuszczono nowy model, dashboard powinien pokazać, czy wynik rzeczywiście się poprawił.
 
 ## 8.4. Kluczowe metryki
+
+Metryki są użyteczne dopiero wtedy, gdy wiadomo, jaką decyzję pomagają podjąć. Poniższa tabela nie jest listą liczb do raportu, tylko mapą sygnałów: każda metryka powinna prowadzić do pytania, interpretacji i możliwej poprawki.
 
 | Metryka | Co mierzy | Po co |
 |---|---|---|
@@ -1202,6 +1274,8 @@ Dashboard wymaga dobrych logow:
 
 ## 8.10. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Pokazuj metryki per intencja i per flow.
 - Dodaj trend w czasie.
 - Dodaj widok po release.
@@ -1213,6 +1287,8 @@ Dashboard wymaga dobrych logow:
 
 ## 8.11. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Dashboard tylko dla wolumenu | Brak informacji o jakości |
@@ -1223,6 +1299,8 @@ Dashboard wymaga dobrych logow:
 | Brak połączenia z backlogiem | Raport nie prowadzi do działania |
 
 ## 8.12. Checklista dashboardu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy widac metryki per intencja?
 - Czy widac metryki per flow?
@@ -1240,6 +1318,8 @@ Dashboard voicebota rezerwacyjnego pokazywal stabilny task completion, ale wzros
 
 ## 8.14. Ćwiczenia
 
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
+
 1. Zaprojektuj dashboard jakości rozumienia dla statusu zamówienia.
 2. Wskaż 5 metryk dla ASR.
 3. Wskaż 5 metryk dla NLU.
@@ -1252,6 +1332,8 @@ Dashboard jakości rozumienia łączy dane techniczne z doświadczeniem użytkow
 ---
 
 # 9. Zbiorcza checklista po Części VI
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy masz reprezentatywne nagrania i transkrypcje?
 - Czy dane są zgodne z prywatnoscia i retencja?

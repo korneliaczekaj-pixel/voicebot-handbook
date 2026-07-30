@@ -64,6 +64,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Dane osobowe | Informacje dotyczące zidentyfikowanej lub mozliwej do zidentyfikowania osoby fizycznej |
@@ -149,6 +151,8 @@ Technologia musi wspierac:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Klasyfikuj dane przed projektowaniem flow.
 - Zbieraj tylko dane potrzebne do celu.
 - Nie przechowuj nagrań dluzej niż potrzebne.
@@ -160,6 +164,8 @@ Technologia musi wspierac:
 
 ## 1.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Nagrywanie wszystkiego bez retencji | Nadmiarowe ryzyko |
@@ -170,6 +176,8 @@ Technologia musi wspierac:
 | Uzywanie danych do treningu bez oceny prawnej | Ryzyko niezgodnosci |
 
 ## 1.9. Checklista danych
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, jakie dane voicebot przetwarza?
 - Czy dane są osobowe lub wrażliwe?
@@ -187,6 +195,8 @@ Technologia musi wspierac:
 Voicebot medyczny miał przechowywac pełne nagrania rozmów przez 2 lata "na wszelki wypadek". Review privacy wskazalo, że rozmowy mogą zawierac dane o zdrowiu. Zakres zmieniono: do analityki używana jest zanonimizowana transkrypcją, nagrania mają krotsza retencję, dostęp jest ograniczony, a przypadki szkoleniowe przechodza ręczna anonimizacje.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz dane osobowe w voicebocie rezerwacyjnym.
 2. Wskaż dane, które powinny być maskowane w logach.
@@ -211,6 +221,8 @@ Czytelnik nauczy się:
 - ograniczac tarcie w rozmowie bez ukrywania istotnych informacji.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -273,6 +285,8 @@ System powinien logowac:
 
 ## 2.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Informuj, że to system automatyczny.
 - Informuj o nagrywaniu, jeśli dotyczy.
 - Stosuj warstwowa informacje.
@@ -284,6 +298,8 @@ System powinien logowac:
 
 ## 2.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Bot udaje człowieka | Utratą zaufania i ryzyko compliance |
@@ -293,6 +309,8 @@ System powinien logowac:
 | Brak logu odtworzenia komunikatu | Trudno wykazac zgodność |
 
 ## 2.9. Checklista transparentności
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy bot informuje, że jest automatyczny?
 - Czy informuje o nagrywaniu?
@@ -308,6 +326,8 @@ System powinien logowac:
 Voicebot bankowy zaczynał od naturalnego "Dzień dobry, w czym mogę pomóc?", bez ujawnienia automatyzacji. Testy UAT pokazały, że klienci czuli się oszukani, gdy bot nie rozumiał złożonych spraw. Zmieniono powitanie na transparentne: "Jestem automatycznym asystentem banku". Spadła liczba negatywnych komentarzy po pierwszym fallbacku.
 
 ## 2.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Napisz krótkie powitanie informujace o bocie i nagrywaniu.
 2. Zaprojektuj warstwowa informacje o prywatności.
@@ -332,6 +352,8 @@ Czytelnik nauczy się:
 - ograniczac ryzyko przez architekturę danych.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -392,6 +414,8 @@ Wymagania:
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Ustal retencję per typ danych.
 - Nie trzymaj pełnego audio, jeśli nie jest potrzebne.
 - Maskuj dane w logach aplikacyjnych.
@@ -403,6 +427,8 @@ Wymagania:
 
 ## 3.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Retencja "na zawsze" | Nadmiarowe ryzyko |
@@ -413,6 +439,8 @@ Wymagania:
 | Produkcyjne dane w testach | Ryzyko naruszenia |
 
 ## 3.9. Checklista retencji i dostępu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy retencję per typ danych?
 - Czy usuwanie jest automatyczne?
@@ -429,6 +457,8 @@ Wymagania:
 Voicebot contact center zapisywal pełne transkrypcje w logach developerskich. Dostęp miał szeroki zespół techniczny. Po review security wprowadzono maskowanie numerow, adresow i identyfikatorow, ograniczono dostęp do transkrypcji oraz rozdzielono logi techniczne od danych rozmowy.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj tabelę retencji dla nagrań, transkrypcji i logow.
 2. Wypisz pola do maskowania w logach.
@@ -453,6 +483,8 @@ Czytelnik nauczy się:
 - przygotować podstawowe wymagania security.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -518,6 +550,8 @@ Wymagania:
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nadaj botowi minimalne uprawnieńia.
 - Nie przechowuj sekretow w promptach ani kodzie.
 - Waliduj wszystkie argumenty narzędzi.
@@ -527,6 +561,8 @@ Wymagania:
 - Testuj nieuprawnione scenariusze.
 
 ## 4.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -538,6 +574,8 @@ Wymagania:
 | Brak testów autoryzacji | Ryzyko dostępu do cudzych danych |
 
 ## 4.9. Checklista security API
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy bot ma minimalne uprawnieńia?
 - Czy sekrety są bezpiecznie przechowywane?
@@ -554,6 +592,8 @@ Wymagania:
 Voicebot helpdeskowy miał narzędzie `update_user`, które mogło zmieniac wiele pol profilu. Po review security rozbito je na waskie narzędzia: `create_ticket`, `send_password_reset_link`, `check_ticket_status`. Bot nie mógł już dowolnie modyfikowac użytkownika, a ryzyko spadlo.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz uprawnieńia potrzebne botowi do statusu zamówienia.
 2. Zaprojektuj least privilege dla ticketingu.
@@ -578,6 +618,8 @@ Czytelnik nauczy się:
 - oceniać halucynacje jako ryzyko prawne, nie tylko jakościowe.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -637,6 +679,8 @@ Warstwy ochrony:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nie polegaj tylko na promptcie.
 - Ogranicz domenę.
 - Wymagaj źródeł dla odpowiedzi informacyjnych.
@@ -648,6 +692,8 @@ Warstwy ochrony:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak testów injection | Model może ujawnic instrukcje |
@@ -658,6 +704,8 @@ Warstwy ochrony:
 | Brak handoff dla decyzji indywidualnych | Ryzyko prawne |
 
 ## 5.9. Checklista LLM compliance
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy listę tematow zabronionych?
 - Czy mamy testy prompt injection?
@@ -674,6 +722,8 @@ Warstwy ochrony:
 Voicebot ubezpieczeniowy odpowiadał na pytania o OWU. Użytkownik zapytal: "Czy w mojej sytuacji na pewno dostane wyplate?". Model odpowiedział twierdzaco na podstawie ogólnego opisu. Po incydencie wprowadzono politykę: bot może wyjasniac ogólne zasady, ale nie przewiduje decyzji. Pytania o indywidualny wynik ida do konsultanta lub procesu szkody.
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Napisz 10 prompt injection testów.
 2. Zaprojektuj odmowe dla pytania prawnego.
@@ -698,6 +748,8 @@ Czytelnik nauczy się:
 - przygotowywac dokumentacje compliance.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -793,6 +845,8 @@ Audyt wymaga:
 
 ## 6.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Definiuj decision boundaries.
 - Wersjonuj wszystko, co wpływa na odpowiedź.
 - Loguj potwierdzenia.
@@ -804,6 +858,8 @@ Audyt wymaga:
 
 ## 6.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak wersjonowania promptów | Brak audytu |
@@ -814,6 +870,8 @@ Audyt wymaga:
 | Brak incident process | Chaos po naruszeniu |
 
 ## 6.10. Checklista audytu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy logujemy conversation_id?
 - Czy logujemy wersje flow/modelu/promptu?
@@ -832,6 +890,8 @@ W bankowym voicebocie klient twierdzil, że bot źle poinformowal o oplatach. Dz
 
 ## 6.12. Ćwiczenia
 
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
+
 1. Zdefiniuj decision boundaries dla voicebota ubezpieczeniowego.
 2. Przygotuj audit trail dla zmiany limitu.
 3. Wypisz ryzyka medycznego voicebota rezerwacyjnego.
@@ -844,6 +904,8 @@ Audytowalność jest warunkiem zaufania w organizacji. Voicebot musi zostawiać 
 ---
 
 # 7. Zbiorcza checklista po Części XII
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy projekt ma review prawne i DPO/IOD?
 - Czy wiemy, jakie dane są przetwarzane?

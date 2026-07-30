@@ -53,6 +53,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna | Typowe nieporozumienie |
 |---|---|---|
 | Intencja | Cel wypowiedzi użytkownika, np. "zmień_termin_dostawy" | "Intencja to temat, np. dostawa" |
@@ -151,6 +153,8 @@ Projekt intencji powinien zawierac:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Projektuj intencje wokol akcji użytkownika.
 - Dodawaj meta-intencje: konsultant, anuluj, powtórz, stop, popraw, nie rozumiem.
 - Nie tworz intencji, których nie da się odróżnić w języku użytkownika.
@@ -160,6 +164,8 @@ Projekt intencji powinien zawierac:
 - Utrzymuj test set niezalezny od training set.
 
 ## 1.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -171,6 +177,8 @@ Projekt intencji powinien zawierac:
 | Brak negatywnych przykładów | Model lapie wypowiedzi spoza zakresu |
 
 ## 1.9. Checklista intencji
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy intencja opisuje cel użytkownika?
 - Czy ma jasny zakres i poza zakresem?
@@ -186,6 +194,8 @@ Projekt intencji powinien zawierac:
 Telekom miał osobne intencje: `brak_internetu`, `wolny_internet`, `problem_wifi`, `awaria_routera`. W praktyce użytkownicy mowili podobnie: "internet nie działa", "mam problem z netem", "wszystko mi przerywa". Model mylil intencje. Zespół polaczyl je w `problem_z_internetem`, a typ problemu zbieral jako slot w kolejnym kroku. Rozumienie na starcie wzrosło, a raportowanie nadal było możliwe przez slot `problem_type`.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj 12 intencji dla voicebota e-commerce.
 2. Dla jednej intencji wpisz zakres i poza zakresem.
@@ -210,6 +220,8 @@ Czytelnik nauczy się:
 - unikać scenariuszy, które działają tylko dla idealnego użytkownika.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -302,6 +314,8 @@ Flow powinien być zapisany jako:
 
 ## 2.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Projektuj happy path, ale testuj unhappy paths.
 - Każdy stan powinien mieć wyjscie.
 - Każdy krytyczny slot powinien mieć walidacje.
@@ -311,6 +325,8 @@ Flow powinien być zapisany jako:
 - Dokumentuj warunki przejść.
 
 ## 2.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -322,6 +338,8 @@ Flow powinien być zapisany jako:
 | Brak escalation path | Automatyzacja blokuje sprawę |
 
 ## 2.9. Checklista flow
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy flow ma jasno okreslony start i koniec?
 - Czy każdy stan ma expected input?
@@ -338,6 +356,8 @@ Flow powinien być zapisany jako:
 Voicebot rezerwacyjny miał happy path: użytkownik podaje datę, system rezerwuje termin. Na produkcji 30% rozmów dotyczylo terminow niedostepnych. Bot mówił tylko "termin niedostepny" i wracal do pytania. Po poprawie flow dodano proponowanie dwóch najblizszych terminow, możliwość zmiany lokalizacji i handoff dla pilnych spraw. Task completion wzrósł.
 
 ## 2.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Narysuj flow dla statusu reklamacji.
 2. Dodaj trzy unhappy paths.
@@ -362,6 +382,8 @@ Czytelnik nauczy się:
 - zmniejszać frustrację bez utraty kontroli procesu.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -465,6 +487,8 @@ W LLM voicebotach potwierdzenia muszą być kontrolowane przez flow, nie pozosta
 
 ## 3.9. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Naprawiaj najmniejszy możliwy fragment.
 - Nie resetuj całego flow po błędzie jednego slotu.
 - Potwierdzaj dane krytyczne.
@@ -476,6 +500,8 @@ W LLM voicebotach potwierdzenia muszą być kontrolowane przez flow, nie pozosta
 
 ## 3.10. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | "Proszę powtórzyć" bez wskazania problemu | Frustracja |
@@ -486,6 +512,8 @@ W LLM voicebotach potwierdzenia muszą być kontrolowane przez flow, nie pozosta
 | LLM improwizuje potwierdzenia | Brak audytu i niespójność |
 
 ## 3.11. Checklista repair i confirmation
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy każdy krytyczny slot ma strategie repair?
 - Czy bot wskazuje, czego nie zrozumiał?
@@ -501,6 +529,8 @@ W LLM voicebotach potwierdzenia muszą być kontrolowane przez flow, nie pozosta
 Voicebot przyjmujacy reklamację pytal o numer faktury. Gdy ASR nie rozpoznawal jednej cyfry, bot prosił o cały numer od nowa. Użytkownicy się irytowali. Po poprawie bot powtarzal numer grupami: "Mam FV 247, potem nie mam pewności, czy 8 czy 9. Proszę powtórzyć ostatnia cyfre." Czas zbierania danych spadl.
 
 ## 3.13. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj repair dla niepewnego adresu.
 2. Wybierz strategie potwierdzenia dla pieciu typów danych.
@@ -525,6 +555,8 @@ Czytelnik nauczy się:
 - projektować przerwania w kontekście aktywnego flow.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -611,6 +643,8 @@ W LLM voicebotach model może dobrze rozpoznać wiele intencji, ale flow nadal m
 
 ## 4.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Dopytuj wyborami binarnymi lub 2-3 opcjami.
 - Nie wypisuj dlugiej listy mozliwych interpretacji.
 - Informuj, co zrobisz najpierw.
@@ -620,6 +654,8 @@ W LLM voicebotach model może dobrze rozpoznać wiele intencji, ale flow nadal m
 - Projektuj resume: "Wrocmy do zmiany adresu."
 
 ## 4.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -631,6 +667,8 @@ W LLM voicebotach model może dobrze rozpoznać wiele intencji, ale flow nadal m
 | LLM decyduje o kolejnosci bez reguł | Nieprzewidywalnosc |
 
 ## 4.10. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy system może wykryć więcej niż jedna intencje?
 - Czy wiemy, które intencje mają priorytet?
@@ -645,6 +683,8 @@ W LLM voicebotach model może dobrze rozpoznać wiele intencji, ale flow nadal m
 Klient dzwoni do operatora: "Nie działa mi internet i chce sprawdzić ostatnia fakture." Pierwsza wersja bota obsługiwała tylko internet i ignorowala fakture. Klienci po diagnozie musieli zaczynać od nowa. Druga wersja tworzyła context stack: najpierw awaria, potem faktura. Bot mówił: "Zajme się najpierw internetem. Potem mogę sprawdzić fakture." Completion dla drugiej sprawy wzrósł.
 
 ## 4.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj disambiguation dla "problem z płatnościa".
 2. Napisz dialog multi-intent: status zamówienia i faktura.
@@ -669,6 +709,8 @@ Czytelnik nauczy się:
 - minimalizowac ryzyko błędów.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -749,6 +791,8 @@ Wymagania:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Oddziel intencje od wykonania akcji.
 - Potwierdzaj akcję nieodwracalne.
 - Dziel dane długie na mniejsze sloty.
@@ -759,6 +803,8 @@ Wymagania:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak granicy transakcji | Nie wiadomo, czy akcja była tylko omawiana czy wykonana |
@@ -768,6 +814,8 @@ Wymagania:
 | Zbyt dużo danych naraz | Błędy ASR i frustracja |
 
 ## 5.9. Checklista dialogu transakcyjnego
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy użytkownik jest zweryfikowany?
 - Czy bot ma uprawnieńie do akcji?
@@ -799,6 +847,8 @@ Użytkownik: "Tak."
 Bot: "Gotowe. Adres został zmieniony. Potwierdzenie wyslalem SMS-em."
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj dialog zmiany terminu wizyty.
 2. Wskaż transaction boundary.
@@ -965,6 +1015,8 @@ Bot: "Mam trzy krótkie pytania po wizycie. Pierwsze: w skali od 1 do 5, jak oce
 
 ## 6.8. Checklista branżowa
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy typ dialogu ma zdefiniowany cel?
 - Czy znamy emocjonalny kontekst?
 - Czy znamy ryzyka prawne?
@@ -979,6 +1031,8 @@ Bot: "Mam trzy krótkie pytania po wizycie. Pierwsze: w skali od 1 do 5, jak oce
 Firma medyczna chciała dodac do bota rezerwacyjnego odpowiedzi na pytania o objawy. Zespół ograniczyl zakres: bot może umawiac wizyty, przekladac terminy i informowac o przygotowaniu do badania na podstawie zatwierdzonych instrukcji. Nie interpretuje objawow. Dla fraz typu "silny bol w klatce" uruchamia komunikat awaryjny i eskalację zgodnie z procedurą. Zakres jest mniej efektowny, ale bezpieczny.
 
 ## 6.10. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Napisz dialog informacyjny o zwrocie.
 2. Napisz dialog sprzedażowy bez presji.
@@ -1124,6 +1178,8 @@ Kompletny scenariusz łączy treść rozmowy z logika biznesowa, integracjami, b
 ---
 
 # 8. Zbiorcza checklista po Części V
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy intencje opisuja cele użytkownika?
 - Czy każda intencja ma zakres i poza zakresem?

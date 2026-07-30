@@ -52,6 +52,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna | Typowe nieporozumienie |
 |---|---|---|
 | Conversational AI | System AI, który interpretuje wypowiedzi użytkownika i prowadzi dialog w celu wykonania zadania, udzielenia informacji lub wsparcia decyzji | "Każdy bot z tekstem lub głosem to Conversational AI" |
@@ -137,6 +139,8 @@ Im więcej swobody językowej ma bot, tym silniejsze muszą być mechanizmy kont
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Definiuj Conversational AI przez zadania, nie przez technologie.
 - Zaczynaj od problemu użytkownika i procesu biznesowego.
 - Oddziel "rozumienie wypowiedzi" od "wykonania sprawy".
@@ -146,6 +150,8 @@ Im więcej swobody językowej ma bot, tym silniejsze muszą być mechanizmy kont
 - Nie używaj LLM bez jasnego zakresu, guardrails i obserwowalnosci.
 
 ## 1.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -157,6 +163,8 @@ Im więcej swobody językowej ma bot, tym silniejsze muszą być mechanizmy kont
 | Mierzenie tylko containment | Firma cieszy się automatyzacja, a użytkownicy wracają innym kanałem |
 
 ## 1.9. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, jakie zadanie ma wykonać system?
 - Czy zadanie faktycznie nadaje się do rozmowy?
@@ -178,6 +186,8 @@ Firma e-commerce chce "voicebota do obsługi klienta". Po analizie okazuje się,
 Bot ma integracje z systemem zamówień, rozpoznaje numer telefonu, potwierdza klienta i przekazuje do konsultanta, gdy zamówienie jest w statusie spornym. To nie jest "bot ogólny"; to system do kilku wysokowolumenowych zadań. Dzięki temu łatwiej go zaprojektować, testować i mierzyć.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wybierz jeden proces w firmie i opisz, czy rozmowa głosowa jest dobrym interfejsem.
 2. Wypisz trzy zadania, które bot może wykonać, i trzy, których nie powinien wykonywac.
@@ -202,6 +212,8 @@ Czytelnik nauczy się:
 - tlumaczyc różnice technologiczne, UX i operacyjne.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Termin | Krótka definicja |
 |---|---|
@@ -286,6 +298,8 @@ LLM voicebot może dodatkowo potrzebowac:
 
 ## 2.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Ustal terminologie na początku projektu.
 - Oddziel routing od automatyzacji spraw.
 - Nie obiecuj "agenta AI", jeśli system ma tylko FAQ.
@@ -294,6 +308,8 @@ LLM voicebot może dodatkowo potrzebowac:
 - Zachowaj opcję DTMF tam, gdzie głos jest niepewny lub użytkownik woli klawiaturę.
 
 ## 2.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -304,6 +320,8 @@ LLM voicebot może dodatkowo potrzebowac:
 | Rezygnacja z DTMF wszedzie | Gorsza obsługa kodów, numerow i użytkowników w hałasie |
 
 ## 2.10. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy projekt dotyczy routingu, informacji, transakcji czy autonomicznego procesu?
 - Czy kanał głosowy jest wymagany, czy tylko atrakcyjny?
@@ -325,6 +343,8 @@ Bank chce "AI agenta do obsługi kart". Po warsztacie zakres zostaje rozbity:
 Zamiast jednego ryzykownego "agenta do wszystkiego" powstaje architektura z jasnym podzialem odpowiedzialności.
 
 ## 2.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Opisz trzy różnice między IVR a voicebotem.
 2. Wybierz proces i zdecyduj, czy lepszy będzie chatbot, voicebot czy formularz.
@@ -349,6 +369,8 @@ Czytelnik nauczy się:
 - unikać przenoszenia wzorcow tekstowych do głosu.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -441,6 +463,8 @@ W voicebocie błąd może wejść na każdej warstwie. Użytkownik powiedział p
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Jedna myśl na jedna wypowiedź.
 - Jedno pytanie na raz.
 - Najwazniejsza informacja najpierw.
@@ -451,6 +475,8 @@ W voicebocie błąd może wejść na każdej warstwie. Użytkownik powiedział p
 - Testy w hałasie, z akcentami, przez telefon, na realnych urzadzeniach.
 
 ## 3.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Skutek |
 |---|---|
@@ -463,6 +489,8 @@ W voicebocie błąd może wejść na każdej warstwie. Użytkownik powiedział p
 | Brak powtórzenia kluczowych danych | Ryzyko błędnej transakcji |
 
 ## 3.9. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy komunikaty są krotsze niż w wersji tekstowej?
 - Czy każde pytanie dotyczy jednej informacji?
@@ -478,6 +506,8 @@ W voicebocie błąd może wejść na każdej warstwie. Użytkownik powiedział p
 Przychodnia wdraza voicebota do umawiania wizyt. Pierwsza wersja czyta wszystkie specjalizacje w jednej dlugiej liscie. Użytkownicy przerywają, milcza albo proszą o konsultanta. Druga wersja pyta: "Do jakiego lekarza chce się pani umowic?" i dopiero gdy użytkownik milczy, podaje trzy przykłady: "Może pani powiedzieć: internista, kardiolog albo dermatolog." Liczba no-input spada, bo bot nie zmusza do zapamiętania listy.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wez dowolny komunikat e-mail i przepisz go na komunikat głosowy.
 2. Zaprojektuj reprompt po ciszy dla procesu rezerwacji.
@@ -502,6 +532,8 @@ Czytelnik nauczy się:
 - unikać powtarzania błędów klasycznych systemów telefonicznych.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Znaczenie |
 |---|---|
@@ -567,6 +599,8 @@ Ewolucja technologiczna:
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Ucz się z IVR: prostota i przewidywalność nadal są wartością.
 - Ucz się z VoiceXML: no-input, no-match, prompt queueing i event handling są nadal aktualne.
 - Ucz się z NLU: dane treningowe i testy intencji nadal mają znaczenie.
@@ -574,6 +608,8 @@ Ewolucja technologiczna:
 - Nie wyrzucaj klasycznych mechanizmow tylko dlatego, że technologia jest nowsza.
 
 ## 4.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -584,6 +620,8 @@ Ewolucja technologiczna:
 | Ignorowanie historii frustracji użytkowników | Niski poziom zaufania od pierwszych sekund |
 
 ## 4.9. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, które elementy procesu wymagają deterministycznej kontroli?
 - Czy wiemy, gdzie LLM daje realną wartość?
@@ -597,6 +635,8 @@ Ewolucja technologiczna:
 Operator telekomunikacyjny chce zastapic IVR generatywnym voicebotem. Po analizie okazuje się, że część IVR działa dobrze: identyfikacja klienta i routing techniczny. Problemem są rozmowy o awariach, gdzie klienci opisuja problem naturalnym językiem. Zespół zostawia IVR jako szybka warstwę wejścia, a voicebota dodaje do diagnostyki awarii i statusu zgloszen. LLM wspiera klasyfikacje opisu problemu i generuje podsumowanie dla konsultanta, ale decyzję techniczne pozostają w kontrolowanym flow.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz, które mechanizmy VoiceXML nadal są potrzebne w nowoczesnym voicebocie.
 2. Zaproponuj proces, gdzie IVR jest lepszy niż LLM.
@@ -621,6 +661,8 @@ Czytelnik nauczy się:
 - wskazac, gdzie voicebot daje wartość, a gdzie tworzy pozorna automatyzację.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -713,6 +755,8 @@ Każdy use case trzeba przelozyc na wymagania:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zacznij od 1-3 use case'ow, nie od całego contact center.
 - Wybieraj procesy z realnymi danymi historycznymi.
 - Sprawdź, czy konsultanci potrafia opisać typowe ścieżki i wyjatki.
@@ -721,6 +765,8 @@ Każdy use case trzeba przelozyc na wymagania:
 - Mierz repeat contact, nie tylko containment.
 
 ## 5.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Skutek |
 |---|---|
@@ -759,6 +805,8 @@ Firma energetyczna ma trzy potencjalne use case'y: odczyt licznika, reklamację 
 
 ## 5.11. Ćwiczenia
 
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
+
 1. Wybierz trzy use case'y i ocen je matryca.
 2. Dla jednego use case'u wypisz potrzebne integracje.
 3. Wskaż największe ryzyko UX i compliance.
@@ -782,6 +830,8 @@ Czytelnik nauczy się:
 - projektować voicebota z zalozeniem, że system będzie się mylil.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -864,6 +914,8 @@ Ryzyka technologiczne:
 
 ## 6.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zakladaj błędy i projektuj recovery.
 - Mierz task completion, repeat contact i CSAT, nie tylko containment.
 - Używaj LLM tam, gdzie daje przewage, a nie wszedzie.
@@ -875,6 +927,8 @@ Ryzyka technologiczne:
 
 ## 6.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak mapy ryzyk | Ryzyka wychodza dopiero na produkcji |
@@ -885,6 +939,8 @@ Ryzyka technologiczne:
 | Brak scenariuszy trudnych emocji | Eskalację pojawiają się za późno |
 
 ## 6.10. Checklista ryzyk
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy znamy koszt błędnej odpowiedzi?
 - Czy wiemy, które dane są osobowe lub wrażliwe?
@@ -902,6 +958,8 @@ Ryzyka technologiczne:
 Ubezpieczyciel wdraza voicebota do informacji o polisach. Bot generatywny odpowiada na pytania o zakres ubezpieczenia z bazy wiedzy. W pilocie okazuje się, że użytkownicy pytają: "Czy w mojej sytuacji dostane odszkodowanie?". To nie jest zwykła informacja; to potencjalna interpretacja umowy. Zespół wprowadza politykę: bot może wyjaśnić ogólne warunki, ale nie podejmuje decyzji. Dla indywidualnej oceny tworzy zgłoszenie lub łączy z konsultantem.
 
 ## 6.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz piec mitow, które slyszysz w organizacji o AI.
 2. Dla jednego use case'u okresl trzy największe ryzyka.
@@ -926,6 +984,8 @@ Czytelnik nauczy się:
 - oceniać, kiedy realtime LLM voice agent ma sens.
 
 ## 7.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1035,6 +1095,8 @@ Wady:
 
 ## 7.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Stosuj LLM tam, gdzie potrzebujesz elastyczności językowej.
 - Krytyczne decyzję trzymaj w regułach, narzedziach lub workflow.
 - Projektuj prompt systemowy jak dokument operacyjny, nie tekst kreatywny.
@@ -1046,6 +1108,8 @@ Wady:
 
 ## 7.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | LLM jako jedyny dialog manager | Brak kontroli procesu |
@@ -1056,6 +1120,8 @@ Wady:
 | Brak procedury aktualizacji RAG | Nieaktualne odpowiedzi |
 
 ## 7.9. Checklista LLM dla voicebota
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, po co uzywamy LLM?
 - Czy mamy zakres domeny?
@@ -1082,6 +1148,8 @@ Bot nie pozwala LLM samodzielnie resetowac dostepow ani zmieniac uprawnień. Te 
 
 ## 7.11. Ćwiczenia
 
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
+
 1. Wybierz use case i wskaż, które fragmenty powinny być flow-based, a które LLM-based.
 2. Napisz trzy zasady promptu systemowego ograniczajace odpowiedzi głosowe.
 3. Zaproponuj test halucynacji dla bota ubezpieczeniowego.
@@ -1094,6 +1162,8 @@ LLM jest ważna zmiana, ale nie magicznym skrotem. Najlepsze voiceboty łączą 
 ---
 
 # 8. Zbiorcza checklista po Części I
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy potrafisz wyjaśnić Conversational AI bez uzywania słowa "magia" lub "przyszłość"?
 - Czy rozrozniasz IVR, voicebota, chatbota, virtual agenta i AI agenta?

@@ -53,6 +53,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Contact reason | Powod kontaktu klienta, np. status zamówienia, reklamacja, płatność |
@@ -140,6 +142,8 @@ Do analizy automatyzacji trzeba zmapowac:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Analizuj nagrania i transkrypcje, nie tylko raporty.
 - Weryfikuj wrap-up codes, bo konsultanci często używają ich niespojnie.
 - Patrz na repeat contact, nie tylko AHT.
@@ -151,6 +155,8 @@ Do analizy automatyzacji trzeba zmapowac:
 
 ## 1.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Wybieranie use case'u na podstawie opinii sponsora | Automatyzacja nie tego problemu |
@@ -161,6 +167,8 @@ Do analizy automatyzacji trzeba zmapowac:
 | Analiza kolejek zamiast powodów kontaktu | Zły model intencji |
 
 ## 1.9. Checklista analizy contact center
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy dane o wolumenie rozmów?
 - Czy znamy AHT per powod kontaktu?
@@ -178,6 +186,8 @@ Do analizy automatyzacji trzeba zmapowac:
 Firma e-commerce wskazala "reklamację" jako największy obszar automatyzacji, bo miał najdluzszy AHT. Analiza nagrań pokazala jednak, że "status zamówienia" miał cztery razy większy wolumen i wysoki repeat contact, bo klienci nie ufali informacjom e-mail. Wdrożenie voicebota do statusu i zmiany adresu dało szybszy efekt niż automatyzacja reklamacji. Reklamację pozostały w planie, ale jako drugi etap z czesciowym wsparciem konsultanta.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj listę danych potrzebnych od contact center.
 2. Wybierz jedna kolejke i rozbij ja na powody kontaktu.
@@ -202,6 +212,8 @@ Czytelnik nauczy się:
 - unikać automatyzacji procesów, które powinny pozostać u człowieka lub w innym kanale.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -280,6 +292,8 @@ Technologicznie dobry use case:
 
 ## 2.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zaczynaj od use case'u, który ma mierzalny wynik.
 - Unikaj na start procesów z wysoka emocjonalnoscia.
 - Upewnij się, że bot może realnie wykonać akcję.
@@ -289,6 +303,8 @@ Technologicznie dobry use case:
 - Zdefiniuj "poza zakresem".
 
 ## 2.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -300,6 +316,8 @@ Technologicznie dobry use case:
 | Automatyzacja procesu, który lepiej działa w formularzu | Gorsze UX |
 
 ## 2.10. Checklista dobrego use case'u
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy problem występuje często?
 - Czy użytkownik ma jasny cel?
@@ -317,6 +335,8 @@ Technologicznie dobry use case:
 Siec klinik rozwaza voicebota do "obsługi pacjentow". Po analizie wybrano MVP: potwierdzanie i przekladanie wizyt. Proces ma wysoki wolumen, jasne intencje, integracje z kalendarzem i niski koszt błędu, jeśli bot potwierdza termin SMS-em. Pytania medyczne zostały poza zakresem i trafiaja do człowieka. To dobry use case, bo łączy wartość biznesowa i bezpieczny zakres.
 
 ## 2.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wybierz trzy kandydaty use case'ow i oznacz je jako łatwe/średnie/trudne.
 2. Wskaż, który najlepiej nadaje się na MVP.
@@ -341,6 +361,8 @@ Czytelnik nauczy się:
 - używać matrycy automatyzowalnosci.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -431,6 +453,8 @@ Technologia ocenia automatyzowalnosc przez:
 
 ## 3.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Oceniaj proces krok po kroku.
 - Nie automatyzuj decyzji, jeśli można automatyzowac przygotowanie danych dla człowieka.
 - Dla ryzykownych procesów stosuj human-in-the-loop.
@@ -439,6 +463,8 @@ Technologia ocenia automatyzowalnosc przez:
 - Ustal progi confidence i handoff.
 
 ## 3.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -449,6 +475,8 @@ Technologia ocenia automatyzowalnosc przez:
 | Zakładanie idealnych danych | Produkcja zaskakuje |
 
 ## 3.10. Checklista automatyzowalnosci
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy proces ma powtarzalne kroki?
 - Czy decyzję są regułowe?
@@ -466,6 +494,8 @@ Technologia ocenia automatyzowalnosc przez:
 Firma leasingowa chce automatyzowac zmianę danych umowy. Pełny proces jest ryzykowny, bo niektore zmiany wymagają aneksu i oceny prawnej. Analiza automatyzowalnosci dzieli proces: bot może zebrac typ zmiany, zweryfikowac klienta, sprawdzić wymagane dokumenty i utworzyc ticket. Sama decyzja i aneks pozostają u konsultanta. Automatyzacja częściowa daje wartość bez ryzyka pelnej automatycznej decyzji.
 
 ## 3.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Ocen jeden proces matryca automatyzowalnosci.
 2. Podziel proces na kroki automatyczne i ludzkie.
@@ -490,6 +520,8 @@ Czytelnik nauczy się:
 - łączyć metryki kosztowe z jakosciowymi.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -601,6 +633,8 @@ W generatywnych voicebotach koszt może rosnac z dlugoscia wypowiedzi. Conversat
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Licz ROI konserwatywnie.
 - Używaj task completion, nie samego containment.
 - Uwzgledniaj repeat contact.
@@ -611,6 +645,8 @@ W generatywnych voicebotach koszt może rosnac z dlugoscia wypowiedzi. Conversat
 - Porownuj wyniki z baseline sprzed wdrożenia.
 
 ## 4.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -638,6 +674,8 @@ Uwaga: to przykład struktury, nie uniwersalna obietnica. Każdy projekt wymaga 
 
 ## 4.10. Checklista ROI
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy mamy wolumen per use case?
 - Czy znamy koszt kontaktu?
 - Czy znamy AHT?
@@ -654,6 +692,8 @@ Uwaga: to przykład struktury, nie uniwersalna obietnica. Każdy projekt wymaga 
 Operator telekomunikacyjny zakladal ROI na podstawie 80% containment dla awarii internetu. Pilot pokazal containment 55%, ale konsultanci otrzymywali lepsze podsumowania i mieli krótszy AHT o 90 sekund. Po doliczeniu assisted automation projekt nadal miał dodatni efekt, choć inny niż pierwotnie zakladano. Wniosek: business case powinien uwzględniać zarowno automatyzację end-to-end, jak i wsparcie konsultanta.
 
 ## 4.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Policz prosty ROI dla use case'u statusu zamówienia.
 2. Dodaj do kalkulacji repeat contact.
@@ -678,6 +718,8 @@ Czytelnik nauczy się:
 - chronić organizacje przed kosztowna automatyzacja bez wartości.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -760,6 +802,8 @@ Czerwone flagi technologiczne:
 
 ## 5.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Miej odwage odradzić voicebota, gdy nie ma dopasowania.
 - Proponuj alternatywe, nie samo "nie".
 - Oddziel potrzebe automatyzacji od potrzeby analityki.
@@ -768,6 +812,8 @@ Czerwone flagi technologiczne:
 - Warunkuj wdrożenie wymaganiami: API, dane, handoff, monitoring.
 
 ## 5.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -778,6 +824,8 @@ Czerwone flagi technologiczne:
 | Ignorowanie procesu podstawowego | Voicebot obsługuje objawy |
 
 ## 5.10. Checklista "nie wdrażać jeszcze"
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy brakuje danych o powodach kontaktu?
 - Czy proces jest niespojny?
@@ -795,6 +843,8 @@ Czerwone flagi technologiczne:
 Firma energetyczna chciała voicebota do reklamacji wysokich rachunkow. Analiza pokazala, że główna przyczyna kontaktów to nie brak automatyzacji, lecz nieczytelne faktury i opóźnione odczyty. Zamiast voicebota end-to-end wdrożono: proaktywne SMS-y, lepsza strone wyjasniajaca fakture, agent assist dla konsultantów i voicebota tylko do statusu zgłoszenia. Wolumen reklamacji spadl bez ryzykownej automatyzacji sporow.
 
 ## 5.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wybierz proces i znajdź argumenty przeciwko voicebotowi.
 2. Zaproponuj alternatywe dla voicebota.
@@ -819,6 +869,8 @@ Czytelnik nauczy się:
 - stworzyc dokument, który może być punktem startu wyceny, warsztatow i projektu.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -962,6 +1014,8 @@ Brief musi ujawnic zaleznosci:
 
 ## 6.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Brief wypelniaj z interesariuszami, nie samodzielnie.
 - Nie ukrywaj brakow danych.
 - Oddziel cele od założeń.
@@ -973,6 +1027,8 @@ Brief musi ujawnic zaleznosci:
 
 ## 6.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brief jako prezentacja marketingowa | Brak konkretu do projektu |
@@ -983,6 +1039,8 @@ Brief musi ujawnic zaleznosci:
 | Brak ryzyk | Fałszywe poczucie gotowości |
 
 ## 6.10. Checklista briefu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy problem jest konkretny?
 - Czy zakres jest jasno opisany?
@@ -1000,6 +1058,8 @@ Brief musi ujawnic zaleznosci:
 Firma B2B rozpoczela projekt od hasła "voicebot do leadow". Brief ujawnil, że połączenia przychodza z trzech źródeł, leady mają różna wartość, a zespół sprzedaży nie chce automatycznej kwalifikacji dla największych kont. Zakres MVP zmieniono: bot kwalifikuje male zapytania, umawia rozmowę i tworzy rekord CRM, ale konta strategiczne ida bezpośrednio do handlowca. Brief uratowal projekt przed konfliktem z sales.
 
 ## 6.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypelnij brief dla use case'u statusu zamówienia.
 2. Wpisz 5 elementów poza zakresem.
@@ -1024,6 +1084,8 @@ Czytelnik nauczy się:
 - radzić sobie że sprzecznymi oczekiwaniami.
 
 ## 7.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1122,6 +1184,8 @@ Lepsze:
 
 ## 7.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Mapuj interesariuszy przed warsztatami.
 - Rozmawiaj z konsultantami i sluchaj nagrań.
 - Zapisuj wymagania jako testowalne zdania.
@@ -1133,6 +1197,8 @@ Lepsze:
 
 ## 7.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Warsztaty tylko z managementem | Brak realnego obrazu rozmów |
@@ -1143,6 +1209,8 @@ Lepsze:
 | Brak dokumentacji kompromisow | Powracajace spory |
 
 ## 7.10. Checklista wymagań
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy mape interesariuszy?
 - Czy mamy właściciela biznesowego?
@@ -1160,6 +1228,8 @@ Lepsze:
 W projekcie bankowym biznes chcial, aby bot automatycznie odpowiadał na pytania o karty. Legal wskazal, że część pytań dotyczy indywidualnej sytuacji klienta i regulacji. IT wskazalo brak API do niektorych limitow. Po warsztatach zakres podzielono: ogólne informacje przez RAG, indywidualne dane po weryfikacji przez API, a sporne lub regulowane interpretacje do konsultanta. Wymagania stały się jasne i testowalne.
 
 ## 7.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zrob mape interesariuszy dla voicebota medycznego.
 2. Napisz 5 wymagań testowalnych.
@@ -1184,6 +1254,8 @@ Czytelnik nauczy się:
 - zdefiniowac kryteria przejścia z pilota na produkcję.
 
 ## 8.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1258,6 +1330,8 @@ MVP powinno minimalizowac zlozonosc:
 
 ## 8.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Wybieraj MVP z najwyzszym stosunkiem wartości do ryzyka.
 - Ogranicz zakres domeny.
 - Nie ograniczaj mechanizmow bezpieczeństwa i handoff.
@@ -1267,6 +1341,8 @@ MVP powinno minimalizowac zlozonosc:
 - Komunikuj MVP jako kontrolowany etap, nie ostateczna jakość.
 
 ## 8.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1369,6 +1445,8 @@ Przykładowe kryteria:
 Firma ubezpieczeniowa planowala MVP z piecioma use case'ami. Po business case ograniczono zakres do statusu szkody i doslania dokumentów. To miało dostępne API, jasny wynik i duzy wolumen. Sprzedaż nowych polis i interpretacje OWU zostały w roadmapie. Pilot miał jasne kryteria: task completion 55%, poprawne utworzenie linku do doslania dokumentów, handoff z kontekstem i brak krytycznych naruszen compliance.
 
 ## 8.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj business case dla jednego use case'u.
 2. Okresl zakres MVP i out of scope.
@@ -1478,6 +1556,8 @@ Przykład:
 
 ## 9.7. Checklista matrycy
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy oceniono wszystkie kandydaty ta sama metoda?
 - Czy są dane, czy tylko opinie?
 - Czy uwzgledniono ryzyko UX?
@@ -1488,6 +1568,8 @@ Przykład:
 - Czy jest plan pilota?
 
 ## 9.8. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Ocen trzy use case'y pełna matryca.
 2. Wskaż progi blokujace.
@@ -1501,6 +1583,8 @@ Matryca nie podejmuje decyzji za zespół. Pomaga prowadzić rozmowę na podstaw
 ---
 
 # 10. Zbiorcza checklista po Części IV
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy znasz główne powody kontaktu?
 - Czy masz dane baseline: wolumen, AHT, FCR, repeat contact, CSAT?

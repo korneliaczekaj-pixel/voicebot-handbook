@@ -65,6 +65,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Pipeline voicebota | Sekwencja komponentów przetwarzajacych rozmowę od audio do odpowiedzi |
@@ -157,6 +159,8 @@ Każdy komponent ma wejścia, wyjścia i ryzyka:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Rysuj architekturę jako przepływ audio, tekstu, decyzji i danych.
 - Oznacz miejsca, gdzie powstaje latency.
 - Oznacz miejsca, gdzie trzeba logowac decyzję.
@@ -167,6 +171,8 @@ Każdy komponent ma wejścia, wyjścia i ryzyka:
 
 ## 1.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak diagramu architektury | Interesariusze nie rozumieja zaleznosci i kosztów |
@@ -176,6 +182,8 @@ Każdy komponent ma wejścia, wyjścia i ryzyka:
 | Brak osobnej polityki handoff | Konsultant dostaje klienta bez kontekstu |
 
 ## 1.9. Checklista architektury wysokiego poziomu
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy rozrysowany przepływ audio?
 - Czy wiemy, gdzie kończy się telefonia, a zaczyna voice platform?
@@ -192,6 +200,8 @@ Każdy komponent ma wejścia, wyjścia i ryzyka:
 Firma kurierska wdraza voicebota do statusu przesylek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem sledzenia. Bot rozpoznaje intencje "status paczki", ale i tak odsyla do strony internetowej. Po zmianie architektury dodano identyfikacje po numerze telefonu, integracje tracking API, potwierdzenie przesyłki i handoff dla statusow spornych. Dopiero wtedy bot zaczął realnie rozwiazywac sprawę.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Narysuj tekstowy diagram architektury voicebota do umawiania wizyt.
 2. Wskaż trzy miejsca, gdzie może powstac latency.
@@ -216,6 +226,8 @@ Czytelnik nauczy się:
 - rozpoznawać ograniczenia telefonii w projektowaniu rozmowy.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
@@ -297,6 +309,8 @@ Wymagania techniczne dla telefonii:
 
 ## 2.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Testuj voicebota przez ten sam kanał, który będzie na produkcji.
 - Nie oceniaj ASR na podstawie studyjnych nagrań, jeśli produkcja to telefon.
 - Zachowaj DTMF jako alternatywe w krytycznych danych.
@@ -305,6 +319,8 @@ Wymagania techniczne dla telefonii:
 - Uzgodnij retencję i dostepy do nagrań oraz transkrypcji.
 
 ## 2.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -315,6 +331,8 @@ Wymagania techniczne dla telefonii:
 | Brak monitoringu jakości połączenia | Trudno odróżnić błąd bota od złego audio |
 
 ## 2.9. Checklista telefonii
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy znamy kanał: PSTN, VoIP, WebRTC, SIP?
 - Czy znamy kodeki i jakość audio?
@@ -332,6 +350,8 @@ Wymagania techniczne dla telefonii:
 Przychodnia wdraza voicebota do potwierdzania wizyt outbound. Technicznie bot działa dobrze w testach webowych, ale w telefonii część pacjentow odpowiada bardzo krótko: "tak", "nie", "przelozyc". ASR w slabej jakości połączenia myli "nie" z szumem. Zespół dodaje DTMF jako alternatywe: "Może pani powiedzieć tak lub nacisnac 1". Completion rate rośnie, bo architektura uwzględnia realny kanał.
 
 ## 2.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Opisz, jak voicebot będzie połączony z contact center w twoim projekcie.
 2. Wskaż, które dane trzeba przekazać konsultantowi.
@@ -356,6 +376,8 @@ Czytelnik nauczy się:
 - rozumieć różnice między WebRTC, WebSocket i SIP na poziomie odpowiedzialności projektowej.
 
 ## 3.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
@@ -441,6 +463,8 @@ Ważne parametry:
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Mierz latency end-to-end, nie tylko latency modelu.
 - Mierz osobno: endpointing, ASR, LLM/NLU, API, TTS, playback.
 - Projektuj filler prompts dla długich integracji.
@@ -450,6 +474,8 @@ Ważne parametry:
 - Optymalizuj najpierw miejsca najczesciej wystepujace.
 
 ## 3.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -461,6 +487,8 @@ Ważne parametry:
 | Za długie prompt'y | Wysokie AHT i więcej przerwań |
 
 ## 3.9. Checklista latency
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy budzet latency dla typowej tury?
 - Czy mierzymy end-of-turn delay?
@@ -477,6 +505,8 @@ Ważne parametry:
 Voicebot bankowy podczas weryfikacji klienta wywołuje API antyfraudowe, które czasem odpowiada po 4 sekundach. Pierwsza wersja bota milczy. Użytkownicy mówią "halo?" albo przerywają. Druga wersja odtwarza krótki komunikat: "Chwileczkę, sprawdzam dane", ale nie otwiera jeszcze kolejnego pytania. Barge-in pozostaje włączony, aby użytkownik mógł poprosić o konsultanta. Martwa cisza spada, a liczba porzuconych rozmów maleje.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Rozpisz budzet latency dla procesu statusu zamówienia.
 2. Wskaż, który krok może być najwolniejszy.
@@ -501,6 +531,8 @@ Czytelnik nauczy się:
 - wspolpracowac z zespołami technicznymi przy testach ASR.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -583,6 +615,8 @@ Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest s
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Testuj ASR na realnych nagraniach telefonicznych.
 - Zbieraj frazy i nazwy charakterystyczne dla domeny.
 - Używaj custom vocabulary dla produktow, miejsc, marek, skrótów.
@@ -594,6 +628,8 @@ Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest s
 
 ## 4.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak testów na realnym audio | Produkcja gorsza niż demo |
@@ -604,6 +640,8 @@ Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest s
 | Brak zapisu audio do diagnostyki | Trudno poprawić system |
 
 ## 4.9. Checklista ASR
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy ASR jest dobrany do kanału telefonicznego?
 - Czy wspiera język i wariant regionalny?
@@ -621,6 +659,8 @@ Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest s
 Voicebot ubezpieczeniowy zbiera numer polisy. Użytkownicy mówią numer w różnych grupach: "AB 123 45", "A B jeden dwa trzy", "a-be sto dwadziescia trzy". ASR myli litery i cyfry. Zespół zmienia projekt: bot prosi o numer w grupach, potwierdza każda grupe, pozwala użyć klawiatury telefonu i dodaje słownik prefiksow polis. Spada liczba nieudanych identyfikacji.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz 20 słów domenowych, które powinny być w custom vocabulary.
 2. Zaprojektuj potwierdzenie dla adresu.
@@ -645,6 +685,8 @@ Czytelnik nauczy się:
 - rozpoznawać ograniczenia NLU w kanale głosowym.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -746,6 +788,8 @@ Wymagania:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Projektuj intencje wedlug celu użytkownika, nie struktury organizacyjnej firmy.
 - Nie tworz zbyt podobnych intencji bez dobrych danych.
 - Dodaj intencje meta: konsultant, powtórz, anuluj, stop, nie rozumiem.
@@ -757,6 +801,8 @@ Wymagania:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Zbyt szerokie intencje | Bot rozumie ogólny temat, ale nie wie, co zrobić |
@@ -767,6 +813,8 @@ Wymagania:
 | Trenowanie na sztucznych frazach bez walidacji | Produkcja różni się od testów |
 
 ## 5.9. Checklista NLU
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy każda intencja ma jasna definicje?
 - Czy intencje odpowiadają akcjom/procesom?
@@ -784,6 +832,8 @@ Wymagania:
 W telekomie intencje "awaria internetu", "wolny internet" i "brak internetu" myla się w modelu. Biznes chce trzy osobne raporty, ale użytkownicy mówią podobnie. Zespół zmienia model: jedna intencja "problem_z_internetem", a typ problemu zbierany jest jako slot po pytaniu doprecyzowujacym. Model staje się stabilniejszy, a biznes nadal dostaje raport przez slot "problem_type".
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj 10 intencji dla voicebota e-commerce.
 2. Dla trzech intencji napisz po 10 fraz użytkownika.
@@ -808,6 +858,8 @@ Czytelnik nauczy się:
 - przygotować wymagania dla flow, slot filling, fallback i recovery.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -899,6 +951,8 @@ Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slep
 
 ## 6.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Zapisuj stan jako jawne pola, nie tylko historie czatu.
 - Oddziel dane potwierdzone od niepotwierdzonych.
 - Projektuj korektę slotu.
@@ -910,6 +964,8 @@ Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slep
 
 ## 6.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Trzymanie stanu tylko w promptcie LLM | Nieprzewidywalnosc i utrata kontroli |
@@ -919,6 +975,8 @@ Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slep
 | Brak context handoff | Konsultant nie wie, co się dzialo |
 
 ## 6.9. Checklista dialog managera
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy każdy proces ma jasno opisane stany?
 - Czy wiemy, jakie sloty są wymagane?
@@ -936,6 +994,8 @@ Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slep
 Voicebot rezerwacyjny zbiera datę i godzinę wizyty. Użytkownik mówi: "Nie, jednak czwartek". W pierwszej wersji bot interpretuje to jako nowa rozmowę i pyta od początku o specjalizacje. Po poprawie stan rozmowy przechowuje specjalizacje, lokalizacje i lekarza, a korekta dotyczy tylko slotu `appointment_datę`. Bot mówi: "Zmieniam datę na czwartek. Godzina 15:30 nadal pasuje?"
 
 ## 6.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zdefiniuj stan dla procesu zmiany adresu dostawy.
 2. Oznacz dane potwierdzone i niepotwierdzone.
@@ -960,6 +1020,8 @@ Czytelnik nauczy się:
 - rozumieć, jak integracje wpływają na UX rozmowy.
 
 ## 7.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1044,6 +1106,8 @@ Specyfikacja integracji powinna zawierac:
 
 ## 7.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Projektuj timeouty z perspektywy rozmowy.
 - Nie wykonuj akcji krytycznych bez potwierdzenia.
 - Używaj idempotency dla zapisow, np. rezerwacji lub płatności.
@@ -1055,6 +1119,8 @@ Specyfikacja integracji powinna zawierac:
 
 ## 7.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Integracja dopiero po projekcie dialogu | Flow nie pasuje do realnych danych |
@@ -1065,6 +1131,8 @@ Specyfikacja integracji powinna zawierac:
 | Nadmierne odczytywanie danych | Ryzyko prywatności |
 
 ## 7.9. Checklista integracji
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, które systemy są potrzebne?
 - Czy API istnieje i jest dostępne?
@@ -1082,6 +1150,8 @@ Specyfikacja integracji powinna zawierac:
 Voicebot umawia wizyty serwisowe. API kalendarza czasem tworzy rezerwacje, ale odpowiedź wraca z opoznieniem i bot ponawia request. Powstają duplikaty. Po poprawce dodano idempotency key oparty o identyfikator rozmowy i proponowany slot wizyty. Ponowienie requestu zwraca te sama rezerwacje zamiast tworzyć nowa.
 
 ## 7.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj specyfikacje integracji dla statusu zamówienia.
 2. Zaprojektuj komunikat dla timeoutu API.
@@ -1106,6 +1176,8 @@ Czytelnik nauczy się:
 - rozpoznawać ryzyka nieaktualnych lub zbyt długich odpowiedzi.
 
 ## 8.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1196,6 +1268,8 @@ Wymagania RAG:
 
 ## 8.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nie indeksuj wszystkiego.
 - Usuwaj sprzeczne i nieaktualne dokumenty.
 - Twórz wersje "voice-ready" dla najczęstszych odpowiedzi.
@@ -1207,6 +1281,8 @@ Wymagania RAG:
 
 ## 8.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Indeksowanie całego SharePointa bez kuracji | Sprzeczne odpowiedzi |
@@ -1217,6 +1293,8 @@ Wymagania RAG:
 | Brak właściciela treści | Baza degraduje się po wdrożeniu |
 
 ## 8.9. Checklista RAG
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy wiemy, z jakich źródeł bot może korzystać?
 - Czy źródła są zatwierdzone?
@@ -1234,6 +1312,8 @@ Wymagania RAG:
 Firma ubezpieczeniowa indeksuje OWU, FAQ i procedury likwidacji szkody. Bot zaczyna odpowiadać zbyt prawniczo. Zespół tworzy warstwę "voice answers": zatwierdzone, krótkie interpretacje ogólnych zasad, powiązane z dokumentami źródłowymi. LLM może używać ich do odpowiedzi głosowej, ale przy pytaniu o indywidualną decyzję tworzy zgłoszenie albo łączy z konsultantem.
 
 ## 8.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wybierz dokument FAQ i przepisz 5 odpowiedzi do formatu głosowego.
 2. Zaprojektuj metadane dla bazy wiedzy bankowej.
@@ -1258,6 +1338,8 @@ Czytelnik nauczy się:
 - testować TTS w kontekście rozmowy.
 
 ## 9.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1335,6 +1417,8 @@ Wymagania TTS:
 
 ## 9.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Testuj każdy ważny komunikat na głos.
 - Projektuj liczby w grupach.
 - Unikaj długich zdań podrzędnych.
@@ -1346,6 +1430,8 @@ Wymagania TTS:
 
 ## 9.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Odczytywanie tekstów z FAQ bez adaptacji | Długie, trudne wypowiedzi |
@@ -1356,6 +1442,8 @@ Wymagania TTS:
 | Brak słownika wymowy | Śmieszne lub mylące odczyty nazw |
 
 ## 9.9. Checklista TTS
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy teksty są pisane pod głos?
 - Czy TTS poprawnie czyta liczby, daty, kwoty, kody?
@@ -1372,6 +1460,8 @@ Wymagania TTS:
 Voicebot energetyczny odczytuje numer punktu poboru energii jako jeden długi ciąg. Użytkownicy proszą o powtórzenie. Zespół zmienia format: bot czyta numer w grupach po trzy znaki, robi krótkie pauzy i pyta, czy wysłać numer SMS-em. Liczba powtórzeń spada.
 
 ## 9.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przepisz formalny komunikat prawny na wersję głosową.
 2. Zaprojektuj sposób odczytu numeru sprawy.
@@ -1396,6 +1486,8 @@ Czytelnik nauczy się:
 - przygotować wymagania observability dla voicebota.
 
 ## 10.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1489,6 +1581,8 @@ Wymagania prywatności:
 
 ## 10.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Projektuj logowanie przed produkcją.
 - Ustal słownik zdarzeń.
 - Loguj powody handoff, nie tylko fakt handoff.
@@ -1500,6 +1594,8 @@ Wymagania prywatności:
 
 ## 10.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Brak logow ASR | Nie wiadomo, czy zawinil ASR czy NLU |
@@ -1510,6 +1606,8 @@ Wymagania prywatności:
 | Brak alertow | Problemy trwaja godzinami lub dniami |
 
 ## 10.9. Checklista observability
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy conversation_id?
 - Czy logujemy transkrypcje ASR?
@@ -1527,6 +1625,8 @@ Wymagania prywatności:
 Voicebot e-commerce ma containment 72%, ale CSAT spada. Analiza logow pokazuje, że wiele rozmów zakonczonych "contained" dotyczy informacji o zwrocie, ale użytkownicy dzwonia ponownie po 24 godzinach. Bot informowal ogólnie, ale nie sprawdzal statusu konkretnego zwrotu. Po dodaniu integracji i metryki repeat contact okazuje się, że realna skuteczność była nizsza niż dashboard containment.
 
 ## 10.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj słownik zdarzeń dla voicebota rezerwacyjnego.
 2. Wskaż dane, które trzeba maskowac.
@@ -1551,6 +1651,8 @@ Czytelnik nauczy się:
 - mierzyć jakość handoff.
 
 ## 11.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1627,6 +1729,8 @@ Context package powinien zawierac:
 
 ## 11.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Pozwol użytkownikowi poprosić o człowieka.
 - Nie ukrywaj handoff.
 - Przekazuj kontekst.
@@ -1638,6 +1742,8 @@ Context package powinien zawierac:
 
 ## 11.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Handoff tylko po trzech fallbackach | Użytkownik za późno trafia do człowieka |
@@ -1647,6 +1753,8 @@ Context package powinien zawierac:
 | Brak metryki handoff success | Nie wiadomo, czy przekazanie pomaga |
 
 ## 11.9. Checklista handoff
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy użytkownik może poprosić o konsultanta?
 - Czy bot zna warunki automatycznej eskalacji?
@@ -1663,6 +1771,8 @@ Context package powinien zawierac:
 Voicebot windykacyjny ma wysoki containment, ale konsultanci zgłaszaja bardzo trudne rozmowy po przekazaniu. Analiza pokazuje, że bot probowal kontynuowac automatyzację mimo fraz "nie zgadzam się", "to pomylka", "chce złożyć skargę". Dodano intencje sporu i szybszy handoff z podsumowaniem. Containment spadl, ale CSAT i compliance risk poprawily się.
 
 ## 11.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj context package dla reklamacji.
 2. Wypisz 10 powodów handoff.
@@ -1687,6 +1797,8 @@ Czytelnik nauczy się:
 - projektować architekturę hybrydowa.
 
 ## 12.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1808,6 +1920,8 @@ Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokie
 
 ## 12.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Używaj najprostszej architektury, która spelnia wymagania.
 - Dla procesów krytycznych utrzymuj deterministyczne kroki.
 - Używaj LLM do elastyczności językowej, nie do niekontrolowanej decyzyjnosci.
@@ -1816,6 +1930,8 @@ Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokie
 - Miej plan degradacji: LLM niedostepny, RAG niedostepny, API niedostepne.
 
 ## 12.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1827,6 +1943,8 @@ Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokie
 | Brak testów kosztów | Nieprzewidziany koszt produkcji |
 
 ## 12.10. Checklista wyboru architektury
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy proces jest prosty czy złożony?
 - Czy wymaga naturalnego opisu problemu?
@@ -1844,6 +1962,8 @@ Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokie
 Administracja publiczna chce voicebota do informacji o wnioskach. Wybrano architekturę hybrydowa. Proste statusy ida przez flow i integracje z systemem spraw. Odpowiedzi informacyjne o dokumentach ida przez RAG, ale bot nie interpretuje indywidualnej sytuacji prawnej. Gdy użytkownik pyta "czy w moim przypadku dostane decyzję pozytywna?", bot wyjaśnia, że nie może tego ocenić i może sprawdzić status albo połączyć z urzednikiem.
 
 ## 12.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Dla trzech use case'ow wybierz architekturę i uzasadnij.
 2. Wskaż, które kroki muszą być deterministyczne.
@@ -1923,6 +2043,8 @@ Voicebot detects handoff condition
 ---
 
 # 14. Zbiorcza checklista po Części II
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy potrafisz narysowac architekturę voicebota end-to-end?
 - Czy rozumiesz role telefonii, SIP/VoIP i contact center?

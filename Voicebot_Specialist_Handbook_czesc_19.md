@@ -271,6 +271,8 @@ Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potra
 
 ## Checklista redukcji frustracji
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy bot pyta jednoznacznie?
 - Czy nie powtarza tego samego?
 - Czy pozwala poprawić?

@@ -41,6 +41,8 @@ Po tym rozdziale czytelnik potrafi:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna | Typowe nieporozumienie |
 |---|---|---|
 | Turn-taking | Mechanizm organizowania, kto mówi, kiedy kończy i kiedy druga strona może zacząć | Błędne założenie, że wystarczy wykryć ciszę |
@@ -332,6 +334,8 @@ Zmniejszanie przerwań to nie tylko lepsze wykrywanie przerwań. To lepsze proje
 
 ## 1.14. Checklista projektowa barge-in
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy wiemy, w których promptach barge-in jest włączony, ograniczony lub wyłączony?
 - Czy każdy długi komunikat został skrócony albo podzielony?
 - Czy komunikat ma najwazniejsza informacje na początku?
@@ -344,6 +348,8 @@ Zmniejszanie przerwań to nie tylko lepsze wykrywanie przerwań. To lepsze proje
 - Czy handoff przekazuje informacje, że użytkownik probowal przerwać lub eskalować?
 
 ## 1.15. Checklista techniczna
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy kanał wspiera pełny dupleks?
 - Czy mikrofon/słuchawka/telefonia nie generuja fałszywego echa?

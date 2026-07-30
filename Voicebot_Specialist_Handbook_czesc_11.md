@@ -58,6 +58,8 @@ Czytelnik nauczy się:
 
 ## 1.2. Kluczowe pojęcia
 
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Metric | Liczbowa miara zjawiska |
@@ -136,6 +138,8 @@ Metryki wymagają logow:
 
 ## 1.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Definiuj metryki przed produkcją.
 - Miej baseline.
 - Oddziel wolumen od skuteczności.
@@ -147,6 +151,8 @@ Metryki wymagają logow:
 
 ## 1.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Jedna metryka "liczba rozmów" | Brak informacji o jakości |
@@ -157,6 +163,8 @@ Metryki wymagają logow:
 | Brak wersji flow/modelu | Nie wiadomo, co zmienilo wynik |
 
 ## 1.9. Checklista metryk
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy baseline?
 - Czy mamy metryki techniczne?
@@ -174,6 +182,8 @@ Metryki wymagają logow:
 Voicebot statusu zamówień miał containment 78%. Po dodaniu repeat contact okazalo się, że 22% klientów dzwoni ponownie w ciągu 24 godzin, bo bot podawal status ogólny, ale nie wyjasnial opóźnienia. Po integracji z ETA i dodaniu komunikatu o przyczynie opóźnienia repeat contact spadl.
 
 ## 1.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Wypisz metryki techniczne, konwersacyjne i biznesowe dla rezerwacji wizyty.
 2. Zdefiniuj baseline dla statusu zamówienia.
@@ -198,6 +208,8 @@ Czytelnik nauczy się:
 - projektować outcome taxonomy.
 
 ## 2.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -288,6 +300,8 @@ Task completion musi być zdefiniowany per use case:
 
 ## 2.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Definiuj completion event per use case.
 - Nie licz containment jako sukcesu bez outcome.
 - Dodaj repeat contact.
@@ -298,6 +312,8 @@ Task completion musi być zdefiniowany per use case:
 
 ## 2.9. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Containment jako główny cel | Bot blokuje klientów |
@@ -307,6 +323,8 @@ Task completion musi być zdefiniowany per use case:
 | Brak kategorii failed integration | Problemy techniczne ukryte jako fallback |
 
 ## 2.10. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy definicje task completion?
 - Czy mamy outcome taxonomy?
@@ -321,6 +339,8 @@ Task completion musi być zdefiniowany per use case:
 Voicebot helpdeskowy miał containment tylko 45%, ale tworzył kompletne tickety i skracal prace konsultanta. Po zmianie KPI z containment na "completed_by_bot + completed_with_ticket + AHT reduction" projekt okazal się wartosciowy. Sama metryka containment źle oceniala automatyzację wspierajaca.
 
 ## 2.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zdefiniuj task completion dla 5 use case'ow.
 2. Przygotuj outcome taxonomy dla voicebota medycznego.
@@ -345,6 +365,8 @@ Czytelnik nauczy się:
 - projektować działania optymalizacyjne.
 
 ## 3.2. Kluczowe metryki
+
+Metryki są użyteczne dopiero wtedy, gdy wiadomo, jaką decyzję pomagają podjąć. Poniższa tabela nie jest listą liczb do raportu, tylko mapą sygnałów: każda metryka powinna prowadzić do pytania, interpretacji i możliwej poprawki.
 
 | Metryka | Definicja | Co może oznaczać wysoki wynik |
 |---|---|---|
@@ -418,6 +440,8 @@ Do analizy potrzebne:
 
 ## 3.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Analizuj fallback per prompt i per intencja.
 - Oddziel no-input od no-match.
 - Patrz na abandonment po fallbacku.
@@ -428,6 +452,8 @@ Do analizy potrzebne:
 
 ## 3.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Jeden globalny fallback rate | Brak diagnozy |
@@ -437,6 +463,8 @@ Do analizy potrzebne:
 | Brak rozroznienia no-input/no-match | Źle poprawki |
 
 ## 3.9. Checklista analizy
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy fallback jest liczony per prompt?
 - Czy no-input i no-match są osobno?
@@ -452,6 +480,8 @@ Do analizy potrzebne:
 Voicebot windykacyjny miał wysoki escalation rate. Biznes uznał to za porażkę. Analiza handoff reasons pokazala, że dużo eskalacji wynika z fraz "nie zgadzam się" i "to nie moja naleznosc". To prawidlowy handoff, bo spory wymagaly człowieka. Zmieniono KPI: eskalację sporne nie były liczone jako porażka, ale jako bezpieczna klasyfikacja.
 
 ## 3.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zinterpretuj wysoki no-input przy jednym promptcie.
 2. Zaproponuj trzy przyczyny wysokiego no-match.
@@ -476,6 +506,8 @@ Czytelnik nauczy się:
 - projektować progi i strategie dla różnych intencji.
 
 ## 4.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -538,6 +570,8 @@ Metryki:
 
 ## 4.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Nie używaj jednego progu dla wszystkich intencji.
 - Kalibruj confidence na realnych danych.
 - Dla intencji ryzykownych dodawaj potwierdzenia.
@@ -546,6 +580,8 @@ Metryki:
 - Analizuj confidence razem z ASR transcript.
 
 ## 4.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -556,6 +592,8 @@ Metryki:
 | Brak metryk per bucket | Nie wiadomo, gdzie confidence działa |
 
 ## 4.9. Checklista confidence
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy progi są per intencja?
 - Czy są risk-based?
@@ -570,6 +608,8 @@ Metryki:
 Voicebot e-commerce miał prog 0,75 dla wszystkich intencji. Prośby o konsultanta z wynikiem 0,68 trafialy do fallbacku. Po obnizeniu progu dla `popros_o_konsultanta` i dodaniu potwierdzenia dla akcji krytycznych system lepiej rownowazyl UX i ryzyko.
 
 ## 4.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Ustal progi dla 5 intencji.
 2. Wskaż intencje, gdzie recall jest ważniejszy.
@@ -594,6 +634,8 @@ Czytelnik nauczy się:
 - unikać oszczednosci pozornej.
 
 ## 5.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -661,6 +703,8 @@ Potrzebne integracje danych:
 
 ## 5.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Porownuj do baseline.
 - Mierz per use case.
 - Oddziel rozmowy zakonczone przez bota od handoff.
@@ -672,6 +716,8 @@ Potrzebne integracje danych:
 
 ## 5.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Liczenie tylko kosztu minuty bota | Pomija skuteczność |
@@ -681,6 +727,8 @@ Potrzebne integracje danych:
 | Brak kosztów utrzymania | ROI zawyzony |
 
 ## 5.9. Checklista biznesowych metryk
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy AHT baseline?
 - Czy mamy FCR baseline?
@@ -697,6 +745,8 @@ Potrzebne integracje danych:
 Voicebot w telekomie obsługiwał 40% rozmów o awarie. AHT konsultantów wzrósł, bo zostały trudniejsze sprawy. Poczatkowo uznano to za porażkę. Po analizie okazalo się, że całkowity koszt spadl, a konsultanci dostawali lepszy kontekst. Trzeba było zmienić dashboard: osobno mierzyć sprawy proste, handoff i trudne eskalację.
 
 ## 5.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Policz cost per resolved task.
 2. Dodaj repeat contact do ROI.
@@ -721,6 +771,8 @@ Czytelnik nauczy się:
 - projektować analizę kohortowa.
 
 ## 6.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -790,6 +842,8 @@ Trzeba zachować zgodność z RODO/GDPR i polityka retencji.
 
 ## 6.7. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Mierz drop-off per krok.
 - Segmentuj abandonment wedlug momentu.
 - Mierz repeat contact w kilku oknach.
@@ -800,6 +854,8 @@ Trzeba zachować zgodność z RODO/GDPR i polityka retencji.
 
 ## 6.8. Typowe błędy
 
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
 | Błąd | Konsekwencja |
 |---|---|
 | Abandonment jako jedna liczba | Brak diagnozy |
@@ -809,6 +865,8 @@ Trzeba zachować zgodność z RODO/GDPR i polityka retencji.
 | Brak łączenia kanałów | Powroty ukryte w e-mail/chat |
 
 ## 6.9. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy conversion event?
 - Czy mierzymy drop-off per step?
@@ -823,6 +881,8 @@ Trzeba zachować zgodność z RODO/GDPR i polityka retencji.
 Voicebot zwrotowy miał wysokie conversion: wysylal link do formularza. Jednak 30% klientów dzwonilo ponownie, bo link wygasal po godzinie. Metryka "link sent" wyglądała dobrze, ale repeat contact ujawnil problem. Po wydluzeniu waznosci linku i jasnym komunikacie repeat contact spadl.
 
 ## 6.11. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zdefiniuj conversion dla voicebota ankietowego.
 2. Zaprojektuj drop-off funnel dla rezerwacji.
@@ -1035,6 +1095,8 @@ Wymagania:
 
 ## 7.13. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Tworz trzy dashboardy: operacyjny, biznesowy, jakościowy.
 - Taguj outcome i failure reason.
 - Używaj probek transkrypcji do interpretacji liczb.
@@ -1044,6 +1106,8 @@ Wymagania:
 - Raportuj przed/po release.
 
 ## 7.14. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1055,6 +1119,8 @@ Wymagania:
 | Brak powiazania z backlogiem | Raportowanie bez działania |
 
 ## 7.15. Checklista dashboardów
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy mamy dashboard operacyjny?
 - Czy mamy dashboard biznesowy?
@@ -1071,6 +1137,8 @@ Wymagania:
 Dashboard biznesowy pokazywal stabilny task completion. Dashboard jakościowy pokazal jednak wzrost interruption rate przy jednym promptcie. Po odsłuchaniu rozmów okazalo się, że nowy komunikat był zbyt długi i użytkownicy przerywali, bo znali odpowiedź. Skrócenie promptu zmniejszylo AHT.
 
 ## 7.17. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj tag taxonomy dla voicebota bankowego.
 2. Wypisz metryki dashboardu operacyjnego.
@@ -1095,6 +1163,8 @@ Czytelnik nauczy się:
 - mierzyć efekt zmian.
 
 ## 8.2. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja |
 |---|---|
@@ -1183,6 +1253,8 @@ Status:
 
 ## 8.8. Dobre praktyki
 
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
 - Priorytetyzuj wedlug wplywu i ryzyka.
 - Nie zmieniaj zbyt wielu rzeczy naraz.
 - Mierz przed/po.
@@ -1192,6 +1264,8 @@ Status:
 - Po duzych zmianach rob mini-hypercare.
 
 ## 8.9. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1203,6 +1277,8 @@ Status:
 | Brak metryk przed/po | Brak dowodu efektu |
 
 ## 8.10. Checklista optymalizacji
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy problem ma dane?
 - Czy mamy przykłady rozmów?
@@ -1219,6 +1295,8 @@ Status:
 Po starcie voicebota rezerwacyjnego no-match przy pytaniu o termin wynosil 28%. Analiza transkrypcji pokazala, że ludzie mowili "jak najszybciej", a bot oczekiwal konkretnej daty. Dodano obsługę intencji `najblizszy_mozliwy_termin` i zmieniono prompt: "Może pani podac datę albo powiedzieć: najblizszy termin." No-match spadl do 13%.
 
 ## 8.12. Ćwiczenia
+
+Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj backlog item dla wysokiego fallback rate.
 2. Zdefiniuj hipoteze optymalizacyjna.
@@ -1308,6 +1386,8 @@ Najlepsza praktyka to analizować metryki w segmentach:
 
 ## 9.6. Checklista metryk odbioru
 
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
 - Czy mierzymy task success i wysiłek, nie tylko containment?
 - Czy mamy pytanie o zrozumiałość?
 - Czy mamy pytanie o poczucie kontroli?
@@ -1324,6 +1404,8 @@ Voicebot jest oceniany przez użytkownika nie tylko po tym, czy "technicznie zad
 ---
 
 # 10. Zbiorcza checklista po Części X
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy metryki są zdefiniowane przed produkcją?
 - Czy masz baseline?
