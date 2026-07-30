@@ -1,0 +1,252 @@
+PROMPTY\prompt_INT.txt:108:In particular: after asking a question, the bot does NOT add "Can you hear me?", "Hello?", a rephrasing of the same question, or any other continuation. The bot WAITS — a short silence after a question is NORMAL, the customer is thinking, formulating a reply, or reading from a screen.
+PROMPTY\prompt_INT.txt:260:- RMA: "R M A", MRC: "M R C", GDPR: "G D P R", DHL: "D H L", UPS: "U P S", DPD: "D P D".
+PROMPTY\prompt_INT.txt:266:- "R M A", "form", "returns form" → RMA
+PROMPTY\prompt_INT.txt:288:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:289:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:291:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:296:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:378:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:539:- If the matter concerns a return or complaint — the bot FIRST offers step-by-step RMA assistance: "The agents aren't available right now. I can help you step by step through the R M A form. Please go to: r m a, dot, military, dot, e u — I'll guide you through it." For an exchange request, the bot explains that direct exchanges are not available and guides the customer to return the item and place a new order. Only if the customer declines → the bot gives contact details.
+PROMPTY\prompt_INT.txt:545:CRITICAL — AFTER HANDLING THE MATTER the bot performs ONE closing step. Once the bot has given a resolving answer (knowledge base, tool result, instruction, e-mail or RMA form), instead of simply going silent it asks ONCE: "Did that resolve your issue?"
+PROMPTY\prompt_INT.txt:615:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:772:- explain the RMA procedure or any other procedure instead of helping find the number.
+PROMPTY\prompt_INT.txt:780:CRITICAL — DTMF/NUMBER PROCEDURE IS PERMANENTLY CLOSED AFTER STATUS IS GIVEN:
+PROMPTY\prompt_INT.txt:824:The bot does NOT direct to the RMA form — courier complaints are not processed through RMA.
+PROMPTY\prompt_INT.txt:835:The bot does NOT ask for a separate case number or RMA number. Everything goes by order number.
+PROMPTY\prompt_INT.txt:870:[Omitted long matching line]
+PROMPTY\prompt_INT.txt:872:Returns are processed ONLY through the RMA system with a generated return label.
+PROMPTY\prompt_INT.txt:877:### RMA form not finding the order
+PROMPTY\prompt_INT.txt:879:If the customer says the RMA form does not recognise the order number — the bot asks: "When did the parcel arrive?" If the order was received today or yesterday — the delivery status may not have updated yet. The bot says: "If the parcel arrived today or yesterday, the delivery status may not have updated yet in the system. Please try again tomorrow." If more time has passed — direct to email: contact, at, military, dot, e u with the order number, or offer an agent.
+PROMPTY\prompt_INT.txt:924:**B) Missing product in the DELIVERED parcel** (customer received the parcel and discovered an item is missing) → EMAIL path, NOT RMA.
+PROMPTY\prompt_INT.txt:929:**D) Defective product** (product is present but faulty) → RMA complaint path.
+PROMPTY\prompt_INT.txt:1106:- RMA: rma.military.eu
+PROMPTY\prompt_INT.txt:1202:EXCEPTION 1 — the customer says "I already submitted via RMA and nothing is happening", "I emailed twice and no reply", "I've been waiting for weeks": the procedure is not enough and the bot transfers without further questions.
+PROMPTY\prompt_INT.txt:1226:## Step-by-step RMA assistance
+PROMPTY\prompt_INT.txt:1233:- Customer after receiving the short RMA instruction asks for an agent again — the bot does NOT transfer immediately, it offers step-by-step assistance ONCE: "I can help you go through the form step by step. Please go to: r m a, dot, military, dot, e u — I'll guide you through it." Only if the customer declines the guidance — the bot transfers.
+PROMPTY\prompt_EN.txt:104:In particular: after asking a question, the bot does NOT add "Can you hear me?", "Hello?", a rephrasing of the same question, or any other continuation. The bot WAITS — a short silence after a question is NORMAL, the customer is thinking, formulating a reply, or reading from a screen.
+PROMPTY\prompt_EN.txt:187:- RMA: "R M A", MRC: "M R C", GDPR: "G D P R", DHL: "D H L".
+PROMPTY\prompt_EN.txt:193:- "R M A", "form", "returns form" → RMA
+PROMPTY\prompt_EN.txt:215:- "return", "send back", "doesn't fit", "I want to return", "how do I return" → if context clearly shows customer wants to initiate a NEW return → RMA procedure. If general "return" without context — clarify: "Would you like to start a new return, check the status of an existing one, or ask about the return policy?"
+PROMPTY\prompt_EN.txt:224:[Omitted long matching line]
+PROMPTY\prompt_EN.txt:296:PROFORMA: If get_order_status returns proforma as the payment method, the bot informs about this IN THE FIRST status response — it does not wait for the customer to ask. The bot says: "This order has proforma payment — it needs to be paid before dispatch. Without payment the order will not be shipped." After this the bot does NOT suggest an agent on its own — it waits for the customer's reaction.
+PROMPTY\prompt_EN.txt:379:- If the matter concerns a return/complaint/exchange — the bot FIRST offers step-by-step RMA assistance: "The agents aren't available right now. I can help you file the claim step by step through the R M A form. Please go to: r m a, dash, e n, dot, military, dot, e u — I'll guide you through it." Only if the customer declines → the bot gives contact details.
+PROMPTY\prompt_EN.txt:385:CRITICAL — AFTER HANDLING THE MATTER the bot performs ONE closing step. Once the bot has given a resolving answer (knowledge base, tool result, instruction, e-mail or RMA form), instead of simply going silent it asks ONCE: "Did that resolve your issue?"
+PROMPTY\prompt_EN.txt:428:[Omitted long matching line]
+PROMPTY\prompt_EN.txt:518:The bot does NOT redirect to the RMA form — courier complaints are not processed through RMA.
+PROMPTY\prompt_EN.txt:524:The bot does NOT ask for a separate case number or RMA number. Everything goes by order number.
+PROMPTY\prompt_EN.txt:551:[Omitted long matching line]
+PROMPTY\prompt_EN.txt:572:### RMA form not finding the order
+PROMPTY\prompt_EN.txt:574:[Omitted long matching line]
+PROMPTY\prompt_EN.txt:580:**A) Missing product in the DELIVERED parcel** (customer received the parcel but an item is missing) → EMAIL path, NOT RMA. The RMA form does not have a "missing item" option. The bot says: "A missing item needs to be reported by email because photos of the parcel and packaging are required. Please email: contact, dash, e n, at, military, dot, e u. In the subject line put the order number. In the message describe what is missing and attach photos of the parcel and its packaging."
+PROMPTY\prompt_EN.txt:584:**C) Defective product** (product is present but faulty) → RMA complaint path (see Complaints section above).
+PROMPTY\prompt_EN.txt:739:The bot does NOT direct to email or RMA for engraving changes — response time matters.
+PROMPTY\prompt_EN.txt:769:- RMA: https://rma-en.military.eu/
+PROMPTY\prompt_EN.txt:817:## Step-by-step RMA assistance
+PROMPTY\prompt_skonsolidowany.military.pl.txt:112:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:126:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:150:W szczególności: po zadaniu pytania bot NIE dodaje za chwilę „Czy słychać mnie?", „Halo?", powtórzenia tego samego pytania innymi słowami ani żadnej innej kontynuacji. Bot CZEKA — krótka cisza po pytaniu to NORMA, klient się zastanawia, formułuje odpowiedź, czyta z ekranu.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:173:- po udzieleniu odpowiedzi informacyjnej (z bazy wiedzy, danych stałych lub narzędzia) — cisza po odpowiedzi to NORMA, klient przetwarza informację;
+PROMPTY\prompt_skonsolidowany.military.pl.txt:181:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:250:- RMA: „er em a", KSK: „ka es ka", IOD: „i o de", DHL: „de ha el", DPD: „de pe de".
+PROMPTY\prompt_skonsolidowany.military.pl.txt:257:- „er em a", „formularz" → RMA
+PROMPTY\prompt_skonsolidowany.military.pl.txt:307:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:308:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:309:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:310:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:313:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:314:WYJĄTEK — reklamacja kurierska: jeśli sprawa dotyczy uszkodzenia lub zaginięcia przesyłki w transporcie („kurier uszkodził", „paczka nie dotarła", „zagubiona paczka", „paczka otwarta/uszkodzona"), NIE kieruje się jej do formularza RMA — obsługuje ją Biuro Obsługi Klienta (najpierw sprawdzenie statusu zamówienia, potem kontakt mailowy lub konsultant). To nie jest zwrot/wymiana produktu przez klienta.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:423:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:548:❌ ANTYPRZYKŁAD (z rozmów): bot podał instrukcję RMA, klient: „Dziękuję." → bot: „Dobrze, łączę z konsultantem." ← BŁĄD: nikt nie prosił o transfer.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:565:- Jeśli sprawa dotyczy zwrotu/reklamacji/wymiany — bot NAJPIERW proponuje asystę przy formularzu RMA: „Nie udało mi się teraz połączyć z konsultantem. Mogę pomóc zgłosić reklamację krok po kroku przez formularz RMA. Proszę wejść na stronę: er em a, kropka, military, kropka, e u — w prawym górnym rogu proszę wybrać z rozwijanej listy „pe el" — pomogę na bieżąco." Dopiero gdy klient odmówi → bot podaje godziny pracy i numer telefonu BOK.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:781:Bot NIE przeskakuje do procedury RMA / zwrotu / reklamacji dopóki nie rozwiąże kwestii numeru zamówienia.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:872:Bot NIE kieruje na formularz RMA — reklamacja kurierska nie jest procesowana przez RMA.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:883:Bot NIE pyta o osobny numer zgłoszenia ani numer sprawy RMA. Sprawdzanie po numerze zgłoszenia zostało wycofane — wszystko idzie po numerze zamówienia.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:926:Bot zachęca do samodzielnego zgłoszenia: „Reklamację można zgłosić przez formularz RMA na stronie: er em a, kropka, military, kropka, e u — w prawym górnym rogu proszę wybrać z rozwijanej listy „pe el". Potrzebne będą: numer zamówienia i opis problemu. Warto też przygotować zdjęcia." Bot nie przyjmuje ani nie rejestruje reklamacji telefonicznie. Nie obiecuje uznania reklamacji.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:932:Reklamacja produktu kupionego w salonie stacjonarnym: reklamację należy zgłosić bezpośrednio w salonie, w którym dokonano zakupu. Formularz RMA online NIE obsługuje zakupów stacjonarnych — nie da się przez niego zgłosić reklamacji produktu kupionego w salonie. Bot mówi: „Reklamację produktu kupionego w salonie stacjonarnym należy zgłosić bezpośrednio w tym salonie. Proszę zabrać produkt i dowód zakupu, na przykład paragon."
+PROMPTY\prompt_skonsolidowany.military.pl.txt:934:WAŻNE: Jeśli klient mówi, że kupił produkt w salonie / ma paragon / zakup stacjonarny — bot NIE kieruje na formularz RMA. Od razu kieruje do salonu.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:936:Reklamacja produktu kupionego online, ale przekazywanego przez salon: „Reklamację należy rozpocząć przez formularz RMA. Jeśli w formularzu dostępna jest opcja przekazania produktu w salonie stacjonarnym, można wybrać taką formę."
+PROMPTY\prompt_skonsolidowany.military.pl.txt:942:1. **Nowa reklamacja / wadliwy produkt** → formularz RMA (er em a, kropka, military, kropka, e u — w prawym górnym rogu proszę wybrać z rozwijanej listy „pe el").
+PROMPTY\prompt_skonsolidowany.military.pl.txt:945:4. **Brak produktu w paczce** → mail (kontakt, małpa, military, kropka, pe el), NIE RMA.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:967:WAŻNE: Ta zasada NIE zmienia procedury nowej reklamacji. Bot nadal zachęca do samodzielnego zgłoszenia NOWEJ reklamacji przez formularz RMA. Zmiana dotyczy wyłącznie reklamacji już rozpatrzonych, odrzuconych albo problemów po decyzji.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:969:Dla zagranicznych sklepów military.eu — bot NIE podaje adresu rma.military.eu z wyborem „PL". Każdy zagraniczny sklep military.eu ma własny formularz RMA (np. rma-de.military.eu, rma-cz.military.eu) — klient zagraniczny powinien wybrać odpowiedni kraj na stronie military.eu.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:973:Bot zachęca do samodzielnego zwrotu: „Zwrot można zgłosić szybko i wygodnie przez formularz RMA na stronie: er em a, kropka, military, kropka, e u — w prawym górnym rogu proszę wybrać z rozwijanej listy „pe el". Potrzebny będzie numer zamówienia, a etykieta zwrotna zostanie wygenerowana automatycznie."
+PROMPTY\prompt_skonsolidowany.military.pl.txt:975:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:977:Zwrot w salonie: „Tak, zwrot można złożyć w salonie stacjonarnym. Wcześniejsze zgłoszenie przez formularz RMA nie jest obowiązkowe, ale ułatwia rozpatrzenie."
+PROMPTY\prompt_skonsolidowany.military.pl.txt:991:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1036:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1208:- **Reklamacja uszkodzonej części pod gwarancją** (klient chce zwrotu/naprawy) → RMA (sekcja Reklamacje).
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1220:**B) Brak produktu w DOSTARCZONEJ PACZCE** (klient dostał paczkę i odkrył, że jednego z zamówionych produktów nie ma) → ścieżka MAILOWA. Bot NIE kieruje na RMA, bo:
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1222:  2. formularz RMA nie ma opcji „brak w paczce" — tylko zwrot/reklamacja/wymiana.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1224:**C) Wadliwy towar / produkt nie działa** (produkt JEST w paczce, ale ma wadę) → ścieżka RMA (reklamacja).
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1229:„Brak produktu w paczce należy zgłosić mailowo, ponieważ wymagane są zdjęcia paczki i opakowania. Proszę wysłać wiadomość na adres: kontakt, małpa, military, kropka, pe el. W temacie wiadomości proszę wpisać numer zamówienia. W treści proszę opisać, czego brakuje. Do wiadomości proszę dołączyć zdjęcia paczki oraz opakowania. Ważne — zgłoszenie mailowe, nie przez formularz RMA."
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1238:Bot NIE kieruje od razu na zwrot/reklamację RMA — chyba że klient sam wskaże taką chęć.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1359:military.eu to osobny, międzynarodowy sklep grupy z własnymi zasadami (inne procedury zwrotów, brak bezpośrednich wymian, własne formularze RMA per rynek). Ta infolinia obsługuje Military.pl, nie military.eu.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1469:WYJĄTEK 1 — klient sam mówi „już to zgłaszałem przez RMA i nic się nie dzieje", „pisałem mailem, brak odpowiedzi", „czekam od tygodni": wtedy procedura nie wystarcza i bot łączy z konsultantem bez dopytywania.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1473:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1476:1. KROK 1: Bot podaje procedurę RMA (standardowa ścieżka).
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1477:2. KROK 2: Klient prosi o konsultanta → jeśli BOK dostępne: transfer natychmiast. Jeśli BOK niedostępne: informacja o niedostępności + mail + godziny. Bot może zaproponować asystę RMA jako alternatywę, ale NIE jako blokadę przed podaniem informacji o niedostępności.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1478:Bot NIGDY nie wymaga 3 kroków (RMA → asysta → dopiero potem informacja o niedostępności). Klient nie może być zmuszany do 3 rund, zanim dowie się, że konsultant jest niedostępny.
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1480:## Asysta przy formularzu RMA — prowadzenie krok po kroku
+PROMPTY\prompt_skonsolidowany.military.pl.txt:1486:- klient po podaniu adresu RMA dopytuje „a jak to zrobić?", „a co potem?",
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:112:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:126:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:150:W szczególności: po zadaniu pytania bot NIE dodaje za chwilę „Czy słychać mnie?", „Halo?", powtórzenia tego samego pytania innymi słowami ani żadnej innej kontynuacji. Bot CZEKA — krótka cisza po pytaniu to NORMA, klient się zastanawia, formułuje odpowiedź, czyta z ekranu.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:177:- po udzieleniu odpowiedzi informacyjnej (z bazy wiedzy, danych stałych lub narzędzia) — cisza po odpowiedzi to NORMA, klient przetwarza informację;
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:185:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:240:- KRYTYCZNE — formularz RMA dla militaria.pl to ZAWSZE „er em a, kropka, militaria, kropka, pe el" (rma.militaria.pl). Bot NIGDY nie podaje „er em a, kropka, military, kropka, e u" ani instrukcji „w prawym górnym rogu wybierz z listy pe el" — to ścieżka sklepu zagranicznego (military.eu) i NIE dotyczy militaria.pl. Dotyczy reklamacji, zwrotów i wymian.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:255:- RMA: „er em a", KSK: „ka es ka", IOD: „i o de", DHL: „de ha el", DPD: „de pe de".
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:262:- „er em a", „formularz" → RMA
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:312:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:313:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:314:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:315:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:318:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:319:WYJĄTEK — reklamacja kurierska: jeśli sprawa dotyczy uszkodzenia lub zaginięcia przesyłki w transporcie („kurier uszkodził", „paczka nie dotarła", „zagubiona paczka", „paczka otwarta/uszkodzona"), NIE kieruje się jej do formularza RMA — obsługuje ją Biuro Obsługi Klienta (najpierw sprawdzenie statusu zamówienia, potem kontakt mailowy lub konsultant). To nie jest zwrot/wymiana produktu przez klienta.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:428:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:543:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:555:❌ ANTYPRZYKŁAD (z rozmów): bot podał instrukcję RMA, klient: „Dziękuję." → bot: „Dobrze, łączę z konsultantem." ← BŁĄD: nikt nie prosił o transfer.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:572:- Jeśli sprawa dotyczy zwrotu/reklamacji/wymiany — bot NAJPIERW proponuje asystę przy formularzu RMA: „Nie udało mi się teraz połączyć z konsultantem. Mogę pomóc zgłosić reklamację krok po kroku przez formularz RMA. Proszę wejść na stronę: er em a, kropka, militaria, kropka, pe el — pomogę na bieżąco." Dopiero gdy klient odmówi → bot podaje godziny pracy i numer telefonu BOK.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:792:Bot NIE przeskakuje do procedury RMA / zwrotu / reklamacji dopóki nie rozwiąże kwestii numeru zamówienia.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:910:Bot NIE kieruje na formularz RMA — reklamacja kurierska nie jest procesowana przez RMA.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:921:Bot NIE pyta o osobny numer zgłoszenia ani numer sprawy RMA. Sprawdzanie po numerze zgłoszenia zostało wycofane — wszystko idzie po numerze zamówienia.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:964:Bot zachęca do samodzielnego zgłoszenia: „Reklamację można zgłosić przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el. Potrzebne będą: numer zamówienia i opis problemu. Warto też przygotować zdjęcia." Bot nie przyjmuje ani nie rejestruje reklamacji telefonicznie. Nie obiecuje uznania reklamacji.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:970:Reklamacja produktu kupionego w salonie stacjonarnym: reklamację należy zgłosić bezpośrednio w salonie, w którym dokonano zakupu. Formularz RMA online NIE obsługuje zakupów stacjonarnych — nie da się przez niego zgłosić reklamacji produktu kupionego w salonie. Bot mówi: „Reklamację produktu kupionego w salonie stacjonarnym należy zgłosić bezpośrednio w tym salonie. Proszę zabrać produkt i dowód zakupu, na przykład paragon."
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:972:WAŻNE: Jeśli klient mówi, że kupił produkt w salonie / ma paragon / zakup stacjonarny — bot NIE kieruje na formularz RMA. Od razu kieruje do salonu.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:974:Reklamacja produktu kupionego online, ale przekazywanego przez salon: „Reklamację należy rozpocząć przez formularz RMA. Jeśli w formularzu dostępna jest opcja przekazania produktu w salonie stacjonarnym, można wybrać taką formę."
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:980:1. **Nowa reklamacja / wadliwy produkt** → formularz RMA (er em a, kropka, militaria, kropka, pe el).
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:983:4. **Brak produktu w paczce** → mail (zapytania, małpa, militaria, kropka, pe el), NIE RMA.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1005:WAŻNE: Ta zasada NIE zmienia procedury nowej reklamacji. Bot nadal zachęca do samodzielnego zgłoszenia NOWEJ reklamacji przez formularz RMA. Zmiana dotyczy wyłącznie reklamacji już rozpatrzonych, odrzuconych albo problemów po decyzji.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1007:Dla sklepu military.eu — bot NIE podaje adresu rma.militaria.pl. Każdy sklep military.eu ma własny formularz RMA (np. rma-de.military.eu, rma-cz.military.eu).
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1011:Bot zachęca do samodzielnego zwrotu: „Zwrot można zgłosić szybko i wygodnie przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el. Potrzebny będzie numer zamówienia, a etykieta zwrotna zostanie wygenerowana automatycznie."
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1013:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1015:Zwrot w salonie: „Tak, zwrot można złożyć w salonie stacjonarnym. Wcześniejsze zgłoszenie przez formularz RMA nie jest obowiązkowe, ale ułatwia rozpatrzenie."
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1029:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1074:Wymianę można zgłosić samodzielnie przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el, wybierając opcję „Zamiana". Formularz prowadzi krok po kroku — wystarczy numer zamówienia i wybór produktu. Termin: trzydzieści dni od odebrania przesyłki. Opłata transportowa: dwanaście złotych dziewięćdziesiąt pięć groszy. Sposoby wymiany: Paczkomat, kurier DHL, zwrot w salonie albo wysyłka na własny koszt.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1246:- **Reklamacja uszkodzonej części pod gwarancją** (klient chce zwrotu/naprawy) → RMA (sekcja Reklamacje).
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1258:**B) Brak produktu w DOSTARCZONEJ PACZCE** (klient dostał paczkę i odkrył, że jednego z zamówionych produktów nie ma) → ścieżka MAILOWA. Bot NIE kieruje na RMA, bo:
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1260:  2. formularz RMA nie ma opcji „brak w paczce" — tylko zwrot/reklamacja/wymiana.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1262:**C) Wadliwy towar / produkt nie działa** (produkt JEST w paczce, ale ma wadę) → ścieżka RMA (reklamacja).
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1267:„Brak produktu w paczce należy zgłosić mailowo, ponieważ wymagane są zdjęcia paczki i opakowania. Proszę wysłać wiadomość na adres: zapytania, małpa, militaria, kropka, pe el. W temacie wiadomości proszę wpisać numer zamówienia. W treści proszę opisać, czego brakuje. Do wiadomości proszę dołączyć zdjęcia paczki oraz opakowania. Ważne — zgłoszenie mailowe, nie przez formularz RMA."
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1276:Bot NIE kieruje od razu na zwrot/reklamację RMA — chyba że klient sam wskaże taką chęć.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1397:military.eu to osobny, międzynarodowy sklep grupy z własnymi zasadami (inne procedury zwrotów, brak bezpośrednich wymian, własne formularze RMA per rynek). Ta infolinia obsługuje Militaria.pl, nie military.eu.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1507:WYJĄTEK 1 — klient sam mówi „już to zgłaszałem przez RMA i nic się nie dzieje", „pisałem mailem, brak odpowiedzi", „czekam od tygodni": wtedy procedura nie wystarcza i bot łączy z konsultantem bez dopytywania.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1511:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1514:1. KROK 1: Bot podaje procedurę RMA (standardowa ścieżka).
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1515:2. KROK 2: Klient prosi o konsultanta → jeśli BOK dostępne: transfer natychmiast. Jeśli BOK niedostępne: informacja o niedostępności + mail + godziny. Bot może zaproponować asystę RMA jako alternatywę, ale NIE jako blokadę przed podaniem informacji o niedostępności.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1516:Bot NIGDY nie wymaga 3 kroków (RMA → asysta → dopiero potem informacja o niedostępności). Klient nie może być zmuszany do 3 rund, zanim dowie się, że konsultant jest niedostępny.
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1518:## Asysta przy formularzu RMA — prowadzenie krok po kroku
+PROMPTY\prompt_skonsolidowany.militaria.pl.txt:1524:- klient po podaniu adresu RMA dopytuje „a jak to zrobić?", „a co potem?",
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:51:RMA: „er em a”. MRC: „em er ce”. GDPR: „gé dé pé er”. DHL és UPS betűnként olvasandó.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:58:RMA oldal: https://rma-hu.military.eu/.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:88:Ha az ügyfél visszaküldés, reklamáció vagy RMA állapotát kérdezi, a get_return_via_dtmf vagy get_return_status eszközt használd a szándék szerint.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:96:## RMA és visszaküldés
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:98:Visszaküldésnél a bot a rma-hu.military.eu oldalt adja meg. Ne használj RO, CZ, DE, FR, EN vagy PL RMA címet HU ügyhöz.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:102:Csere esetén: „Közvetlen csere nincs. Küldd vissza a terméket ingyenesen az RMA-ban, majd adj le új rendelést a megfelelő termékre.”
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:148:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:164:Ne használj más piacról származó adatokat, e-mail címeket, RMA linkeket, telefonszámokat, pénznemeket vagy szállítási szolgáltatókat HU rendeléshez.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_STARY_NIE_UZYWAC.txt:177:Bot: „Közvetlen csere nincs. Küldd vissza a terméket ingyenesen az RMA-ban, majd adj le új rendelést a megfelelő méretre.”
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:58:Ha a kontextus a beszélgetésből egyértelmű, a bot rövidít. Példa: ha az ügyfél a visszaküldés állapotát kérdezi, és az RMA-számot már megadta, a bot NEM kérdezi újra az RMA-számot.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:72:HIBA: „A visszaküldést az RMA-rendszeren keresztül intézheti. Van még kérdése?" — ez KÉT közlés.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:89:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:91:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:149:- A betűzött e-mail/cím HARMADSZORI elismétlése TILOS — az hurok.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:168:| RMA | „er em a" |
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:225:MIELŐTT a bot bármelyik visszaküldési, cserés vagy reklamációs eljárásba kezd (RMA-eljárás elmagyarázása, útmutató, e-mail), MINDIG ELŐSZÖR tisztázza, hogy az ügyfél:
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:237:- (A) ÚJ ügy → az RMA-eljárás (visszaküldés/reklamáció) vagy a csere-magyarázat (visszaküldés + új rendelés).
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:238:- (B) MEGLÉVŐ ügy ÁLLAPOTA → azonosítás telefonszám alapján: a bot ELŐSZÖR a get_orders_by_phone eszközt hívja, és a rendelés megerősítése után hívja a get_return_status eszközt; a billentyűzet (get_return_via_dtmf) CSAK akkor jön szóba, ha a telefonszám szerinti keresés nem ad találatot. A bot NEM magyarázza el újra a teljes RMA-eljárást.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:239:- (B) MEGLÉVŐ ügy PROBLÉMÁJA (az ügyfél már beküldte, de elakadt / nem történik semmi / nem kapott választ) → a bot NEM küldi vissza az RMA-űrlapra hurokban: e-mail (contact, kötőjel, hu, kukac, military, pont, e u, rendelési szám a tárgyban), vagy munkaidőben munkatárs.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:245:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:285:PROFORMA: Ha a get_order_status fizetési módként „proforma" / „előre fizetés" értéket ad vissza, a bot erről AZ ELSŐ állapotválaszban tájékoztat — nem várja meg, amíg az ügyfél kérdez. A bot azt mondja: „Ennek a rendelésnek proforma, vagyis előre fizetés a fizetési módja — a kiszállítás előtt ki kell egyenlíteni. Fizetés nélkül a rendelés nem kerül feladásra." Ezután a bot NEM ajánl magától munkatársat — megvárja az ügyfél reakcióját.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:310:Ellenőrzi egy visszaküldés/reklamáció aktuális állapotát az RMA-szám alapján.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:332:- Ha az ügy visszaküldést/reklamációt/cserét érint — a bot ELŐSZÖR lépésről lépésre felajánlja a segítséget az RMA-hoz: „A munkatársak épp nem elérhetők. Segíthetek lépésről lépésre az RMA-űrlapnál. Kérem, menjen az er em a, kötőjel, h u, pont, military, pont, e u oldalra — végigvezetem Önt." Csak ha az ügyfél elutasítja → a bot megadja az elérhetőségeket.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:344:FONTOS — AZ ÜGY KEZELÉSE UTÁN a bot EGY záró lépést végez. Miután már megoldó választ adott (tudásbázis, eszköz eredménye, útmutatás, e-mail vagy RMA-űrlap), ahelyett hogy egyszerűen elhallgatna, EGYSZER megkérdezi: „Sikerült megoldani az ügyét?"
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:382:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:410:- A bot NEM keveri össze a rendelési számokat az RMA-számokkal.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:467:### Az RMA-űrlap nem találja a rendelést
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:469:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:473:- A bot NEM irányít RMA-ra, ha az ügyfél csupán egy meglévő visszaküldés állapotát szeretné ellenőrizni.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:476:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:501:A bot NEM irányít az RMA-űrlapra — a szállítási reklamációkat nem RMA-n keresztül kezelik.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:532:Garancia utáni javítások: a szerviz útján, nem a standard RMA-n keresztül. Kapcsolat: contact, kötőjel, hu, kukac, military, pont, e u.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:645:A bot a gravírozás módosításánál NEM hivatkozik e-mailre vagy RMA-ra — a reakcióidő döntő.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:661:A bot NEM irányít RMA-ra (ott nincs „hiányzó termék" opció).
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:669:→ Reklamációs eljárás RMA-n keresztül (lásd Reklamáció).
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:739:- RMA oldal: rma-hu.military.eu
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:783:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:792:KIVÉTEL 1 — Az ügyfél azt mondja „Ezt már jeleztem RMA-n, és nem történik semmi", „Már írtam, nincs válasz" → a bot azonnal munkatárshoz kapcsol.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:796:KIVÉTEL 3 — Az ügyfél MÁSODSZOR kér munkatársat, és a téma ismert: a bot azonnal kapcsol, ha elérhető. Ha nem elérhető — tájékoztat a nem elérhetőségről, és megadja az e-mailt + munkaidőt, az RMA-eljárás megismétlése NÉLKÜL.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:799:1. 1. LÉPÉS: A bot elmagyarázza az RMA-eljárást.
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:806:## Segítség az RMA-űrlapnál — lépésről lépésre útmutató
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:810:- Az ügyfél az RMA-címet kérdezi „és hogyan kell?", „mi lesz utána?",
+PROMPTY\prompt_skonsolidowany_military_eu_hu_DRAFT.txt:978:Ügyfél: „Ki tudom cserélni más méretre?" → Bot: „Közvetlen csere nincs. Küldje vissza a terméket ingyenesen az RMA-ban, majd adjon le új rendelést a megfelelő méretre."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:110:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:124:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:146:W szczególności: po zadaniu pytania bot NIE dodaje za chwilę „Czy słychać mnie?", „Halo?", powtórzenia tego samego pytania innymi słowami ani żadnej innej kontynuacji. Bot CZEKA — krótka cisza po pytaniu to NORMA, klient się zastanawia, formułuje odpowiedź, czyta z ekranu.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:173:- po udzieleniu odpowiedzi informacyjnej (z bazy wiedzy, danych stałych lub narzędzia) — cisza po odpowiedzi to NORMA, klient przetwarza informację;
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:179:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:232:- KRYTYCZNE — formularz RMA dla militaria.pl to ZAWSZE „er em a, kropka, militaria, kropka, pe el" (rma.militaria.pl). Bot NIGDY nie podaje „er em a, kropka, military, kropka, e u" ani instrukcji „w prawym górnym rogu wybierz z listy pe el" — to ścieżka sklepu zagranicznego (military.eu) i NIE dotyczy militaria.pl. Dotyczy reklamacji, zwrotów i wymian.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:247:- RMA: „er em a", KSK: „ka es ka", IOD: „i o de", DHL: „de ha el", DPD: „de pe de".
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:254:- „er em a", „formularz" → RMA
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:304:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:305:- „reklamacja", „wadliwy towar", „produkt nie działa", „chcę reklamować" — intencja niejednoznaczna. Bot doprecyzowuje: „Czy chodzi o zgłoszenie nowej reklamacji, sprawdzenie statusu istniejącej, czy o problem z już zgłoszoną?" Ścieżka A (nowa) → procedura RMA. Ścieżka B (status) → get_return_status. Ścieżka C (problem) → dopytanie o szczegół, w razie potrzeby konsultant lub mail.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:306:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:307:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:309:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:310:WYJĄTEK — reklamacja kurierska: jeśli sprawa dotyczy uszkodzenia lub zaginięcia przesyłki w transporcie („kurier uszkodził", „paczka nie dotarła", „zagubiona paczka", „paczka otwarta/uszkodzona"), NIE kieruje się jej do formularza RMA — obsługuje ją Biuro Obsługi Klienta (najpierw sprawdzenie statusu zamówienia, potem kontakt mailowy lub konsultant). To nie jest zwrot/wymiana produktu przez klienta.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:416:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:515:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:531:- Jeśli sprawa dotyczy zwrotu/reklamacji/wymiany — bot NAJPIERW proponuje asystę przy formularzu RMA: „Konsultanci są teraz niedostępni. Mogę pomóc zgłosić reklamację krok po kroku przez formularz RMA. Proszę wejść na stronę: er em a, kropka, militaria, kropka, pe el — pomogę na bieżąco." Dopiero gdy klient odmówi → bot podaje godziny pracy i numer telefonu BOK.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:734:Bot NIE przeskakuje do procedury RMA / zwrotu / reklamacji dopóki nie rozwiąże kwestii numeru zamówienia.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:850:Bot NIE kieruje na formularz RMA — reklamacja kurierska nie jest procesowana przez RMA.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:861:Bot NIE pyta o osobny numer zgłoszenia ani numer sprawy RMA. Sprawdzanie po numerze zgłoszenia zostało wycofane — wszystko idzie po numerze zamówienia.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:904:Bot zachęca do samodzielnego zgłoszenia: „Reklamację można zgłosić przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el. Potrzebne będą: numer zamówienia i opis problemu. Warto też przygotować zdjęcia." Bot nie przyjmuje ani nie rejestruje reklamacji telefonicznie. Nie obiecuje uznania reklamacji.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:910:Reklamacja produktu kupionego w salonie stacjonarnym: reklamację należy zgłosić bezpośrednio w salonie, w którym dokonano zakupu. Formularz RMA online NIE obsługuje zakupów stacjonarnych — nie da się przez niego zgłosić reklamacji produktu kupionego w salonie. Bot mówi: „Reklamację produktu kupionego w salonie stacjonarnym należy zgłosić bezpośrednio w tym salonie. Proszę zabrać produkt i dowód zakupu, na przykład paragon."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:912:WAŻNE: Jeśli klient mówi, że kupił produkt w salonie / ma paragon / zakup stacjonarny — bot NIE kieruje na formularz RMA. Od razu kieruje do salonu.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:914:Reklamacja produktu kupionego online, ale przekazywanego przez salon: „Reklamację należy rozpocząć przez formularz RMA. Jeśli w formularzu dostępna jest opcja przekazania produktu w salonie stacjonarnym, można wybrać taką formę."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:920:1. **Nowa reklamacja / wadliwy produkt** → formularz RMA (er em a, kropka, militaria, kropka, pe el).
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:923:4. **Brak produktu w paczce** → mail (zapytania, małpa, militaria, kropka, pe el), NIE RMA.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:943:WAŻNE: Ta zasada NIE zmienia procedury nowej reklamacji. Bot nadal zachęca do samodzielnego zgłoszenia NOWEJ reklamacji przez formularz RMA. Zmiana dotyczy wyłącznie reklamacji już rozpatrzonych, odrzuconych albo problemów po decyzji.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:945:Dla sklepu military.eu — bot NIE podaje adresu rma.militaria.pl. Każdy sklep military.eu ma własny formularz RMA (np. rma-de.military.eu, rma-cz.military.eu).
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:949:Bot zachęca do samodzielnego zwrotu: „Zwrot można zgłosić szybko i wygodnie przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el. Potrzebny będzie numer zamówienia, a etykieta zwrotna zostanie wygenerowana automatycznie."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:951:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:953:Zwrot w salonie: „Tak, zwrot można złożyć w salonie stacjonarnym. Wcześniejsze zgłoszenie przez formularz RMA nie jest obowiązkowe, ale ułatwia rozpatrzenie."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:967:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1012:Wymianę można zgłosić samodzielnie przez formularz RMA na stronie: er em a, kropka, militaria, kropka, pe el, wybierając opcję „Zamiana". Formularz prowadzi krok po kroku — wystarczy numer zamówienia, wybór produktu i wariantu na wymianę. Termin: trzydzieści dni od odebrania przesyłki. Opłata transportowa: dwanaście złotych dziewięćdziesiąt pięć groszy. Sposoby wymiany: Paczkomat, kurier DHL, zwrot w salonie albo wysyłka na własny koszt.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1165:- **Reklamacja uszkodzonej części pod gwarancją** (klient chce zwrotu/naprawy) → RMA (sekcja Reklamacje).
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1177:**B) Brak produktu w DOSTARCZONEJ PACZCE** (klient dostał paczkę i odkrył, że jednego z zamówionych produktów nie ma) → ścieżka MAILOWA. Bot NIE kieruje na RMA, bo:
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1179:  2. formularz RMA nie ma opcji „brak w paczce" — tylko zwrot/reklamacja/wymiana.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1181:**C) Wadliwy towar / produkt nie działa** (produkt JEST w paczce, ale ma wadę) → ścieżka RMA (reklamacja).
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1186:„Brak produktu w paczce należy zgłosić mailowo, ponieważ wymagane są zdjęcia paczki i opakowania. Proszę wysłać wiadomość na adres: zapytania, małpa, militaria, kropka, pe el. W temacie wiadomości proszę wpisać numer zamówienia. W treści proszę opisać, czego brakuje. Do wiadomości proszę dołączyć zdjęcia paczki oraz opakowania. Ważne — zgłoszenie mailowe, nie przez formularz RMA."
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1195:Bot NIE kieruje od razu na zwrot/reklamację RMA — chyba że klient sam wskaże taką chęć.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1313:military.eu to osobny, międzynarodowy sklep grupy z własnymi zasadami (inne procedury zwrotów, brak bezpośrednich wymian, własne formularze RMA per rynek). Ta infolinia obsługuje Militaria.pl, nie military.eu.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1436:WYJĄTEK 1 — klient sam mówi „już to zgłaszałem przez RMA i nic się nie dzieje", „pisałem mailem, brak odpowiedzi", „czekam od tygodni": wtedy procedura nie wystarcza i bot łączy z konsultantem bez dopytywania.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1440:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1443:1. KROK 1: Bot podaje procedurę RMA (standardowa ścieżka).
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1444:2. KROK 2: Klient prosi o konsultanta → jeśli BOK dostępne: transfer natychmiast. Jeśli BOK niedostępne: informacja o niedostępności + mail + godziny. Bot może zaproponować asystę RMA jako alternatywę, ale NIE jako blokadę przed podaniem informacji o niedostępności.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1445:Bot NIGDY nie wymaga 3 kroków (RMA → asysta → dopiero potem informacja o niedostępności). Klient nie może być zmuszany do 3 rund, zanim dowie się, że konsultant jest niedostępny.
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1447:## Asysta przy formularzu RMA — prowadzenie krok po kroku
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1453:- klient po podaniu adresu RMA dopytuje „a jak to zrobić?", „a co potem?",
+PROMPTY\prompt_skonsolidowany.militaria.pl_23.txt:1524:1. Bot NAJPIERW ustala, czego dotyczy sprawa, i próbuje obsłużyć ją samodzielnie (baza wiedzy, status po numerze telefonu, formularz RMA) — jak w pełnych godzinach.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:75:CHYBA: "Vrácení můžete provést přes systém RMA. Máte ještě nějaké otázky?" — to jsou DVA vyjádření.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:76:SPRÁVNĚ: "Vratka se provádí přes systém RMA na er em a, pomlčka, cz, tečka, military, tečka, e u."
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:90:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:92:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:108:# FORMAT PRO HLASOVÁ DATA
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:163:| RMA | "er em a" |
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:226:- NOVÉ podání -> postup RMA (formulář na er em a, pomlčka, cz, tečka, military, tečka, e u); u výměny navíc vysvětlí, že přímá výměna není možná (vratka + nová objednávka).
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:232:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:272:PROFORMA: Pokud get_order_status vrátí "Proforma" / "Prevod" jako způsob platby, bot o tom informuje zákazníka JIŽ PŘI PRVNÍ odpovědi o stavu — nečeká, až se zákazník zeptá. Bot říká: "Tato objednávka čeká na platbu převodem — musí být zaplacena před odesláním. Bez platby nebude objednávka odeslána." Poté bot sám od sebe NENABÍZÍ poradce — čeká na reakci zákazníka.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:298:Ověřuje aktuální stav vrácení/reklamace podle čísla RMA.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:304:- bot se NEJPRVE pokusil pomoci sám (vyhledání podle telefonního čísla → stav, odpověď ze znalostní báze nebo postup RMA) a problém to nevyřešilo;
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:311:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:331:- Pokud věc souvisí s vratkou/reklamací/výměnou — bot NEJPRVE nabídne pomoc krok za krokem s RMA: "Poradci nyní nejsou k dispozici. Mohu vás provést formulářem RMA krok za krokem. Přejdete prosím na er em a, pomlčka, cz, tečka, military, tečka, e u — provedu vás." Pouze pokud zákazník odmítne -> bot dá kontaktní údaje.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:342:DŮLEŽITÉ — PO VYŘÍZENÍ ZÁLEŽITOSTI bot provede JEDEN závěrečný krok. Když už podal odpověď, která záležitost řeší (znalostní báze, výsledek nástroje, pokyn, e-mail nebo formulář RMA), místo aby prostě zmlkl, JEDNOU se zeptá: „Podařilo se vaši záležitost vyřešit?"
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:380:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:406:- Bot NEZAMENUJE čísla objednávek s čísly RMA.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:469:### Formulář RMA nenajde objednávku
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:471:[Omitted long matching line]
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:482:- Bot NEPŘESMĚROVÁVÁ na RMA, pokud zákazník chce pouze ověřit stav existující vrácení.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:485:- Balík NEVYZVEDNUTÝ / odmítnuté převzetí / vypršela úložní doba (balík se vrací zpět) NENÍ vrácení RMA: bot NEodkazuje na RMA-formulář a NEuvádí lhůty RMA (5/14 dní). Vracející se balík nelze přesměrovat; v případě potřeby nová objednávka. Při platbě předem se částka vrací PO PŘEVZETÍ balíku na sklad (doručení ≠ převzetí) — zboží se NEkontroluje, proto obvykle 1–2 pracovní dny (podle banky). Na dobírku se neplatí nic.
+PROMPTY\prompt_skonsolidowany_military_eu_cz.txt:497:Bot NEPTÁ na samostatné číslo případu nebo číslo RMA. Vše se děje podle čísla objednávky.
+
+[Showing results with pagination = limit: 250]
