@@ -174,40 +174,40 @@ Perspektywa psychologiczna: gdy człowiek przerywa, często walczy o kontrolę n
 | Odpowiedź przed końcem pytania | "Tak" w trakcie pytania | Przyspieszenie | Przyjmij odpowiedź, jeśli kontekst jest jednoznaczny |
 | Przyspieszenie rozmowy | "Dalej", "wiem", "pomiń" | Skracanie | Przejdź do kolejnego kroku lub daj szybką opcję |
 | Zmiana tematu | "A jeszcze chcę zapytać o fakturę" | Nowa intencja | Zapamiętaj aktualny stan, przejdź do nowej intencji albo potwierdź priorytet |
-| Frustracja | "No przecież już mówiłem" | Naprawa i emocja | Skroc, przepros, nie powtarzaj tego samego, rozważ eskalację |
-| Przerwanie z powodu błędu | "To nie jest moj numer" | Krytyczna korekta | Natychmiast zatrzymaj, potwierdz błąd, wroc do punktu korekty |
-| Wymuszenie człowieka | "Polacz mnie z konsultantem" | Handoff | Nie walcz. Jeśli polityka pozwala, eskaluj lub poinformuj o warunkach |
+| Frustracja | "No przecież już mówiłem" | Naprawa i emocja | Skróć, przeproś, nie powtarzaj tego samego, rozważ eskalację |
+| Przerwanie z powodu błędu | "To nie jest mój numer" | Krytyczna korekta | Natychmiast zatrzymaj, potwierdź błąd, wróć do punktu korekty |
+| Wymuszenie człowieka | "Połącz mnie z konsultantem" | Handoff | Nie walcz. Jeśli polityka pozwala, eskaluj lub poinformuj o warunkach |
 | Backchannel | "mhm", "okej" | Słuchanie | Kontynuuj, chyba że kontekst wymaga odpowiedzi |
-| Osoba trzecia | "Powiedz mu, żeby zapytal o raty" | Wpływ innej osoby | Ostrożnie. Ustal, czy mówi główny użytkownik i czy można użyć informacji |
+| Osoba trzecia | "Powiedz mu, żeby zapytał o raty" | Wpływ innej osoby | Ostrożnie. Ustal, czy mówi główny użytkownik i czy można użyć informacji |
 
 ## 1.8. Jak działa technicznie wykrywanie przerwań
 
 ### 1.8.1. Pełny dupleks
 
-System musi słuchać, gdy mówi. Bez tego nie ma prawdziwego barge-in. W half-duplex bot najpierw odtwarza cała wypowiedź, dopiero potem słucha. To może wystarczyc w prostym IVR, ale nie w naturalnym voicebocie.
+System musi słuchać, gdy mówi. Bez tego nie ma prawdziwego barge-in. W half-duplex bot najpierw odtwarza całą wypowiedź, dopiero potem słucha. To może wystarczyć w prostym IVR, ale nie w naturalnym voicebocie.
 
 ### 1.8.2. Acoustic Echo Cancellation
 
-Gdy bot mówi przez głośnik telefonu lub urządzenia, mikrofon może "slyszec" jego własną syntezę. AEC odejmuje znany sygnał odtwarzany przez system od sygnału z mikrofonu. Najtrudniejszy przypadek to double-talk: bot i użytkownik mówią jednocześnie.
+Gdy bot mówi przez głośnik telefonu lub urządzenia, mikrofon może "słyszeć" jego własną syntezę. AEC odejmuje znany sygnał odtwarzany przez system od sygnału z mikrofonu. Najtrudniejszy przypadek to double-talk: bot i użytkownik mówią jednocześnie.
 
-Uzupełnienie eksperckie: w call center przez telefon klasyczny problem echa może być mniejszy niż w smart speakerze, ale nadal istnieja inne źródła fałszywego inputu: hałas, drugi rozmowca, radio, głos konsultanta obok, odtworzone audio, opóźnienia sieciowe.
+Uzupełnienie eksperckie: w call center przez telefon klasyczny problem echa może być mniejszy niż w smart speakerze, ale nadal istnieją inne źródła fałszywego inputu: hałas, drugi rozmówca, radio, głos konsultanta obok, odtworzone audio, opóźnienia sieciowe.
 
 ### 1.8.3. VAD
 
-VAD odpowiada na pytanie: "czy w sygnale jest mowa?". Nie odpowiada na pytanie: "czy użytkownik chce przejąć turę?". Dlatego VAD jest bramka, nie decyzja konwersacyjna.
+VAD odpowiada na pytanie: "czy w sygnale jest mowa?". Nie odpowiada na pytanie: "czy użytkownik chce przejąć turę?". Dlatego VAD jest bramką, nie decyzją konwersacyjną.
 
 ### 1.8.4. Endpointing
 
-Endpointing decyduje, czy użytkownik skończył mówić. Może korzystać z ciszy, interpunkcji ASR, sygnałów modelu STT, semantycznej kompletnosci lub turn detectora. Google Dialogflow CX opisuje end-of-speech sensitivity i smart endpointing, który może czekac, gdy partial input wygląda na niedokonczony. AWS Connect opisuje end-of-turn confidence threshold i silence timeout jako dwa mechanizmy końca tury.
+Endpointing decyduje, czy użytkownik skończył mówić. Może korzystać z ciszy, interpunkcji ASR, sygnałów modelu STT, semantycznej kompletności lub turn detectora. Google Dialogflow CX opisuje end-of-speech sensitivity i smart endpointing, który może czekać, gdy partial input wygląda na niedokończony. AWS Connect opisuje end-of-turn confidence threshold i silence timeout jako dwa mechanizmy końca tury.
 
 ### 1.8.5. ASR partials
 
-Streaming ASR dostarcza czesciowe hipotezy. Są one cenne, bo można szybciej wykryć "stop", "nie", "konsultant", "czekaj", "zmień". Są też ryzykowne, bo partial może się zmienić.
+Streaming ASR dostarcza częściowe hipotezy. Są one cenne, bo można szybciej wykryć "stop", "nie", "konsultant", "czekaj", "zmień". Są też ryzykowne, bo partial może się zmienić.
 
 Praktyczna zasada:
 
-- Dla komend krytycznych typu "stop", "anuluj", "konsultant" można reagowac szybciej.
-- Dla danych transakcyjnych trzeba poczekac na stabilizacje, bo błąd może kosztowac więcej niż 300 ms opóźnienia.
+- Dla komend krytycznych typu "stop", "anuluj", "konsultant" można reagować szybciej.
+- Dla danych transakcyjnych trzeba poczekać na stabilizację, bo błąd może kosztować więcej niż 300 ms opóźnienia.
 
 ### 1.8.6. Model-based turn detection
 
@@ -215,7 +215,7 @@ Model-based turn detection próbuje ocenić, czy wypowiedź jest kompletną i cz
 
 ### 1.8.7. Klasyfikacja intencji przerwania
 
-Po wykryciu przerwania system musi sklasyfikowac jego typ. Minimalny model decyzyjny:
+Po wykryciu przerwania system musi sklasyfikować jego typ. Minimalny model decyzyjny:
 
 1. Czy to mowa użytkownika?
 2. Czy to prawdziwe przejęcie tury?
@@ -232,33 +232,33 @@ Dobre barge-in zatrzymuje nie tylko dźwięk. Jeśli system generuje wypowiedź 
 
 1. Odtwarzanie audio.
 2. Bufor TTS.
-3. Trwajaca generacje LLM.
+3. Trwającą generację LLM.
 4. Plan odpowiedzi, który stał się nieaktualny.
 
-OpenAI Realtime docs wskazują, że przy WebRTC i SIP serwer zarzadza buforem audio i może automatycznie ucinac nieodtworzone audio przy przerwaniu, natomiast przy WebSocket klient musi sam zatrzymać playback i obsłużyć truncation. To jest praktycznie ważne: architektura połączenia zmienia odpowiedzialność za przerwanie.
+OpenAI Realtime docs wskazują, że przy WebRTC i SIP serwer zarządza buforem audio i może automatycznie ucinać nieodtworzone audio przy przerwaniu, natomiast przy WebSocket klient musi sam zatrzymać playback i obsłużyć truncation. To jest praktycznie ważne: architektura połączenia zmienia odpowiedzialność za przerwanie.
 
 ## 1.9. Projektowanie barge-in dla różnych typów wypowiedzi
 
 | Typ wypowiedzi bota | Polityka barge-in | Uzasadnienie |
 |---|---|---|
-| Informacyjna | Włączony, z filtrem backchannel | Użytkownik może znac odpowiedź lub chciec skrócić |
-| Transakcyjna | Włączony, ale zalezne od kroku | Korekty są częste i cenne; przy finalnym potwierdzeniu ostrozniej |
+| Informacyjna | Włączony, z filtrem backchannel | Użytkownik może znać odpowiedź lub chcieć skrócić |
+| Transakcyjna | Włączony, ale zależne od kroku | Korekty są częste i cenne; przy finalnym potwierdzeniu ostrożniej |
 | Sprzedażowa | Włączony | Brak możliwości przerwania brzmi jak presja |
 | Windykacyjna | Włączony plus szybka eskalacja w emocjach | Wysokie ryzyko frustracji, sporu i compliance |
-| Reklamacyjna | Włączony | Użytkownik często chce doprecyzowac lub skorygowac |
-| Medyczna | Włączony ostrożnie, z priorytetem bezpieczeństwa | Przerwania mogą sygnalizować pilnosc lub błąd |
-| Awaryjna | Włączony dla krytycznych słów; krótkie tury | System nie może monologowac |
-| Disclaimer prawny | Ograniczony lub wyłączony, zalezne od wymogu | Czasem pełny komunikat musi być odtworzony, ale warto projektować go krótko |
+| Reklamacyjna | Włączony | Użytkownik często chce doprecyzować lub skorygować |
+| Medyczna | Włączony ostrożnie, z priorytetem bezpieczeństwa | Przerwania mogą sygnalizować pilność lub błąd |
+| Awaryjna | Włączony dla krytycznych słów; krótkie tury | System nie może monologować |
+| Disclaimer prawny | Ograniczony lub wyłączony, zależne od wymogu | Czasem pełny komunikat musi być odtworzony, ale warto projektować go krótko |
 | Płatność/autoryzacja | Selektywny | Trzeba unikać fałszywych przerwań i utraty danych |
 
-## 1.10. Kiedy barge-in włączyć, ograniczyc lub wyłączyć
+## 1.10. Kiedy barge-in włączyć, ograniczyć lub wyłączyć
 
-### Wlacz, gdy:
+### Włącz, gdy:
 
-- użytkownik może znac odpowiedź przed końcem pytania;
-- bot odczytuje dłuższa informacje;
+- użytkownik może znać odpowiedź przed końcem pytania;
+- bot odczytuje dłuższą informację;
 - użytkownik może poprawić dane;
-- rozmową dotyczy reklamacji, wsparcia, rezerwacji, statusu sprawy;
+- rozmowa dotyczy reklamacji, wsparcia, rezerwacji, statusu sprawy;
 - użytkownik może poprosić o człowieka;
 - komunikat ma charakter operacyjny, a nie prawnie wymagany.
 
@@ -269,51 +269,51 @@ OpenAI Realtime docs wskazują, że przy WebRTC i SIP serwer zarzadza buforem au
 - mówią osoby trzecie w tle;
 - user input może być przypadkowym dźwiękiem;
 - użytkownik jest w hałaśliwym otoczeniu;
-- wypowiedź bota zawiera krytyczne ostrzezenie, ale nie musi być formalnie odtworzone w całości.
+- wypowiedź bota zawiera krytyczne ostrzeżenie, ale nie musi być formalnie odtworzone w całości.
 
-### Wylacz albo zaprojektuj jako nieprzerywalne, gdy:
+### Wyłącz albo zaprojektuj jako nieprzerywalne, gdy:
 
 - przepis wymaga odtworzenia całego disclaimeru;
 - trwa finalne odczytanie regulaminowo wymaganej informacji;
-- system musi przekazać ostrzezenie bezpieczeństwa;
-- wylaczenie jest uzasadnione i udokumentowane.
+- system musi przekazać ostrzeżenie bezpieczeństwa;
+- wyłączenie jest uzasadnione i udokumentowane.
 
 Uwaga praktyczna:
 
-Nie wylaczaj barge-in globalnie, żeby ukryc problemy VAD. To poprawia demo, ale pogarsza prawdziwe rozmowy. AWS Connect wprost wskazuje jako błąd globalne wylaczanie barge-in, zamiast ograniczania go tylko w konkretnych promptach.
+Nie wyłączaj barge-in globalnie, żeby ukryć problemy VAD. To poprawia demo, ale pogarsza prawdziwe rozmowy. AWS Connect wprost wskazuje jako błąd globalne wyłączanie barge-in, zamiast ograniczania go tylko w konkretnych promptach.
 
 ## 1.11. Projektowanie komunikatów odpornych na przerwania
 
 Komunikat odporny na przerwania:
 
-1. Ma najwazniejsza informacje na początku.
+1. Ma najważniejszą informację na początku.
 2. Jest krótki.
 3. Zawiera jedno pytanie naraz.
 4. Nie łączy instrukcji, informacji i pytania w jednym długim bloku.
-5. Pozwala użytkownikowi odpowiedzieć wczesnie.
+5. Pozwala użytkownikowi odpowiedzieć wcześnie.
 6. Ma sens, nawet jeśli zostanie przerwany po pierwszej frazie.
-7. Nie wymaga od użytkownika zapamiętania listy pieciu opcji.
+7. Nie wymaga od użytkownika zapamiętania listy pięciu opcji.
 
 Zły komunikat:
 
-"Za chwile przedstawie dostępne możliwości dotyczące pana zamówienia, w tym zmianę terminu, zmianę adresu, anulowanie, kontakt z kurierem albo rozmowę z konsultantem, dlatego proszę wysłuchać wszystkich opcji i powiedzieć, która z nich pana interesuje."
+"Za chwilę przedstawię dostępne możliwości dotyczące pana zamówienia, w tym zmianę terminu, zmianę adresu, anulowanie, kontakt z kurierem albo rozmowę z konsultantem, dlatego proszę wysłuchać wszystkich opcji i powiedzieć, która z nich pana interesuje."
 
 Lepszy komunikat:
 
-"Mogę pomóc że zmiana terminu, adresem albo anulowaniem. Co chce pan zrobić?"
+"Mogę pomóc ze zmianą terminu, adresem albo anulowaniem. Co chce pan zrobić?"
 
-## 1.12. Jak zmniejszać potrzebe przerywania
+## 1.12. Jak zmniejszać potrzebę przerywania
 
 Użytkownicy przerywają często dlatego, że system:
 
 - mówi za długo;
-- pyta o rzecz, która użytkownik już podal;
-- idzie nie ta ścieżka;
+- pyta o rzecz, którą użytkownik już podał;
+- idzie nie tą ścieżką;
 - nie daje opcji "człowiek";
 - brzmi jak IVR;
 - nie potwierdza zrozumienia;
 - ukrywa ograniczenia;
-- zmusza do wysluchania listy.
+- zmusza do wysłuchania listy.
 
 Żeby użytkownicy rzadziej przerywali botowi, nie wystarczy lepiej wykrywać przerwania — przede wszystkim trzeba tak zaprojektować rozmowę, żeby klient nie miał powodu przerywać.
 
@@ -321,16 +321,16 @@ Użytkownicy przerywają często dlatego, że system:
 
 | Metryka | Definicja | Jak interpretować |
 |---|---|---|
-| Interruption rate | Odsetek tur bota przerwanych przez użytkownika | Wysoki wynik może oznaczać skuteczna kontrolę albo zbyt długie prompt'y |
+| Interruption rate | Odsetek tur bota przerwanych przez użytkownika | Wysoki wynik może oznaczać skuteczną kontrolę albo zbyt długie prompt'y |
 | False barge-in rate | Przerwania wywołane szumem/backchannel/echo | Wysoki wynik sugeruje problem VAD/AEC/adaptive handling |
 | Missed barge-in rate | Realne przerwania, których bot nie obsłużył | Wysoki wynik niszczy zaufanie i zwiększa eskalację |
-| Barge-in recovery success | Odsetek przerwań zakonczonych poprawna kontynuacja | Najwazniejsza metryka konwersacyjna |
-| Latency to stop TTS | Czas od startu przerwania do zatrzymania audio | Powyzej kilkuset ms system zaczyna brzmieć jak ignorujacy |
-| Turn detection accuracy | Jak często system poprawnie rozpoznaje koniec tury | Wpływa na ucinanie i martwa ciszę |
-| User repeat rate | Jak często użytkownik powtarza po przerwaniu | Wysoki wynik oznacza utrate inputu albo brak potwierdzenia |
-| Frustration escalation rate | Eskalację po przerwaniach lub no-match | Wskazuje, czy przerwania są problemem UX |
+| Barge-in recovery success | Odsetek przerwań zakończonych poprawną kontynuacją | Najważniejsza metryka konwersacyjna |
+| Latency to stop TTS | Czas od startu przerwania do zatrzymania audio | Powyżej kilkuset ms system zaczyna brzmieć jak ignorujący |
+| Turn detection accuracy | Jak często system poprawnie rozpoznaje koniec tury | Wpływa na ucinanie i martwą ciszę |
+| User repeat rate | Jak często użytkownik powtarza po przerwaniu | Wysoki wynik oznacza utratę inputu albo brak potwierdzenia |
+| Frustration escalation rate | Eskalacje po przerwaniach lub no-match | Wskazuje, czy przerwania są problemem UX |
 | Backchannel suppression accuracy | Jak dobrze system ignoruje "mhm", "okej" | Ważne w dłuższych odpowiedziach |
-| Context preservation after interruption | Czy system zachowal stan po przerwaniu | Kluczowe w procesach transakcyjnych |
+| Context preservation after interruption | Czy system zachował stan po przerwaniu | Kluczowe w procesach transakcyjnych |
 
 ## 1.14. Checklista projektowa barge-in
 
@@ -338,28 +338,28 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 - Czy wiemy, w których promptach barge-in jest włączony, ograniczony lub wyłączony?
 - Czy każdy długi komunikat został skrócony albo podzielony?
-- Czy komunikat ma najwazniejsza informacje na początku?
+- Czy komunikat ma najważniejszą informację na początku?
 - Czy system umie obsłużyć "nie", "czekaj", "stop", "konsultant", "zmień", "to nie tak"?
 - Czy backchannele nie zatrzymują bota bez potrzeby?
 - Czy przerwanie korekcyjne wraca do konkretnego slotu, a nie do początku flow?
 - Czy przerwanie emocjonalne może uruchomić skrócenie rozmowy lub eskalację?
-- Czy prompt prawny ma uzasadniona politykę nieprzerywalnosci?
+- Czy prompt prawny ma uzasadnioną politykę nieprzerywalności?
 - Czy przerwania są opisane w scenariuszu dialogowym?
-- Czy handoff przekazuje informacje, że użytkownik probowal przerwać lub eskalować?
+- Czy handoff przekazuje informacje, że użytkownik próbował przerwać lub eskalować?
 
 ## 1.15. Checklista techniczna
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
 - Czy kanał wspiera pełny dupleks?
-- Czy mikrofon/słuchawka/telefonia nie generuja fałszywego echa?
+- Czy mikrofon/słuchawka/telefonia nie generują fałszywego echa?
 - Czy jest AEC lub równoważny mechanizm dla danego kanału?
 - Czy VAD jest strojony na realne warunki akustyczne?
 - Czy ASR dostarcza partials i timestampy?
-- Czy system ma endpointing zalezne od kontekstu?
+- Czy system ma endpointing zależny od kontekstu?
 - Czy turn detector rozróżnia krótkie odpowiedzi, długie dyktowanie i otwarte opisy?
 - Czy TTS można zatrzymać natychmiast?
-- Czy generacje LLM można anulowac?
+- Czy generację LLM można anulować?
 - Czy stan dialogu jest stabilny po anulowaniu odpowiedzi?
 - Czy logujemy moment startu przerwania, moment zatrzymania TTS i wynik recovery?
 - Czy mamy oznaczenia true interruption, false interruption, backchannel, noise, third-party speech?
@@ -373,11 +373,11 @@ Testy muszą obejmować:
 - Użytkownik mówi "konsultant" w trakcie monologu.
 - Użytkownik mówi "mhm" w trakcie informacji.
 - Użytkownik kaszle w trakcie TTS.
-- W tle słychać druga osobe.
+- W tle słychać drugą osobę.
 - Użytkownik dyktuje numer z pauzami.
-- Użytkownik poprawia jedna cyfre.
+- Użytkownik poprawia jedną cyfrę.
 - Użytkownik zmienia temat.
-- Użytkownik reaguje zloscia.
+- Użytkownik reaguje złością.
 - Użytkownik przerywa disclaimer.
 - Użytkownik przerywa finalne potwierdzenie płatności.
 - Użytkownik przerywa po polsku z akcentem/regionalizmem.
@@ -386,46 +386,46 @@ Testy muszą obejmować:
 
 ## 1.17. Przykłady dialogów
 
-### Źle obsluzone przerwanie
+### Źle obsłużone przerwanie
 
-Bot: "Podsumuje zamówienie. Wybrał pan dostawę na piatek, adres ulica Lesna 14, płatność karta..."  
+Bot: "Podsumuję zamówienie. Wybrał pan dostawę na piątek, adres ulica Leśna 14, płatność kartą..."  
 Użytkownik: "Nie, adres jest inny."  
-Bot: "...oraz dostawe między 12:00 a 14:00. Czy potwierdza pan zamówienie?"  
+Bot: "...oraz dostawę między 12:00 a 14:00. Czy potwierdza pan zamówienie?"  
 Użytkownik: "Nie, mówię, że adres jest inny!"  
 
 Analiza: bot ignoruje korektę, kontynuuje TTS i doprowadza do frustracji. Problem może być techniczny (brak barge-in), projektowy (długi prompt), albo dialogowy (brak recovery).
 
-### Dobrze obsluzone przerwanie
+### Dobrze obsłużone przerwanie
 
-Bot: "Podsumuje zamówienie. Dostawa na piatek, adres ulica Lesna..."  
+Bot: "Podsumuję zamówienie. Dostawa na piątek, adres ulica Leśna..."  
 Użytkownik: "Nie, adres jest inny."  
-Bot: "Dobrze, poprawmy adres. Jaki adres mam wpisac?"  
+Bot: "Dobrze, poprawmy adres. Jaki adres mam wpisać?"  
 Użytkownik: "Kwiatowa 8 mieszkania 12."  
 Bot: "Zmieniam na Kwiatowa 8 mieszkania 12. Czy się zgadza?"  
 
-Analiza: bot zatrzymal wypowiedź, rozpoznal korektę, zachowal kontekst zamówienia i wrocil do konkretnego slotu.
+Analiza: bot zatrzymał wypowiedź, rozpoznał korektę, zachował kontekst zamówienia i wrócił do konkretnego slotu.
 
 ### Backchannel, który nie powinien zatrzymać bota
 
 Bot: "Reklamację można złożyć telefonicznie albo przez formularz..."  
 Użytkownik: "Mhm."  
-Bot: "...telefonicznie przyjmę ją teraz, a formularz wyślemy SMS-em. Która opcję pan wybiera?"  
+Bot: "...telefonicznie przyjmę ją teraz, a formularz wyślemy SMS-em. Którą opcję pan wybiera?"  
 
-Analiza: "mhm" nie przejmuje tury. Dobre adaptive interruption handling powinno pozwolic botowi kontynuowac.
+Analiza: "mhm" nie przejmuje tury. Dobre adaptive interruption handling powinno pozwolić botowi kontynuować.
 
 ### Przerwanie eskalacyjne
 
-Bot: "Mogę pomóc sprawdzić status sprawy albo przyjac dodatkowe informacje..."  
-Użytkownik: "Chce rozmawiać z człowiekiem."  
-Bot: "Rozumiem. Połączę z konsultantem i przekaze, że chodzi o status sprawy. Proszę zostać na linii."  
+Bot: "Mogę pomóc sprawdzić status sprawy albo przyjąć dodatkowe informacje..."  
+Użytkownik: "Chcę rozmawiać z człowiekiem."  
+Bot: "Rozumiem. Połączę z konsultantem i przekażę, że chodzi o status sprawy. Proszę zostać na linii."  
 
-Analiza: w sytuacji jasnej eskalacji bot nie powinien próbować na sile zatrzymać użytkownika w automatyzacji.
+Analiza: w sytuacji jasnej eskalacji bot nie powinien próbować na siłę zatrzymać użytkownika w automatyzacji.
 
 ## 1.18. Mini case studies
 
 ### Case 1: E-commerce, zmiana adresu
 
-Problem: użytkownicy przerywają podsumowanie zamówienia, bo chca poprawić adres.  
+Problem: użytkownicy przerywają podsumowanie zamówienia, bo chcą poprawić adres.  
 Błąd: system nie zachowuje stanu po przerwaniu i wraca do początku.  
 Rozwiązanie: barge-in włączony dla podsumowania, klasyfikacja "correction", recovery do slotu "delivery_address".  
 Metryki: interruption rate w podsumowaniu, recovery success, repeat rate, completion rate.
@@ -433,31 +433,31 @@ Metryki: interruption rate w podsumowaniu, recovery success, repeat rate, comple
 ### Case 2: Bank, dyktowanie numeru
 
 Problem: bot ucina użytkownika podczas podawania numeru klienta partiami.  
-Błąd: zbyt agresywny endpointing i za niski prog końca tury.  
+Błąd: zbyt agresywny endpointing i za niski próg końca tury.  
 Rozwiązanie: konserwatywne end-of-turn dla slotu numeru, potwierdzanie grupami, możliwość korekty ostatniej grupy.  
 Metryki: digit correction rate, ASR confidence, failed verification rate.
 
 ### Case 3: Reklamacja, frustracja
 
-Problem: użytkownik mówi "już to podawalem", bot powtarza to samo pytanie.  
+Problem: użytkownik mówi "już to podawałem", bot powtarza to samo pytanie.  
 Błąd: fallback bez pamięci i bez reakcji emocjonalnej.  
-Rozwiązanie: wykrywanie przerwania frustracyjnego, skrocona naprawa, eskalacja po drugim nieudanym kroku.  
+Rozwiązanie: wykrywanie przerwania frustracyjnego, skrócona naprawa, eskalacja po drugim nieudanym kroku.  
 Metryki: frustration escalation rate, no-match after interruption, CSAT after handoff.
 
 ## 1.19. Jak myśli ekspert projektujący barge-in
 
 Ekspert nie pyta najpierw: "Czy platforma ma barge-in?". Pyta:
 
-1. W których momentach użytkownik będzie chcial przerwać?
+1. W których momentach użytkownik będzie chciał przerwać?
 2. Czy przerwanie oznacza korektę, przyspieszenie, sprzeciw, frustrację, zmianę celu czy eskalację?
 3. Czy prompt jest tak długi, że sam prowokuje przerwania?
-4. Czy system ma techniczna możliwość zatrzymania TTS i generacji?
+4. Czy system ma techniczną możliwość zatrzymania TTS i generacji?
 5. Czy po przerwaniu zachowujemy stan procesu?
 6. Czy umiemy odróżnić "mhm" od "nie"?
 7. Czy w danym kroku bardziej ryzykujemy fałszywe przerwanie, czy ignorowanie użytkownika?
-8. Czy mamy metryki pokazujace, jak działają przerwania w produkcji?
-9. Czy konsultant po handoff widzi, co użytkownik probowal zrobić?
-10. Czy barge-in poprawia poczucie kontroli, czy tylko dodaje losowosc?
+8. Czy mamy metryki pokazujące, jak działają przerwania w produkcji?
+9. Czy konsultant po handoff widzi, co użytkownik próbował zrobić?
+10. Czy barge-in poprawia poczucie kontroli, czy tylko dodaje losowość?
 
 ## 1.20. Źródła wspierające rozdział
 
@@ -487,9 +487,9 @@ Najważniejsze źródła techniczne i dokumentacyjne:
 
 # 6. Co powinno znaleźć się w kolejnej części
 
-Kolejna część powinna rozpoczac pełne opracowanie rozdziałów podręcznika wedlug stalej struktury: cele rozdziału, kluczowe pojęcia, wyjaśnienie eksperckie, perspektywa biznesowa, perspektywa użytkownika, perspektywa technologiczna, dobre praktyki, typowe błędy, checklisty, mini case study, cwiczenia i podsumowanie.
+Kolejna część powinna rozpocząć pełne opracowanie rozdziałów podręcznika według stałej struktury: cele rozdziału, kluczowe pojęcia, wyjaśnienie eksperckie, perspektywa biznesowa, perspektywa użytkownika, perspektywa technologiczna, dobre praktyki, typowe błędy, checklisty, mini case study, ćwiczenia i podsumowanie.
 
-Rekomendowana kolejnosc kolejnej części:
+Rekomendowana kolejność kolejnej części:
 
 1. Część I, rozdziały 1-7: Fundamenty Conversational AI i voicebotów.
 2. Część II, rozdziały 1-4: Telefonia, streaming audio, ASR i NLU.

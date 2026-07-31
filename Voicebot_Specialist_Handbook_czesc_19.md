@@ -16,15 +16,15 @@ Voicebot działa w kanale, który jest silnie emocjonalny, sekwencyjny i społec
 
 # 1. Psychologia rozmowy głosowej
 
-Głos jest bardziej bezposredni niż tekst. Tempo, pauza, intonacja i dobor słów są interpretowane jako sygnały kompetencji, uwagi, uprzejmosci lub ignorowania. Voicebot, który odpowiada zbyt wolno, może brzmieć jak uszkodzony. Voicebot, który odpowiada zbyt szybko po zlozonej wypowiedzi, może brzmieć jak niesluchajacy.
+Głos jest bardziej bezpośredni niż tekst. Tempo, pauza, intonacja i dobór słów są interpretowane jako sygnały kompetencji, uwagi, uprzejmości lub ignorowania. Voicebot, który odpowiada zbyt wolno, może brzmieć jak uszkodzony. Voicebot, który odpowiada zbyt szybko po złożonej wypowiedzi, może brzmieć jak niesłuchający.
 
 ## Zasady
 
 - Projektuj tempo do sytuacji.
-- Nie tworz długich monologow.
+- Nie twórz długich monologów.
 - Używaj pauz przy danych.
 - Nie udawaj ludzkiej empatii.
-- Kompetencja jest wazniejsza niż "cieply charakter".
+- Kompetencja jest ważniejsza niż "ciepły charakter".
 
 ---
 
@@ -50,11 +50,11 @@ To zmniejsza niepewność i ustawia granice.
 
 # 3. Zaufanie, kontrola i poczucie bezpieczeństwa
 
-Zaufanie do voicebota ma dwa wymiary. Pierwszy to kompetencja: czy system rozumie sprawę, odpowiada trafnie i prowadzi do wyniku. Drugi to integralnosc: czy system jest uczciwy, przewidywalny i nie ukrywa ograniczeń. Naturalny głos może poprawić pierwsze wrazenie, ale nie zastapi kompetencji. Jeśli bot brzmi bardzo ludzko, a potem nie rozumie prostej korekty, spadek zaufania jest silniejszy niż przy skromniejszym, ale jasnym systemie.
+Zaufanie do voicebota ma dwa wymiary. Pierwszy to kompetencja: czy system rozumie sprawę, odpowiada trafnie i prowadzi do wyniku. Drugi to integralność: czy system jest uczciwy, przewidywalny i nie ukrywa ograniczeń. Naturalny głos może poprawić pierwsze wrażenie, ale nie zastąpi kompetencji. Jeśli bot brzmi bardzo ludzko, a potem nie rozumie prostej korekty, spadek zaufania jest silniejszy niż przy skromniejszym, ale jasnym systemie.
 
-W praktyce voicebot powinien budowac zaufanie przez działanie: szybko rozpoznać temat, jasno powiedzieć, co potrafi, potwierdzić dane krytyczne i bez oporu przekazać rozmowę człowiekowi. To jest bardziej wiarygodne niż rozbudowana persona albo zbyt cieple deklaracje.
+W praktyce voicebot powinien budować zaufanie przez działanie: szybko rozpoznać temat, jasno powiedzieć, co potrafi, potwierdzić dane krytyczne i bez oporu przekazać rozmowę człowiekowi. To jest bardziej wiarygodne niż rozbudowana persona albo zbyt ciepłe deklaracje.
 
-Zaufanie buduja:
+Zaufanie budują:
 
 - transparentność;
 - szybka reakcja;
@@ -64,10 +64,10 @@ Zaufanie buduja:
 - brak przesadnej pewności;
 - konsekwentny ton.
 
-Zaufanie niszcza:
+Zaufanie niszczą:
 
 - ignorowanie przerwań;
-- petle fallbackow;
+- pętle fallbacków;
 - brak konsultanta;
 - udawanie człowieka;
 - halucynacje;
@@ -76,17 +76,17 @@ Zaufanie niszcza:
 
 Przykład skalibrowanego zaufania:
 
-"Mogę sprawdzić status przesyłki i zmienić termin dostawy. Nie podejme decyzji reklamacyjnej automatycznie; w takiej sprawie połączę z konsultantem."
+"Mogę sprawdzić status przesyłki i zmienić termin dostawy. Nie podejmę decyzji reklamacyjnej automatycznie; w takiej sprawie połączę z konsultantem."
 
-Taki komunikat nie oslabia bota. Przeciwnie, ustawia uczciwe granice i zmniejsza ryzyko rozczarowania.
+Taki komunikat nie osłabia bota. Przeciwnie, ustawia uczciwe granice i zmniejsza ryzyko rozczarowania.
 
 ---
 
 # 4. Obciążenie poznawcze
 
-W głosie użytkownik nie widzi listy opcji. Musi ja utrzymać w pamięci. Dlatego:
+W głosie użytkownik nie widzi listy opcji. Musi ją utrzymać w pamięci. Dlatego:
 
-- maksymalnie 2-3 opcję;
+- maksymalnie 2-3 opcje;
 - jedno pytanie naraz;
 - krótkie zdania;
 - informacje porcjowane;
@@ -95,7 +95,7 @@ W głosie użytkownik nie widzi listy opcji. Musi ja utrzymać w pamięci. Dlate
 
 Przykład:
 
-Źle: "Może pan wybrać zmianę adresu, terminu, anulowanie, zwrot, fakture, reklamację albo konsultanta."  
+Źle: "Może pan wybrać zmianę adresu, terminu, anulowanie, zwrot, fakturę, reklamację albo konsultanta."  
 Lepiej: "W czym mogę pomóc przy zamówieniu?"
 
 ---
@@ -104,18 +104,18 @@ Lepiej: "W czym mogę pomóc przy zamówieniu?"
 
 Typowe emocje:
 
-- pospiech;
+- pośpiech;
 - irytacja;
 - niepewność;
 - wstyd;
-- lek;
+- lęk;
 - bezradność;
-- zlosc.
+- złość.
 
-Bot powinien reagowac przez działanie, nie przez teatralna empatię.
+Bot powinien reagować przez działanie, nie przez teatralną empatię.
 
 Źle: "Doskonale rozumiem pana frustrację."  
-Lepiej: "Skroce rozmowę. Połączę z konsultantem i przekaze, co już pan podal."
+Lepiej: "Skrócę rozmowę. Połączę z konsultantem i przekażę, co już pan podał."
 
 ---
 
@@ -128,21 +128,21 @@ Najbardziej frustrujące nie jest pojedyncze niezrozumienie, ale brak postępu. 
 - Nie obwiniaj.
 - Powiedz, czego brakuje.
 - Napraw najmniejszy fragment.
-- Zmień strategie po drugim błędzie.
-- Daj alternatywe.
+- Zmień strategię po drugim błędzie.
+- Daj alternatywę.
 
 Przykład:
 
-"Nie mam pewności, czy ostatnia cyfra to osiem czy dziewiec. Proszę powtórzyć tylko ostatnia cyfre."
+"Nie mam pewności, czy ostatnia cyfra to osiem czy dziewięć. Proszę powtórzyć tylko ostatnią cyfrę."
 
 ---
 
-# 7. Perswazja, decyzję i wpływ społeczny
+# 7. Perswazja, decyzje i wpływ społeczny
 
-Voicebot sprzedażowy, windykacyjny lub ankietowy może wywierac presje. Etyczna perswazja:
+Voicebot sprzedażowy, windykacyjny lub ankietowy może wywierać presję. Etyczna perswazja:
 
 - informuje;
-- pyta o zgode;
+- pyta o zgodę;
 - daje łatwe "nie";
 - nie ukrywa opcji;
 - nie manipuluje strachem;
@@ -152,7 +152,7 @@ Ryzykowne efekty:
 
 - efekt autorytetu;
 - domyslna opcja;
-- efekt pilnosci;
+- efekt pilności;
 - efekt straty;
 - presja sekwencyjna.
 
@@ -160,7 +160,7 @@ Ryzykowne efekty:
 
 # 8. Antropomorfizacja voicebota
 
-Ludzie przypisuja głosom intencje i emocje. Antropomorfizacja może pomagać w plynnej interakcji, ale szkodzi, gdy bot udaje człowieka, obiecuje zrozumienie lub tworzy fałszywa empatię.
+Ludzie przypisują głosom intencje i emocje. Antropomorfizacja może pomagać w płynnej interakcji, ale szkodzi, gdy bot udaje człowieka, obiecuje zrozumienie lub tworzy fałszywą empatię.
 
 Najbezpieczniejsza zasada brzmi: bot może mieć styl, ale nie powinien mieć fikcyjnego życia. Może być spokojny, uprzejmy i konsekwentny. Nie musi mówić, że "cieszy się", "martwi" albo "doskonale rozumie", jeżeli za tym nie idzie realna zdolność pomocy. W obsłudze klienta nadmierna ludzkość często podnosi oczekiwania wobec systemu. Użytkownik zaczyna zakładać, że bot rozumie kontekst tak jak konsultant, a potem szybciej się irytuje.
 
@@ -168,24 +168,24 @@ Najbezpieczniejsza zasada brzmi: bot może mieć styl, ale nie powinien mieć fi
 
 - Persona jako rola, nie fikcyjny człowiek.
 - Transparentność.
-- Brak udawania uczuc.
-- Kompetencja zamiast "osobowosci".
+- Brak udawania uczuć.
+- Kompetencja zamiast "osobowości".
 
 ## Backchannel i sygnały słuchania
 
-Backchannel to krótki sygnał, że rozmowca słucha, np. "mhm", "rozumiem", "dobrze". W voicebotach LLM backchannel może zwiększać naturalność rozmowy, ale trzeba używać go ostrożnie. Jeśli bot mówi "rozumiem" po każdej wypowiedzi, zaczyna brzmieć mechanicznie. Jeśli używa backchannelu w chwili, gdy użytkownik nadal mówi, może wejść w słowo.
+Backchannel to krótki sygnał, że rozmówca słucha, np. "mhm", "rozumiem", "dobrze". W voicebotach LLM backchannel może zwiększać naturalność rozmowy, ale trzeba używać go ostrożnie. Jeśli bot mówi "rozumiem" po każdej wypowiedzi, zaczyna brzmieć mechanicznie. Jeśli używa backchannelu w chwili, gdy użytkownik nadal mówi, może wejść w słowo.
 
 Dobre użycie:
 
-- przy dluzszym podawaniu danych;
-- gdy użytkownik robi pauze, ale nie zakonczyl myśli;
+- przy dłuższym podawaniu danych;
+- gdy użytkownik robi pauzę, ale nie zakończył myśli;
 - gdy bot potrzebuje chwili na sprawdzenie informacji;
-- w rozmowąch opiekunczych lub senioralnych, gdzie ważne jest poczucie bycia wysluchanym.
+- w rozmowach opiekuńczych lub senioralnych, gdzie ważne jest poczucie bycia wysłuchanym.
 
 Ryzykowne użycie:
 
 - w procesach transakcyjnych wysokiego ryzyka;
-- podczas odczytywania numerow, dat i kwot;
+- podczas odczytywania numerów, dat i kwot;
 - jako zamiennik realnego zrozumienia;
 - zbyt często, bez związku z treścią wypowiedzi.
 
@@ -200,11 +200,11 @@ Dobry język voicebota:
 - uprzejmy;
 - bez żargonu;
 - bez długich zdań;
-- z najwazniejsza informacja na początku;
+- z najważniejszą informacją na początku;
 - z pozytywnym, ale nie manipulacyjnym ramowaniem.
 
 Źle: "Niestety niepoprawnie podano dane."  
-Lepiej: "Nie mam pewności, czy dobrze uslyszalem. Proszę podac numer jeszcze raz, po trzy cyfry."
+Lepiej: "Nie mam pewności, czy dobrze usłyszałem. Proszę podać numer jeszcze raz, po trzy cyfry."
 
 ---
 
@@ -241,14 +241,14 @@ Lepiej: "Nie mam pewności, czy dobrze uslyszalem. Proszę podac numer jeszcze r
 
 # 11. Psychologia zaufania do AI
 
-Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potrafi. Voicebot powinien unikać dwóch skrajnosci:
+Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potrafi. Voicebot powinien unikać dwóch skrajności:
 
 - nadmiernej pewności;
-- zbyt czestego bezradnego fallbacku.
+- zbyt częstego bezradnego fallbacku.
 
 ## Jak mówić "nie wiem"
 
-"Nie mam wystarczajacych danych, żeby to ocenić. Mogę sprawdzić status sprawy albo połączyć z konsultantem."
+"Nie mam wystarczających danych, żeby to ocenić. Mogę sprawdzić status sprawy albo połączyć z konsultantem."
 
 ---
 
@@ -261,7 +261,7 @@ Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potra
 | Customer effort | Wysiłek użytkownika |
 | Repeat rate | Powtarzanie informacji |
 | Interruption rate | Przerywanie bota |
-| Emotional escalation | Wzrost napiecia |
+| Emotional escalation | Wzrost napięcia |
 | Trust score | Ocena zaufania |
 | Helpful resolution | Subiektywna pomocność |
 
@@ -284,11 +284,11 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 | Emocja | Sygnał | Reakcja bota |
 |---|---|---|
-| Pospiech | "szybko" | Skroc i przejdź do celu |
+| Pośpiech | "szybko" | Skróć i przejdź do celu |
 | Irytacja | "już mówiłem" | Nie powtarzaj, uznaj i napraw |
-| Lek | pytania o konsekwencje | Wyjasnij spokojnie, bez przesady |
-| Zlosc | agresja | Skroc i eskaluj |
-| Niepewność | cisza, "nie wiem" | Podaj przykład lub alternatywe |
+| Lęk | pytania o konsekwencje | Wyjaśnij spokojnie, bez przesady |
+| Złość | agresja | Skróć i eskaluj |
+| Niepewność | cisza, "nie wiem" | Podaj przykład lub alternatywę |
 
 ## Zdania, których bot powinien unikać
 
@@ -296,7 +296,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - "To bardzo proste."
 - "Musi pan..."
 - "Niepoprawna odpowiedź."
-- "Proszę słuchać uwaznie."
+- "Proszę słuchać uważnie."
 - "Nie ma potrzeby rozmowy z konsultantem."
 
 ---
@@ -311,12 +311,12 @@ Dialog:
 
 Bot: "Jestem automatycznym asystentem. Mogę sprawdzić status albo połączyć z konsultantem."
 
-## Użytkownik zdenerwowany reklamacja
+## Użytkownik zdenerwowany reklamacją
 
 Błąd: bot pyta po raz trzeci o numer.  
 Poprawa: wykorzystuje dane i eskaluje.
 
-Bot: "Mam już numer, ale system nie znajduje sprawy. Połączę z konsultantem i przekaze ten numer."
+Bot: "Mam już numer, ale system nie znajduje sprawy. Połączę z konsultantem i przekażę ten numer."
 
 ## Użytkownik starszy
 
@@ -332,12 +332,12 @@ Poprawa: handoff.
 
 Bot: "Jasne. Połączę z konsultantem."
 
-## Użytkownik z problemem wrazliwym
+## Użytkownik z problemem wrażliwym
 
-Błąd: bot próbuje doradzac.  
+Błąd: bot próbuje doradzać.  
 Poprawa: granica i bezpieczny kanał.
 
-Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osoba, która może pomóc."
+Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osobą, która może pomóc."
 
 ---
 
@@ -351,7 +351,7 @@ Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osoba, która m
 - Czy unika fałszywej empatii?
 - Czy nie manipuluje?
 - Czy projekt uwzględnia różnice indywidualne?
-- Czy sytuację wrażliwe są eskalowane?
+- Czy sytuacje wrażliwe są eskalowane?
 
 ---
 

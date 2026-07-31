@@ -6,7 +6,7 @@ Wersja robocza: 2026-07-29
 
 ---
 
-# 1. Zasada uczciwosci źródłowej
+# 1. Zasada uczciwości źródłowej
 
 Podręcznik łączy trzy warstwy:
 
@@ -14,7 +14,7 @@ Podręcznik łączy trzy warstwy:
 2. Synteza ekspercka, czyli łączenie wielu źródeł w praktyczne modele, checklisty i procesy.
 3. Uzupełnienia praktyczne wynikające z doświadczenia wdrożeniowego, szczególnie w obszarach briefów, ROI, dokumentacji, QA, metryk, operating model i szablonów.
 
-Checklisty, matryce i szablony są w dużej części autorską synteza ekspercka. Nie należy ich traktować jako cytatu z jednego źródła, lecz jako praktyczne narzędzia zbudowane na podstawie literatury, dokumentacji platform i standardów wdrożeń enterprise.
+Checklisty, matryce i szablony są w dużej części autorską syntezą ekspercką. Nie należy ich traktować jako cytatu z jednego źródła, lecz jako praktyczne narzędzia zbudowane na podstawie literatury, dokumentacji platform i standardów wdrożeń enterprise.
 
 ---
 
@@ -22,7 +22,7 @@ Checklisty, matryce i szablony są w dużej części autorską synteza ekspercka
 
 ## Rozmowa, turn-taking, przerwania, interakcja
 
-- ScienceDirect, Computer Speech & Language, artykul o turn-taking w systemach konwersacyjnych: https://www.sciencedirect.com/science/article/pii/S088523082030111X
+- ScienceDirect, Computer Speech & Language, artykuł o turn-taking w systemach konwersacyjnych: https://www.sciencedirect.com/science/article/pii/S088523082030111X
 - ScienceDirect, Computer Speech & Language, handling user interruptions: https://www.sciencedirect.com/science/article/pii/S0885230810000690
 - Social Interaction, "Managing Turn-Taking in Human-Robot Interactions": https://tidsskrift.dk/socialinteraction/article/view/137380
 - University of Oxford publication, handling user interruptions in embodied conversational agents: https://www.cs.ox.ac.uk/publications/publication3549-abstract.html
@@ -62,7 +62,7 @@ Charakter:
 
 - Źródła badawcze i metodyczne.
 - Wspierają rozdziały o badaniu odbioru, satysfakcji, wysiłku użytkownika, zaufaniu, transparentności i akceptacji voicebotów.
-- Są szczególnie ważne przy przejśćiu od metryk technicznych do oceny "czy rozmową była dobra dla człowieka".
+- Są szczególnie ważne przy przejściu od metryk technicznych do oceny "czy rozmowa była dobra dla człowieka".
 
 Najmocniej wspierane części:
 
@@ -88,7 +88,7 @@ Najmocniej wspierane części:
 Charakter:
 
 - Źródła produktowe/branżowe.
-- Używane pomocniczo do praktycznego języka, listy problemow, metryk barge-in i testów.
+- Używane pomocniczo do praktycznego języka, listy problemów, metryk barge-in i testów.
 - Nie powinny być traktowane jako główny fundament naukowy.
 
 Najmocniej wspierane części:

@@ -10,7 +10,7 @@ Wersja robocza: 2026-07-29
 
 ## Cel części
 
-Ta część zawiera praktyczne szablony do wykorzystania w projektach voicebotów. Każdy szablon można skopiowac do dokumentacji projektu i dostosowac do organizacji, branży oraz platformy.
+Ta część zawiera praktyczne szablony do wykorzystania w projektach voicebotów. Każdy szablon można skopiować do dokumentacji projektu i dostosować do organizacji, branży oraz platformy.
 
 ---
 
@@ -29,9 +29,9 @@ Problem biznesowy:
 Dlaczego teraz:
 Zakres:
 Poza zakresem:
-Uzytkownicy:
-Kanaly:
-Jezyki:
+Użytkownicy:
+Kanały:
+Języki:
 Wolumen:
 AHT:
 FCR:
@@ -52,16 +52,16 @@ Termin MVP:
 Nazwa use case'u:
 Cel użytkownika:
 Cel biznesowy:
-Powod kontaktu:
+Powód kontaktu:
 Wolumen:
-Powtarzalnosc:
+Powtarzalność:
 Ryzyko:
 Dane wymagane:
 Integracje:
 Handoff:
 Metryki sukcesu:
 Out of scope:
-Rekomendacja: MVP / pozniej / nie wdrazac
+Rekomendacja: MVP / później / nie wdrażać
 ```
 
 ## 3. Matryca oceny automatyzacji
@@ -69,29 +69,29 @@ Rekomendacja: MVP / pozniej / nie wdrazac
 | Kryterium | Ocena 1-5 | Waga | Wynik | Komentarz |
 |---|---:|---:|---:|---|
 | Wolumen |  | 3 |  |  |
-| Powtarzalnosc |  | 3 |  |  |
-| Jasnosc celu |  | 2 |  |  |
+| Powtarzalność |  | 3 |  |  |
+| Jasność celu |  | 2 |  |  |
 | Dostępność danych |  | 2 |  |  |
 | Dostępność API |  | 3 |  |  |
 | Koszt błędu |  | 3 |  |  |
 | Emocje |  | 2 |  |  |
 | Compliance |  | 3 |  |  |
-| Latwosc handoff |  | 3 |  |  |
+| Łatwość handoff |  | 3 |  |  |
 | Pomiar sukcesu |  | 2 |  |  |
 
 ## 4. Mapa procesu rozmowy
 
 ```text
 Start:
-Warunki wejscia:
+Warunki wejścia:
 Krok 1:
 Krok 2:
 Krok 3:
 Decyzje:
-Wyjatki:
+Wyjątki:
 Integracje:
 Handoff:
-Zakonczenie:
+Zakończenie:
 Metryki:
 ```
 
@@ -108,8 +108,8 @@ Nazwa biznesowa:
 Definicja:
 Zakres:
 Poza zakresem:
-Przyklady pozytywne:
-Przyklady negatywne:
+Przykłady pozytywne:
+Przykłady negatywne:
 Wymagane sloty:
 Encje:
 Confidence threshold:
@@ -125,11 +125,11 @@ Metryki:
 Entity ID:
 Typ:
 Opis:
-Wartosci kanoniczne:
+Wartości kanoniczne:
 Synonimy:
-Przyklady:
+Przykłady:
 Walidacja:
-Zrodlo prawdy:
+Źródło prawdy:
 Owner:
 Aktualizacja:
 ```
@@ -146,14 +146,14 @@ Rola bota:
 Zakres pomocy:
 Czego bot nie robi:
 Ton:
-Formalnosc:
+Formalność:
 Tempo:
 Zwroty preferowane:
 Zwroty zakazane:
 Zasady przepraszania:
 Zasady odmowy:
 Zasady eskalacji:
-Transparentnosc:
+Transparentność:
 ```
 
 ## 10. Dokument promptu systemowego
@@ -166,7 +166,7 @@ Zakres:
 Poza zakresem:
 Styl głosowy:
 Zasady odpowiedzi:
-Zasady narzedzi:
+Zasady narzędzi:
 Zasady RAG:
 Zasady danych:
 Zasady odmowy:
@@ -184,13 +184,13 @@ Owner:
 Cel:
 Typ: odczyt / zapis / walidacja / akcja / handoff
 Endpoint:
-Dane wejsciowe:
-Dane wyjsciowe:
+Dane wejściowe:
+Dane wyjściowe:
 Autoryzacja:
 Timeout:
 Retry:
 Idempotency:
-Bledy:
+Błędy:
 Komunikaty użytkownika:
 Logi:
 Security:
@@ -201,9 +201,9 @@ Test cases:
 
 ```text
 Zakres:
-Srodowisko:
+Środowisko:
 Dane testowe:
-Kategorie testow:
+Kategorie testów:
 Test cases:
 Kryteria akceptacji:
 Defect severity:
@@ -230,7 +230,7 @@ Raport:
 - Compliance.
 - Dashboard.
 
-## 14. Checklista przedwdrozeniowa
+## 14. Checklista przedwdrożeniowa
 
 - Zakres zatwierdzony.
 - Legal/compliance zatwierdzone.
@@ -242,7 +242,7 @@ Raport:
 - Rollback gotowy.
 - Hypercare zaplanowany.
 
-## 15. Raport z pilotazu
+## 15. Raport z pilotażu
 
 ```text
 Zakres pilota:
@@ -270,14 +270,14 @@ Backlog:
 ## 17. Raport z analizy rozmów
 
 ```text
-Probka:
+Próbka:
 Okres:
 Top intencje:
 Top fallbacki:
 Top no-match:
 Frazy frustracji:
 Problemy ASR:
-Problemy promptow:
+Problemy promptów:
 Nowe use case'y:
 Rekomendacje:
 ```
@@ -324,7 +324,7 @@ Kontakt awaryjny:
 
 - Czy każdy dokument ma ownera?
 - Czy jest wersjonowany?
-- Czy jest powiazany z testami?
+- Czy jest powiązany z testami?
 - Czy zawiera out of scope?
 - Czy zawiera ryzyka?
 - Czy jest użyteczny dla biznesu, IT, QA i compliance?

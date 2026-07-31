@@ -10,15 +10,15 @@ Wersja robocza: 2026-07-29
 
 ## Cel części
 
-Skuteczny voicebot nie powinien tylko automatyzowac kontaktu. Powinien robić to uczciwie, dostepnie i bez przerzucania kosztu automatyzacji na użytkownika. Etyka w voicebotach oznacza projektowanie systemu, który jest transparentny, przewidywalny, nienachalny, odporny na błędy i gotowy oddać rozmowę człowiekowi, gdy automatyzacja nie jest najlepsza droga.
+Skuteczny voicebot nie powinien tylko automatyzować kontaktu. Powinien robić to uczciwie, dostępnie i bez przerzucania kosztu automatyzacji na użytkownika. Etyka w voicebotach oznacza projektowanie systemu, który jest transparentny, przewidywalny, nienachalny, odporny na błędy i gotowy oddać rozmowę człowiekowi, gdy automatyzacja nie jest najlepszą drogą.
 
 ## Rozdział 1. Transparentność i zaufanie
 
 ### Cele rozdziału
 
-- Zrozumieć, dlaczego voicebot powinien jasno informowac, że jest systemem automatycznym.
-- Projektować komunikaty budujace zaufanie bez udawania człowieka.
-- Rozpoznawać zachowania niszczace zaufanie.
+- Zrozumieć, dlaczego voicebot powinien jasno informować, że jest systemem automatycznym.
+- Projektować komunikaty budujące zaufanie bez udawania człowieka.
+- Rozpoznawać zachowania niszczące zaufanie.
 
 ### Kluczowe pojęcia
 
@@ -33,13 +33,13 @@ Skuteczny voicebot nie powinien tylko automatyzowac kontaktu. Powinien robić to
 
 Voicebot powinien być jasny od pierwszych sekund:
 
-"Dzień dobry, jestem automatycznym asystentem firmy X. Pomoge sprawdzić zamówienie albo połączę z konsultantem."
+"Dzień dobry, jestem automatycznym asystentem firmy X. Pomogę sprawdzić zamówienie albo połączę z konsultantem."
 
-To zdanie robi trzy rzeczy: ujawnia automatyzację, okresla zakres i daje droge do człowieka. Nie trzeba udawać konsultanta. Udawanie człowieka może chwilowo zwiększyć zaangazowanie, ale gdy system nie rozumie, rozczarowanie jest większe.
+To zdanie robi trzy rzeczy: ujawnia automatyzację, określa zakres i daje drogę do człowieka. Nie trzeba udawać konsultanta. Udawanie człowieka może chwilowo zwiększyć zaangażowanie, ale gdy system nie rozumie, rozczarowanie jest większe.
 
 ### Perspektywa biznesowa
 
-Zaufanie jest aktywem operacyjnym. Jeśli klienci naucza się, że bot blokuje kontakt, będą szybciej eskalować, używać agresywnych skrotow albo omijac kanał. Transparentność zmniejsza opor, bo użytkownik wie, czego oczekiwac.
+Zaufanie jest aktywem operacyjnym. Jeśli klienci nauczą się, że bot blokuje kontakt, będą szybciej eskalować, używać agresywnych skrótów albo omijać kanał. Transparentność zmniejsza opór, bo użytkownik wie, czego oczekiwać.
 
 ### Perspektywa użytkownika
 
@@ -55,17 +55,17 @@ Użytkownik chce wiedzieć:
 
 - Informuj, że to system automatyczny.
 - Nie udawaj ludzkich emocji.
-- Mow jasno o zakresie.
-- Dawaj prosta droge do konsultanta.
-- Mow "nie wiem" lub "nie mogę tego ocenić", gdy to prawda.
+- Mów jasno o zakresie.
+- Dawaj prostą drogę do konsultanta.
+- Mów "nie wiem" lub "nie mogę tego ocenić", gdy to prawda.
 
 ### Typowe błędy
 
 | Błąd | Skutek |
 |---|---|
-| Bot udaje człowieka | Utratą zaufania po błędzie |
+| Bot udaje człowieka | Utrata zaufania po błędzie |
 | Brak informacji o zakresie | Nieadekwatne oczekiwania |
-| Brak drogi do człowieka | Poczucie uwiezienia |
+| Brak drogi do człowieka | Poczucie uwięzienia |
 | Zbyt pewne odpowiedzi | Overtrust i ryzyko decyzji klienta |
 
 ### Checklista
@@ -80,7 +80,7 @@ Użytkownik chce wiedzieć:
 
 ### Wyjaśnienie eksperckie
 
-Voicebot może łatwo wywierac presje, bo głos jest bezposredni, sekwencyjny i trudniej go "przeskanować" niż tekst. Etyczne projektowanie wymaga, aby bot nie ukrywal opcji, nie utrudnial rezygnacji, nie wykorzystywal stresu i nie projektowal petli majacych zatrzymać klienta za wszelka cene.
+Voicebot może łatwo wywierać presję, bo głos jest bezpośredni, sekwencyjny i trudniej go "przeskanować" niż tekst. Etyczne projektowanie wymaga, aby bot nie ukrywał opcji, nie utrudniał rezygnacji, nie wykorzystywał stresu i nie projektował pętli mających zatrzymać klienta za wszelką cenę.
 
 ### Ryzykowne wzorce
 
@@ -88,15 +88,15 @@ Voicebot może łatwo wywierac presje, bo głos jest bezposredni, sekwencyjny i 
 |---|---|
 | Ukryty konsultant | Użytkownik traci kontrolę |
 | Długie monologi sprzedażowe | Presja i brak barge-in |
-| Domyslna zgoda | Niejasna autonomia użytkownika |
-| Strach przed strata | Manipulacja emocjonalna |
+| Domyślna zgoda | Niejasna autonomia użytkownika |
+| Strach przed stratą | Manipulacja emocjonalna |
 | Utrudniona rezygnacja | Dark pattern w kanale głosowym |
 
 ### Dobre praktyki
 
-- Dawaj neutralne opcję.
+- Dawaj neutralne opcje.
 - Szanuj "nie".
-- Nie przeciągaj rozmowy sprzedazowej.
+- Nie przeciągaj rozmowy sprzedażowej.
 - Nie używaj presji w windykacji lub medycynie.
 - Oddziel informowanie od perswazji.
 
@@ -104,19 +104,19 @@ Voicebot może łatwo wywierac presje, bo głos jest bezposredni, sekwencyjny i 
 
 Źle:
 
-"Jeśli pan teraz nie skorzysta, może pan stracić wyjatkowa okazje."
+"Jeśli pan teraz nie skorzysta, może pan stracić wyjątkową okazję."
 
 Lepiej:
 
-"Mogę sprawdzić dostępna oferte. Czy chce pan, zebym to zrobił?"
+"Mogę sprawdzić dostępną ofertę. Czy chce pan, żebym to zrobił?"
 
-## Rozdział 3. Dostępność i inkluzywnosc
+## Rozdział 3. Dostępność i inkluzywność
 
 ### Dlaczego dostępność w głosie jest trudniejsza niż wygląda
 
 Dostępność voicebota nie polega tylko na tym, czy system "słyszy" użytkownika. W kanale głosowym wiele osób ma mniej czasu, mniej kontroli i mniej podpowiedzi niż na stronie internetowej. Nie widzą listy opcji. Nie mogą łatwo wrócić wzrokiem do poprzedniego zdania. Muszą zapamiętać pytanie, zrozumieć je i odpowiedzieć w rytmie narzuconym przez system. To szczególnie obciąża osoby starsze, osoby w stresie, osoby neuroatypowe, osoby z problemami pamięci roboczej oraz użytkowników rozmawiających w hałasie.
 
-Dostępny voicebot powinien więc zmniejszać obciążenie poznawcze. Ma mówić krótko, zadawać jedno pytanie naraz, dawać czas na odpowiedź i pozwalać na powtórzenie. Jeśli użytkownik nie odpowiada, bot nie powinien zakładać złej woli. Cisza może oznaczać szukanie dokumentu, niepewność, problem że słuchem albo to, że pytanie było zbyt trudne.
+Dostępny voicebot powinien więc zmniejszać obciążenie poznawcze. Ma mówić krótko, zadawać jedno pytanie naraz, dawać czas na odpowiedź i pozwalać na powtórzenie. Jeśli użytkownik nie odpowiada, bot nie powinien zakładać złej woli. Cisza może oznaczać szukanie dokumentu, niepewność, problem ze słuchem albo to, że pytanie było zbyt trudne.
 
 ### Grupy wymagające szczególnej uwagi
 
@@ -125,29 +125,29 @@ Dostępny voicebot powinien więc zmniejszać obciążenie poznawcze. Ma mówić
 - osoby z ograniczeniami słuchu;
 - osoby neuroatypowe;
 - osoby z niskimi kompetencjami cyfrowymi;
-- osoby mowiace z akcentem lub gwara;
+- osoby mówiące z akcentem lub gwarą;
 - osoby w stresie;
-- osoby w halasliwym otoczeniu.
+- osoby w hałaśliwym otoczeniu.
 
 ### Dostępność poznawcza
 
-Dostępność poznawcza oznacza projektowanie rozmowy tak, aby użytkownik nie musiał nadmiernie pamiętać, zgadywac ani przetwarzac wielu informacji naraz. To nie jest "ulatwianie tylko dla wybranych grup". W praktyce każdy klient może mieć obnizona uwagę: prowadzi samochod, stoi w sklepie, jest zdenerwowany reklamacja, trzyma dokumenty w reku albo rozmawia w drugim języku.
+Dostępność poznawcza oznacza projektowanie rozmowy tak, aby użytkownik nie musiał nadmiernie pamiętać, zgadywać ani przetwarzać wielu informacji naraz. To nie jest "ułatwianie tylko dla wybranych grup". W praktyce każdy klient może mieć obniżoną uwagę: prowadzi samochód, stoi w sklepie, jest zdenerwowany reklamacją, trzyma dokumenty w ręku albo rozmawia w drugim języku.
 
 Najważniejsze zasady:
 
 | Problem | Co zrobić |
 |---|---|
-| Użytkownik nie widzi opcji | Nie czytaj długich menu; pytaj otwarcie albo podaj maksymalnie 2-3 opcję |
+| Użytkownik nie widzi opcji | Nie czytaj długich menu; pytaj otwarcie albo podaj maksymalnie 2-3 opcje |
 | Użytkownik musi zapamiętać numer | Grupuj cyfry i potwierdzaj fragmentami |
-| Użytkownik nie rozumie pytania | Przeformuluj, nie powtarzaj identycznie |
-| Użytkownik potrzebuje czasu | Daj pauze i nie traktuj ciszy od razu jako błędu |
-| Użytkownik gubi się w procesie | Powiedz, na jakim etapie jest rozmową |
-| Użytkownik nie ufa automatyzacji | Daj jasna droge do konsultanta |
+| Użytkownik nie rozumie pytania | Przeformułuj, nie powtarzaj identycznie |
+| Użytkownik potrzebuje czasu | Daj pauzę i nie traktuj ciszy od razu jako błędu |
+| Użytkownik gubi się w procesie | Powiedz, na jakim etapie jest rozmowa |
+| Użytkownik nie ufa automatyzacji | Daj jasną drogę do konsultanta |
 
 Przykład:
 
-Źle: "Proszę podac numer zamówienia, kod pocztowy, datę zakupu oraz powod kontaktu."  
-Lepiej: "Najpierw znajdziemy zamówienie. Proszę podac numer zamówienia. Może pan powiedzieć go po trzy cyfry."
+Źle: "Proszę podać numer zamówienia, kod pocztowy, datę zakupu oraz powód kontaktu."  
+Lepiej: "Najpierw znajdziemy zamówienie. Proszę podać numer zamówienia. Może pan powiedzieć go po trzy cyfry."
 
 ### Projektowanie dostępne
 
@@ -163,7 +163,7 @@ Lepiej: "Najpierw znajdziemy zamówienie. Proszę podac numer zamówienia. Może
 
 ### Instrukcje dla projektanta
 
-Projektuj prompt tak, jakby użytkownik słyszał go tylko raz, w gorszych warunkach niż w sali testowej. Najpierw powiedz, czego potrzebujesz. Potem podaj format odpowiedzi. Na koncu, jeśli trzeba, dodaj alternatywe.
+Projektuj prompt tak, jakby użytkownik słyszał go tylko raz, w gorszych warunkach niż w sali testowej. Najpierw powiedz, czego potrzebujesz. Potem podaj format odpowiedzi. Na końcu, jeśli trzeba, dodaj alternatywę.
 
 Dobry wzorzec:
 
@@ -182,31 +182,31 @@ Ten wzorzec jest dłuższy na papierze, ale w rozmowie bywa łatwiejszy, bo prow
 - Czy bot nie wymaga zapamiętania długich list?
 - Czy jest alternatywa DTMF?
 - Czy można poprosić o powtórzenie?
-- Czy bot toleruje wolniejsza mowę i pauzy?
+- Czy bot toleruje wolniejszą mowę i pauzy?
 - Czy testowano osoby starsze lub o różnych sposobach mówienia?
 
-## Rozdział 4. Bias, język prosty i inkluzywnosc
+## Rozdział 4. Bias, język prosty i inkluzywność
 
 ### Wyjaśnienie eksperckie
 
-Bias w voicebotach może pojawic się w ASR, NLU, LLM, danych treningowych i procesie. System może gorzej rozumieć akcenty, osoby starsze, osoby z wadami wymowy albo nietypowe sformulowania. Odpowiedzialny projekt wymaga testów na zroznicowanych probkach, nie tylko na czystych nagraniach.
+Bias w voicebotach może pojawić się w ASR, NLU, LLM, danych treningowych i procesie. System może gorzej rozumieć akcenty, osoby starsze, osoby z wadami wymowy albo nietypowe sformułowania. Odpowiedzialny projekt wymaga testów na zróżnicowanych próbkach, nie tylko na czystych nagraniach.
 
 ### Dobre praktyki
 
 - Testuj różne akcenty, tempo i jakość audio.
-- Nie zakladaj, że "standardowa" mowa reprezentuje wszystkich.
+- Nie zakładaj, że "standardowa" mowa reprezentuje wszystkich.
 - Używaj języka prostego.
 - Unikaj żargonu branżowego.
-- Monitoruj no-match per segment, jeśli zgodne z prywatnoscia.
-- Dla grup szczególnie narazonych dawaj łatwiejszy handoff.
+- Monitoruj no-match per segment, jeśli zgodne z prywatnością.
+- Dla grup szczególnie narażonych dawaj łatwiejszy handoff.
 
-## Rozdział 5. Sytuację kryzysowe i natychmiastowy handoff
+## Rozdział 5. Sytuacje kryzysowe i natychmiastowy handoff
 
 ### Kiedy bot powinien natychmiast przekazać rozmowę człowiekowi
 
-- zagrozenie zdrowia lub życia;
+- zagrożenie zdrowia lub życia;
 - sygnały przemocy, samouszkodzenia lub kryzysu;
-- fraud, kradziez, utratą karty;
+- fraud, kradzież, utrata karty;
 - sporna reklamacja;
 - agresja lub silna frustracja;
 - prośba o człowieka;
@@ -216,14 +216,14 @@ Bias w voicebotach może pojawic się w ASR, NLU, LLM, danych treningowych i pro
 
 ### Wzorzec komunikatu
 
-"Nie mogę bezpiecznie obsłużyć tej sprawy automatycznie. Połączę z konsultantem, który pomoze dalej."
+"Nie mogę bezpiecznie obsłużyć tej sprawy automatycznie. Połączę z konsultantem, który pomoże dalej."
 
 ### Checklista sytuacji trudnych
 
 - Czy mamy listę sytuacji natychmiastowej eskalacji?
 - Czy są testowane?
 - Czy konsultant dostaje kontekst?
-- Czy bot nie próbuje diagnozowac lub negocjowac poza zakresem?
+- Czy bot nie próbuje diagnozować lub negocjować poza zakresem?
 - Czy istnieje procedura awaryjna dla branży?
 
 ## Mini case studies
@@ -234,9 +234,9 @@ Błąd: bot powtarza identyczny prompt.
 Poprawa: bot upraszcza pytanie i daje opcję konsultanta.  
 Dialog:
 
-Bot: "Proszę podac numer sprawy."  
+Bot: "Proszę podać numer sprawy."  
 Użytkownik: "Nie wiem, gdzie to jest."  
-Bot: "Rozumiem. Numer jest w SMS-ie od nas. Mogę poczekac albo połączyć z konsultantem."
+Bot: "Rozumiem. Numer jest w SMS-ie od nas. Mogę poczekać albo połączyć z konsultantem."
 
 ### 2. Użytkownik agresywny
 
@@ -244,16 +244,16 @@ Błąd: bot kontynuuje flow.
 Poprawa: skrócenie i eskalacja.  
 Dialog:
 
-Użytkownik: "Daj mi człowieka, mam dosc tego bota."  
-Bot: "Jasne. Połączę z konsultantem i przekaze dotychczasowe informacje."
+Użytkownik: "Daj mi człowieka, mam dość tego bota."  
+Bot: "Jasne. Połączę z konsultantem i przekażę dotychczasowe informacje."
 
 ### 3. Sprzedaż bez presji
 
 Błąd: bot ignoruje "nie".  
-Poprawa: akceptuje odmowe.  
+Poprawa: akceptuje odmowę.  
 Dialog:
 
-Bot: "Mogę sprawdzić oferte."  
+Bot: "Mogę sprawdzić ofertę."  
 Użytkownik: "Nie."  
 Bot: "Dobrze, nie będę jej sprawdzać. W czym jeszcze mogę pomóc?"
 
@@ -262,12 +262,12 @@ Bot: "Dobrze, nie będę jej sprawdzać. W czym jeszcze mogę pomóc?"
 - Czy bot jest transparentny?
 - Czy nie udaje człowieka?
 - Czy nie stosuje presji?
-- Czy szanuje odmowe?
-- Czy ma prosta droge do konsultanta?
+- Czy szanuje odmowę?
+- Czy ma prostą drogę do konsultanta?
 - Czy jest dostępny dla osób starszych i różnych sposobów mówienia?
 - Czy ma alternatywy: DTMF, SMS, konsultant?
 - Czy testowano bias ASR/NLU?
-- Czy sytuację kryzysowe mają natychmiastowy handoff?
+- Czy sytuacje kryzysowe mają natychmiastowy handoff?
 
 ---
 

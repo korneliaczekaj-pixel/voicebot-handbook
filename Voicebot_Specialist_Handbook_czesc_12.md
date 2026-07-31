@@ -23,14 +23,14 @@ Kontynuacja plików:
 
 ## Cel całej części
 
-Wdrożenie voicebota to nie tylko konfiguracja platformy i napisanie scenariusza. To zmiana operacyjną w organizacji: dotyka contact center, IT, danych, procesów, prawników, security, analityki, konsultantów i klientów. Udane wdrożenie wymaga discovery, analizy danych, projektowania, integracji, QA, pilota, produkcji, hypercare i utrzymania.
+Wdrożenie voicebota to nie tylko konfiguracja platformy i napisanie scenariusza. To zmiana operacyjna w organizacji: dotyka contact center, IT, danych, procesów, prawników, security, analityki, konsultantów i klientów. Udane wdrożenie wymaga discovery, analizy danych, projektowania, integracji, QA, pilota, produkcji, hypercare i utrzymania.
 
 Ta część pokazuje pełny cykl wdrożenia voicebota w organizacji.
 
 Po tej części czytelnik powinien umieć:
 
-1. Zaplanowac proces wdrożenia od discovery do produkcji.
-2. Przeprowadzic audit rozmów i wybór use case'u.
+1. Zaplanować proces wdrożenia od discovery do produkcji.
+2. Przeprowadzić audit rozmów i wybór use case'u.
 3. Przygotować prototyp, MVP, pilota i soft launch.
 4. Zaprojektować monitoring, hypercare i utrzymanie.
 5. Zrozumieć role i odpowiedzialności w zespole.
@@ -40,7 +40,7 @@ Po tej części czytelnik powinien umieć:
 Źródła wspierające część:
 
 - Dokumentacje platform enterprise i realtime voice agents jako odniesienie do architektury, integracji, transferów, speech config i monitoringu.
-- W3C VoiceXML jako historyczny model aplikacji dialogowych, eventow i formularzy.
+- W3C VoiceXML jako historyczny model aplikacji dialogowych, eventów i formularzy.
 - Uzupełnienie eksperckie: enterprise delivery lifecycle, RACI, hypercare, governance, roadmaping i operating model.
 
 ---
@@ -53,7 +53,7 @@ Czytelnik nauczy się:
 
 - rozumieć etapy wdrożenia voicebota;
 - odróżnić discovery, MVP, pilot, soft launch i produkcję;
-- zaplanowac zaleznosci biznesowe, techniczne i operacyjne;
+- zaplanować zależności biznesowe, techniczne i operacyjne;
 - określić bramki decyzyjne.
 
 ## 1.2. Kluczowe pojęcia
@@ -63,9 +63,9 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Pojęcie | Definicja praktyczna |
 |---|---|
 | Discovery | Etap poznania problemu, danych, procesów, ryzyk i zakresu |
-| Audit rozmów | Analiza nagrań, transkrypcji, powodów kontaktu i wynikow |
+| Audit rozmów | Analiza nagrań, transkrypcji, powodów kontaktu i wyników |
 | Prototype | Wczesna wersja do testu koncepcji |
-| MVP | Minimalny zakres dajacy realną wartość i dane |
+| MVP | Minimalny zakres dający realną wartość i dane |
 | Pilot | Ograniczone wdrożenie na części ruchu |
 | Soft launch | Stopniowe rozszerzanie produkcji |
 | Hypercare | Intensywny monitoring i szybkie poprawki po starcie |
@@ -96,14 +96,14 @@ Pełny cykl wdrożenia:
 Każdy etap ma inne pytanie:
 
 - Discovery: czy rozumiemy problem?
-- Use case: czy warto automatyzowac?
+- Use case: czy warto automatyzować?
 - MVP: jaki najmniejszy zakres ma sens?
 - QA: czy system działa zgodnie z wymaganiami?
 - UAT: czy organizacja akceptuje zachowanie?
 - Pilot: jak system działa z realnymi użytkownikami?
 - Produkcja: czy skalujemy bezpiecznie?
 - Hypercare: co poprawiamy po starcie?
-- Utrzymanie: kto odpowiada za dalsza jakość?
+- Utrzymanie: kto odpowiada za dalszą jakość?
 
 ## 1.4. Perspektywa biznesowa
 
@@ -125,16 +125,16 @@ Użytkownik widzi tylko efekt. Nie interesuje go, czy system jest MVP. Dlatego n
 
 - jasny zakres;
 - dobry handoff;
-- brak petli;
+- brak pętli;
 - bezpieczne potwierdzenia;
 - komunikaty o ograniczeniach;
-- monitoring problemow.
+- monitoring problemów.
 
-MVP może mieć maly zakres, ale nie może mieć niedojrzalej obsługi błędów.
+MVP może mieć mały zakres, ale nie może mieć niedojrzałej obsługi błędów.
 
 ## 1.6. Perspektywa technologiczna
 
-Najważniejsze zaleznosci:
+Najważniejsze zależności:
 
 - dostęp do nagrań i danych;
 - platforma voicebot/contact center;
@@ -151,9 +151,9 @@ Najważniejsze zaleznosci:
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
 - Nie pomijaj discovery.
-- Zakres MVP trzymaj waski, ale kompletny.
+- Zakres MVP trzymaj wąski, ale kompletny.
 - Handoff projektuj od początku.
-- Testy planuj przed implementacja.
+- Testy planuj przed implementacją.
 - Pilotuj na ograniczonym ruchu.
 - Miej rollback.
 - Zaplanuj hypercare.
@@ -169,7 +169,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | MVP bez integracji | Brak wartości |
 | MVP bez handoff | Ryzyko UX |
 | Brak UAT z contact center | Konsultanci nie są gotowi |
-| Pilot na zbyt duzym ruchu | Ryzyko masowych problemow |
+| Pilot na zbyt dużym ruchu | Ryzyko masowych problemów |
 | Brak hypercare | Problemy produkcyjne narastają |
 | Brak ownera BAU | Bot starzeje się |
 
@@ -179,19 +179,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 - Czy mamy discovery?
 - Czy mamy audit danych?
-- Czy use case przeszedl matryce?
+- Czy use case przeszedł matrycę?
 - Czy mamy business case?
 - Czy MVP ma scope i out of scope?
 - Czy architektura jest zatwierdzona?
 - Czy QA ma plan?
 - Czy UAT ma kryteria?
 - Czy pilot ma rollback?
-- Czy hypercare ma ownerow?
+- Czy hypercare ma ownerów?
 - Czy BAU jest zaplanowane?
 
 ## 1.10. Mini case study
 
-Firma energetyczna chciała wdrożyć voicebota do wszystkich spraw klienta. Discovery pokazalo, że najlepszym MVP jest status zgłoszenia awarii i odczyt licznika. Reklamację faktur przesunieto na później. Pilot na 10% ruchu ujawnil problemy z numerami punktow poboru, które poprawiono przed skalowaniem. Stopniowe wdrożenie pozwolilo uniknac porażki szerokiego zakresu.
+Firma energetyczna chciała wdrożyć voicebota do wszystkich spraw klienta. Discovery pokazało, że najlepszym MVP jest status zgłoszenia awarii i odczyt licznika. Reklamacje faktur przesunięto na później. Pilot na 10% ruchu ujawnił problemy z numerami punktów poboru, które poprawiono przed skalowaniem. Stopniowe wdrożenie pozwoliło uniknąć porażki szerokiego zakresu.
 
 ## 1.11. Ćwiczenia
 
@@ -204,7 +204,7 @@ Firma energetyczna chciała wdrożyć voicebota do wszystkich spraw klienta. Dis
 
 ## 1.12. Podsumowanie
 
-Wdrożenie voicebota jest procesem produktowo-operacyjnym. Najlepsze projekty ida etapami: najpierw zrozumienie, potem zakres, potem kontrolowane wdrożenie, a dopiero potem skalowanie.
+Wdrożenie voicebota jest procesem produktowo-operacyjnym. Najlepsze projekty idą etapami: najpierw zrozumienie, potem zakres, potem kontrolowane wdrożenie, a dopiero potem skalowanie.
 
 ---
 
@@ -215,7 +215,7 @@ Wdrożenie voicebota jest procesem produktowo-operacyjnym. Najlepsze projekty id
 Czytelnik nauczy się:
 
 - prowadzić discovery;
-- organizowac audit rozmów;
+- organizować audit rozmów;
 - łączyć dane ilościowe i jakościowe;
 - przygotować rekomendacje use case'u.
 
@@ -223,7 +223,7 @@ Czytelnik nauczy się:
 
 Discovery powinno odpowiedzieć:
 
-- jaki problem biznesowy rozwiazujemy;
+- jaki problem biznesowy rozwiązujemy;
 - kto jest użytkownikiem;
 - jakie rozmowy analizujemy;
 - jakie są wolumeny;
@@ -252,7 +252,7 @@ Audit powinien obejmować:
    - transkrypcje;
    - język klientów;
    - emocje;
-   - wyjatki;
+   - wyjątki;
    - przerwania;
    - momenty frustracji.
 
@@ -265,36 +265,36 @@ Audit powinien obejmować:
 
 ## 2.4. Perspektywa biznesowa
 
-Discovery chroni przed automatyzacja niewłaściwego procesu. Czasem problemem nie jest brak bota, tylko:
+Discovery chroni przed automatyzacją niewłaściwego procesu. Czasem problemem nie jest brak bota, tylko:
 
 - zły routing;
 - brak proaktywnej komunikacji;
 - nieczytelne faktury;
 - opóźnienia logistyczne;
 - brak self-service;
-- niespojny CRM;
+- niespójny CRM;
 - zła taksonomia powodów kontaktu.
 
-Voicebot może być rozwiazaniem, ale nie powinien być zalozeniem.
+Voicebot może być rozwiązaniem, ale nie powinien być założeniem.
 
 ## 2.5. Perspektywa użytkownika
 
 Audit rozmów pokazuje:
 
-- czego użytkownik naprawde chce;
+- czego użytkownik naprawdę chce;
 - jak mówi;
 - gdzie się denerwuje;
 - kiedy prosi o człowieka;
-- które informacje już podal;
+- które informacje już podał;
 - co musi powtarzać.
 
-Bez słuchania rozmów projekt będzie organizacyjny, nie użytkownikowy.
+Bez słuchania rozmów projekt będzie organizacyjny, nie użytkowniczy.
 
 ## 2.6. Perspektywa technologiczna
 
-Discovery musi ujawnic:
+Discovery musi ujawnić:
 
-- czy API istnieja;
+- czy API istnieją;
 - czy dane są dostępne;
 - czy contact center wspiera transfer;
 - czy są nagrania i transkrypcje;
@@ -306,13 +306,13 @@ Discovery musi ujawnic:
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Łączy warsztaty z analiza danych.
-- Sluchaj realnych rozmów.
+- Łącz warsztaty z analizą danych.
+- Słuchaj realnych rozmów.
 - Nie ufaj bezkrytycznie wrap-up codes.
 - Rozmawiaj z konsultantami.
 - Dokumentuj luki danych.
-- Tworz matryce use case'ow.
-- Zakoncz discovery rekomendacja: wdrażać, nie wdrażać, pilot, agent assist, analityka.
+- Twórz matryce use case'ów.
+- Zakończ discovery rekomendacją: wdrażać, nie wdrażać, pilot, agent assist, analityka.
 
 ## 2.8. Typowe błędy
 
@@ -335,26 +335,26 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy mamy nagrania/transkrypcje?
 - Czy znamy systemy backendowe?
 - Czy znamy ryzyka prawne?
-- Czy rozmawialismy z konsultantami?
-- Czy mamy matryce use case'ow?
-- Czy mamy rekomendacje MVP?
+- Czy rozmawialiśmy z konsultantami?
+- Czy mamy matryce use case'ów?
+- Czy mamy rekomendację MVP?
 
 ## 2.10. Mini case study
 
-W firmie ubezpieczeniowej biznes wskazal "sprzedaż polis" jako use case. Audit rozmów pokazal, że klienci najczesciej dzwonia po status szkody i listę brakujacych dokumentów. Sprzedaż miała niski wolumen telefoniczny. Rekomendacja discovery przesunela MVP na status szkody, a sprzedaż zostawila jako późniejszy eksperyment.
+W firmie ubezpieczeniowej biznes wskazał "sprzedaż polis" jako use case. Audit rozmów pokazał, że klienci najczęściej dzwonią po status szkody i listę brakujących dokumentów. Sprzedaż miała niski wolumen telefoniczny. Rekomendacja discovery przesunęła MVP na status szkody, a sprzedaż zostawiła jako późniejszy eksperyment.
 
 ## 2.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Przygotuj listę pytań discovery.
-2. Zaprojektuj probke rozmów do audytu.
+2. Zaprojektuj próbkę rozmów do audytu.
 3. Wypisz dane ilościowe i jakościowe.
-4. Przygotuj rekomendacje po discovery dla jednego use case'u.
+4. Przygotuj rekomendację po discovery dla jednego use case'u.
 
 ## 2.12. Podsumowanie
 
-Discovery jest miejscem, w którym projekt może stac się realny albo pozostać hasłem. Dobre discovery kończy się decyzja i zakresem, nie tylko notatkami że spotkan.
+Discovery jest miejscem, w którym projekt może stać się realny albo pozostać hasłem. Dobre discovery kończy się decyzją i zakresem, nie tylko notatkami ze spotkań.
 
 ---
 
@@ -365,8 +365,8 @@ Discovery jest miejscem, w którym projekt może stac się realny albo pozostać
 Czytelnik nauczy się:
 
 - odróżniać prototyp, MVP i pilot;
-- projektować minimalny zakres wartosciowy;
-- planowac testy i ograniczone wdrożenie;
+- projektować minimalny zakres wartościowy;
+- planować testy i ograniczone wdrożenie;
 - przygotować kryteria sukcesu.
 
 ## 3.2. Kluczowe pojęcia
@@ -376,33 +376,33 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Pojęcie | Definicja |
 |---|---|
 | Prototyp | Wczesna wersja do sprawdzenia koncepcji |
-| MVP | Pierwsza wersja dajaca wartość użytkownikom i organizacji |
+| MVP | Pierwsza wersja dająca wartość użytkownikom i organizacji |
 | Pilot | Kontrolowane wdrożenie na ograniczonym ruchu |
 | Scope cut | Świadome ograniczenie zakresu |
-| Pilot cohort | Grupa rozmów/użytkowników objeta pilotem |
+| Pilot cohort | Grupa rozmów/użytkowników objęta pilotem |
 
 ## 3.3. Wyjaśnienie eksperckie
 
-Prototyp odpowiada: "Czy ta rozmową i koncepcja mają sens?"
+Prototyp odpowiada: "Czy ta rozmowa i koncepcja mają sens?"
 
 MVP odpowiada: "Czy ograniczony zakres może realnie załatwić sprawę?"
 
 Pilot odpowiada: "Jak to działa w realnym ruchu i operacjach?"
 
-MVP nie powinien być niekompletnym systemem. Powinien być kompletnym systemem w waskim zakresie.
+MVP nie powinien być niekompletnym systemem. Powinien być kompletnym systemem w wąskim zakresie.
 
 Przykład:
 
 Zły MVP:
 
-- status zamówień, reklamację, zwroty, faktury, płatności;
+- status zamówień, reklamacje, zwroty, faktury, płatności;
 - bez integracji;
 - bez handoff;
 - bez dashboardu.
 
 Dobry MVP:
 
-- status zamówienia i zmiana adresu przed wysyłka;
+- status zamówienia i zmiana adresu przed wysyłką;
 - integracja z OMS;
 - handoff z kontekstem;
 - metryki task completion, fallback, repeat contact.
@@ -425,11 +425,11 @@ Pilot powinien mieć:
 - kryteria go/no-go;
 - feedback loops;
 - rollback;
-- komunikacje do konsultantów.
+- komunikację do konsultantów.
 
 ## 3.5. Perspektywa użytkownika
 
-Użytkownik nie powinien być obciazony tym, że system jest w pilocie. Jeśli bot nie może obsłużyć sprawy, musi szybko i uczciwie przekazać do konsultanta.
+Użytkownik nie powinien być obciążony tym, że system jest w pilocie. Jeśli bot nie może obsłużyć sprawy, musi szybko i uczciwie przekazać do konsultanta.
 
 ## 3.6. Perspektywa technologiczna
 
@@ -448,12 +448,12 @@ MVP technicznie musi mieć:
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Prototypuj rozmowę przed pełna implementacja.
+- Prototypuj rozmowę przed pełną implementacją.
 - MVP ograniczaj zakresem, nie jakością.
-- Pilotuj na malym, mierzalnym ruchu.
+- Pilotuj na małym, mierzalnym ruchu.
 - Miej codzienny przegląd w pierwszych dniach.
-- Nie skaluj przed analiza pilota.
-- Dokumentuj decyzję scope cut.
+- Nie skaluj przed analizą pilota.
+- Dokumentuj decyzje scope cut.
 
 ## 3.8. Typowe błędy
 
@@ -483,20 +483,20 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 3.10. Mini case study
 
-Siec przychodni uruchomila pilota voicebota do potwierdzania wizyt outbound. Pilot obejmowal 10% wizyt i godziny pracy rejestracji. Po tygodniu okazalo się, że wielu pacjentow mówiło "oddzwonie" zamiast "nie". Dodano osobna intencje i ścieżkę SMS. Dopiero po tej poprawce zwiekszono ruch.
+Sieć przychodni uruchomiła pilota voicebota do potwierdzania wizyt outbound. Pilot obejmował 10% wizyt i godziny pracy rejestracji. Po tygodniu okazało się, że wielu pacjentów mówiło "oddzwonię" zamiast "nie". Dodano osobną intencję i ścieżkę SMS. Dopiero po tej poprawce zwiększono ruch.
 
 ## 3.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
-1. Zdefiniuj MVP dla voicebota zwrotow.
+1. Zdefiniuj MVP dla voicebota zwrotów.
 2. Zaprojektuj scope cut.
 3. Przygotuj pilot cohort.
 4. Zdefiniuj kryteria go/no-go.
 
 ## 3.12. Podsumowanie
 
-Prototyp, MVP i pilot to trzy różne narzędzia uczenia się. Prototyp sprawdza koncepcje, MVP daje ograniczona wartość, pilot pokazuje realne zachowanie systemu w organizacji.
+Prototyp, MVP i pilot to trzy różne narzędzia uczenia się. Prototyp sprawdza koncepcje, MVP daje ograniczoną wartość, pilot pokazuje realne zachowanie systemu w organizacji.
 
 ---
 
@@ -506,10 +506,10 @@ Prototyp, MVP i pilot to trzy różne narzędzia uczenia się. Prototyp sprawdza
 
 Czytelnik nauczy się:
 
-- planowac stopniowe wejscie na produkcję;
-- organizowac monitoring startowy;
+- planować stopniowe wejście na produkcję;
+- organizować monitoring startowy;
 - prowadzić hypercare;
-- zarzadzac incydentami i rollback.
+- zarządzać incydentami i rollback.
 
 ## 4.2. Kluczowe pojęcia
 
@@ -518,11 +518,11 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Pojęcie | Definicja |
 |---|---|
 | Soft launch | Stopniowe uruchomienie produkcyjne |
-| Traffic ramp-up | Zwiekszanie udzialu ruchu |
+| Traffic ramp-up | Zwiększanie udziału ruchu |
 | Hypercare | Intensywna opieka po uruchomieniu |
 | Incident | Zdarzenie wymagające reakcji |
-| Rollback | Cofniecie zmiany lub wylaczenie funkcji |
-| Runbook | Instrukcja operacyjną na typowe sytuację |
+| Rollback | Cofnięcie zmiany lub wyłączenie funkcji |
+| Runbook | Instrukcja operacyjna na typowe sytuacje |
 
 ## 4.3. Wyjaśnienie eksperckie
 
@@ -530,7 +530,7 @@ Soft launch zmniejsza ryzyko. Zamiast włączać voicebota dla całego ruchu, or
 
 - zacząć od jednej kolejki;
 - zacząć od 5-10% ruchu;
-- zacząć od godzin pracy zespolu hypercare;
+- zacząć od godzin pracy zespołu hypercare;
 - zacząć od jednego segmentu;
 - zacząć od najprostszego use case'u.
 
@@ -548,18 +548,18 @@ Hypercare powinien obejmować codzienny przegląd:
 
 ## 4.4. Perspektywa biznesowa
 
-Soft launch pozwala chronić marke i klientów. Nawet dobrze przetestowany system może napotkac:
+Soft launch pozwala chronić markę i klientów. Nawet dobrze przetestowany system może napotkać:
 
 - nowe frazy;
 - inne warunki audio;
-- problemy z integracja;
+- problemy z integracją;
 - nieoczekiwany ruch;
-- opor użytkowników;
+- opór użytkowników;
 - braki w handoff.
 
 ## 4.5. Perspektywa użytkownika
 
-Podczas soft launch bot musi mieć szczególnie łatwy handoff. Gdy system nie ma pewności, lepiej przekazać z kontekstem niż testować cierpliwosc użytkownika.
+Podczas soft launch bot musi mieć szczególnie łatwy handoff. Gdy system nie ma pewności, lepiej przekazać z kontekstem niż testować cierpliwość użytkownika.
 
 ## 4.6. Perspektywa technologiczna
 
@@ -578,9 +578,9 @@ Runbook powinien mówić:
 
 - kto reaguje;
 - kiedy wyłączyć flow;
-- kiedy cofnac release;
-- jak przekierowac ruch;
-- jak komunikowac incydent;
+- kiedy cofnąć release;
+- jak przekierować ruch;
+- jak komunikować incydent;
 - gdzie sprawdzić logi.
 
 ## 4.7. Dobre praktyki
@@ -589,11 +589,11 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 
 - Uruchamiaj stopniowo.
 - Hypercare planuj przed go-live.
-- Miej kanał szybkiej komunikacji zespolu.
+- Miej kanał szybkiej komunikacji zespołu.
 - Miej runbook.
 - Miej rollback.
 - Monitoruj pierwsze godziny szczególnie intensywnie.
-- Sluchaj probek rozmów codziennie.
+- Słuchaj próbek rozmów codziennie.
 - Zbieraj feedback konsultantów.
 
 ## 4.8. Typowe błędy
@@ -602,7 +602,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Big bang launch | Duze ryzyko masowych problemow |
+| Big bang launch | Duże ryzyko masowych problemów |
 | Brak hypercare | Problemy nie są szybko naprawiane |
 | Brak rollback | Długie trwanie incydentu |
 | Brak runbook | Chaos odpowiedzialności |
@@ -620,7 +620,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy mamy runbook?
 - Czy mamy rollback?
 - Czy hypercare ma harmonogram?
-- Czy codziennie analizujemy probki rozmów?
+- Czy codziennie analizujemy próbki rozmów?
 
 ## 4.10. Mini case study
 
@@ -633,11 +633,11 @@ Voicebot e-commerce został włączony najpierw dla 10% rozmów o statusie zamó
 1. Zaprojektuj ramp-up traffic dla 4 tygodni.
 2. Przygotuj hypercare daily checklist.
 3. Napisz runbook dla awarii API.
-4. Okresl warunki rollback.
+4. Określ warunki rollback.
 
 ## 4.12. Podsumowanie
 
-Go-live nie jest koncem projektu. To początek realnej nauki. Soft launch i hypercare pozwalają uczyc się bez wystawiania całej organizacji na nadmierne ryzyko.
+Go-live nie jest końcem projektu. To początek realnej nauki. Soft launch i hypercare pozwalają uczyć się bez wystawiania całej organizacji na nadmierne ryzyko.
 
 ---
 
@@ -648,7 +648,7 @@ Go-live nie jest koncem projektu. To początek realnej nauki. Soft launch i hype
 Czytelnik nauczy się:
 
 - projektować operating model voicebota po wdrożeniu;
-- organizowac utrzymanie i optymalizację;
+- organizować utrzymanie i optymalizację;
 - tworzyć roadmapę rozwoju;
 - unikać starzenia się bota.
 
@@ -660,20 +660,20 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 |---|---|
 | BAU | Stabilne utrzymanie po wdrożeniu |
 | Operating model | Model odpowiedzialności, rytmu pracy i decyzji |
-| Roadmap | Plan rozwoju funkcji i use case'ow |
-| Change management | Zarzadzanie zmianami |
+| Roadmap | Plan rozwoju funkcji i use case'ów |
+| Change management | Zarządzanie zmianami |
 | Release management | Planowanie, testowanie i wdrażanie wersji |
-| Continuous improvement | Ciągle doskonalenie |
+| Continuous improvement | Ciągłe doskonalenie |
 
 ## 5.3. Wyjaśnienie eksperckie
 
-Voicebot wymaga utrzymania, bo zmieniaja się:
+Voicebot wymaga utrzymania, bo zmieniają się:
 
 - produkty;
 - procedury;
 - ceny;
 - regulaminy;
-- slownictwo klientów;
+- słownictwo klientów;
 - wolumeny;
 - sezonowość;
 - systemy backendowe;
@@ -685,7 +685,7 @@ BAU powinno obejmować:
 - monitoring metryk;
 - analiza transkrypcji;
 - optymalizacja promptów;
-- aktualizacja datasetow;
+- aktualizacja datasetów;
 - testy regresji;
 - aktualizacja bazy wiedzy;
 - release notes;
@@ -703,15 +703,15 @@ Roadmapa powinna wynikać z:
 - potrzeb contact center;
 - strategii firmy.
 
-Nie każde pytanie klientów powinno stac się nowym use case'em. Najpierw trzeba ocenić wolumen, wartość i ryzyko.
+Nie każde pytanie klientów powinno stać się nowym use case'em. Najpierw trzeba ocenić wolumen, wartość i ryzyko.
 
 ## 5.5. Perspektywa użytkownika
 
-Utrzymanie widac jako aktualność i sprawnosc. Bot, który mówi o starej promocji albo nie rozumie nowej procedury, traci zaufanie. Użytkownik nie odróżnia "bot nie został zaktualizowany" od "firma nie wie, co robi".
+Utrzymanie widać jako aktualność i sprawność. Bot, który mówi o starej promocji albo nie rozumie nowej procedury, traci zaufanie. Użytkownik nie odróżnia "bot nie został zaktualizowany" od "firma nie wie, co robi".
 
 ## 5.6. Perspektywa technologiczna
 
-Operating model powinien okreslac:
+Operating model powinien określać:
 
 - ownera produktu;
 - ownera conversation design;
@@ -729,12 +729,12 @@ Operating model powinien okreslac:
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
 - Ustal BAU przed produkcją.
-- Miej regularny rytm przegladu metryk.
+- Miej regularny rytm przeglądu metryk.
 - Miej backlog optymalizacji.
 - Wersjonuj flow, prompty, modele, RAG.
-- Przegladaj bazę wiedzy cyklicznie.
+- Przeglądaj bazę wiedzy cyklicznie.
 - Testuj regresję przed release.
-- Roadmapę buduj na danych, nie tylko pomyslach.
+- Roadmapę buduj na danych, nie tylko pomysłach.
 - Komunikuj zmiany contact center.
 
 ## 5.8. Typowe błędy
@@ -744,10 +744,10 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Błąd | Konsekwencja |
 |---|---|
 | Brak ownera po wdrożeniu | Bot się starzeje |
-| Brak release process | Zmiany psuja produkcję |
+| Brak release process | Zmiany psują produkcję |
 | Brak update bazy wiedzy | Nieaktualne odpowiedzi |
-| Roadmapa z zyczen, nie danych | Slabe priorytety |
-| Brak feedbacku konsultantów | Handoff i wyjatki są ignorowane |
+| Roadmapa z życzeń, nie danych | Słabe priorytety |
+| Brak feedbacku konsultantów | Handoff i wyjątki są ignorowane |
 
 ## 5.9. Checklista BAU
 
@@ -765,20 +765,20 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 5.10. Mini case study
 
-Voicebot zwrotow działał dobrze przez trzy miesiace. Firma zmienila politykę zwrotow z 30 na 14 dni, ale baza wiedzy bota nie została zaktualizowana. Klienci dostawali błędne informacje. Po incydencie powolano ownera knowledge base i proces zatwierdzania zmian regulaminowych przed publikacją.
+Voicebot zwrotów działał dobrze przez trzy miesiące. Firma zmieniła politykę zwrotów z 30 na 14 dni, ale baza wiedzy bota nie została zaktualizowana. Klienci dostawali błędne informacje. Po incydencie powołano ownera knowledge base i proces zatwierdzania zmian regulaminowych przed publikacją.
 
 ## 5.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Zaprojektuj operating model dla voicebota e-commerce.
-2. Przygotuj miesieczny rytm przeglądów.
+2. Przygotuj miesięczny rytm przeglądów.
 3. Zdefiniuj release checklist.
-4. Zbuduj roadmapę 3 kwartalow.
+4. Zbuduj roadmapę 3 kwartałów.
 
 ## 5.12. Podsumowanie
 
-Voicebot nie jest projektem "wdrożyć i zapomniec". Jest produktem, który wymaga właścicieli, rytmu, danych, testów i roadmapy. Bez BAU każdy dobry bot z czasem staje się zły.
+Voicebot nie jest projektem "wdrożyć i zapomnieć". Jest produktem, który wymaga właścicieli, rytmu, danych, testów i roadmapy. Bez BAU każdy dobry bot z czasem staje się zły.
 
 ---
 
@@ -790,16 +790,16 @@ Czytelnik nauczy się:
 
 - rozumieć role w projekcie voicebota;
 - podzielić odpowiedzialności;
-- zbudowac RACI;
+- zbudować RACI;
 - unikać luk organizacyjnych.
 
 ## 6.2. Role
 
 | Rola | Odpowiedzialność |
 |---|---|
-| Sponsor biznesowy | Budzet, priorytet, decyzję strategiczne |
+| Sponsor biznesowy | Budżet, priorytet, decyzje strategiczne |
 | Product owner | Zakres, backlog, priorytety, wynik produktu |
-| Project manager | Harmonogram, zaleznosci, ryzyka, komunikacja |
+| Project manager | Harmonogram, zależności, ryzyka, komunikacja |
 | Voicebot Specialist | Projektowanie, koordynacja conversation/process/AI, jakość |
 | Conversation designer | Dialogi, prompt'y, persona, fallbacki, UX głosowy |
 | AI/NLP specialist | Intencje, encje, modele, dane, testy NLU |
@@ -810,13 +810,13 @@ Czytelnik nauczy się:
 | Contact center manager | Operacje, kolejki, konsultanci, handoff |
 | Konsultanci | Wiedza procesowa, feedback, testy realnych rozmów |
 | Legal/compliance | Zgody, regulacje, ryzyka odpowiedzi |
-| Security/DPO | Dane, prywatność, dostepy, retencja |
+| Security/DPO | Dane, prywatność, dostępy, retencja |
 | Data analyst | Dashboardy, metryki, analizy |
 | Knowledge owner | Aktualność bazy wiedzy |
 
 ## 6.3. Wyjaśnienie eksperckie
 
-Najczestsza luka: wszyscy myślą, że ktos inny odpowiada za jakość po wdrożeniu. Dlatego RACI jest konieczny.
+Najczęstsza luka: wszyscy myślą, że ktoś inny odpowiada za jakość po wdrożeniu. Dlatego RACI jest konieczny.
 
 Przykładowe RACI:
 
@@ -833,7 +833,7 @@ Przykładowe RACI:
 
 ## 6.4. Perspektywa biznesowa
 
-Rola sponsora nie kończy się na budzecie. Sponsor musi podejmowac decyzję, gdy pojawia się konflikt:
+Rola sponsora nie kończy się na budżecie. Sponsor musi podejmować decyzje, gdy pojawia się konflikt:
 
 - containment vs CSAT;
 - compliance vs długość komunikatu;
@@ -843,23 +843,23 @@ Rola sponsora nie kończy się na budzecie. Sponsor musi podejmowac decyzję, gd
 
 ## 6.5. Perspektywa użytkownika
 
-Dobre role przekładają się na spójność doświadczenia. Gdy legal, UX, contact center i IT nie wspolpracuja, użytkownik słyszy efekt konfliktu: długie komunikaty, źle transfery, brak danych i fallbacki.
+Dobre role przekładają się na spójność doświadczenia. Gdy legal, UX, contact center i IT nie współpracują, użytkownik słyszy efekt konfliktu: długie komunikaty, złe transfery, brak danych i fallbacki.
 
 ## 6.6. Perspektywa technologiczna
 
-Technicznie rola architekta jest kluczowa, bo voicebot dotyka wielu systemów. Ale architektura bez conversation design może stworzyc szybki system, który mówi źle rzeczy. Dlatego role muszą być połączone.
+Technicznie rola architekta jest kluczowa, bo voicebot dotyka wielu systemów. Ale architektura bez conversation design może stworzyć szybki system, który mówi złe rzeczy. Dlatego role muszą być połączone.
 
 ## 6.7. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
 - Ustal RACI na starcie.
-- Zaangazuj legal/security wcześnie.
-- Zaangazuj konsultantów w discovery i UAT.
+- Zaangażuj legal/security wcześnie.
+- Zaangażuj konsultantów w discovery i UAT.
 - Ustal ownera knowledge base.
 - Ustal ownera metryk.
 - Ustal ownera BAU.
-- Spotkania optymalizacyjne rob cyklicznie.
+- Spotkania optymalizacyjne rób cyklicznie.
 
 ## 6.8. Typowe błędy
 
@@ -867,11 +867,11 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Brak PO | Zakres plynie |
+| Brak PO | Zakres płynie |
 | Brak legal na starcie | Blokady przed produkcją |
 | Brak contact center w projekcie | Handoff nie działa |
-| Brak ownera danych | Dashboardy są slabe |
-| Brak ownera bazy wiedzy | Odpowiedzi się starzeja |
+| Brak ownera danych | Dashboardy są słabe |
+| Brak ownera bazy wiedzy | Odpowiedzi się starzeją |
 | Brak BAU owner | Bot zostaje bez opieki |
 
 ## 6.9. Checklista rol
@@ -892,7 +892,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 6.10. Mini case study
 
-W projekcie bankowym bot był technicznie gotowy, ale legal zablokowal produkcję, bo nie zatwierdzono sposobu informowania o automatycznej rozmowie i retencji transkrypcji. Po tym firma dodała legal/compliance do RACI od discovery, a nie dopiero przed go-live.
+W projekcie bankowym bot był technicznie gotowy, ale legal zablokował produkcję, bo nie zatwierdzono sposobu informowania o automatycznej rozmowie i retencji transkrypcji. Po tym firma dodała legal/compliance do RACI od discovery, a nie dopiero przed go-live.
 
 ## 6.11. Ćwiczenia
 
@@ -900,12 +900,12 @@ W projekcie bankowym bot był technicznie gotowy, ale legal zablokowal produkcj�
 
 1. Przygotuj RACI dla projektu rezerwacyjnego.
 2. Wskaż role potrzebne w UAT.
-3. Zdefiniuj ownerow BAU.
+3. Zdefiniuj ownerów BAU.
 4. Opisz konflikt sponsor vs compliance i kto decyduje.
 
 ## 6.12. Podsumowanie
 
-Voicebot jest projektem interdyscyplinarnym. Bez jasnych rol odpowiedzialność rozmywa się, a jakość cierpi. RACI nie jest formalnoscia, tylko narzędziem zarzadzania ryzykiem.
+Voicebot jest projektem interdyscyplinarnym. Bez jasnych ról odpowiedzialność rozmywa się, a jakość cierpi. RACI nie jest formalnością, tylko narzędziem zarządzania ryzykiem.
 
 ---
 
@@ -917,28 +917,28 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy wykonano audit rozmów?
 - Czy use case został wybrany na podstawie danych?
 - Czy business case i MVP są zatwierdzone?
-- Czy prototyp sprawdzil koncepcje rozmowy?
-- Czy MVP ma waski, ale kompletny zakres?
+- Czy prototyp sprawdził koncepcję rozmowy?
+- Czy MVP ma wąski, ale kompletny zakres?
 - Czy pilot ma ograniczony ruch?
 - Czy pilot ma go/no-go?
 - Czy soft launch ma ramp-up?
-- Czy hypercare ma harmonogram i ownerow?
+- Czy hypercare ma harmonogram i ownerów?
 - Czy jest runbook i rollback?
 - Czy BAU ma ownera?
 - Czy roadmapa wynika z danych?
 - Czy RACI obejmuje wszystkie role?
-- Czy contact center, legal, security i data są zaangazowane?
+- Czy contact center, legal, security i data są zaangażowane?
 
 ---
 
 # 8. Co będzie w kolejnej części
 
-Kolejna część powinna opracowac **Część XII. Bezpieczeństwo, prywatność, prawo i compliance**:
+Kolejna część powinna opracować **Część XII. Bezpieczeństwo, prywatność, prawo i compliance**:
 
 1. RODO/GDPR, dane osobowe i dane wrażliwe.
 2. Zgody, informowanie o rozmowie z botem i nagrywanie.
 3. Transkrypcje, retencja, minimalizacja danych i szyfrowanie.
-4. Dostęp do logow i bezpieczeństwo API.
+4. Dostęp do logów i bezpieczeństwo API.
 5. Prompt injection, data leakage i halucynacje jako ryzyko compliance.
-6. Audyt, odpowiedzialność za decyzję i branże regulowane.
+6. Audyt, odpowiedzialność za decyzje i branże regulowane.
 

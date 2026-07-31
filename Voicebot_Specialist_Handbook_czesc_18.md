@@ -83,8 +83,8 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 10. Kiedy LLM nie powinien odpowiadać?
 11. Co to jest RAG?
 12. Co to jest prompt injection?
-13. Dlaczego trzeba wersjonowac prompt systemowy?
-14. Co powinien zawierac context package przy handoff?
+13. Dlaczego trzeba wersjonować prompt systemowy?
+14. Co powinien zawierać context package przy handoff?
 15. Co mierzy confusion matrix?
 
 ---
@@ -119,23 +119,23 @@ Dostajesz use case: zmiana terminu wizyty medycznej. Przygotuj:
 
 Firma ubezpieczeniowa chce wdrożyć program voicebotów w 3 krajach. Przygotuj:
 
-- strategie use case'ow;
-- architekturę hybrydowa;
+- strategie use case'ów;
+- architekturę hybrydową;
 - governance RAG;
 - model operacyjny;
 - RACI;
 - proces compliance;
 - dashboard strategiczny;
-- roadmapę 12 miesiecy.
+- roadmapę 12 miesięcy.
 
 ---
 
 # 5. Projekt końcowy
 
-Projekt końcowy powinien zawierac:
+Projekt końcowy powinien zawierać:
 
 1. Brief.
-2. Matryce use case'u.
+2. Matrycę use case'u.
 3. Business case.
 4. Architekturę.
 5. Scenariusz dialogowy.
@@ -157,7 +157,7 @@ Projekt końcowy powinien zawierac:
 | Dopasowanie use case'u | 15% | Czy use case jest sensowny i mierzalny |
 | Conversation design | 20% | Czy dialog jest jasny, odporny na błędy |
 | Architektura | 15% | Czy komponenty i integracje są realistyczne |
-| QA | 15% | Czy testy obejmuja ryzyka |
+| QA | 15% | Czy testy obejmują ryzyka |
 | Metryki | 10% | Czy sukces jest mierzalny |
 | Compliance | 10% | Czy ryzyka są rozpoznane |
 | Handoff | 5% | Czy przekazanie jest zaprojektowane |
@@ -190,19 +190,19 @@ Portfolio Expert:
 - minimum 3 projekty;
 - co najmniej 1 projekt z LLM/RAG;
 - governance lub roadmapa;
-- case z optymalizacja po wdrożeniu;
+- case z optymalizacją po wdrożeniu;
 - analiza ryzyka.
 
 ---
 
 # 9. Przykładowy scenariusz egzaminacyjny
 
-Firma e-commerce ma 80 000 rozmów miesiecznie. Najczestsze powody: status zamówienia, zwroty, reklamację, faktury. Contact center ma wysoki repeat contact dla statusu. API statusu istnieje, API reklamacji jest niedostepne. Zaproponuj MVP voicebota.
+Firma e-commerce ma 80 000 rozmów miesięcznie. Najczęstsze powody: status zamówienia, zwroty, reklamacje, faktury. Contact center ma wysoki repeat contact dla statusu. API statusu istnieje, API reklamacji jest niedostępne. Zaproponuj MVP voicebota.
 
 Oczekiwana odpowiedź:
 
 - MVP: status zamówienia + podstawowa informacja o zwrocie;
-- reklamację poza zakresem lub ticket/handoff;
+- reklamacje poza zakresem lub ticket/handoff;
 - integracja z OMS;
 - SMS z linkiem;
 - metryki: task completion, repeat contact, fallback, handoff;
@@ -213,7 +213,7 @@ Oczekiwana odpowiedź:
 
 # 10. Podsumowanie
 
-Certyfikacja Voicebot Specialist powinna sprawdzać praktyczne kompetencje. Najlepszy kandydat nie tylko zna definicje, ale potrafi zaprojektować proces, przewidziec błędy, mierzyć wyniki i powiedzieć, kiedy voicebot nie jest dobrym rozwiazaniem.
+Certyfikacja Voicebot Specialist powinna sprawdzać praktyczne kompetencje. Najlepszy kandydat nie tylko zna definicje, ale potrafi zaprojektować proces, przewidzieć błędy, mierzyć wyniki i powiedzieć, kiedy voicebot nie jest dobrym rozwiązaniem.
 
 ---
 

@@ -20,24 +20,24 @@ Kontynuacja plików:
 
 ## Cel całej części
 
-Voicebot bez integracji może rozmawiać. Voicebot z dobrze zaprojektowanymi integracjami może zalatwiac sprawy. Integracje są tym miejscem, w którym conversation design spotyka się z realnymi systemami organizacji: CRM, ERP, ticketingiem, kalendarzami, systemami płatności, bazami klientów, systemami rezerwacji, contact center i narzędziami konsultantów.
+Voicebot bez integracji może rozmawiać. Voicebot z dobrze zaprojektowanymi integracjami może załatwiać sprawy. Integracje są tym miejscem, w którym conversation design spotyka się z realnymi systemami organizacji: CRM, ERP, ticketingiem, kalendarzami, systemami płatności, bazami klientów, systemami rezerwacji, contact center i narzędziami konsultantów.
 
 Ta część pokazuje, jak projektować integracje voicebota tak, aby były bezpieczne, mierzalne, odporne na błędy i zrozumiałe dla użytkownika.
 
 Po tej części czytelnik powinien umieć:
 
-1. Wyjaśnić role API, webhookow i integracji backendowych.
+1. Wyjaśnić role API, webhooków i integracji backendowych.
 2. Projektować wymagania integracyjne dla CRM, ERP, ticketingu, kalendarzy, płatności i helpdesku.
-3. Rozumieć weryfikację użytkownika, autoryzacje i minimalizacje danych.
+3. Rozumieć weryfikację użytkownika, autoryzację i minimalizację danych.
 4. Projektować retry logic, timeouty, idempotency i fallbacki.
 5. Zaprojektować przekazanie kontekstu do konsultanta.
 6. Tworzyć automatyczne notatki i podsumowania rozmów.
-7. Okreslac, kiedy bot może wykonać akcję, a kiedy powinien tylko przygotować sprawę dla człowieka.
+7. Określać, kiedy bot może wykonać akcję, a kiedy powinien tylko przygotować sprawę dla człowieka.
 
 Źródła wspierające część:
 
-- Dokumentacje AWS Connect, Amazon Lex, Google Dialogflow CX i OpenAI Realtime jako odniesienie do praktycznych wzorcow voice agents, slotów, narzędzi, transferów, interruption i konfiguracji rozmów.
-- W3C VoiceXML 2.0 jako historyczny fundament dialogów transakcyjnych, formularzy, eventow i input collection.
+- Dokumentacje AWS Connect, Amazon Lex, Google Dialogflow CX i OpenAI Realtime jako odniesienie do praktycznych wzorców voice agents, slotów, narzędzi, transferów, interruption i konfiguracji rozmów.
+- W3C VoiceXML 2.0 jako historyczny fundament dialogów transakcyjnych, formularzy, eventów i input collection.
 - Uzupełnienie eksperckie: architektura API, idempotency, handoff context, ticket automation, notes automation i enterprise integration governance.
 
 ---
@@ -48,10 +48,10 @@ Po tej części czytelnik powinien umieć:
 
 Czytelnik nauczy się:
 
-- rozumieć podstawowa role API i webhookow w voicebocie;
+- rozumieć podstawową rolę API i webhooków w voicebocie;
 - projektować integracje pod rozmowę w czasie rzeczywistym;
 - odróżniać odczyt danych od zapisu danych;
-- wskazac typowe ryzyka integracyjne.
+- wskazać typowe ryzyka integracyjne.
 
 ## 1.2. Kluczowe pojęcia
 
@@ -59,16 +59,16 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
-| API | Interfejs pozwalajacy systemom wymieniać dane lub wykonywac akcję |
-| Webhook | Wywolanie systemu w reakcji na zdarzenie, np. zakończenie rozmowy |
+| API | Interfejs pozwalający systemom wymieniać dane lub wykonywać akcje |
+| Webhook | Wywołanie systemu w reakcji na zdarzenie, np. zakończenie rozmowy |
 | Endpoint | Konkretny adres/funkcja API |
 | Request | Zapytanie do systemu |
 | Response | Odpowiedź systemu |
 | Timeout | Maksymalny czas oczekiwania na odpowiedź |
 | Retry | Ponowienie zapytania po błędzie |
-| Idempotency | Właściwość lub mechanizm projektowy, dzięki ktoremu ponowienie tej samej akcji nie powinno utworzyc duplikatu |
-| Rate limit | Ograniczenie liczby zapytan w czasie |
-| Payload | Dane przesylane w request lub response |
+| Idempotency | Właściwość lub mechanizm projektowy, dzięki któremu ponowienie tej samej akcji nie powinno utworzyć duplikatu |
+| Rate limit | Ograniczenie liczby zapytań w czasie |
+| Payload | Dane przesyłane w request lub response |
 
 ## 1.3. Wyjaśnienie eksperckie
 
@@ -79,53 +79,53 @@ Podstawowe typy integracji:
 1. Odczyt danych: status zamówienia, saldo, termin, lista wizyt.
 2. Walidacja danych: czy numer zamówienia istnieje, czy kod SMS jest poprawny.
 3. Zapis danych: zmiana adresu, rezerwacja, utworzenie ticketu.
-4. Akcja zewnętrzna: wyslanie SMS-a, e-maila, linku, powiadomienia.
+4. Akcja zewnętrzna: wysłanie SMS-a, e-maila, linku, powiadomienia.
 5. Handoff: przekazanie kontekstu do contact center.
 6. Post-call automation: notatka, tagi, aktualizacja CRM.
 
 Najważniejsze rozróżnienie:
 
-- Odczyt danych może być wykonany przy nizszym ryzyku.
-- Zapis danych i akcję transakcyjne wymagają walidacji, autoryzacji, potwierdzenia i audytu.
+- Odczyt danych może być wykonany przy niższym ryzyku.
+- Zapis danych i akcje transakcyjne wymagają walidacji, autoryzacji, potwierdzenia i audytu.
 
 ## 1.4. Perspektywa biznesowa
 
-Integracje decydują, czy bot tworzy realną wartość. Voicebot, który rozpoznaje intencje, ale nie ma dostępu do systemu źródłowego, będzie konczyl rozmowy komunikatem "w tej sprawie proszę skontaktowac się z konsultantem". To może być pomocne jako routing, ale nie jest pełną automatyzacją.
+Integracje decydują, czy bot tworzy realną wartość. Voicebot, który rozpoznaje intencje, ale nie ma dostępu do systemu źródłowego, będzie kończył rozmowy komunikatem "w tej sprawie proszę skontaktować się z konsultantem". To może być pomocne jako routing, ale nie jest pełną automatyzacją.
 
 Pytania biznesowe:
 
-- Czy bot ma tylko informowac, czy wykonywac akcję?
-- Które akcję są dozwolone automatycznie?
+- Czy bot ma tylko informować, czy wykonywać akcje?
+- Które akcje są dozwolone automatycznie?
 - Które wymagają człowieka?
-- Które dane można odczytac głosem?
+- Które dane można odczytać głosem?
 - Które dane powinny być wysłane SMS-em lub e-mailem?
 - Co oznacza sukces integracji?
 
 ## 1.5. Perspektywa użytkownika
 
-Użytkownik odczuwa integracje jako sprawczosc:
+Użytkownik odczuwa integracje jako sprawczość:
 
-- "Bot znalazl moje zamówienie."
-- "Bot zmienil termin."
-- "Bot wyslal link."
+- "Bot znalazł moje zamówienie."
+- "Bot zmienił termin."
+- "Bot wysłał link."
 - "Konsultant wie, o co chodzi."
 
 Nie odczuwa API. Odczuwalny jest tylko wynik i sposób komunikacji przy oczekiwaniu lub błędzie.
 
 ## 1.6. Perspektywa technologiczna
 
-Każda integracja powinna mieć specyfikacje:
+Każda integracja powinna mieć specyfikację:
 
 | Element | Pytanie |
 |---|---|
 | Cel | Po co bot wywołuje API? |
 | System | Jaki system jest źródłem prawdy? |
 | Owner | Kto odpowiada za system? |
-| Dane wejsciowe | Jakie sloty są wymagane? |
-| Dane wyjsciowe | Co wraca do bota? |
-| Timeout | Ile bot może czekac? |
+| Dane wejściowe | Jakie sloty są wymagane? |
+| Dane wyjściowe | Co wraca do bota? |
+| Timeout | Ile bot może czekać? |
 | Retry | Czy ponawiamy? Ile razy? |
-| Idempotency | Czy akcja zapisujaca jest bezpieczna przy ponowieniu? |
+| Idempotency | Czy akcja zapisująca jest bezpieczna przy ponowieniu? |
 | Błędy | Jakie są kody błędów i komunikaty? |
 | Audyt | Co logujemy? |
 | Prywatność | Co maskujemy? |
@@ -136,7 +136,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 
 - Projektuj integracje przed finalnym dialogiem.
 - Oddziel odczyt od zapisu.
-- Dla zapisow stosuj idempotency.
+- Dla zapisów stosuj idempotency.
 - Ustal timeouty z perspektywy rozmowy.
 - Mapuj błędy techniczne na zrozumiałe komunikaty.
 - Nie wypowiadaj danych wrażliwych bez potrzeby.
@@ -149,10 +149,10 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Projekt dialogu bez znajomosci API | Flow obiecuje rzeczy niewykonalne |
-| Brak timeoutow | Martwa cisza w rozmowie |
-| Brak idempotency | Duplikaty rezerwacji lub ticketow |
-| Jeden komunikat dla wszystkich błędów | Użytkownik nie wie, co się stalo |
+| Projekt dialogu bez znajomości API | Flow obiecuje rzeczy niewykonalne |
+| Brak timeoutów | Martwa cisza w rozmowie |
+| Brak idempotency | Duplikaty rezerwacji lub ticketów |
+| Jeden komunikat dla wszystkich błędów | Użytkownik nie wie, co się stało |
 | Brak właściciela integracji | Problemy utrzymaniowe |
 | Brak sandboxa | Testy są ryzykowne |
 
@@ -167,19 +167,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy znamy wymagane dane?
 - Czy znamy timeout?
 - Czy znamy błędy?
-- Czy akcję zapisujace są idempotentne?
+- Czy akcje zapisujące są idempotentne?
 - Czy dane wrażliwe są maskowane?
 - Czy bot ma komunikat na awarie?
 
 ## 1.10. Mini case study
 
-Voicebot rezerwacyjny mógł utworzyc wizyte, ale API kalendarza czasem odpowiadalo po utworzeniu wpisu dopiero po kilku sekundach. Bot ponawial request i tworzył duplikaty. Po dodaniu `idempotency_key` opartego na `conversation_id`, pacjencie i terminie, ponowienie zwracalo istniejaca rezerwacje zamiast tworzyć nowa.
+Voicebot rezerwacyjny mógł utworzyć wizytę, ale API kalendarza czasem odpowiadało po utworzeniu wpisu dopiero po kilku sekundach. Bot ponawiał request i tworzył duplikaty. Po dodaniu `idempotency_key` opartego na `conversation_id`, pacjencie i terminie, ponowienie zwracało istniejącą rezerwację zamiast tworzyć nową.
 
 ## 1.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
-1. Przygotuj specyfikacje API dla statusu zamówienia.
+1. Przygotuj specyfikację API dla statusu zamówienia.
 2. Wypisz błędy API dla zmiany adresu.
 3. Zaprojektuj komunikat po timeout.
 4. Wskaż, gdzie potrzebna jest idempotency.
@@ -197,8 +197,8 @@ API i webhooki są mostem między rozmową a procesem. Dobra integracja jest szy
 Czytelnik nauczy się:
 
 - rozumieć typowe systemy integrowane z voicebotem;
-- wskazac, jakie dane i akcję zwykle są potrzebne;
-- projektować integracje wedlug typu procesu;
+- wskazać, jakie dane i akcje zwykle są potrzebne;
+- projektować integracje według typu procesu;
 - unikać nadmiernego zakresu integracyjnego.
 
 ## 2.2. Kluczowe systemy
@@ -208,25 +208,25 @@ Czytelnik nauczy się:
 | CRM | Dane klienta, historia kontaktu, segment, zgody |
 | ERP | Zamówienia, faktury, produkty, operacje biznesowe |
 | OMS | Order Management System, status zamówień i dostaw |
-| Ticketing | Tworzenie i aktualizacja zgloszen |
+| Ticketing | Tworzenie i aktualizacja zgłoszeń |
 | Helpdesk IT | Incydenty, kategorie, priorytety, baza użytkowników |
-| Kalendarz/rezerwacje | Wizyty, dostępne terminy, zmiany, odwolania |
+| Kalendarz/rezerwacje | Wizyty, dostępne terminy, zmiany, odwołania |
 | Płatności | Linki do płatności, status płatności, deklaracje |
 | Knowledge base | Odpowiedzi informacyjne, procedury, instrukcje |
 | Contact center | Kolejki, transfery, agent desktop, nagrania |
 
 ## 2.3. Wyjaśnienie eksperckie
 
-Każdy system ma inna role:
+Każdy system ma inną rolę:
 
-- CRM mówi, kim jest klient i jaka ma historie.
+- CRM mówi, kim jest klient i jaką ma historię.
 - ERP lub OMS mówi, jaki jest stan procesu.
 - Ticketing zapisuje sprawę do dalszej obsługi.
-- Kalendarz pozwala zarezerwowac termin.
+- Kalendarz pozwala zarezerwować termin.
 - Contact center przejmuje rozmowę.
 - Baza wiedzy wyjaśnia procedury.
 
-Voicebot nie powinien łączyć się że wszystkim naraz tylko dlatego, że to możliwe. Zakres integracji powinien wynikać z use case'u.
+Voicebot nie powinien łączyć się ze wszystkim naraz tylko dlatego, że to możliwe. Zakres integracji powinien wynikać z use case'u.
 
 Przykład dla statusu zamówienia:
 
@@ -246,12 +246,12 @@ Niewymagane na start:
 
 ## 2.4. Perspektywa biznesowa
 
-Integracje są często najdrozszym i najbardziej ryzykownym elementem projektu. Warto odróżniać:
+Integracje są często najdroższym i najbardziej ryzykownym elementem projektu. Warto odróżniać:
 
 - integracje konieczne do MVP;
-- integracje zwiekszajace wartość;
-- integracje, które można zastapic ticketem;
-- integracje przyszlosciowe.
+- integracje zwiększające wartość;
+- integracje, które można zastąpić ticketem;
+- integracje przyszłościowe.
 
 Dobre pytanie:
 
@@ -259,19 +259,19 @@ Dobre pytanie:
 
 ## 2.5. Perspektywa użytkownika
 
-Użytkownik nie chce wiedzieć, z ilu systemów korzysta bot. Chce, aby odpowiedź była spójna. Jeśli CRM mówi co innego niż system zamówień, bot musi mieć regule źródła prawdy albo przekazać sprawę do człowieka.
+Użytkownik nie chce wiedzieć, z ilu systemów korzysta bot. Chce, aby odpowiedź była spójna. Jeśli CRM mówi co innego niż system zamówień, bot musi mieć regułę źródła prawdy albo przekazać sprawę do człowieka.
 
 ## 2.6. Perspektywa technologiczna
 
-Typowe dane i akcję:
+Typowe dane i akcje:
 
-| Use case | Dane | Akcję |
+| Use case | Dane | Akcje |
 |---|---|---|
 | Status zamówienia | order_id, status, ETA | odczyt statusu, SMS |
 | Zmiana wizyty | pacjent, dostępne sloty | rezerwacja, zmiana, anulowanie |
 | Helpdesk | user_id, asset, category | ticket, reset, instrukcja |
-| Reklamacja | klient, produkt, powod | ticket, załączniki poza kanałem |
-| Płatność | saldo, link, status | wyslanie linku, deklaracja |
+| Reklamacja | klient, produkt, powód | ticket, załączniki poza kanałem |
+| Płatność | saldo, link, status | wysłanie linku, deklaracja |
 
 ## 2.7. Dobre praktyki
 
@@ -279,8 +279,8 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 
 - Wybierz system źródłowy dla każdego typu danych.
 - Nie powielaj logiki biznesowej w wielu miejscach.
-- Dla ticketingu okresl minimalne pola wymagane.
-- Dla kalendarzy sprawdź konflikt terminow tuz przed zapisem.
+- Dla ticketingu określ minimalne pola wymagane.
+- Dla kalendarzy sprawdź konflikt terminów tuż przed zapisem.
 - Dla CRM minimalizuj dane wypowiadane głosem.
 - Dla helpdesku nie zbieraj haseł.
 - Dla płatności unikaj wypowiadania wrażliwych danych.
@@ -293,8 +293,8 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 |---|---|
 | Integracja ze złym systemem źródłowym | Nieaktualne dane |
 | Zbyt szeroki zakres integracji | Opóźnienia projektu |
-| Brak minimalnych pol ticketu | Zgłoszenia bezuzyteczne |
-| Brak reguły konfliktu kalendarza | Podwojne rezerwacje |
+| Brak minimalnych pól ticketu | Zgłoszenia bezużyteczne |
+| Brak reguły konfliktu kalendarza | Podwójne rezerwacje |
 | Odczytywanie nadmiaru danych z CRM | Ryzyko prywatności |
 
 ## 2.9. Checklista systemów
@@ -303,8 +303,8 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 - Czy wiemy, który system jest źródłem prawdy?
 - Czy dane są aktualne?
-- Czy API pozwala na potrzebna akcję?
-- Czy akcja ma walidacje?
+- Czy API pozwala na potrzebną akcję?
+- Czy akcja ma walidację?
 - Czy system ma sandbox?
 - Czy są limity i SLA?
 - Czy mamy właściciela systemu?
@@ -313,20 +313,20 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 2.10. Mini case study
 
-Voicebot helpdeskowy tworzył tickety, ale konsultanci musieli je przepisywac, bo brakowalo kategorii, priorytetu i lokalizacji użytkownika. Po analizie ticketingu dodano wymagane sloty i mapowanie kategorii. Bot nie tylko tworzył ticket, ale tworzył ticket użyteczny.
+Voicebot helpdeskowy tworzył tickety, ale konsultanci musieli je przepisywać, bo brakowało kategorii, priorytetu i lokalizacji użytkownika. Po analizie ticketingu dodano wymagane sloty i mapowanie kategorii. Bot nie tylko tworzył ticket, ale tworzył ticket użyteczny.
 
 ## 2.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Dla use case'u rezerwacji wypisz potrzebne systemy.
-2. Oznacz integracje MVP i integracje pozniejsze.
+2. Oznacz integracje MVP i integracje późniejsze.
 3. Zaprojektuj minimalny ticket reklamacyjny.
 4. Wskaż system źródłowy dla statusu klienta.
 
 ## 2.12. Podsumowanie
 
-Integracje powinny być projektowane wedlug procesu, nie wedlug ambicji technologicznej. Dobry voicebot korzysta z tylu systemów, ile potrzeba, aby bezpiecznie i skutecznie załatwić sprawę.
+Integracje powinny być projektowane według procesu, nie według ambicji technologicznej. Dobry voicebot korzysta z tylu systemów, ile potrzeba, aby bezpiecznie i skutecznie załatwić sprawę.
 
 ---
 
@@ -336,9 +336,9 @@ Integracje powinny być projektowane wedlug procesu, nie wedlug ambicji technolo
 
 Czytelnik nauczy się:
 
-- odróżniać identyfikacje, weryfikację i autoryzacje;
+- odróżniać identyfikację, weryfikację i autoryzację;
 - projektować procesy z danymi osobowymi;
-- minimalizowac dane wypowiadane i logowane;
+- minimalizować dane wypowiadane i logowane;
 - rozumieć ryzyka w kanale głosowym.
 
 ## 3.2. Kluczowe pojęcia
@@ -348,8 +348,8 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Pojęcie | Definicja |
 |---|---|
 | Identyfikacja | Ustalenie, kim prawdopodobnie jest użytkownik |
-| Weryfikacja | Potwierdzenie tozsamosci użytkownika |
-| Autoryzacja | Sprawdzenie, czy użytkownik może wykonać dana akcję |
+| Weryfikacja | Potwierdzenie tożsamości użytkownika |
+| Autoryzacja | Sprawdzenie, czy użytkownik może wykonać daną akcję |
 | MFA | Multi-factor authentication |
 | PII | Dane osobowe |
 | Sensitive data | Dane wrażliwe lub szczególnie chronione |
@@ -365,11 +365,11 @@ Przykład:
 - Kod SMS potwierdza dostęp do telefonu: weryfikacja.
 - System sprawdza, czy klient może zmienić adres zamówienia: autoryzacja.
 
-W voicebocie nie wolno zakładać, że osoba dzwoniaca z numeru klienta jest zawsze klientem. Telefon może być wspoldzielony, skradziony albo obsługiwany przez osobe trzecia.
+W voicebocie nie wolno zakładać, że osoba dzwoniąca z numeru klienta jest zawsze klientem. Telefon może być współdzielony, skradziony albo obsługiwany przez osobę trzecią.
 
 ## 3.4. Perspektywa biznesowa
 
-Poziom weryfikacji zalezy od ryzyka:
+Poziom weryfikacji zależy od ryzyka:
 
 | Akcja | Poziom weryfikacji |
 |---|---|
@@ -377,14 +377,14 @@ Poziom weryfikacji zalezy od ryzyka:
 | Status niskiego ryzyka | Lekka weryfikacja |
 | Zmiana danych kontaktowych | Silniejsza weryfikacja |
 | Płatności i finanse | Silna weryfikacja |
-| Dane medyczne | Wysoka ostroznosc |
+| Dane medyczne | Wysoka ostrożność |
 | Anulowanie/zmiana umowy | Explicit confirmation + audyt |
 
 ## 3.5. Perspektywa użytkownika
 
-Weryfikacja jest kosztem UX. Użytkownik zaakceptuje ja, jeśli rozumie po co:
+Weryfikacja jest kosztem UX. Użytkownik zaakceptuje ją, jeśli rozumie po co:
 
-"Dla bezpieczeństwa wysle kod SMS. Proszę podac kod z wiadomosci."
+"Dla bezpieczeństwa wyślę kod SMS. Proszę podać kod z wiadomości."
 
 Nie warto prosić o dane, które nie są potrzebne. Każde dodatkowe pytanie zwiększa tarcie i ryzyko.
 
@@ -408,13 +408,13 @@ Wymagania:
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
 - Stosuj risk-based verification.
-- Nie wypowiadaj pelnych danych osobowych bez potrzeby.
-- Nie pros o hasła.
+- Nie wypowiadaj pełnych danych osobowych bez potrzeby.
+- Nie proś o hasła.
 - Kody jednorazowe traktuj ostrożnie.
 - Potwierdzaj tylko fragmenty danych, np. ostatnie 3 cyfry.
 - Loguj zdarzenia weryfikacji.
 - Po nieudanej weryfikacji nie zdradzaj, które dane były poprawne.
-- Eskaluj przy podejrzeniu naduzycia.
+- Eskaluj przy podejrzeniu nadużycia.
 
 ## 3.8. Typowe błędy
 
@@ -422,9 +422,9 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Numer telefonu jako jedyna weryfikacja | Ryzyko naduzyc |
+| Numer telefonu jako jedyna weryfikacja | Ryzyko nadużyć |
 | Prośba o hasło | Poważny błąd bezpieczeństwa |
-| Odczytywanie pelnych danych | Ryzyko prywatności |
+| Odczytywanie pełnych danych | Ryzyko prywatności |
 | Ten sam poziom weryfikacji dla wszystkiego | Nadmierne tarcie lub ryzyko |
 | Brak limitu prób | Ryzyko brute force |
 | Brak audytu | Trudno wyjaśnić incydent |
@@ -445,20 +445,20 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 3.10. Mini case study
 
-Voicebot bankowy rozpoznawal klienta po numerze telefonu i odczytywal saldo. Security zatrzymało projekt. Po zmianie bot po numerze telefonu tylko identyfikowal rekord, ale przed informacja o saldzie wymagal dodatkowej weryfikacji. Dla ogólnych informacji o placowkach weryfikacja nie była wymagana.
+Voicebot bankowy rozpoznawał klienta po numerze telefonu i odczytywał saldo. Security zatrzymało projekt. Po zmianie bot po numerze telefonu tylko identyfikował rekord, ale przed informacją o saldzie wymagał dodatkowej weryfikacji. Dla ogólnych informacji o placówkach weryfikacja nie była wymagana.
 
 ## 3.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
-1. Podziel akcję voicebota na poziomy ryzyka.
+1. Podziel akcje voicebota na poziomy ryzyka.
 2. Zaprojektuj weryfikację dla zmiany adresu.
 3. Wypisz dane, których bot nie powinien wypowiadać.
 4. Zaprojektuj komunikat po nieudanej weryfikacji.
 
 ## 3.12. Podsumowanie
 
-Weryfikacja i autoryzacja są elementem projektowania rozmowy, nie tylko IT. Dobry voicebot chroni dane i jednocześnie nie utrudnia prostych spraw ponad potrzebe.
+Weryfikacja i autoryzacja są elementem projektowania rozmowy, nie tylko IT. Dobry voicebot chroni dane i jednocześnie nie utrudnia prostych spraw ponad potrzebę.
 
 ---
 
@@ -471,7 +471,7 @@ Czytelnik nauczy się:
 - projektować zachowanie bota przy awariach systemów;
 - rozumieć timeout, retry i idempotency;
 - tworzyć komunikaty awaryjne bez martwej ciszy;
-- decydowac, kiedy kontynuowac, a kiedy eskalować.
+- decydować, kiedy kontynuować, a kiedy eskalować.
 
 ## 4.2. Kluczowe pojęcia
 
@@ -481,9 +481,9 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 |---|---|
 | Timeout | Przekroczenie czasu oczekiwania na system |
 | Retry | Ponowienie zapytania |
-| Circuit breaker | Tymczasowe odciecie zawodnej integracji |
+| Circuit breaker | Tymczasowe odcięcie zawodnej integracji |
 | Graceful degradation | Przejście do ograniczonego, ale kontrolowanego trybu |
-| Error mapping | Mapowanie błędów technicznych na komunikaty i decyzję |
+| Error mapping | Mapowanie błędów technicznych na komunikaty i decyzje |
 | Fallback channel | Alternatywny kanał, np. SMS, e-mail, konsultant |
 
 ## 4.3. Wyjaśnienie eksperckie
@@ -493,19 +493,19 @@ Integracje zawodzą. Pytanie nie brzmi "czy", tylko "jak bot się zachowa".
 Typy błędów:
 
 - API timeout;
-- system niedostepny;
+- system niedostępny;
 - brak rekordu;
-- brak uprawnieńia;
+- brak uprawnienia;
 - konflikt danych;
-- walidacja nie przeszla;
-- limit zapytan;
-- czesciowy sukces;
+- walidacja nie przeszła;
+- limit zapytań;
+- częściowy sukces;
 - błąd zapisu po stronie systemu;
 - niejednoznaczny wynik.
 
 Zły komunikat:
 
-"Wystapil błąd systemu 504."
+"Wystąpił błąd systemu 504."
 
 Dobry:
 
@@ -518,28 +518,28 @@ Błędy integracji wpływają na:
 - SLA;
 - porzucenia;
 - eskalację;
-- reputacje;
+- reputację;
 - koszt konsultantów;
 - zaufanie do automatyzacji.
 
-Trzeba uzgodnic, które błędy:
+Trzeba uzgodnić, które błędy:
 
-- można ponowic;
+- można ponowić;
 - wymagają konsultanta;
 - wymagają ticketu;
-- wymagają komunikatu o niedostepnosci;
+- wymagają komunikatu o niedostępności;
 - wymagają zatrzymania całego use case'u.
 
 ## 4.5. Perspektywa użytkownika
 
-Użytkownik nie musi znac przyczyny technicznej. Potrzebuje:
+Użytkownik nie musi znać przyczyny technicznej. Potrzebuje:
 
-- krotkiego wyjaśnienia;
+- krótkiego wyjaśnienia;
 - opcji dalszego działania;
 - zapewnienia, że dane nie zostały utracone, jeśli to prawda;
 - potwierdzenia, czy akcja została wykonana.
 
-Nigdy nie mow "gotowe", jeśli wynik jest niepewny.
+Nigdy nie mów "gotowe", jeśli wynik jest niepewny.
 
 ## 4.6. Perspektywa technologiczna
 
@@ -553,9 +553,9 @@ Retry:
 
 Timeouty:
 
-- krotsze dla prostych krokow;
+- krótsze dla prostych kroków;
 - dłuższe dla akcji, gdzie użytkownik dostaje filler;
-- ustawiane wedlug UX, nie tylko default API.
+- ustawiane według UX, nie tylko default API.
 
 ## 4.7. Dobre praktyki
 
@@ -566,7 +566,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Nie ponawiaj zapisu bez idempotency.
 - Loguj błędy techniczne, ale komunikuj je po ludzku.
 - Przy niepewnym wyniku eskaluj lub sprawdź status akcji.
-- Przy awarii globalnej wylaczaj dany flow lub kieruj do konsultanta.
+- Przy awarii globalnej wyłączaj dany flow lub kieruj do konsultanta.
 
 ## 4.8. Typowe błędy
 
@@ -577,8 +577,8 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Retry zapisu bez idempotency | Duplikaty |
 | Martwa cisza przy API | Użytkownik przerywa |
 | "Błąd systemu" w TTS | Brak zrozumiałego następnego kroku |
-| Brak rozroznienia błędów | Źle decyzję dialogowe |
-| Bot potwierdza niepewny wynik | Reklamację |
+| Brak rozróżnienia błędów | Złe decyzje dialogowe |
+| Bot potwierdza niepewny wynik | Reklamacje |
 | Brak monitoringu błędów | Awaria widoczna dopiero w skargach |
 
 ## 4.9. Checklista error handling
@@ -597,7 +597,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 4.10. Mini case study
 
-Voicebot ubezpieczeniowy tworzył zgłoszenia szkody. Gdy API ticketingu zwracalo timeout, bot mówił "zgłoszenie przyjęte". Czasem ticket nie powstawal. Po poprawie bot sprawdzal status po `idempotency_key`; jeśli wynik nadal był niepewny, mówił: "Nie mam potwierdzenia zapisu. Połączę z konsultantem i przekaze zebrane informacje." Skargi spadły.
+Voicebot ubezpieczeniowy tworzył zgłoszenia szkody. Gdy API ticketingu zwracało timeout, bot mówił "zgłoszenie przyjęte". Czasem ticket nie powstawał. Po poprawie bot sprawdzał status po `idempotency_key`; jeśli wynik nadal był niepewny, mówił: "Nie mam potwierdzenia zapisu. Połączę z konsultantem i przekażę zebrane informacje." Skargi spadły.
 
 ## 4.11. Ćwiczenia
 
@@ -610,7 +610,7 @@ Voicebot ubezpieczeniowy tworzył zgłoszenia szkody. Gdy API ticketingu zwracal
 
 ## 4.12. Podsumowanie
 
-Błędy integracji są normalne. Profesjonalny voicebot nie udaje, że wszystko zawsze działa. Ma kontrolowane komunikaty, alternatywne ścieżki, audyt i jasna granice między sukcesem a niepewnościa.
+Błędy integracji są normalne. Profesjonalny voicebot nie udaje, że wszystko zawsze działa. Ma kontrolowane komunikaty, alternatywne ścieżki, audyt i jasną granicę między sukcesem a niepewnością.
 
 ---
 
@@ -621,7 +621,7 @@ Błędy integracji są normalne. Profesjonalny voicebot nie udaje, że wszystko 
 Czytelnik nauczy się:
 
 - projektować warm handoff;
-- okreslac pakiet kontekstu dla konsultanta;
+- określać pakiet kontekstu dla konsultanta;
 - łączyć transfer audio z danymi w agent desktop;
 - mierzyć jakość przekazania.
 
@@ -635,7 +635,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Cold handoff | Przekazanie bez kontekstu |
 | Context package | Zestaw informacji przekazywanych konsultantowi |
 | Agent desktop | Interfejs konsultanta |
-| Handoff reason | Powod przekazania |
+| Handoff reason | Powód przekazania |
 | Summary | Krótkie podsumowanie dotychczasowej rozmowy |
 
 ## 5.3. Wyjaśnienie eksperckie
@@ -645,7 +645,7 @@ Handoff nie jest tylko transferem połączenia. To transfer odpowiedzialności z
 - kto dzwoni, jeśli zweryfikowany;
 - jaka była intencja;
 - jakie dane zebrano;
-- co bot probowal zrobić;
+- co bot próbował zrobić;
 - dlaczego przekazuje;
 - jakie API zwróciło wynik;
 - czy użytkownik jest sfrustrowany;
@@ -676,17 +676,17 @@ Warm handoff zmniejsza:
 - after-call work;
 - ryzyko utraty informacji.
 
-Cold handoff może zniszczyc wartość automatyzacji. Jeśli klient musi wszystko powtórzyć, bot staje się dodatkowa przeszkodą.
+Cold handoff może zniszczyć wartość automatyzacji. Jeśli klient musi wszystko powtórzyć, bot staje się dodatkową przeszkodą.
 
 ## 5.5. Perspektywa użytkownika
 
 Komunikat powinien ustawić oczekiwanie:
 
-"Połączę z konsultantem i przekaze, że chodzi o zmianę terminu dostawy zamówienia 12345. Proszę zostać na linii."
+"Połączę z konsultantem i przekażę, że chodzi o zmianę terminu dostawy zamówienia 12345. Proszę zostać na linii."
 
-Po stronie konsultanta pierwsze zdanie powinno pokazywac kontekst:
+Po stronie konsultanta pierwsze zdanie powinno pokazywać kontekst:
 
-"Widze, że chodzi o zmianę terminu dostawy. Bot nie mógł znaleźć wolnego terminu w piatek."
+"Widzę, że chodzi o zmianę terminu dostawy. Bot nie mógł znaleźć wolnego terminu w piątek."
 
 ## 5.6. Perspektywa technologiczna
 
@@ -709,10 +709,10 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 
 - Przekazuj tylko potrzebny kontekst.
 - Streszczenie powinno być krótkie.
-- Oznacz powod handoff.
+- Oznacz powód handoff.
 - Nie przekazuj niezweryfikowanych danych jako pewnych.
-- Dodaj link do transkrypcji, jeśli zgodne z polityka.
-- Konsultant powinien widziec ostatnie pytanie bota.
+- Dodaj link do transkrypcji, jeśli zgodne z polityką.
+- Konsultant powinien widzieć ostatnie pytanie bota.
 - Mierz, czy konsultant używa kontekstu.
 
 ## 5.8. Typowe błędy
@@ -724,8 +724,8 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Transfer bez kontekstu | Klient powtarza wszystko |
 | Za długie podsumowanie | Konsultant nie czyta |
 | Brak powodu handoff | Brak optymalizacji |
-| Przekazanie niepotwierdzonych danych jako faktow | Ryzyko błędów |
-| Brak fallbacku dla context push | Konsultant dostaje pusta sprawę |
+| Przekazanie niepotwierdzonych danych jako faktów | Ryzyko błędów |
+| Brak fallbacku dla context push | Konsultant dostaje pustą sprawę |
 
 ## 5.9. Checklista handoff context
 
@@ -734,16 +734,16 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy przekazujemy intencje?
 - Czy przekazujemy zebrane sloty?
 - Czy oznaczamy dane potwierdzone?
-- Czy przekazujemy powod handoff?
+- Czy przekazujemy powód handoff?
 - Czy przekazujemy wynik API?
 - Czy jest krótkie podsumowanie?
-- Czy konsultant widzi transkrypcje?
+- Czy konsultant widzi transkrypcję?
 - Czy dane są maskowane?
 - Czy mierzymy jakość handoff?
 
 ## 5.10. Mini case study
 
-Voicebot reklamacyjny przekazywal rozmowy do konsultanta bez powodów. Contact center widzialo tylko "transfer from bot". Po wdrożeniu taxonomy handoff reason okazalo się, że 38% przekazan dotyczylo braku dokumentu, który można było wysłać linkiem SMS. Dodano nowy flow i liczba transferów spadla.
+Voicebot reklamacyjny przekazywał rozmowy do konsultanta bez powodów. Contact center widziało tylko "transfer from bot". Po wdrożeniu taxonomy handoff reason okazało się, że 38% przekazań dotyczyło braku dokumentu, który można było wysłać linkiem SMS. Dodano nowy flow i liczba transferów spadła.
 
 ## 5.11. Ćwiczenia
 
@@ -756,7 +756,7 @@ Voicebot reklamacyjny przekazywal rozmowy do konsultanta bez powodów. Contact c
 
 ## 5.12. Podsumowanie
 
-Dobry handoff to kontynuacja rozmowy, nie restart. Integracja z contact center musi przenosic sens sprawy, nie tylko dźwięk połączenia.
+Dobry handoff to kontynuacja rozmowy, nie restart. Integracja z contact center musi przenosić sens sprawy, nie tylko dźwięk połączenia.
 
 ---
 
@@ -779,24 +779,24 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 |---|---|
 | Post-call automation | Automatyzacja po rozmowie |
 | Call summary | Podsumowanie rozmowy |
-| Disposition | Wynik rozmowy lub kategorią zakończenia |
-| Auto-tagging | Automatyczne tagowanie tematow |
+| Disposition | Wynik rozmowy lub kategoria zakończenia |
+| Auto-tagging | Automatyczne tagowanie tematów |
 | After-call work reduction | Zmniejszenie pracy po rozmowie |
 | Human review | Przegląd przez człowieka przed zapisem lub decyzja |
 
 ## 6.3. Wyjaśnienie eksperckie
 
-Voicebot może automatyzowac nie tylko sama rozmowę. Może też:
+Voicebot może automatyzować nie tylko samą rozmowę. Może też:
 
-- tworzyć notatke;
-- tagowac powod kontaktu;
+- tworzyć notatkę;
+- tagować powód kontaktu;
 - aktualizować status sprawy;
 - tworzyć ticket;
 - wysyłać SMS/e-mail;
 - przygotować follow-up;
 - streszczać rozmowę konsultantowi;
 - oznaczać ryzyka i emocje;
-- zasugerowac kolejny krok.
+- zasugerować kolejny krok.
 
 Notatka dobra:
 
@@ -810,11 +810,11 @@ Klient poprosil o konsultanta.
 
 Notatka zła:
 
-"Klient dzwonil w sprawie zamówienia. Bot pomagal. Rozmowa zakończona transferem."
+"Klient dzwonił w sprawie zamówienia. Bot pomagał. Rozmowa zakończona transferem."
 
 ## 6.4. Perspektywa biznesowa
 
-Automatyczne notatki mogą oszczedzac dużo czasu konsultantów, nawet jeśli bot nie zamyka sprawy end-to-end. To często niedoceniany element ROI.
+Automatyczne notatki mogą oszczędzać dużo czasu konsultantów, nawet jeśli bot nie zamyka sprawy end-to-end. To często niedoceniany element ROI.
 
 Metryki:
 
@@ -841,7 +841,7 @@ Podsumowania mogą być:
 Bezpieczny model:
 
 - pola strukturalne z flow i API;
-- LLM tylko do krotkiego streszczenia;
+- LLM tylko do krótkiego streszczenia;
 - oznaczenie confidence;
 - human review dla ryzykownych spraw;
 - log wersji promptu;
@@ -851,13 +851,13 @@ Bezpieczny model:
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Notatka powinna być krótka i operacyjną.
+- Notatka powinna być krótka i operacyjna.
 - Oddziel fakty potwierdzone od niepewnych.
 - Nie wpisuj do CRM halucynacji.
 - Dla spraw ryzykownych dawaj human review.
-- Taguj powod kontaktu i wynik rozmowy.
+- Taguj powód kontaktu i wynik rozmowy.
 - Przechowuj link do transkrypcji, jeśli wolno.
-- Mierz, ile notatek konsultanci poprawiaja.
+- Mierz, ile notatek konsultanci poprawiają.
 
 ## 6.8. Typowe błędy
 
@@ -865,25 +865,25 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Zbyt długie podsumowania | Konsultanci ich nie czytaja |
+| Zbyt długie podsumowania | Konsultanci ich nie czytają |
 | Brak oznaczenia niepewności | Błędne założenia |
 | LLM zapisuje bez walidacji | Ryzyko nieprawdziwych danych |
-| Brak tagów wynikow | Slaba analityka |
+| Brak tagów wyników | Słaba analityka |
 | Brak review dla wysokiego ryzyka | Ryzyko compliance |
 
 ## 6.9. Checklista post-call automation
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy notatka ma strukture?
+- Czy notatka ma strukturę?
 - Czy zawiera cel rozmowy?
 - Czy zawiera zebrane dane?
 - Czy oznacza dane potwierdzone?
 - Czy zawiera wynik API?
-- Czy zawiera powod handoff?
+- Czy zawiera powód handoff?
 - Czy jest krótka?
 - Czy dane wrażliwe są maskowane?
-- Czy konsultant może poprawić notatke?
+- Czy konsultant może poprawić notatkę?
 - Czy mierzymy correction rate?
 
 ## 6.10. Mini case study
@@ -894,14 +894,14 @@ Helpdesk IT wdrożył voicebota, który nie rozwiązywał wszystkich spraw, ale 
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
-1. Napisz dobra notatke po rozmowie reklamacyjnej.
-2. Zaprojektuj strukture ticketu.
+1. Napisz dobrą notatkę po rozmowie reklamacyjnej.
+2. Zaprojektuj strukturę ticketu.
 3. Wskaż pola, które powinny wymagać review.
 4. Zaprojektuj metryki jakości notatek.
 
 ## 6.12. Podsumowanie
 
-Automatyzacja po rozmowie jest często równie cenna jak automatyzacja rozmowy. Dobre notatki, tagi i aktualizacje systemów zmniejszają koszt operacyjny i poprawiaja jakość handoff.
+Automatyzacja po rozmowie jest często równie cenna jak automatyzacja rozmowy. Dobre notatki, tagi i aktualizacje systemów zmniejszają koszt operacyjny i poprawiają jakość handoff.
 
 ---
 
@@ -995,20 +995,20 @@ Czytelnik otrzymuje gotowy szablon specyfikacji integracji do wykorzystania w pr
 
 ## 7.3. Dobre praktyki użycia szablonu
 
-- Wypelniaj szablon przed implementacja.
-- Przegladaj go z biznesem, IT, security i QA.
+- Wypełniaj szablon przed implementacją.
+- Przeglądaj go z biznesem, IT, security i QA.
 - Nie akceptuj odpowiedzi "błąd ogólny" bez mapowania.
 - Dodaj przykłady request/response w dokumentacji technicznej.
-- Powiaz specyfikacje z test cases.
+- Powiąż specyfikację z test cases.
 - Aktualizuj po zmianach API.
 
 ## 7.4. Mini case study
 
-W projekcie rezerwacyjnym brakowalo decyzji, co robić, gdy API zwraca `slot_conflict`. Developerzy potraktowali to jak ogólny błąd. Bot przekazywal do konsultanta, mimo że mógł zaproponowac kolejny termin. Po uzupelnieniu specyfikacji `slot_conflict` dostał osobna ścieżkę dialogowa: "Ten termin został już zajety. Najblizszy wolny to...".
+W projekcie rezerwacyjnym brakowało decyzji, co robić, gdy API zwraca `slot_conflict`. Developerzy potraktowali to jak ogólny błąd. Bot przekazywał do konsultanta, mimo że mógł zaproponować kolejny termin. Po uzupełnieniu specyfikacji `slot_conflict` dostał osobną ścieżkę dialogową: "Ten termin został już zajęty. Najbliższy wolny to...".
 
 ## 7.5. Podsumowanie
 
-Specyfikacja integracji jest narzędziem zapobiegania chaosowi. Im bardziej szczegółowo opiszesz dane, błędy, timeouty i decyzję, tym mniej niespodzianek pojawi się w rozmowie z użytkownikiem.
+Specyfikacja integracji jest narzędziem zapobiegania chaosowi. Im bardziej szczegółowo opiszesz dane, błędy, timeouty i decyzje, tym mniej niespodzianek pojawi się w rozmowie z użytkownikiem.
 
 ---
 
@@ -1017,7 +1017,7 @@ Specyfikacja integracji jest narzędziem zapobiegania chaosowi. Im bardziej szcz
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
 - Czy voicebot ma integracje potrzebne do realnego wykonania sprawy?
-- Czy odrozniono odczyt, walidacje, zapis i akcję?
+- Czy odróżniono odczyt, walidację, zapis i akcje?
 - Czy każda integracja ma właściciela?
 - Czy znamy system źródłowy dla danych?
 - Czy mamy sandbox?
@@ -1029,14 +1029,14 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy dane osobowe są minimalizowane?
 - Czy handoff przekazuje kontekst?
 - Czy konsultant widzi podsumowanie?
-- Czy automatyczne notatki odrozniaja fakty od niepewności?
+- Czy automatyczne notatki odróżniają fakty od niepewności?
 - Czy integracje mają dashboard i alerty?
 
 ---
 
 # 9. Co będzie w kolejnej części
 
-Kolejna część powinna opracowac **Część IX. Testowanie i QA voicebotów**:
+Kolejna część powinna opracować **Część IX. Testowanie i QA voicebotów**:
 
 1. Testy scenariuszy i testy konwersacyjne.
 2. Testy ASR, NLU, TTS.
@@ -1044,4 +1044,4 @@ Kolejna część powinna opracowac **Część IX. Testowanie i QA voicebotów**:
 4. Testy bezpieczeństwa i regresji.
 5. Testy z prawdziwymi użytkownikami.
 6. Edge cases, emocje i sytuacje trudne.
-7. UAT i kompletną checklista przed produkcją.
+7. UAT i kompletna checklista przed produkcją.

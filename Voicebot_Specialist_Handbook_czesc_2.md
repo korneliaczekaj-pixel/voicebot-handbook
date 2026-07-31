@@ -18,25 +18,25 @@ Po tej części czytelnik powinien umieć:
 1. Wyjaśnić, czym jest Conversational AI i voicebot.
 2. Rozróżnić voicebota, chatbota, IVR, voice assistant, virtual agent i AI agent.
 3. Opisać, dlaczego głos wymaga innego projektowania niż tekst.
-4. Zrozumieć historyczna ewolucje od IVR do realtime LLM voice agents.
+4. Zrozumieć historyczną ewolucję od IVR do realtime LLM voice agents.
 5. Rozpoznać typowe zastosowania voicebotów w firmach.
-6. Nazwac ograniczenia, ryzyka i mity, które prowadza do złych wdrożeń.
-7. Przygotować się do rozmowy z biznesem, technologia, CX i compliance.
+6. Nazwać ograniczenia, ryzyka i mity, które prowadzą do złych wdrożeń.
+7. Przygotować się do rozmowy z biznesem, technologią, CX i compliance.
 
 Źródła wspierające część:
 
 - W3C VoiceXML 2.0 jako standard historyczny dla dialogów audio, formularzy, menu, gramatyk, promptów i mixed initiative.
 - Skantze, "Turn-taking in Conversational Systems and Human-Robot Interaction: A Review", jako fundament rozumienia rozmowy głosowej i turn-taking.
 - LiveKit, OpenAI Realtime, Google Dialogflow CX, AWS Connect i Amazon Lex jako źródła techniczne dla nowoczesnych voice agents.
-- Źródła badawcze o przerwaniach, proaktywnosci i psychologii interakcji jako podstawa interpretacji doświadczenia użytkownika.
+- Źródła badawcze o przerwaniach, proaktywności i psychologii interakcji jako podstawa interpretacji doświadczenia użytkownika.
 
 ---
 
 ## Punkt wyjścia
 
-Najprostsza perspektywa jest taka: ktos dzwoni, bo chce cos załatwić. Voicebot ma rozpoznać sprawę, poprowadzic rozmowę, sprawdzić potrzebne dane i wiedzieć, kiedy przekazać rozmowę człowiekowi.
+Najprostsza perspektywa jest taka: ktoś dzwoni, bo chce coś załatwić. Voicebot ma rozpoznać sprawę, poprowadzić rozmowę, sprawdzić potrzebne dane i wiedzieć, kiedy przekazać rozmowę człowiekowi.
 
-Na tym etapie wystarczy zapamiętać jedno: technologia jest środkiem, nie celem. Najpierw trzeba rozumieć zadanie użytkownika i granice automatyzacji, dopiero potem wybierac IVR, NLU, LLM, RAG czy integracje.
+Na tym etapie wystarczy zapamiętać jedno: technologia jest środkiem, nie celem. Najpierw trzeba rozumieć zadanie użytkownika i granice automatyzacji, dopiero potem wybierać IVR, NLU, LLM, RAG czy integracje.
 
 ---
 # Rozdział 1. Conversational AI: czym jest i czym nie jest
@@ -45,10 +45,10 @@ Na tym etapie wystarczy zapamiętać jedno: technologia jest środkiem, nie cele
 
 Czytelnik nauczy się:
 
-- definiowac Conversational AI bez marketingowego uproszczenia;
+- definiować Conversational AI bez marketingowego uproszczenia;
 - rozumieć różnice między interfejsem konwersacyjnym a systemem automatyzacji procesu;
 - rozpoznawać, kiedy organizacja potrzebuje voicebota, a kiedy wystarczy IVR, formularz, FAQ albo lepszy routing;
-- tlumaczyc Conversational AI roznym interesariuszom: biznesowi, IT, contact center, legal i UX.
+- tłumaczyć Conversational AI różnym interesariuszom: biznesowi, IT, contact center, legal i UX.
 
 ## 1.2. Kluczowe pojęcia
 
@@ -65,7 +65,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 ## 1.3. Wyjaśnienie eksperckie
 
-Conversational AI to nie jest "bot, który odpowiada naturalnym językiem". To system zaprojektowany do obsługi dialogu, czyli sekwencji tur, w których użytkownik i system wymieniają informacje, doprecyzowuja intencje, naprawiaja błędy, potwierdzają dane i dochodza do rezultatu.
+Conversational AI to nie jest "bot, który odpowiada naturalnym językiem". To system zaprojektowany do obsługi dialogu, czyli sekwencji tur, w których użytkownik i system wymieniają informacje, doprecyzowują intencje, naprawiają błędy, potwierdzają dane i dochodzą do rezultatu.
 
 Najprostszy model:
 
@@ -74,7 +74,7 @@ Najprostszy model:
 3. System prowadzi użytkownika przez proces.
 4. System korzysta z danych, integracji lub bazy wiedzy.
 5. System odpowiada lub wykonuje akcję.
-6. System umie naprawiać sytuację, gdy rozmową nie idzie zgodnie z planem.
+6. System umie naprawiać sytuację, gdy rozmowa nie idzie zgodnie z planem.
 
 Conversational AI ma sens wtedy, gdy rozmowa jest naturalnym lub wygodnym sposobem wykonania zadania. Nie każdy proces powinien być konwersacyjny. Jeśli użytkownik musi porównać 20 ofert, przeczytać regulamin, wypełnić złożony formularz albo analizować dane wizualne, rozmowa głosowa może być gorsza niż ekran.
 
@@ -87,25 +87,25 @@ Największy błąd strategiczny polega na traktowaniu Conversational AI jako "ka
 Dla firmy Conversational AI jest narzędziem do:
 
 - redukcji kosztu kontaktu;
-- zwiekszenia dostępności obsługi;
-- odciazenia konsultantów z powtarzalnych spraw;
-- skrocenia czasu obsługi;
+- zwiększenia dostępności obsługi;
+- odciążenia konsultantów z powtarzalnych spraw;
+- skrócenia czasu obsługi;
 - ujednolicenia jakości odpowiedzi;
 - zbierania danych o powodach kontaktu;
 - skalowania obsługi w szczytach wolumenu;
 - poprawy self-service.
 
-Ale Conversational AI może też wygenerowac koszt:
+Ale Conversational AI może też wygenerować koszt:
 
 - wzrost eskalacji, jeśli bot źle rozpoznaje intencje;
-- spadek CSAT, jeśli użytkownicy czuja się zablokowani;
+- spadek CSAT, jeśli użytkownicy czują się zablokowani;
 - ryzyko compliance, jeśli bot odpowiada poza zakresem;
 - koszt utrzymania danych, treningu, promptów i integracji;
 - koszt reputacyjny, jeśli system brzmi jak tania automatyzacja zamiast kompetentnej pomocy.
 
 Jak myśli ekspert:
 
-Ekspert nie pyta: "Ile rozmów zautomatyzujemy?". Pyta: "Które rozmowy możemy zautomatyzowac bez pogorszenia wyniku sprawy, bez ukrytego wzrostu repeat contact i bez przerzucania frustracji na konsultantów?".
+Ekspert nie pyta: "Ile rozmów zautomatyzujemy?". Pyta: "Które rozmowy możemy zautomatyzować bez pogorszenia wyniku sprawy, bez ukrytego wzrostu repeat contact i bez przerzucania frustracji na konsultantów?".
 
 ## 1.5. Perspektywa użytkownika
 
@@ -115,11 +115,11 @@ Użytkownik nie chce "porozmawiac z AI". Użytkownik chce:
 - nie powtarzać danych;
 - być zrozumiany mimo normalnego sposobu mówienia;
 - mieć kontrolę nad rozmową;
-- moc poprawić błąd;
-- moc przejść do człowieka, gdy bot nie pomaga;
+- móc poprawić błąd;
+- móc przejść do człowieka, gdy bot nie pomaga;
 - wiedzieć, z kim rozmawia i co system może zrobić.
 
-Zaufanie użytkownika powstaje w pierwszych sekundach. Bot, który jasno mówi, co potrafi, zadaje jednoznaczne pytanie i szybko reaguje, buduje poczucie kompetencji. Bot, który zaczyna od dlugiego monologu, udaje człowieka albo nie reaguje na przerwania, buduje opor.
+Zaufanie użytkownika powstaje w pierwszych sekundach. Bot, który jasno mówi, co potrafi, zadaje jednoznaczne pytanie i szybko reaguje, buduje poczucie kompetencji. Bot, który zaczyna od długiego monologu, udaje człowieka albo nie reaguje na przerwania, buduje opór.
 
 ## 1.6. Perspektywa technologiczna
 
@@ -191,12 +191,12 @@ Bot ma integracje z systemem zamówień, rozpoznaje numer telefonu, potwierdza k
 
 1. Wybierz jeden proces w firmie i opisz, czy rozmowa głosowa jest dobrym interfejsem.
 2. Wypisz trzy zadania, które bot może wykonać, i trzy, których nie powinien wykonywac.
-3. Przygotuj jednozdańiowa definicje Conversational AI dla dyrektora contact center.
-4. Przygotuj jednozdańiowa definicje Conversational AI dla zespolu IT.
+3. Przygotuj jednozdaniową definicję Conversational AI dla dyrektora contact center.
+4. Przygotuj jednozdaniową definicję Conversational AI dla zespołu IT.
 
 ## 1.12. Podsumowanie
 
-Conversational AI nie polega na tym, że system "mówi jak człowiek". Polega na tym, że system potrafi prowadzić dialog w granicach zadania, rozumieć wypowiedzi, podejmowac decyzję procesowe, naprawiać błędy, korzystać z danych i oddawac sprawę człowiekowi, gdy automatyzacja przestaje być dobra droga.
+Conversational AI nie polega na tym, że system "mówi jak człowiek". Polega na tym, że system potrafi prowadzić dialog w granicach zadania, rozumieć wypowiedzi, podejmować decyzje procesowe, naprawiać błędy, korzystać z danych i oddawać sprawę człowiekowi, gdy automatyzacja przestaje być dobrą drogą.
 
 ---
 
@@ -206,10 +206,10 @@ Conversational AI nie polega na tym, że system "mówi jak człowiek". Polega na
 
 Czytelnik nauczy się:
 
-- precyzyjnie rozrozniac najczesciej mylone terminy;
+- precyzyjnie rozróżniać najczęściej mylone terminy;
 - dobrać typ automatyzacji do problemu;
-- unikać błędów wynikajacych z przenoszenia wzorcow chatbota do głosu;
-- tlumaczyc różnice technologiczne, UX i operacyjne.
+- unikać błędów wynikających z przenoszenia wzorców chatbota do głosu;
+- tłumaczyć różnice technologiczne, UX i operacyjne.
 
 ## 2.2. Kluczowe pojęcia
 
@@ -218,38 +218,38 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Termin | Krótka definicja |
 |---|---|
 | IVR | Automatyczne menu telefoniczne, zwykle oparte na DTMF lub prostym rozpoznawaniu mowy |
-| Voicebot | System głosowy prowadzący rozmowę i wykonujacy zadania w kanale audio |
+| Voicebot | System głosowy prowadzący rozmowę i wykonujący zadania w kanale audio |
 | Chatbot | System tekstowy prowadzący rozmowę w kanale pisanym |
-| Voice assistant | Asystent głosowy, często ogolniejszy, np. na urzadzeniu lub w aplikacji |
+| Voice assistant | Asystent głosowy, często ogólniejszy, np. na urządzeniu lub w aplikacji |
 | Virtual agent | Cyfrowy agent obsługi klienta, tekstowy lub głosowy, często z integracjami |
 | AI agent | System AI zdolny do realizacji celu przez planowanie, narzędzia i wieloetapowe działania |
-| Automatyczna sekretarka | System nagrywania lub przekierowania wiadomosci, bez prawdziwego dialogu |
+| Automatyczna sekretarka | System nagrywania lub przekierowania wiadomości, bez prawdziwego dialogu |
 
-## 2.3. Tabela porownawcza
+## 2.3. Tabela porównawcza
 
 | Kryterium | IVR | Chatbot | Voicebot | Voice assistant | AI agent |
 |---|---|---|---|---|---|
 | Kanał | Telefon | Tekst | Głos/telefon/WebRTC | Głos, urządzenia, aplikacje | Dowolny |
 | Interakcja | Menu, wybór | Pisanie | Rozmowa głosowa | Komendy i dialog | Cel + narzędzia |
 | Input | DTMF, proste frazy | Tekst | Mowa | Mowa | Tekst/głos/dane/narzędzia |
-| Czas reakcji | Mniej naturalny | Może być wolniejszy | Bardzo wrażliwy | Bardzo wrażliwy | Zalezy od zadania |
+| Czas reakcji | Mniej naturalny | Może być wolniejszy | Bardzo wrażliwy | Bardzo wrażliwy | Zależy od zadania |
 | Pamięć kontekstu | Ograniczona | Średnia/wysoka | Krytyczna | Średnia/wysoka | Wysoka |
 | Typowe ryzyko | Frustracja menu | Nieprecyzyjne odpowiedzi | ASR, timing, przerwania | Prywatność, aktywacja | Autonomia, compliance |
 | Najlepsze użycie | Routing i proste self-service | FAQ, wsparcie tekstowe | Contact center, transakcje głosowe | Asystencja codzienna | Procesy wielokrokowe |
 
 ## 2.4. Wyjaśnienie eksperckie
 
-IVR jest zwykle systemem nawigacji. Użytkownik wybiera opcję, a system kieruje go dalej lub zbiera proste dane. Voicebot jest systemem dialogowym: powinien rozpoznawać intencje, zbierać parametry, obsługiwać korekty, reagowac na przerwania, integrowac się z backendem i prowadzić użytkownika do wyniku.
+IVR jest zwykle systemem nawigacji. Użytkownik wybiera opcję, a system kieruje go dalej lub zbiera proste dane. Voicebot jest systemem dialogowym: powinien rozpoznawać intencje, zbierać parametry, obsługiwać korekty, reagować na przerwania, integrować się z backendem i prowadzić użytkownika do wyniku.
 
-Chatbot i voicebot nie są tym samym systemem w innym kanale. Różnica kanalowa zmienia projekt:
+Chatbot i voicebot nie są tym samym systemem w innym kanale. Różnica kanałowa zmienia projekt:
 
-- W tekscie użytkownik widzi historię rozmowy; w głosie musi pamiętać.
-- W tekscie można pokazać listę; w głosie lista szybko przeciaza pamięć.
-- W tekscie opóźnienie 2-3 sekundy bywa akceptowalne; w głosie może brzmieć jak awaria.
-- W tekscie użytkownik może edytowac input; w głosie mówi spontanicznie.
-- W tekscie łatwiej podac link, tabelę, regulamin; w głosie trzeba streszczać i dawkowac.
+- W tekście użytkownik widzi historię rozmowy; w głosie musi pamiętać.
+- W tekście można pokazać listę; w głosie lista szybko przeciąża pamięć.
+- W tekście opóźnienie 2-3 sekundy bywa akceptowalne; w głosie może brzmieć jak awaria.
+- W tekście użytkownik może edytować input; w głosie mówi spontanicznie.
+- W tekście łatwiej podać link, tabelę, regulamin; w głosie trzeba streszczać i dawkować.
 
-Virtual agent to szersze pojęcie produktowe. Może być tekstowy, głosowy lub omnichannel. AI agent natomiast sugeruje większa autonomicznosc: system może korzystać z narzędzi, planowac kroki i wykonywac akcję. W contact center trzeba ostrożnie używać tego terminu, bo autonomia bez kontroli może być ryzykowna.
+Virtual agent to szersze pojęcie produktowe. Może być tekstowy, głosowy lub omnichannel. AI agent natomiast sugeruje większą autonomiczność: system może korzystać z narzędzi, planować kroki i wykonywać akcje. W contact center trzeba ostrożnie używać tego terminu, bo autonomia bez kontroli może być ryzykowna.
 
 ## 2.5. Perspektywa biznesowa
 
@@ -257,11 +257,11 @@ Dla firmy źle nazwanie rozwiązania prowadzi do złego briefu.
 
 Przykład:
 
-Jeśli biznes prosi o "voicebota", ale w praktyce chce tylko kierowac połączenia do odpowiednich kolejek, może wystarczyc nowoczesny IVR. Jeśli chce automatycznie zmieniac terminy wizyt, potrzebny jest voicebot z integracja kalendarza. Jeśli chce, aby system sam rozstrzygal reklamację, pojawia się zupełnie inna klasa ryzyka, wymagająca zasad decyzyjnych, audytu i eskalacji.
+Jeśli biznes prosi o "voicebota", ale w praktyce chce tylko kierować połączenia do odpowiednich kolejek, może wystarczyć nowoczesny IVR. Jeśli chce automatycznie zmieniać terminy wizyt, potrzebny jest voicebot z integracją kalendarza. Jeśli chce, aby system sam rozstrzygał reklamację, pojawia się zupełnie inna klasa ryzyka, wymagająca zasad decyzyjnych, audytu i eskalacji.
 
 ## 2.6. Perspektywa użytkownika
 
-Użytkownik nie myśli kategoriąmi IVR, NLU lub LLM. Użytkownik rozpoznaje:
+Użytkownik nie myśli kategoriami IVR, NLU lub LLM. Użytkownik rozpoznaje:
 
 - czy system go rozumie;
 - czy może mówić naturalnie;
@@ -271,7 +271,7 @@ Użytkownik nie myśli kategoriąmi IVR, NLU lub LLM. Użytkownik rozpoznaje:
 - czy może przejść do człowieka;
 - czy sprawa została załatwiona.
 
-Dla użytkownika różnica między IVR a voicebotem jest prosta: IVR kaze dopasować się do struktury systemu; dobry voicebot dopasowuje strukture rozmowy do celu użytkownika.
+Dla użytkownika różnica między IVR a voicebotem jest prosta: IVR każe dopasować się do struktury systemu; dobry voicebot dopasowuje strukturę rozmowy do celu użytkownika.
 
 ## 2.7. Perspektywa technologiczna
 
@@ -279,14 +279,14 @@ IVR może działać na drzewie decyzyjnym i DTMF. Voicebot potrzebuje co najmnie
 
 - rozpoznawania mowy;
 - interpretacji wypowiedzi;
-- zarzadzania dialogiem;
+- zarządzania dialogiem;
 - integracji lub bazy wiedzy;
 - syntezy mowy;
-- mechanizmow no-input/no-match;
+- mechanizmów no-input/no-match;
 - przekazania do konsultanta;
 - logowania i analityki.
 
-LLM voicebot może dodatkowo potrzebowac:
+LLM voicebot może dodatkowo potrzebować:
 
 - promptu systemowego;
 - narzędzi/function calling;
@@ -294,17 +294,17 @@ LLM voicebot może dodatkowo potrzebowac:
 - guardrails;
 - polityk odpowiedzi;
 - testów halucynacji;
-- obserwowalnosci kosztów i latency.
+- obserwowalności kosztów i latency.
 
 ## 2.8. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Ustal terminologie na początku projektu.
+- Ustal terminologię na początku projektu.
 - Oddziel routing od automatyzacji spraw.
 - Nie obiecuj "agenta AI", jeśli system ma tylko FAQ.
 - Nie migruj scenariusza chatbota do voicebota bez przeprojektowania.
-- Projektuj voicebota wokol rozmowy, nie wokol menu.
+- Projektuj voicebota wokół rozmowy, nie wokół menu.
 - Zachowaj opcję DTMF tam, gdzie głos jest niepewny lub użytkownik woli klawiaturę.
 
 ## 2.9. Typowe błędy
@@ -313,11 +313,11 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Nazywanie IVR voicebotem | Rozczarowanie użytkowników i sponsorow |
+| Nazywanie IVR voicebotem | Rozczarowanie użytkowników i sponsorów |
 | Kopiowanie tekstów chatbota do TTS | Za długie i nienaturalne wypowiedzi |
 | Budowanie voicebota bez integracji | Brak realnego self-service |
-| Zakładanie, że LLM zastapi dialog design | Nieprzewidywalne odpowiedzi i problemy compliance |
-| Rezygnacja z DTMF wszedzie | Gorsza obsługa kodów, numerow i użytkowników w hałasie |
+| Zakładanie, że LLM zastąpi dialog design | Nieprzewidywalne odpowiedzi i problemy compliance |
+| Rezygnacja z DTMF wszędzie | Gorsza obsługa kodów, numerów i użytkowników w hałasie |
 
 ## 2.10. Checklista
 
@@ -325,7 +325,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 - Czy projekt dotyczy routingu, informacji, transakcji czy autonomicznego procesu?
 - Czy kanał głosowy jest wymagany, czy tylko atrakcyjny?
-- Czy użytkownik będzie musiał podawac długie dane?
+- Czy użytkownik będzie musiał podawać długie dane?
 - Czy mamy integracje potrzebne do załatwienia sprawy?
 - Czy voicebot ma umieć przejmować wiele intencji w jednej rozmowie?
 - Czy potrzebujemy LLM, czy wystarczy flow plus NLU?
@@ -337,10 +337,10 @@ Bank chce "AI agenta do obsługi kart". Po warsztacie zakres zostaje rozbity:
 
 - IVR: szybki wybór typu sprawy i identyfikacja klienta.
 - Voicebot: blokada karty, status nowej karty, zmiana limitu w prostych przypadkach.
-- Konsultant: sporne transakcje, reklamację, sytuację podejrzenia oszustwa.
-- AI agent wspierajacy konsultanta: podsumowanie rozmowy i sugestie procedur.
+- Konsultant: sporne transakcje, reklamacje, sytuacje podejrzenia oszustwa.
+- AI agent wspierający konsultanta: podsumowanie rozmowy i sugestie procedur.
 
-Zamiast jednego ryzykownego "agenta do wszystkiego" powstaje architektura z jasnym podzialem odpowiedzialności.
+Zamiast jednego ryzykownego "agenta do wszystkiego" powstaje architektura z jasnym podziałem odpowiedzialności.
 
 ## 2.12. Ćwiczenia
 
@@ -348,12 +348,12 @@ Zamiast jednego ryzykownego "agenta do wszystkiego" powstaje architektura z jasn
 
 1. Opisz trzy różnice między IVR a voicebotem.
 2. Wybierz proces i zdecyduj, czy lepszy będzie chatbot, voicebot czy formularz.
-3. Przeredaguj długa odpowiedź tekstowego chatbota na krótki komunikat głosowy.
+3. Przeredaguj długą odpowiedź tekstowego chatbota na krótki komunikat głosowy.
 4. Wskaż, gdzie w procesie warto zachować DTMF.
 
 ## 2.13. Podsumowanie
 
-Voicebot nie jest "chatbotem z głosem" ani "ladniejszym IVR". Jest systemem rozmowy głosowej, w którym technologia, timing, UX, proces i integracje muszą działać razem. Precyzyjne nazwanie typu systemu chroni projekt przed złym zakresem i zlymi oczekiwaniami.
+Voicebot nie jest "chatbotem z głosem" ani "ładniejszym IVR". Jest systemem rozmowy głosowej, w którym technologia, timing, UX, proces i integracje muszą działać razem. Precyzyjne nazwanie typu systemu chroni projekt przed złym zakresem i złymi oczekiwaniami.
 
 ---
 
@@ -374,7 +374,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja |
 |---|---|
-| Ephemeral interface | Interfejs, w którym informacja znika po uslyszeniu |
+| Ephemeral interface | Interfejs, w którym informacja znika po usłyszeniu |
 | Cognitive load | Obciążenie poznawcze, czyli wysiłek potrzebny do zrozumienia i zapamiętania informacji |
 | Latency | Opóźnienie między wypowiedzią jednej strony a reakcja drugiej |
 | No-input | Brak odpowiedzi użytkownika |
@@ -384,9 +384,9 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 ## 3.3. Wyjaśnienie eksperckie
 
-Głos jest szybki, naturalny i dostępny bez ekranu. Jednocześnie jest nietrwaly: użytkownik nie może łatwo przewinac wypowiedzi bota, zaznaczyc fragmentu ani porównać wielu opcji obok siebie. Dlatego voicebot musi projektować informacje inaczej niż chatbot.
+Głos jest szybki, naturalny i dostępny bez ekranu. Jednocześnie jest nietrwały: użytkownik nie może łatwo przewinąć wypowiedzi bota, zaznaczyć fragmentu ani porównać wielu opcji obok siebie. Dlatego voicebot musi projektować informacje inaczej niż chatbot.
 
-W tekscie można napisac:
+W tekście można napisać:
 
 "Wybierz jedna z opcji: zmiana terminu dostawy, zmiana adresu, anulowanie, kontakt z kurierem, reklamacja, faktura, płatność, zwrot."
 
