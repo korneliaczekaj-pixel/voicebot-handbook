@@ -47,7 +47,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 |---|---|---|
 | Turn-taking | Mechanizm organizowania, kto mówi, kiedy kończy i kiedy druga strona może zacząć | Błędne założenie, że wystarczy wykryć ciszę |
 | Turn | Wypowiedź lub sekwencja wypowiedzi jednej strony w danym momencie rozmowy | Traktowanie każdego zdania jako osobnej tury |
-| TCU | Turn-constructional unit, czyli jednostka wypowiedzi, po której może nastąpić zmiana mówcy | Zakładanie, że TCU zawsze kończy się kropką lub cisza |
+| TCU | Turn-constructional unit, czyli jednostka wypowiedzi, po której może nastąpić zmiana mówcy | Zakładanie, że TCU zawsze kończy się kropką lub ciszą |
 | TRP | Transition-relevant place, miejsce potencjalnego przejęcia tury | Myślenie, że TRP da się wykryć tylko czasem pauzy |
 | Overlap | Nakładanie się wypowiedzi dwóch osób | Nie każdy overlap jest konfliktem lub przerwaniem |
 | Interruption | Próba przejęcia tury, zwykle powodująca overlap albo zmianę przebiegu rozmowy | Mylenie z każdym dźwiękiem w tle |
@@ -93,9 +93,9 @@ Zły system może zatrzymać TTS, ale potem zapytać od początku: "W czym mogę
 
 ### 1.3.3. Interruption a normalne turn-taking
 
-Normalne turn-taking to płynna zmiana mówcy w miejscu, które rozmowcy rozpoznają jako potencjalny koniec tury. Interruption występuje wtedy, gdy druga strona próbuje przejąć turę zanim pierwsza skończyła albo zanim system uznał, że nastąpił koniec tury.
+Normalne turn-taking to płynna zmiana mówcy w miejscu, które rozmowcy rozpoznają jako potencjalny koniec tury. Interruption występuje wtedy, gdy druga strona próbuje przejąć turę, zanim pierwsza skończyła albo zanim system uznał, że nastąpił koniec tury.
 
-Wynika ze źródeł: przegląd Skantze pokazuje, że ludzie osiągają bardzo krótkie przerwy i niewielkie overlap dzięki przewidywaniu końca tury, a nie samemu czekaniu. Badanie Majlesi et al. pokazuje, że gdy robot kontynuuje mówienie mimo prób przejęcia tury przez człowieka, uczestnicy traktuje to jako problem interakcyjny.
+Wynika ze źródeł: przegląd Skantze pokazuje, że ludzie osiągają bardzo krótkie przerwy i niewielki overlap dzięki przewidywaniu końca tury, a nie samemu czekaniu. Badanie Majlesi et al. pokazuje, że gdy robot kontynuuje mówienie mimo prób przejęcia tury przez człowieka, uczestnicy traktują to jako problem interakcyjny.
 
 Uzupełnienie eksperckie: w voicebotach trzeba projektować oba mechanizmy:
 
@@ -115,48 +115,48 @@ Ludzie przewidują koniec tury na podstawie wielu sygnałów:
 5. Pauza: cisza, ale zwykle krótka, niekoniecznie długa.
 6. Kontekst: pytanie wymaga odpowiedzi, lista ma kolejne elementy, potwierdzenie oczekuje "tak/nie".
 7. Relacja celu: rozmowca wie, czego oczekuje dana sekwencja.
-8. Sygnały cielesne w rozmowie twarza w twarz: wzrok, gest, oddech, postawa.
+8. Sygnały cielesne w rozmowie twarzą w twarz: wzrok, gest, oddech, postawa.
 
 W telefonicznym voicebocie część sygnałów odpada: bot nie widzi wzroku i gestów, a użytkownik nie widzi ciała bota. Dlatego kanały audio i semantyczne stają się krytyczne.
 
 Uwaga praktyczna:
 
-Voicebot, który czeka 1000 ms ciszy po każdej wypowiedzi użytkownika, będzie czuł się ociężale. Voicebot, który odpowiada po 150 ms po każdym chwilowym spadku energii, będzie ucinal ludziom zdania. Naturalność powstaje z dobrania polityki turn-taking do typu inputu.
+Voicebot, który czeka 1000 ms ciszy po każdej wypowiedzi użytkownika, będzie czuł się ociężale. Voicebot, który odpowiada po 150 ms po każdym chwilowym spadku energii, będzie ucinał ludziom zdania. Naturalność powstaje z dobrania polityki turn-taking do typu inputu.
 
 ## 1.5. Pauzy, overlap i sygnały końca tury
 
-Nie każda pauza oznacza koniec. Użytkownik może pauzowac, bo:
+Nie każda pauza oznacza koniec. Użytkownik może pauzować, bo:
 
 - dyktuje numer konta partiami;
 - szuka dokumentu;
 - zastanawia się;
 - czyta kod SMS;
-- przezywa emocje;
+- przeżywa emocje;
 - nie zrozumiał pytania;
-- jest w halasliwym otoczeniu;
+- jest w hałaśliwym otoczeniu;
 - mówi w drugim języku;
-- ma wade wymowy lub wolniejsze tempo mówienia.
+- ma wadę wymowy lub wolniejsze tempo mówienia.
 
 Nie każdy overlap oznacza przerwanie. Overlap może oznaczać:
 
 - backchannel: "mhm", "jasne";
-- wspolne domkniecie oczywistej frazy;
+- wspólne domknięcie oczywistej frazy;
 - potwierdzenie przed końcem pytania;
-- spontaniczna korektę;
+- spontaniczną korektę;
 - frustrację;
 - próbę eskalacji;
-- osobe trzecia w tle;
+- osobę trzecią w tle;
 - przypadkowy dźwięk.
 
 Błąd, który często kosztuje projekt:
 
-Ustawienie jednego globalnego progu ciszy dla wszystkich etapow rozmowy. Ten sam prog nie pasuje do "Czy potwierdza pan zamówienie?", "Proszę podac szesnastocyfrowy numer karty", "Proszę opisać problem" i "Czy chce pan rozmawiać z konsultantem?".
+Ustawienie jednego globalnego progu ciszy dla wszystkich etapów rozmowy. Ten sam próg nie pasuje do "Czy potwierdza pan zamówienie?", "Proszę podać szesnastocyfrowy numer karty", "Proszę opisać problem" i "Czy chce pan rozmawiać z konsultantem?".
 
 ## 1.6. Dlaczego zła obsługa przerwań brzmi nienaturalnie
 
-Voicebot źle obslugujacy przerwania ujawnia swoja sztucznosc w kilku sekundach:
+Voicebot źle obsługujący przerwania ujawnia swoją sztuczność w kilku sekundach:
 
-1. Mówi mimo że użytkownik zaczął mówić.
+1. Mówi, mimo że użytkownik zaczął mówić.
 2. Zatrzymuje się po "mhm", choć użytkownik tylko słuchał.
 3. Ignoruje korektę i kontynuuje poprzedni flow.
 4. Przeprasza, ale nie naprawia błędu.
@@ -170,11 +170,11 @@ Perspektywa psychologiczna: gdy człowiek przerywa, często walczy o kontrolę n
 
 | Typ przerwania | Przykład wypowiedzi użytkownika | Intencja użytkownika | Zalecana reakcja voicebota |
 |---|---|---|---|
-| Poprawienie bota | "Nie, nie Krakow, tylko Katowice" | Korekta danych | Zatrzymaj TTS, potwierdz poprawiona wartość, nie restartuj flow |
+| Poprawienie bota | "Nie, nie Kraków, tylko Katowice" | Korekta danych | Zatrzymaj TTS, potwierdź poprawioną wartość, nie restartuj flow |
 | Odpowiedź przed końcem pytania | "Tak" w trakcie pytania | Przyspieszenie | Przyjmij odpowiedź, jeśli kontekst jest jednoznaczny |
-| Przyspieszenie rozmowy | "Dalej", "wiem", "pomiń" | Skracanie | Przejdź do kolejnego kroku lub daj szybka opcję |
-| Zmiana tematu | "A jeszcze chce zapytać o fakture" | Nowa intencja | Zapamietaj aktualny stan, przejdź do nowej intencji albo potwierdz priorytet |
-| Frustracja | "No przeciez już mówiłem" | Naprawa i emocja | Skroc, przepros, nie powtarzaj tego samego, rozważ eskalację |
+| Przyspieszenie rozmowy | "Dalej", "wiem", "pomiń" | Skracanie | Przejdź do kolejnego kroku lub daj szybką opcję |
+| Zmiana tematu | "A jeszcze chcę zapytać o fakturę" | Nowa intencja | Zapamiętaj aktualny stan, przejdź do nowej intencji albo potwierdź priorytet |
+| Frustracja | "No przecież już mówiłem" | Naprawa i emocja | Skroc, przepros, nie powtarzaj tego samego, rozważ eskalację |
 | Przerwanie z powodu błędu | "To nie jest moj numer" | Krytyczna korekta | Natychmiast zatrzymaj, potwierdz błąd, wroc do punktu korekty |
 | Wymuszenie człowieka | "Polacz mnie z konsultantem" | Handoff | Nie walcz. Jeśli polityka pozwala, eskaluj lub poinformuj o warunkach |
 | Backchannel | "mhm", "okej" | Słuchanie | Kontynuuj, chyba że kontekst wymaga odpowiedzi |
@@ -268,7 +268,7 @@ OpenAI Realtime docs wskazują, że przy WebRTC i SIP serwer zarzadza buforem au
 - etap wymaga wysokiej dokładności;
 - mówią osoby trzecie w tle;
 - user input może być przypadkowym dźwiękiem;
-- użytkownik jest w halasliwym otoczeniu;
+- użytkownik jest w hałaśliwym otoczeniu;
 - wypowiedź bota zawiera krytyczne ostrzezenie, ale nie musi być formalnie odtworzone w całości.
 
 ### Wylacz albo zaprojektuj jako nieprzerywalne, gdy:
@@ -315,7 +315,7 @@ Użytkownicy przerywają często dlatego, że system:
 - ukrywa ograniczenia;
 - zmusza do wysluchania listy.
 
-Zmniejszanie przerwań to nie tylko lepsze wykrywanie przerwań. To lepsze projektowanie rozmowy.
+Żeby użytkownicy rzadziej przerywali botowi, nie wystarczy lepiej wykrywać przerwania — przede wszystkim trzeba tak zaprojektować rozmowę, żeby klient nie miał powodu przerywać.
 
 ## 1.13. Metryki barge-in i turn-taking
 

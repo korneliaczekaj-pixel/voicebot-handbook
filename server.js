@@ -110,16 +110,18 @@ function rateLimited(req) {
 }
 
 // ---------- czat ----------
-const SYSTEM = `Jestes asystentem podrecznika "Voicebot Specialist Handbook" (po polsku, o projektowaniu, wdrazaniu i optymalizacji voicebotow).
+const SYSTEM = `Jesteś asystentem podręcznika "Voicebot Specialist Handbook" (po polsku, o projektowaniu, wdrażaniu i optymalizacji voicebotów). Rozmawiasz jak kompetentny mentor, który zna podręcznik na wylot.
 
 Zasady:
-1. Odpowiadasz WYLACZNIE na podstawie fragmentow podrecznika przekazanych w wiadomosci uzytkownika. Nie korzystasz z wiedzy spoza nich i niczego nie zmyslasz.
-2. Odpowiadasz po polsku, konkretnie i zwiezle - zwykle 3-8 zdan albo krotka lista krokow.
-3. Gdy uzytkownik pyta "jak cos zrobic", prowadzisz go za reke: kroki po kolei, od czego zaczac, na co uwazac.
-4. Wskazujesz, gdzie w podreczniku czytac dalej, podajac czesc i tytul sekcji (np. "wiecej w: Czesc 8, sekcja Halucynacje, guardrails, prompt injection").
-5. Jesli we fragmentach nie ma odpowiedzi, mowisz to wprost i podpowiadasz, jak przeformulowac pytanie albo ktora czesc podrecznika moze byc najblizsza tematu.
-6. Pytania spoza tematyki podrecznika (niezwiazane z voicebotami/conversational AI) grzecznie odsylasz: ten asystent odpowiada tylko na pytania o tresc podrecznika.
-7. Formatowanie: zwykly tekst, dozwolone **pogrubienia** i listy z myslnikami. Bez naglowkow, bez tabel.`;
+1. Merytorycznie opierasz się WYŁĄCZNIE na fragmentach podręcznika przekazywanych w tej rozmowie (bieżących i z wcześniejszych tur). Nie dodajesz faktów spoza nich i niczego nie zmyślasz.
+2. Odpowiadasz płynną, naturalną polszczyzną, WŁASNYMI SŁOWAMI — parafrazujesz i łączysz treść fragmentów w spójną wypowiedź. Nie przeklejasz surowych fragmentów, nie piszesz "fragment [2] mówi, że...".
+3. Rozmowa jest ciągła: pytania często nawiązują do poprzednich odpowiedzi ("a jak to zmierzyć?", "rozwiń drugi punkt", "a w przypadku banku?") — wtedy kontynuujesz wątek, zamiast zaczynać od zera.
+4. Długość dopasowujesz do pytania: proste pytanie = kilka zdań; prośba o wyjaśnienie procesu = kroki po kolei, jak przewodnik prowadzący za rękę.
+5. Naturalnie, w toku wypowiedzi, wskazujesz gdzie czytać dalej (część i tytuł sekcji podręcznika).
+6. Gdy temat ma ciekawy ciąg dalszy, możesz zakończyć jednym krótkim zdaniem podpowiadającym, o co warto dopytać.
+7. Jeśli we fragmentach nie ma odpowiedzi, mówisz to wprost i proponujesz najbliższy temat, który podręcznik obejmuje.
+8. Pytania niezwiązane z voicebotami/conversational AI grzecznie odsyłasz — odpowiadasz tylko na pytania o treść podręcznika.
+9. Formatowanie: zwykły tekst, dozwolone **pogrubienia** i listy z myślnikami. Bez nagłówków i tabel.`;
 
 // darmowy silnik do testow: Google Gemini (klucz z aistudio.google.com, zmienna GEMINI_API_KEY)
 const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
@@ -174,11 +176,23 @@ async function handleChat(req, res) {
   try { dane = JSON.parse(await readBody(req, 20_000)); } catch (e) { return json(res, 400, { blad: 'Nieprawidłowe zapytanie.' }); }
   const pytanie = (typeof dane.pytanie === 'string' ? dane.pytanie : '').trim().slice(0, 500);
   if (!pytanie) return json(res, 400, { blad: 'Puste pytanie.' });
-  const historia = Array.isArray(dane.historia) ? dane.historia.slice(-8)
+  const historia = Array.isArray(dane.historia) ? dane.historia.slice(-12)
     .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
     .map(m => ({ role: m.role, content: m.content.slice(0, 2000) })) : [];
 
-  const fragmenty = szukaj(pytanie, 6, 14_000);
+  // dopytywanie: krotkie pytanie kontynuujace szukamy razem z poprzednim pytaniem,
+  // a fragmenty z poprzedniej odpowiedzi (zrodla_kontekstu) wracaja do kontekstu
+  const ostatniUser = [...historia].reverse().find(m => m.role === 'user');
+  const zapytanieSzukania = pytanie + (ostatniUser ? ' ' + ostatniUser.content.slice(0, 200) : '');
+  const poprzednieZrodla = Array.isArray(dane.zrodla_kontekstu)
+    ? dane.zrodla_kontekstu.filter(x => typeof x === 'string').slice(0, 4) : [];
+
+  const fragmenty = szukaj(zapytanieSzukania, 6, 12_000);
+  const mam = new Set(fragmenty.map(f => f.id + '|' + f.tytul));
+  for (const id of poprzednieZrodla) {
+    const f = INDEKS.find(x => x.id === id);
+    if (f && !mam.has(f.id + '|' + f.tytul)) { fragmenty.push(f); mam.add(f.id + '|' + f.tytul); }
+  }
   const kontekst = fragmenty.length
     ? fragmenty.map((f, i) => `[${i + 1}] ${f.czesc} — ${f.tytul}\n${f.tekst}`).join('\n\n---\n\n')
     : '(nie znaleziono pasujacych fragmentow)';

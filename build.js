@@ -429,6 +429,9 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
 #nav-btn{display:none;position:fixed;top:14px;left:14px;z-index:30;background:var(--surface);
   border:1px solid var(--line);border-radius:50%;width:42px;height:42px;padding:0;font:700 22px/1 "Segoe UI",system-ui,sans-serif;
   color:var(--acc);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);align-items:center;justify-content:center}
+#theme-btn{position:fixed;top:14px;right:14px;z-index:30;background:var(--surface);border:1px solid var(--line);
+  border-radius:50%;width:38px;height:38px;font-size:16px;color:var(--acc);cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.15)}
 #top-btn{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--line);
   border-radius:50%;width:42px;height:42px;font-size:17px;color:var(--acc);cursor:pointer;
   box-shadow:0 2px 8px rgba(0,0,0,.15);opacity:0;pointer-events:none;transition:opacity .2s}
@@ -493,6 +496,15 @@ const js = `
   });
   var topBtn=document.getElementById('top-btn');
   topBtn.addEventListener('click',function(){window.scrollTo({top:0})});
+
+  // przelacznik motywu (na claude.ai motywem steruje podglad artefaktu)
+  var themeBtn=document.getElementById('theme-btn');
+  if(location.hostname==='claude.ai'){themeBtn.style.display='none';}
+  themeBtn.addEventListener('click',function(){
+    var nowy=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nowy);
+    try{localStorage.setItem('vh-theme',nowy);}catch(e){}
+  });
 
   var marks=[].slice.call(document.querySelectorAll('h2.chapter, section.part'));
   var links={};
@@ -563,6 +575,7 @@ const js = `
   var inp=document.getElementById('chat-in');
   var sendBtn=document.getElementById('chat-send');
   var hist=[];
+  var lastZrodla=[];
   if(location.protocol==='file:'||location.hostname==='claude.ai'){chatBtn.style.display='none';}
   chatBtn.addEventListener('click',function(){chat.classList.add('open');chatBtn.style.visibility='hidden';
     if(!msgs.children.length)addMsg('bot','Cześć! Odpowiadam na pytania na podstawie tego podręcznika i wskazuję sekcje, które warto przeczytać. O co chcesz zapytać?');
@@ -586,13 +599,14 @@ const js = `
     addMsg('user',q);
     var wait=addMsg('bot wait','Szukam w podręczniku...');
     fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pytanie:q,historia:hist.slice(-8)})})
+      body:JSON.stringify({pytanie:q,historia:hist.slice(-12),zrodla_kontekstu:lastZrodla})})
       .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
       .then(function(res){
         wait.remove();
         if(res.ok&&res.j.odpowiedz){
           addMsg('bot',res.j.odpowiedz,res.j.zrodla);
           hist.push({role:'user',content:q},{role:'assistant',content:res.j.odpowiedz});
+          lastZrodla=(res.j.zrodla||[]).map(function(z){return z.id;});
         }else{addMsg('bot',res.j.blad||'Coś poszło nie tak — spróbuj ponownie.');}
       })
       .catch(function(){wait.remove();addMsg('bot','Czat działa tylko w wersji online aplikacji (Railway). Sprawdź połączenie i spróbuj ponownie.');})
@@ -604,8 +618,10 @@ const js = `
 const today = '2026-07-29';
 const core = `
 <title>Voicebot Specialist Handbook</title>
+<script>try{if(location.hostname!=='claude.ai'){document.documentElement.setAttribute('data-theme',localStorage.getItem('vh-theme')||'dark');}}catch(e){}</script>
 ${waveSymbol}
 <button id="nav-btn" aria-label="Spis treści" title="Spis treści">☰</button>
+<button id="theme-btn" aria-label="Przełącz motyw jasny/ciemny" title="Motyw jasny/ciemny">&#9681;</button>
 <div class="layout">
 <nav id="sb" aria-label="Spis treści">
   <p class="brand"><a href="#top">Voicebot Specialist Handbook</a></p>

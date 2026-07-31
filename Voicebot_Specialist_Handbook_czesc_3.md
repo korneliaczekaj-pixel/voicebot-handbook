@@ -14,21 +14,21 @@ Kontynuacja plików:
 
 ## Cel całej części
 
-Ta część wyjaśnia, jak voicebot działa "pod maska". Voicebot nie jest jednym modelem ani jednym skryptem dialogowym. Jest lancuchem komponentów pracujacych w czasie rzeczywistym: telefonia, streaming audio, ASR, NLU lub LLM, dialog manager, logika biznesowa, integracje, TTS, monitoring, analityka i human handoff.
+Ta część wyjaśnia, jak voicebot działa "pod maską". Voicebot nie jest jednym modelem ani jednym skryptem dialogowym. Jest łańcuchem komponentów pracujących w czasie rzeczywistym: telefonia, streaming audio, ASR, NLU lub LLM, dialog manager, logika biznesowa, integracje, TTS, monitoring, analityka i human handoff.
 
 Po tej części czytelnik powinien umieć:
 
 1. Opisać podstawowy przepływ audio i danych w voicebocie.
 2. Rozumieć role telefonii, SIP, VoIP, gatewaya i contact center.
-3. Wyjaśnić, co robia ASR, NLU, dialog manager, LLM, RAG i TTS.
-4. Wskazac typowe miejsca opóźnień i błędów.
+3. Wyjaśnić, co robią ASR, NLU, dialog manager, LLM, RAG i TTS.
+4. Wskazać typowe miejsca opóźnień i błędów.
 5. Rozróżnić architekturę rule-based, intent-based, generative i hybrid AI.
-6. Przygotować wymagania wysokiego poziomu dla zespolu technicznego.
-7. Rozmawiać z architektem, developerem, dostawca platformy i zespołem contact center bez gubienia sensu biznesowego.
+6. Przygotować wymagania wysokiego poziomu dla zespołu technicznego.
+7. Rozmawiać z architektem, developerem, dostawcą platformy i zespołem contact center bez gubienia sensu biznesowego.
 
 Źródła wspierające część:
 
-- W3C VoiceXML 2.0: historyczny i nadal pouczajacy model dialogów audio, formularzy, gramatyk, zdarzeń, promptów i input collection.
+- W3C VoiceXML 2.0: historyczny i nadal pouczający model dialogów audio, formularzy, gramatyk, zdarzeń, promptów i input collection.
 - Google Dialogflow CX advanced speech: end-of-speech sensitivity, smart endpointing, no-speech timeout, barge-in, partial response playback.
 - AWS Connect i Amazon Lex: streaming ASR, end-of-turn confidence, silence timeout, allow-interrupt, slot-level speech controls.
 - LiveKit: pipeline voice agents, VAD, endpointing, turn detection, adaptive interruption handling, aligned transcripts.
@@ -38,9 +38,9 @@ Po tej części czytelnik powinien umieć:
 
 ## Architektura w prostych slowach
 
-Architekturę voicebota można porównać do dobrze zorganizowanej recepcji telefonicznej. Najpierw ktos odbiera połączenie i zapewnia, że dźwięk dociera w dobra strone. Potem ktos zapisuje, co powiedział klient. Następnie ktos interpretuje sens wypowiedzi: czy chodzi o status zamówienia, reklamację, termin dostawy czy konsultanta. Potem system sprawdza reguły procesu i dane w firmowych systemach. Na koncu uklada odpowiedź, zamienia ja na głos i mówi do użytkownika.
+Architekturę voicebota można porównać do dobrze zorganizowanej recepcji telefonicznej. Najpierw ktoś odbiera połączenie i zapewnia, że dźwięk dociera w dobrą stronę. Potem ktoś zapisuje, co powiedział klient. Następnie ktoś interpretuje sens wypowiedzi: czy chodzi o status zamówienia, reklamację, termin dostawy czy konsultanta. Potem system sprawdza reguły procesu i dane w firmowych systemach. Na końcu układa odpowiedź, zamienia ją na głos i mówi do użytkownika.
 
-W prawdziwym voicebocie te "osoby" są komponentami technicznymi: telefonia, ASR, NLU lub LLM, dialog manager, integracje i TTS. Gdy rozmową się psuje, przyczyna może lezec w dowolnym miejscu. Użytkownik mówi wyraznie, ale telefonia znieksztalca dźwięk. ASR zapisuje źle słowo. NLU wybiera zła intencje. Integracja nie odpowiada. TTS dziwnie czyta datę. Dlatego nie wystarczy powiedzieć "AI źle zrozumiała". Trzeba umieć znaleźć warstwę, na której powstal błąd.
+W prawdziwym voicebocie te "osoby" są komponentami technicznymi: telefonia, ASR, NLU lub LLM, dialog manager, integracje i TTS. Gdy rozmowa się psuje, przyczyna może leżeć w dowolnym miejscu. Użytkownik mówi wyraźnie, ale telefonia zniekształca dźwięk. ASR zapisuje źle słowo. NLU wybiera złą intencję. Integracja nie odpowiada. TTS dziwnie czyta datę. Dlatego nie wystarczy powiedzieć "AI źle zrozumiała". Trzeba umieć znaleźć warstwę, na której powstał błąd.
 
 Najprostsza mapa myślenia:
 
@@ -48,7 +48,7 @@ Najprostsza mapa myślenia:
 głos -> tekst -> znaczenie -> decyzja -> dane -> odpowiedź -> głos
 ```
 
-To zdanie jest mala mapa całej architektury. Każdy rozdział tej części rozwija jeden fragment tej drogi.
+To zdanie jest małą mapą całej architektury. Każdy rozdział tej części rozwija jeden fragment tej drogi.
 
 ---
 
@@ -60,7 +60,7 @@ Czytelnik nauczy się:
 
 - opisać pełny przepływ rozmowy voicebota;
 - rozróżnić komponenty audio, językowe, dialogowe, biznesowe i operacyjne;
-- rozumieć, dlaczego błąd może powstac na wielu warstwach;
+- rozumieć, dlaczego błąd może powstać na wielu warstwach;
 - przygotować prosty diagram architektury dla projektu.
 
 ## 1.2. Kluczowe pojęcia
@@ -69,12 +69,12 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
-| Pipeline voicebota | Sekwencja komponentów przetwarzajacych rozmowę od audio do odpowiedzi |
-| Audio stream | Strumien dźwięku przesylany w czasie rzeczywistym |
+| Pipeline voicebota | Sekwencja komponentów przetwarzających rozmowę od audio do odpowiedzi |
+| Audio stream | Strumień dźwięku przesyłany w czasie rzeczywistym |
 | ASR/STT | Automatic Speech Recognition / Speech-to-Text, zamiana mowy na tekst |
 | NLU | Natural Language Understanding, interpretacja intencji i encji |
-| Dialog manager | Komponent zarzadzajacy stanem rozmowy i kolejnymi krokami |
-| Business logic | Reguly procesu, decyzję, walidacje, obsługa wyjątków |
+| Dialog manager | Komponent zarządzający stanem rozmowy i kolejnymi krokami |
+| Business logic | Reguły procesu, decyzje, walidacje, obsługa wyjątków |
 | Backend integration | Połączenie z CRM, ERP, ticketingiem, kalendarzem, płatnościami itd. |
 | TTS | Text-to-Speech, zamiana tekstu na mowę |
 | Observability | Logi, metryki, tracing, transkrypcje, monitoring jakości i kosztów |
@@ -100,18 +100,18 @@ Uzytkownik mowi
   -> logi, metryki, transkrypcje, monitoring
 ```
 
-W praktyce ten przepływ nie jest liniowy jak fabryczna tasma. Dzieje się wiele procesów równolegle:
+W praktyce ten przepływ nie jest liniowy jak fabryczna taśma. Dzieje się wiele procesów równolegle:
 
 - system słucha, gdy użytkownik mówi;
-- system może generowac odpowiedź, zanim ma finalna transkrypcje, jeśli architektura wspiera preemptive generation;
+- system może generować odpowiedź, zanim ma finalną transkrypcję, jeśli architektura wspiera preemptive generation;
 - system może odtwarzać TTS i jednocześnie nasłuchiwać barge-in;
-- system może wywolywac API, a w tym czasie odtwarzać komunikat wypelniajacy ciszę;
+- system może wywoływać API, a w tym czasie odtwarzać komunikat wypełniający ciszę;
 - monitoring zbiera dane w tle;
 - dialog manager aktualizuje stan rozmowy po każdym kroku.
 
 Uwaga praktyczna:
 
-Voicebot jest tak dobry, jak jego najslabsza warstwa. Świetny LLM nie naprawi złej telefonii, a dobry ASR nie naprawi scenariusza, który pyta o trzy rzeczy naraz.
+Voicebot jest tak dobry, jak jego najsłabsza warstwa. Świetny LLM nie naprawi złej telefonii, a dobry ASR nie naprawi scenariusza, który pyta o trzy rzeczy naraz.
 
 ## 1.4. Perspektywa biznesowa
 
@@ -122,9 +122,9 @@ Architektura decyduje o:
 - możliwości skalowania;
 - jakości rozumienia;
 - poziomie kontroli nad odpowiedziami;
-- łatwośći integracji;
+- łatwości integracji;
 - ryzyku compliance;
-- łatwośći pozniejszej optymalizacji.
+- łatwości późniejszej optymalizacji.
 
 Dla biznesu architektura nie jest "tematem IT". To wybór modelu operacyjnego. Inna architektura pasuje do prostego statusu zamówienia, inna do voicebota medycznego, inna do generatywnego helpdesku IT.
 
@@ -137,24 +137,24 @@ Użytkownik nie widzi architektury, ale czuje jej konsekwencje:
 - czy pozwala przerwać;
 - czy poprawnie czyta nazwiska, daty, numery i kwoty;
 - czy pamięta kontekst;
-- czy sprawa zostaje wykonana, a nie tylko omowiona;
-- czy konsultant po przekazaniu wie, co się dzialo.
+- czy sprawa zostaje wykonana, a nie tylko omówiona;
+- czy konsultant po przekazaniu wie, co się działo.
 
 ## 1.6. Perspektywa technologiczna
 
 Każdy komponent ma wejścia, wyjścia i ryzyka:
 
-| Komponent | Wejscie | Wyjscie | Typowe ryzyka |
+| Komponent | Wejście | Wyjście | Typowe ryzyka |
 |---|---|---|---|
-| Telefonia | Połączenie głosowe | Strumien audio | Kodeki, jitter, echo, opóźnienia |
+| Telefonia | Połączenie głosowe | Strumień audio | Kodeki, jitter, echo, opóźnienia |
 | VAD | Audio | Informacja: mowa/brak mowy | Szum jako mowa, cicha mowa jako cisza |
 | Endpointing | Audio/ASR partials | Decyzja: koniec tury | Ucinanie lub martwa cisza |
-| ASR | Audio | Transkrypcją | Akcent, hałas, nazwy własne, cyfry |
+| ASR | Audio | Transkrypcja | Akcent, hałas, nazwy własne, cyfry |
 | NLU | Tekst | Intencja, encje | Błędna klasyfikacja, brak danych |
 | LLM | Tekst/kontekst | Odpowiedź/decyzja/narzędzie | Halucynacje, latency, koszt |
 | Dialog manager | Stan + interpretacja | Następny krok | Utrata kontekstu, zły fallback |
-| Integracje | Zapytania API | Dane/akcję | Timeouty, błędy, brak spójności |
-| TTS | Tekst | Audio | Zła wymowa, tempo, nienaturalnosc |
+| Integracje | Zapytania API | Dane/akcje | Timeouty, błędy, brak spójności |
+| TTS | Tekst | Audio | Zła wymowa, tempo, nienaturalność |
 | Monitoring | Zdarzenia/logi | Metryki/alerty | Brak danych do diagnostyki |
 
 ## 1.7. Dobre praktyki
@@ -163,11 +163,11 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 
 - Rysuj architekturę jako przepływ audio, tekstu, decyzji i danych.
 - Oznacz miejsca, gdzie powstaje latency.
-- Oznacz miejsca, gdzie trzeba logowac decyzję.
+- Oznacz miejsca, gdzie trzeba logować decyzję.
 - Oddziel stan rozmowy od tekstu generowanej odpowiedzi.
 - Projektuj fallback dla każdego komponentu krytycznego.
 - Wymagaj testów end-to-end przez prawdziwy kanał.
-- Nie oceniaj voicebota tylko na podstawie demo w przegladarce.
+- Nie oceniaj voicebota tylko na podstawie demo w przeglądarce.
 
 ## 1.8. Typowe błędy
 
@@ -175,10 +175,10 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Brak diagramu architektury | Interesariusze nie rozumieja zaleznosci i kosztów |
+| Brak diagramu architektury | Interesariusze nie rozumieją zależności i kosztów |
 | Traktowanie voicebota jako jednego komponentu | Trudna diagnostyka |
 | Brak logowania ASR partials i decyzji dialogowych | Nie wiadomo, czemu bot źle odpowiedział |
-| Brak planu timeoutow integracji | Cisza lub przypadkowe fallbacki |
+| Brak planu timeoutów integracji | Cisza lub przypadkowe fallbacki |
 | Brak osobnej polityki handoff | Konsultant dostaje klienta bez kontekstu |
 
 ## 1.9. Checklista architektury wysokiego poziomu
@@ -197,20 +197,20 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ## 1.10. Mini case study
 
-Firma kurierska wdraza voicebota do statusu przesylek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem sledzenia. Bot rozpoznaje intencje "status paczki", ale i tak odsyla do strony internetowej. Po zmianie architektury dodano identyfikacje po numerze telefonu, integracje tracking API, potwierdzenie przesyłki i handoff dla statusow spornych. Dopiero wtedy bot zaczął realnie rozwiazywac sprawę.
+Firma kurierska wdraża voicebota do statusu przesyłek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem śledzenia. Bot rozpoznaje intencję "status paczki", ale i tak odsyła do strony internetowej. Po zmianie architektury dodano identyfikację po numerze telefonu, integrację tracking API, potwierdzenie przesyłki i handoff dla statusów spornych. Dopiero wtedy bot zaczął realnie rozwiązywać sprawę.
 
 ## 1.11. Ćwiczenia
 
 Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
 
 1. Narysuj tekstowy diagram architektury voicebota do umawiania wizyt.
-2. Wskaż trzy miejsca, gdzie może powstac latency.
-3. Wskaż trzy miejsca, gdzie trzeba logowac decyzję.
+2. Wskaż trzy miejsca, gdzie może powstać latency.
+3. Wskaż trzy miejsca, gdzie trzeba logować decyzję.
 4. Opisz fallback, gdy integracja CRM nie odpowiada.
 
 ## 1.12. Podsumowanie
 
-Architektura voicebota to lancuch decyzji o dźwięku, języku, dialogu, danych i operacjach. Specjalista nie musi być inzynierem każdego komponentu, ale musi rozumieć zaleznosci, bo to one decydują o jakości rozmowy.
+Architektura voicebota to łańcuch decyzji o dźwięku, języku, dialogu, danych i operacjach. Specjalista nie musi być inżynierem każdego komponentu, ale musi rozumieć zależności, bo to one decydują o jakości rozmowy.
 
 ---
 
@@ -231,19 +231,19 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
-| PSTN | Klasyczna publiczna siec telefoniczna |
-| VoIP | Przesylanie głosu przez siec IP |
-| SIP | Protokol inicjowania, modyfikowania i konczenia sesji komunikacyjnych |
-| RTP | Protokol transportu mediow, np. audio w czasie rzeczywistym |
-| Telephony gateway | Warstwa łącząca telefonię z aplikacja voicebota |
-| Contact center platform | System obsługi kolejek, konsultantów, routingow, nagrań i raportow |
+| PSTN | Klasyczna publiczna sieć telefoniczna |
+| VoIP | Przesyłanie głosu przez sieć IP |
+| SIP | Protokół inicjowania, modyfikowania i kończenia sesji komunikacyjnych |
+| RTP | Protokół transportu mediów, np. audio w czasie rzeczywistym |
+| Telephony gateway | Warstwa łącząca telefonię z aplikacją voicebota |
+| Contact center platform | System obsługi kolejek, konsultantów, routingów, nagrań i raportów |
 | DTMF | Tonowe sygnały klawiatury telefonu |
 | Call transfer | Przekazanie rozmowy do innej kolejki lub konsultanta |
-| ANI/CLI | Numer dzwoniacego, jeśli dostępny |
+| ANI/CLI | Numer dzwoniącego, jeśli dostępny |
 
 ## 2.3. Wyjaśnienie eksperckie
 
-Voicebot telefoniczny nie zaczyna się w modelu AI. Zaczyna się od połączenia. Użytkownik dzwoni, siec telefoniczna zestawia rozmowę, contact center albo gateway odbiera połączenie, a audio jest przekazywane do systemu voicebota.
+Voicebot telefoniczny nie zaczyna się w modelu AI. Zaczyna się od połączenia. Użytkownik dzwoni, sieć telefoniczna zestawia rozmowę, contact center albo gateway odbiera połączenie, a audio jest przekazywane do systemu voicebota.
 
 Typowy przepływ:
 
@@ -257,7 +257,7 @@ Telefon użytkownika
   -> powrot audio do użytkownika
 ```
 
-SIP jest często warstwa sygnalizacyjna: kto dzwoni, dokad, kiedy odebrano, kiedy rozlaczono, jak przekazać rozmowę. Audio najczesciej plynie osobnym strumieniem mediow. Dla Voicebot Specialist najważniejsze nie jest recytowanie szczegółów protokolow, ale rozumienie konsekwencji:
+SIP jest często warstwą sygnalizacyjną: kto dzwoni, dokąd, kiedy odebrano, kiedy rozłączono, jak przekazać rozmowę. Audio najczęściej płynie osobnym strumieniem mediów. Dla Voicebot Specialist najważniejsze nie jest recytowanie szczegółów protokołów, ale rozumienie konsekwencji:
 
 - telefonia dodaje opóźnienia;
 - kodeki mogą ograniczac jakość audio;
@@ -897,7 +897,7 @@ Bez stanu bot nie prowadzi rozmowy, tylko reaguje na pojedyncze wypowiedzi. Stan
 - obsługiwać korekty;
 - unikać powtarzania pytań;
 - przekazać kontekst konsultantowi;
-- logowac proces.
+- logować proces.
 
 ## 6.4. Perspektywa biznesowa
 
@@ -972,7 +972,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak rozroznienia danych potwierdzonych | Błędne akcję |
 | Brak korekty slotu | Użytkownik musi zaczynać od nowa |
 | Brak transaction boundary | Bot może sugerowac wykonanie akcji, która się nie wykonala |
-| Brak context handoff | Konsultant nie wie, co się dzialo |
+| Brak context handoff | Konsultant nie wie, co się działo |
 
 ## 6.9. Checklista dialog managera
 
@@ -1124,7 +1124,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Błąd | Konsekwencja |
 |---|---|
 | Integracja dopiero po projekcie dialogu | Flow nie pasuje do realnych danych |
-| Brak timeoutow | Martwa cisza |
+| Brak timeoutów | Martwa cisza |
 | Brak idempotency | Duplikaty rezerwacji lub zgloszen |
 | Brak rozroznienia błędów | Bot daje zły komunikat |
 | Brak sandboxa | Testy są ryzykowne |
