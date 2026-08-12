@@ -1,63 +1,8 @@
-# Voicebot Specialist Handbook
+# Rozdział 10. Testowanie i QA voicebotów
 
-## Część 10: Testowanie i QA voicebotów
+## 10.1. Strategia testowania voicebota
 
-Wersja robocza: 2026-07-29  
-Kontynuacja plików:
-
-- `Voicebot_Specialist_Handbook_czesc_1.md`
-- `Voicebot_Specialist_Handbook_czesc_2.md`
-- `Voicebot_Specialist_Handbook_czesc_3.md`
-- `Voicebot_Specialist_Handbook_czesc_4.md`
-- `Voicebot_Specialist_Handbook_czesc_5.md`
-- `Voicebot_Specialist_Handbook_czesc_6.md`
-- `Voicebot_Specialist_Handbook_czesc_7.md`
-- `Voicebot_Specialist_Handbook_czesc_8.md`
-- `Voicebot_Specialist_Handbook_czesc_9.md`
-
----
-
-# Część IX. Testowanie i QA voicebotów
-
-## Cel całej części
-
-Voicebot, który dobrze działa w demo, może zawieść w realnej rozmowie. Testowanie voicebotów wymaga sprawdzenia nie tylko tekstów i intencji, ale całego systemu: telefonii, ASR, endpointing, barge-in, NLU, LLM, TTS, integracji, handoff, danych, bezpieczeństwa, metryk, edge case'ów i emocji użytkownika.
-
-Ta część pokazuje, jak zaprojektować praktyczny proces QA przed wdrożeniem i po każdej zmianie.
-
-Po tej części czytelnik powinien umieć:
-
-1. Przygotować plan testów voicebota.
-2. Testować scenariusze rozmów, happy path i unhappy paths.
-3. Testować ASR, NLU, TTS, telefonię i integracje.
-4. Testować barge-in, turn-taking, no-input i no-match.
-5. Projektować testy regresji.
-6. Prowadzić UAT z biznesem i contact center.
-7. Testować sytuacje trudne emocjonalnie i branżowo.
-8. Przygotować kompletną checklistę przed produkcją.
-
-Źródła wspierające część:
-
-- Dokumentacje LiveKit, OpenAI Realtime, Google Dialogflow CX, AWS Connect i Amazon Lex: turn detection, interruption handling, speech config, slot controls i realtime voice.
-- W3C VoiceXML: no-input, no-match, event handling, formularze i gramatyki jako fundament testowania dialogów.
-- Źródła badawcze o turn-taking i przerwaniach: testowanie overlap, barge-in, false interruptions i naturalności.
-- SASSI, PARADISE i badania usability voice interfaces: ocena subiektywnego odbioru, wysiłku użytkownika, satysfakcji, kosztów dialogu i skuteczności zadania.
-- Uzupełnienie eksperckie: QA matrix, UAT, regresja, testy integracji, testy telefonii i pre-production readiness.
-
----
-
-# Rozdział 1. Strategia testowania voicebota
-
-## 1.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozumieć, dlaczego voicebot wymaga wielowarstwowego QA;
-- zaprojektować plan testów;
-- odróżniać testy jednostkowe, konwersacyjne, integracyjne, UAT i produkcyjne;
-- określić kryteria wejścia i wyjścia z testów.
-
-## 1.2. Kluczowe pojęcia
+### 10.1.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -72,7 +17,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Defect | Błąd wymagający poprawy |
 | Severity | Waga błędu |
 
-## 1.3. Wyjaśnienie eksperckie
+### 10.1.2. Wyjaśnienie eksperckie
 
 Voicebot trzeba testować warstwowo:
 
@@ -93,7 +38,7 @@ Uwaga praktyczna:
 
 Nie ma sensu testować tylko happy path przez interfejs tekstowy. Voicebot musi być testowany głosem, w prawdziwym kanale albo w kanale jak najbardziej zbliżonym do produkcji.
 
-## 1.4. Perspektywa biznesowa
+### 10.1.3. Perspektywa biznesowa
 
 QA chroni przed:
 
@@ -106,7 +51,7 @@ QA chroni przed:
 
 Testy powinny mieć jasne kryteria go/no-go. Bez nich presja daty wdrożenia może wypchnąć na produkcję system, który nie jest gotowy.
 
-## 1.5. Perspektywa użytkownika
+### 10.1.4. Perspektywa użytkownika
 
 Użytkownik nie testuje systemu. Użytkownik chce załatwić sprawę. Dlatego QA musi obejmować normalne zachowania ludzi:
 
@@ -119,7 +64,7 @@ Użytkownik nie testuje systemu. Użytkownik chce załatwić sprawę. Dlatego QA
 - prośbę o człowieka;
 - hałas w tle.
 
-## 1.6. Perspektywa technologiczna
+### 10.1.5. Perspektywa technologiczna
 
 Plan testów powinien zawierać:
 
@@ -137,7 +82,7 @@ Plan testów powinien zawierać:
 - harmonogram;
 - kryteria akceptacji.
 
-## 1.7. Dobre praktyki
+### 10.1.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -150,7 +95,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Włącz konsultantów i QA contact center.
 - Miej jasne kryteria go/no-go.
 
-## 1.8. Typowe błędy
+### 10.1.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -163,7 +108,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak kryteriów akceptacji | Spory przy odbiorze |
 | Brak testów handoff | Konsultanci dostają chaos |
 
-## 1.9. Checklista planu testów
+### 10.1.8. Checklista planu testów
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -178,37 +123,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy testujemy logi?
 - Czy mamy kryteria go/no-go?
 
-## 1.10. Mini case study
+### 10.1.9. Mini case study
 
 Voicebot do zmiany terminu dostawy przeszedł testy tekstowe. Na testach telefonicznych okazało się, że TTS odczytuje przedział "14-16" jako "czternaście minus szesnaście", a ASR myli "sobota" z "święta". Testy głosowe ujawniły problemy, których nie było widać w scenariuszu tekstowym.
 
-## 1.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Przygotuj plan testów dla statusu zamówienia.
-2. Wypisz 10 test cases poza happy path.
-3. Zaprojektuj severity matrix.
-4. Zdefiniuj kryteria go/no-go dla pilota.
-
-## 1.12. Podsumowanie
+### 10.1.10. Podsumowanie
 
 QA voicebota musi obejmować rozmowę jako całość: technologie, proces, język, emocje, dane i operacje. Testy nie są ostatnim etapem formalnym. Są narzędziem odkrywania realnego zachowania systemu przed kontaktem z klientem.
 
 ---
 
-# Rozdział 2. Testy scenariuszy i testy konwersacyjne
+## 10.2. Testy scenariuszy i testy konwersacyjne
 
-## 2.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- testować flow rozmowy;
-- projektować przypadki testowe dla happy path i unhappy paths;
-- oceniać jakość promptów, fallbacków, korekt i eskalacji;
-- rozpoznawać błędy conversation design.
-
-## 2.2. Kluczowe pojęcia
+### 10.2.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -221,7 +148,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Edge case | Rzadki lub graniczny przypadek |
 | Expected behavior | Oczekiwane zachowanie bota |
 
-## 2.3. Wyjaśnienie eksperckie
+### 10.2.2. Wyjaśnienie eksperckie
 
 Test scenariusza sprawdza, czy bot przechodzi przez proces. Test konwersacyjny sprawdza, czy rozmowa ma sens dla człowieka.
 
@@ -244,7 +171,7 @@ Przykład testu konwersacyjnego:
 
 "Czy bot zadaje pytania jasno, czy nie wymaga podawania trzech danych naraz, czy pozwala poprawić adres, czy nie brzmi oskarżająco po błędzie?"
 
-## 2.4. Perspektywa biznesowa
+### 10.2.3. Perspektywa biznesowa
 
 Testy scenariuszy powinny pokryć reguły biznesowe:
 
@@ -257,7 +184,7 @@ Testy scenariuszy powinny pokryć reguły biznesowe:
 
 Bez tego bot może być "konwersacyjnie miły", ale biznesowo niepoprawny.
 
-## 2.5. Perspektywa użytkownika
+### 10.2.4. Perspektywa użytkownika
 
 Test konwersacyjny powinien zadawać pytania:
 
@@ -268,7 +195,7 @@ Test konwersacyjny powinien zadawać pytania:
 - Czy bot daje poczucie kontroli?
 - Czy bot szybko oddaje rozmowę człowiekowi, gdy trzeba?
 
-## 2.6. Perspektywa technologiczna
+### 10.2.5. Perspektywa technologiczna
 
 Test case powinien mieć format:
 
@@ -287,7 +214,7 @@ Logi do sprawdzenia:
 Severity przy błędzie:
 ```
 
-## 2.7. Dobre praktyki
+### 10.2.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -300,7 +227,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj komunikaty po błędach integracji.
 - Testuj zakończenie rozmowy.
 
-## 2.8. Typowe błędy
+### 10.2.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -312,7 +239,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak testów zakończenia | Repeat contact |
 | Brak expected API calls | Nie wiadomo, czy akcja się wykonała |
 
-## 2.9. Checklista testów scenariuszy
+### 10.2.8. Checklista testów scenariuszy
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -325,37 +252,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy API calls są weryfikowane?
 - Czy logi są sprawdzane?
 
-## 2.10. Mini case study
+### 10.2.9. Mini case study
 
 W testach voicebota rezerwacyjnego happy path działał. Dopiero test "użytkownik zmienia zdanie po usłyszeniu terminu" ujawnił, że bot nie umiał wrócić do wyboru daty. Dodano correction loop dla slotu `appointment_date`.
 
-## 2.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz 5 test cases dla zmiany adresu.
-2. Dodaj test korekty.
-3. Dodaj test zmiany tematu.
-4. Dodaj test "konsultant" w środku flow.
-
-## 2.12. Podsumowanie
+### 10.2.10. Podsumowanie
 
 Testy scenariuszy sprawdzają, czy proces działa. Testy konwersacyjne sprawdzają, czy człowiek potrafi z niego skorzystać. Oba typy są konieczne.
 
 ---
 
-# Rozdział 3. Testy ASR, NLU, LLM i TTS
+## 10.3. Testy ASR, NLU, LLM i TTS
 
-## 3.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- testować rozpoznawanie mowy;
-- testować intencje i encje;
-- testować odpowiedzi generatywne;
-- testować syntezę mowy i formatowanie audio.
-
-## 3.2. Zakres testów komponentów
+### 10.3.1. Zakres testów komponentów
 
 | Komponent | Co testujemy |
 |---|---|
@@ -365,7 +274,7 @@ Czytelnik nauczy się:
 | RAG | Retrieval, źródła, aktualność, odpowiedzi voice-ready |
 | TTS | Wymowa, tempo, daty, kwoty, kody, barge-in |
 
-## 3.3. Testy ASR
+### 10.3.2. Testy ASR
 
 Testuj:
 
@@ -391,7 +300,7 @@ Metryki:
 - false no-speech;
 - endpointing errors.
 
-## 3.4. Testy NLU
+### 10.3.3. Testy NLU
 
 Testuj:
 
@@ -406,7 +315,7 @@ Testuj:
 
 Nie wystarczy test "czy wykrywa intencję status". Trzeba sprawdzić, czy nie wykrywa jej tam, gdzie nie powinien.
 
-## 3.5. Testy LLM/RAG
+### 10.3.4. Testy LLM/RAG
 
 Testuj:
 
@@ -429,7 +338,7 @@ Przykładowe testy:
 - "Czy w mojej sytuacji na pewno dostanę odszkodowanie?"
 - "Podaj dane poprzedniego klienta."
 
-## 3.6. Testy TTS
+### 10.3.5. Testy TTS
 
 Testuj:
 
@@ -446,15 +355,15 @@ Testuj:
 - ton przeprosin;
 - czy komunikat nadal brzmi dobrze po skróceniu.
 
-## 3.7. Perspektywa biznesowa
+### 10.3.6. Perspektywa biznesowa
 
 Testy komponentów powinny być powiązane z kosztem błędu. Błędne odczytanie FAQ to inna waga niż błędne rozpoznanie zgody na płatność. QA musi priorytetyzować komponenty według ryzyka use case'u.
 
-## 3.8. Perspektywa użytkownika
+### 10.3.7. Perspektywa użytkownika
 
 Użytkownik widzi komponenty jako jedno doświadczenie. Jeśli TTS źle czyta datę, klient nie wie, że "winny" jest TTS. Jeśli ASR myli "nie", klient nie wie, że to ASR. Dlatego testy komponentów muszą prowadzić do poprawy całej rozmowy.
 
-## 3.9. Dobre praktyki
+### 10.3.8. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -466,7 +375,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Dla ASR testuj dane krytyczne.
 - Każdy błąd krytyczny dodaj do regresji.
 
-## 3.10. Typowe błędy
+### 10.3.9. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -478,7 +387,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | TTS bez testów liczb | Nieczytelne dane |
 | Brak testów out-of-scope | Bot odpowiada na wszystko |
 
-## 3.11. Checklista komponentów
+### 10.3.10. Checklista komponentów
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -490,37 +399,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy są testy danych krytycznych?
 - Czy wyniki są powiązane z severity?
 
-## 3.12. Mini case study
+### 10.3.11. Mini case study
 
 Voicebot bankowy poprawnie rozpoznawał intencje w testach tekstowych, ale w głosie "zastrzec kartę" ASR czasem przepisywał jako "zastrzyk kartę". Dodano frazy ASR, custom vocabulary i testy audio. NLU zostało dostosowane do typowych błędów transkrypcji.
 
-## 3.13. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Przygotuj listę testów ASR dla numerów.
-2. Przygotuj testy out-of-scope dla LLM.
-3. Zaprojektuj test TTS dla adresu.
-4. Zinterpretuj pomyłkę NLU wysokiego ryzyka.
-
-## 3.14. Podsumowanie
+### 10.3.12. Podsumowanie
 
 Testy komponentów pomagają znaleźć źródło problemu. Voicebot może zawieść przez ASR, NLU, LLM, RAG, TTS lub ich połączenie. QA musi umieć rozdzielać te warstwy.
 
 ---
 
-# Rozdział 4. Testy integracji, telefonii, obciążeniowe i bezpieczeństwa
+## 10.4. Testy integracji, telefonii, obciążeniowe i bezpieczeństwa
 
-## 4.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- testować integracje backendowe;
-- testować kanał telefoniczny i transfery;
-- przygotować testy obciążeniowe;
-- sprawdzić podstawowe wymagania bezpieczeństwa.
-
-## 4.2. Testy integracji
+### 10.4.1. Testy integracji
 
 Testuj:
 
@@ -540,7 +431,7 @@ Przykład:
 
 Jeśli API rezerwacji zwraca `slot_unavailable`, bot nie powinien mówić "błąd". Powinien zaproponować inny termin.
 
-## 4.3. Testy telefonii
+### 10.4.2. Testy telefonii
 
 Testuj:
 
@@ -558,7 +449,7 @@ Testuj:
 
 Telefonia musi być testowana w konfiguracji podobnej do produkcji. Demo webowe nie wystarczy.
 
-## 4.4. Testy obciążeniowe
+### 10.4.3. Testy obciążeniowe
 
 Pytania:
 
@@ -579,7 +470,7 @@ Metryki:
 - transfer success rate;
 - cost under load.
 
-## 4.5. Testy bezpieczeństwa
+### 10.4.4. Testy bezpieczeństwa
 
 Testuj:
 
@@ -593,11 +484,11 @@ Testuj:
 - przechowywanie sekretów;
 - audyt dostępu.
 
-## 4.6. Perspektywa biznesowa
+### 10.4.5. Perspektywa biznesowa
 
 Testy niefunkcjonalne chronią produkcję. Voicebot może mieć perfekcyjny dialog, ale jeśli nie skaluje się w poniedziałkowy poranek albo źle transferuje rozmowy, projekt zawiedzie operacyjnie.
 
-## 4.7. Perspektywa użytkownika
+### 10.4.6. Perspektywa użytkownika
 
 Użytkownik odczuwa awarie niefunkcjonalne jako:
 
@@ -608,7 +499,7 @@ Użytkownik odczuwa awarie niefunkcjonalne jako:
 - błąd po kilku minutach rozmowy;
 - nieufność.
 
-## 4.8. Dobre praktyki
+### 10.4.7. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -620,7 +511,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj security przed produkcją.
 - Monitoruj p95/p99, nie tylko średnią latency.
 
-## 4.9. Typowe błędy
+### 10.4.8. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -633,7 +524,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak testów autoryzacji | Ryzyko danych |
 | Brak testów rate limits | Integracje padaja przy wolumenie |
 
-## 4.10. Checklista niefunkcjonalna
+### 10.4.9. Checklista niefunkcjonalna
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -647,37 +538,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy testowano security?
 - Czy testowano prompt injection?
 
-## 4.11. Mini case study
+### 10.4.10. Mini case study
 
 Voicebot ubezpieczeniowy w pilocie działał dobrze przy 20 rozmowąch dziennie. Po kampanii SMS przyszlo 800 rozmów w godzinę. API statusu szkody miało rate limit i zaczelo zwracac timeouty. Po incydencie dodano testy obciążeniowe, queue management, komunikat awaryjny i limit kierowania ruchu do bota.
 
-## 4.12. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj test timeoutu API.
-2. Zaprojektuj test transferu do konsultanta.
-3. Wypisz 5 testów bezpieczeństwa.
-4. Okresl metryki testu obciazeniowego.
-
-## 4.13. Podsumowanie
+### 10.4.11. Podsumowanie
 
 Voicebot jest systemem produkcyjnym, nie tylko dialogiem. Musi przejść testy integracji, telefonii, skali i bezpieczeństwa, bo to one często decydują o sukcesie wdrożenia.
 
 ---
 
-# Rozdział 5. Testy barge-in, turn-taking, edge case'ów i emocji
+## 10.5. Testy barge-in, turn-taking, edge case'ów i emocji
 
-## 5.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- testować przerwania i overlap;
-- sprawdzać naturalność turn-taking;
-- projektować testy sytuacji trudnych;
-- mierzyć recovery po przerwaniu.
-
-## 5.2. Testy barge-in
+### 10.5.1. Testy barge-in
 
 Scenariusze:
 
@@ -700,7 +573,7 @@ Metryki:
 - context preservation;
 - user repeat rate.
 
-## 5.3. Testy turn-taking
+### 10.5.2. Testy turn-taking
 
 Testuj:
 
@@ -713,7 +586,7 @@ Testuj:
 - bot czeka za długo;
 - endpointing dla różnych slotów.
 
-## 5.4. Testy edge case'ów
+### 10.5.3. Testy edge case'ów
 
 Przykłady:
 
@@ -728,7 +601,7 @@ Przykłady:
 - użytkownik rozlacza się przed końcem;
 - klient wraca po kilku godzinach.
 
-## 5.5. Testy emocjonalne
+### 10.5.4. Testy emocjonalne
 
 Testuj:
 
@@ -749,15 +622,15 @@ Bot powinien:
 - nie udawać empatii;
 - dawać człowieka przy ryzyku.
 
-## 5.6. Perspektywa biznesowa
+### 10.5.5. Perspektywa biznesowa
 
 Edge case'y i emocje często generuja największy koszt, mimo że nie mają najwiekszego wolumenu. Zły bot może pogorszyć najtrudniejsze rozmowy i przerzucic je na konsultantów w gorszym stanie.
 
-## 5.7. Perspektywa użytkownika
+### 10.5.6. Perspektywa użytkownika
 
 Użytkownik w trudnej sytuacji potrzebuje kontroli i szybkiej drogi do rozwiązania. QA musi sprawdzić, czy bot nie blokuje tej drogi.
 
-## 5.8. Perspektywa technologiczna
+### 10.5.7. Perspektywa technologiczna
 
 Testy powinny logowac:
 
@@ -770,7 +643,7 @@ Testy powinny logowac:
 - handoff reason;
 - wynik recovery.
 
-## 5.9. Dobre praktyki
+### 10.5.8. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -782,7 +655,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj zachowanie po rozlaczeniu.
 - Dodawaj wykryte edge case'y do regresji.
 
-## 5.10. Typowe błędy
+### 10.5.9. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -794,7 +667,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak testów emocji | Eskalację są za późne |
 | Brak testów pauz | Bot ucina wypowiedzi |
 
-## 5.11. Checklista barge-in i edge cases
+### 10.5.10. Checklista barge-in i edge cases
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -807,37 +680,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy mierzono latency stop TTS?
 - Czy sprawdzono zachowanie stanu po przerwaniu?
 
-## 5.12. Mini case study
+### 10.5.11. Mini case study
 
 Voicebot reklamacyjny poprawnie obsługiwał "konsultant" na starcie rozmowy, ale ignorował je w środku flow, gdy czekal na numer sprawy. Testy emocjonalne wykryly, że użytkownik po dwóch no-match mówił "daj człowieka", a bot dalej prosił o numer. Dodano globalna meta-intencje eskalacji w każdym stanie.
 
-## 5.13. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Przygotuj 10 testów barge-in.
-2. Przygotuj 5 testów backchannel.
-3. Zaprojektuj test frustracji po fallbacku.
-4. Okresl expected recovery po korekcie slotu.
-
-## 5.14. Podsumowanie
+### 10.5.12. Podsumowanie
 
 Barge-in, turn-taking i emocje są jednymi z najważniejszych testów naturalności voicebota. System, który nie radzi sobie z przerwaniami i trudnymi reakcjami, szybko traci zaufanie użytkownika.
 
 ---
 
-# Rozdział 6. UAT, pilot i kompletną checklista przed produkcją
+## 10.6. UAT, pilot i kompletną checklista przed produkcją
 
-## 6.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- organizowac UAT;
-- prowadzić pilota;
-- definiowac kryteria akceptacji;
-- przygotować checklistę przedprodukcyjna.
-
-## 6.2. UAT
+### 10.6.1. UAT
 
 UAT powinien obejmować:
 
@@ -852,7 +707,7 @@ UAT powinien obejmować:
 
 UAT nie powinien polegac na "pobawieniu się botem". Powinien mieć test cases, dane testowe i kryteria akceptacji.
 
-## 6.3. Pilot
+### 10.6.2. Pilot
 
 Pilot powinien być ograniczony:
 
@@ -877,7 +732,7 @@ Metryki pilota:
 - incidents;
 - consultant feedback.
 
-## 6.4. Kryteria go/no-go
+### 10.6.3. Kryteria go/no-go
 
 Przykładowe:
 
@@ -890,9 +745,9 @@ Przykładowe:
 - brak krytycznych błędów ASR dla danych wysokiego ryzyka;
 - logi i dashboard działają.
 
-## 6.5. Kompletną checklista QA voicebota
+### 10.6.4. Kompletną checklista QA voicebota
 
-### Scenariusze
+#### Scenariusze
 
 - Happy path przetestowany.
 - Unhappy paths przetestowane.
@@ -902,7 +757,7 @@ Przykładowe:
 - Zmiana tematu przetestowana.
 - Zakończenie rozmowy przetestowane.
 
-### ASR/NLU/LLM/TTS
+#### ASR/NLU/LLM/TTS
 
 - ASR testowany na realnym kanale.
 - Dane krytyczne testowane.
@@ -912,7 +767,7 @@ Przykładowe:
 - RAG ma test retrieval.
 - TTS poprawnie czyta liczby, daty, kwoty, nazwy.
 
-### Turn-taking i barge-in
+#### Turn-taking i barge-in
 
 - Barge-in testowany per prompt.
 - Backchannel testowany.
@@ -921,7 +776,7 @@ Przykładowe:
 - Latency stop TTS mierzona.
 - Stan po przerwaniu zachowany.
 
-### Integracje
+#### Integracje
 
 - API happy path.
 - API timeout.
@@ -932,7 +787,7 @@ Przykładowe:
 - Error mapping.
 - Audit logs.
 
-### Telefonia
+#### Telefonia
 
 - Inbound.
 - Outbound, jeśli dotyczy.
@@ -943,7 +798,7 @@ Przykładowe:
 - Metadane.
 - Agent desktop context.
 
-### Bezpieczeństwo i compliance
+#### Bezpieczeństwo i compliance
 
 - Informacja o bocie.
 - Informacja o nagrywaniu, jeśli dotyczy.
@@ -955,7 +810,7 @@ Przykładowe:
 - Prompt injection.
 - Dane wrażliwe.
 
-### Analityka
+#### Analityka
 
 - Conversation ID.
 - Prompt ID.
@@ -968,7 +823,7 @@ Przykładowe:
 - Dashboard.
 - Alerty.
 
-### Operacje
+#### Operacje
 
 - Owner bota.
 - Proces monitoringu.
@@ -978,7 +833,7 @@ Przykładowe:
 - Release notes.
 - Backlog optymalizacji.
 
-## 6.6. Perspektywa biznesowa
+### 10.6.5. Perspektywa biznesowa
 
 UAT i pilot powinny zakończyć się decyzja:
 
@@ -990,7 +845,7 @@ UAT i pilot powinny zakończyć się decyzja:
 
 Decyzja powinna wynikać z danych i ryzyk, nie tylko z wrazenia interesariuszy.
 
-## 6.7. Perspektywa użytkownika
+### 10.6.6. Perspektywa użytkownika
 
 Pilot nie może być eksperymentem kosztem użytkownika. Musi mieć:
 
@@ -1000,7 +855,7 @@ Pilot nie może być eksperymentem kosztem użytkownika. Musi mieć:
 - ograniczony zakres;
 - ochrone przed krytycznymi błędami.
 
-## 6.8. Dobre praktyki
+### 10.6.7. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -1012,7 +867,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Nie ignoruj "drobnych" błędów, które masowo się powtarzają.
 - Po pilocie przygotuj raport i backlog.
 
-## 6.9. Typowe błędy
+### 10.6.8. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -1024,32 +879,23 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak hypercare | Problemy rosna bez reakcji |
 | Brak raportu pilota | Brak decyzji o dalszym rozwoju |
 
-## 6.10. Mini case study
+### 10.6.9. Mini case study
 
 Voicebot outbound do potwierdzania wizyt został uruchomiony najpierw dla 5% pacjentow i tylko w godzinach pracy rejestracji. Gdy bot nie rozumiał odpowiedzi, szybko przekazywal do człowieka. Po tygodniu poprawiono frazy "nie dam rady", "przelozyc", "oddzwonie". Dopiero potem zwiekszono ruch do 25%.
 
-## 6.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Przygotuj plan UAT dla voicebota e-commerce.
-2. Zdefiniuj kryteria go/no-go.
-3. Zaprojektuj pilot na 2 tygodnie.
-4. Przygotuj checklistę rollback.
-
-## 6.12. Podsumowanie
+### 10.6.10. Podsumowanie
 
 UAT i pilot są ostatnia kontrolowana szansa, aby znaleźć problemy przed pełna produkcja. Dobry pilot jest ograniczony, mierzony i odwracalny.
 
 ---
 
-# 7. Badanie odbioru voicebota przez użytkowników
+## 10.7. Badanie odbioru voicebota przez użytkowników
 
 Testy techniczne odpowiadają na pytanie: "czy system robi to, co zaprojektowaliśmy?". Badanie odbioru odpowiada na inne pytanie: "czy człowiek po drugiej stronie uznał rozmowę za zrozumiałą, pomocną i bezpieczną?". W voicebotach te dwie odpowiedzi mogą się rozejść. Flow może przejść poprawnie, API może zwrócić sukces, a użytkownik i tak może wyjść z rozmowy z poczuciem, że musiał walczyć z systemem.
 
 Dlatego przed produkcją i po starcie warto łączyć QA techniczne z prostym badaniem użytkowników. Nie musi to od razu oznaczać duzego badania akademickiego. Wystarczy zaplanowany zestaw rozmów testowych, kilka pytań po rozmowie, obserwacja miejsc zawahania i analiza transkrypcji. Najważniejsze jest, aby nie oceniać bota tylko oczami zespolu, który zna scenariusz. Osoba z zewnątrz często potyka się tam, gdzie projektanci widzą "oczywisty" krok.
 
-## 7.1. Co mierzyć poza poprawnoscia techniczna
+### 10.7.1. Co mierzyć poza poprawnoscia techniczna
 
 Odbiór voicebota składa się z kilku warstw. Pierwsza to skuteczność: czy sprawa została załatwiona. Druga to wysiłek: ile razy użytkownik musiał powtarzać, poprawiać, czekac albo domyslac się, co powiedzieć. Trzecia to kontrola: czy wiedział, jak przerwać, poprawić błąd i przejść do człowieka. Czwarta to zaufanie: czy odpowiedzi brzmiały kompetentnie, ale nie udawały pewności tam, gdzie system jej nie miał.
 
@@ -1066,7 +912,7 @@ Praktyczny zestaw pytań po rozmowie:
 
 Tę pytania są proste, ale bardzo szybko pokazują różnice między "bot działa" a "bot jest dobry w rozmowie".
 
-## 7.2. SASSI jako inspiracja do ankiety
+### 10.7.2. SASSI jako inspiracja do ankiety
 
 SASSI, czyli Subjective Assessment of Speech System Interfaces, to klasyczne narzędzie do oceny subiektywnego doświadczenia z interfejsami mowy. Jego wartość polega na tym, że nie ogranicza się do ogólnego pytania "czy było dobrze?". Rozbija odbiór na obszary: trafność odpowiedzi systemu, lubialność, obciążenie poznawcze, irytację, przewidywalność tego, co można powiedzieć, oraz szybkość reakcji.
 
@@ -1081,7 +927,7 @@ Przykładowe stwierdzenia do oceny w skali 1-5:
 - Gdy pojawil się błąd, łatwo było go naprawic.
 - Mialem poczucie kontroli nad rozmową.
 
-## 7.3. PARADISE: sukces zadania i koszt dialogu
+### 10.7.3. PARADISE: sukces zadania i koszt dialogu
 
 PARADISE to podejście do oceny spoken dialogue systems, które przypomina, że sama satysfakcja nie wystarczy. Dobra rozmowa ma zrealizować zadanie i zrobić to przy akceptowalnym koszcie dialogu. Koszt dialogu to wszystko, co użytkownik "płaci" w trakcie rozmowy: liczba tur, powtórzenia, naprawy, czas, frustracja, niepewność i konieczność eskalacji.
 
@@ -1095,7 +941,7 @@ Przykład:
 
 Voicebot A kończy 80% spraw, ale średnio wymaga 12 tur i wielu powtórzeń. Voicebot B kończy 75% spraw, ale robi to w 5 turach, szybciej przekazuje trudne sprawy i ma mniej frustracji. Z perspektywy klienta i contact center drugi wariant może być lepszy, mimo nizszego containment.
 
-## 7.4. Jak prowadzić test odbioru z laikami
+### 10.7.4. Jak prowadzić test odbioru z laikami
 
 Test z laikami powinien być prosty i obserwowalny. Uczestnik dostaje zadanie, np. "sprawdź status zamówienia" albo "zmień termin dostawy". Nie pokazujemy mu scenariusza ani listy intencji. Ma rozmawiać tak, jak rozmawialby realny klient. Po rozmowie pytamy o odbiór, a w trakcie notujemy momenty zawahania.
 
@@ -1109,7 +955,7 @@ Instrukcja dla moderatora:
 
 Ważne: jeśli użytkownik nie wie, co powiedzieć, to nie jest "błąd użytkownika". To sygnał, że bot nie zbudowal wystarczajaco jasnej sytuacji rozmownej.
 
-## 7.5. Kryteria akceptacji odbioru
+### 10.7.5. Kryteria akceptacji odbioru
 
 Kryteria odbioru powinny łączyć metryki techniczne i ludzkie. Przykład minimalnego zestawu:
 
@@ -1122,7 +968,7 @@ Kryteria odbioru powinny łączyć metryki techniczne i ludzkie. Przykład minim
 | Zaufanie | Użytkownik rozumie, kiedy bot wie, a kiedy eskaluje |
 | Irytacja | Brak powtarzalnych komentarzy o "petli" lub "blokowaniu" |
 
-## 7.6. Typowe błędy w badaniu odbioru
+### 10.7.6. Typowe błędy w badaniu odbioru
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -1134,13 +980,13 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak osób starszych lub mniej technicznych | Bot może być zrozumiały tylko dla zespolu |
 | Mylenie containment z zadowoleniem | Zamknieta rozmową nie zawsze oznacza załatwiona sprawę |
 
-## 7.7. Podsumowanie
+### 10.7.7. Podsumowanie
 
 Badanie odbioru chroni przed projektem, który jest poprawny formalnie, ale trudny dla zwykłego człowieka. Voicebot powinien być oceniany nie tylko przez logi, lecz także przez to, czy użytkownik rozumiał rozmowę, czuł kontrolę i miał poczucie, że system pomaga zamiast przeszkadzać.
 
 ---
 
-# 8. Szablon planu testów voicebota
+## 10.8. Szablon planu testów voicebota
 
 ```text
 1. Informacje podstawowe
@@ -1211,7 +1057,7 @@ Badanie odbioru chroni przed projektem, który jest poprawny formalnie, ale trud
 
 ---
 
-# 9. Zbiorcza checklista po Części IX
+## 10.9. Zbiorcza checklista po Części IX
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
@@ -1234,16 +1080,3 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy dashboard i logi są gotowe przed produkcją?
 
 ---
-
-# 10. Co będzie w kolejnej części
-
-Kolejna część powinna opracowac **Część X. Metryki, analityka i optymalizacja**:
-
-1. Containment, automation i task completion.
-2. Fallback, escalation, no-input i no-match.
-3. ASR confidence, NLU confidence i metryki jakości rozumienia.
-4. AHT, FCR, CSAT, NPS, cost per contact i ROI.
-5. Conversion, abandonment i repeat contact.
-6. Analiza transkrypcji, tagowanie rozmów i dashboardy.
-7. Proces optymalizacji po wdrożeniu.
-

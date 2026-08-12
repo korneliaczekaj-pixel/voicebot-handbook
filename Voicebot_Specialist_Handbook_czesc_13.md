@@ -1,68 +1,8 @@
-# Voicebot Specialist Handbook
+# Rozdział 13. Bezpieczeństwo, prywatność, prawo i compliance
 
-## Część 13: Bezpieczeństwo, prywatność, prawo i compliance
+## 13.1. RODO/GDPR, dane osobowe i dane wrażliwe w voicebotach
 
-Wersja robocza: 2026-07-29  
-Kontynuacja plików:
-
-- `Voicebot_Specialist_Handbook_czesc_1.md`
-- `Voicebot_Specialist_Handbook_czesc_2.md`
-- `Voicebot_Specialist_Handbook_czesc_3.md`
-- `Voicebot_Specialist_Handbook_czesc_4.md`
-- `Voicebot_Specialist_Handbook_czesc_5.md`
-- `Voicebot_Specialist_Handbook_czesc_6.md`
-- `Voicebot_Specialist_Handbook_czesc_7.md`
-- `Voicebot_Specialist_Handbook_czesc_8.md`
-- `Voicebot_Specialist_Handbook_czesc_9.md`
-- `Voicebot_Specialist_Handbook_czesc_10.md`
-- `Voicebot_Specialist_Handbook_czesc_11.md`
-- `Voicebot_Specialist_Handbook_czesc_12.md`
-
----
-
-# Część XII. Bezpieczeństwo, prywatność, prawo i compliance
-
-## Ważne zastrzeżenie
-
-Ten rozdział jest praktycznym przewodnikiem projektowym i operacyjnym, nie poradą prawną. Wdrożenia voicebotów w konkretnych organizacjach, krajach i branżach powinny być zatwierdzane przez prawników, DPO/IOD, security i compliance. Wymagania mogą zależeć od jurysdykcji, branży, rodzaju danych, modelu dostawcy, architektury i celu przetwarzania.
-
-## Cel całej części
-
-Voicebot przetwarza głos, transkrypcje, intencje, dane klienta, logi techniczne, metadane rozmów, a czasem dane wrażliwe. Może też podejmować lub inicjować akcje w systemach firmy. Dlatego bezpieczeństwo i compliance nie są dodatkiem do projektu. Są warunkiem wdrożenia.
-
-Po tej części czytelnik powinien umieć:
-
-1. Rozumieć podstawowe wymagania RODO/GDPR dla voicebotów.
-2. Identyfikować dane osobowe, dane wrażliwe i metadane rozmów.
-3. Projektować zgody, transparentność, informowanie o bocie i nagrywaniu.
-4. Określać retencję, minimalizację, szyfrowanie i dostępy do logów.
-5. Rozumieć ryzyka prompt injection, data leakage i halucynacji.
-6. Projektować audyt i odpowiedzialność za decyzje.
-7. Rozpoznawać dodatkowe ryzyka w finansach, medycynie, ubezpieczeniach, telekomunikacji i administracji.
-
-Źródła wspierające część:
-
-- Regulation (EU) 2016/679, GDPR/RODO, EUR-Lex.
-- European Commission: legal framework for EU data protection.
-- EDPB Guidelines 02/2021 on Virtual Voice Assistants.
-- Regulation (EU) 2024/1689, Artificial Intelligence Act, EUR-Lex i oficjalne materiały Komisji Europejskiej.
-- Dokumentacje techniczne platform voice/realtime jako kontekst dla logowania, transmisji audio, narzędzi i integracji.
-- Uzupełnienie eksperckie: praktyczne checklisty privacy-by-design, security-by-design i compliance-by-design dla voicebotów enterprise.
-
----
-
-# Rozdział 1. RODO/GDPR, dane osobowe i dane wrażliwe w voicebotach
-
-## 1.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozpoznawać dane osobowe w rozmowach voicebota;
-- rozumieć różnice między danymi zwykłymi, wrażliwymi i metadanymi;
-- projektować voicebota zgodnie z zasadami minimalizacji, transparentności i ograniczenia celu;
-- zadawać właściwe pytania prawnikom i DPO/IOD.
-
-## 1.2. Kluczowe pojęcia
+### 13.1.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -78,7 +18,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Privacy by design | Projektowanie prywatności od początku |
 | Privacy by default | Domyślne ustawienia chroniące prywatność |
 
-## 1.3. Wyjaśnienie eksperckie
+### 13.1.2. Wyjaśnienie eksperckie
 
 Voicebot może przetwarzać wiele kategorii danych:
 
@@ -103,7 +43,7 @@ Uwaga praktyczna:
 
 Transkrypcja nie jest "mniej prawna" tylko dlatego, że jest tekstem. Może zawierać te same dane osobowe i wrażliwe co nagranie.
 
-## 1.4. Perspektywa biznesowa
+### 13.1.3. Perspektywa biznesowa
 
 Dobre podejście do danych:
 
@@ -121,7 +61,7 @@ Złe podejście:
 - utrudnia audyt dostawcy;
 - zwiększa ryzyko reputacyjne.
 
-## 1.5. Perspektywa użytkownika
+### 13.1.4. Perspektywa użytkownika
 
 Użytkownik powinien wiedzieć:
 
@@ -134,7 +74,7 @@ Użytkownik powinien wiedzieć:
 
 Transparentność nie musi być długim monologiem. Może być warstwowa: krótka informacja w rozmowie, szczegóły w linku/SMS/polityce prywatności.
 
-## 1.6. Perspektywa technologiczna
+### 13.1.5. Perspektywa technologiczna
 
 Technologia musi wspierać:
 
@@ -149,7 +89,7 @@ Technologia musi wspierać:
 - konfigurację dostawców AI;
 - logowanie bez nadmiaru danych.
 
-## 1.7. Dobre praktyki
+### 13.1.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -162,7 +102,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Dokumentuj cele przetwarzania.
 - Uwzględnij prawa osób, których dane dotyczą.
 
-## 1.8. Typowe błędy
+### 13.1.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -175,7 +115,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak ustalenia roli dostawcy | Problem prawny i kontraktowy |
 | Używanie danych do treningu bez oceny prawnej | Ryzyko niezgodności |
 
-## 1.9. Checklista danych
+### 13.1.8. Checklista danych
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -190,37 +130,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy dostawcy są opisani w umowach?
 - Czy DPO/IOD zatwierdził projekt?
 
-## 1.10. Mini case study
+### 13.1.9. Mini case study
 
 Voicebot medyczny miał przechowywać pełne nagrania rozmów przez 2 lata "na wszelki wypadek". Review privacy wskazało, że rozmowy mogą zawierać dane o zdrowiu. Zakres zmieniono: do analityki używana jest zanonimizowana transkrypcja, nagrania mają krótszą retencję, dostęp jest ograniczony, a przypadki szkoleniowe przechodzą ręczną anonimizację.
 
-## 1.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Wypisz dane osobowe w voicebocie rezerwacyjnym.
-2. Wskaż dane, które powinny być maskowane w logach.
-3. Zaprojektuj zasadę minimalizacji dla statusu zamówienia.
-4. Przygotuj pytania do DPO/IOD przed wdrożeniem.
-
-## 1.12. Podsumowanie
+### 13.1.10. Podsumowanie
 
 Prywatność w voicebocie zaczyna się od wiedzy, jakie dane są przetwarzane i po co. Minimalizacja, retencja, dostępy i transparentność muszą być zaprojektowane przed produkcją, nie po pierwszym incydencie.
 
 ---
 
-# Rozdział 2. Zgody, informowanie o bocie, nagrywanie i transkrypcje
+## 13.2. Zgody, informowanie o bocie, nagrywanie i transkrypcje
 
-## 2.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować transparentne informowanie użytkownika;
-- rozróżnić informowanie o automatyzacji, nagrywaniu i przetwarzaniu danych;
-- projektować zgody i podstawy prawne z udziałem prawników;
-- ograniczać tarcie w rozmowie bez ukrywania istotnych informacji.
-
-## 2.2. Kluczowe pojęcia
+### 13.2.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -233,7 +155,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Transkrypcja | Zamiana mowy na tekst, także forma przetwarzania |
 | Right to information | Prawo do informacji o przetwarzaniu |
 
-## 2.3. Wyjaśnienie eksperckie
+### 13.2.2. Wyjaśnienie eksperckie
 
 W rozmowie głosowej trzeba pogodzić transparentność z krótkością. Nie można ukryć istotnych informacji, ale odczytywanie całej polityki prywatności jest złe dla UX i często nieskuteczne poznawczo.
 
@@ -250,7 +172,7 @@ Przykład:
 
 Uwaga: konkretną treść musi zatwierdzić legal/compliance.
 
-## 2.4. Perspektywa biznesowa
+### 13.2.3. Perspektywa biznesowa
 
 Transparentność:
 
@@ -262,7 +184,7 @@ Transparentność:
 
 Ukrywanie, że system jest botem, może chwilowo zwiększyć kontynuowanie rozmowy, ale gdy użytkownik odkryje automatyzację, zaufanie spada.
 
-## 2.5. Perspektywa użytkownika
+### 13.2.4. Perspektywa użytkownika
 
 Użytkownik powinien czuć, że:
 
@@ -271,7 +193,7 @@ Użytkownik powinien czuć, że:
 - wie, co dzieje się z rozmową;
 - nie musi słuchać długiego legalistycznego tekstu.
 
-## 2.6. Perspektywa technologiczna
+### 13.2.5. Perspektywa technologiczna
 
 System powinien logować:
 
@@ -283,7 +205,7 @@ System powinien logować:
 - kanał i wersję polityki;
 - link wysłany SMS/e-mail, jeśli dotyczy.
 
-## 2.7. Dobre praktyki
+### 13.2.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -296,7 +218,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj zrozumiałość komunikatu.
 - Ustal politykę barge-in dla komunikatów wymaganych.
 
-## 2.8. Typowe błędy
+### 13.2.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -308,7 +230,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak wersjonowania zgody | Problem audytowy |
 | Brak logu odtworzenia komunikatu | Trudno wykazać zgodność |
 
-## 2.9. Checklista transparentności
+### 13.2.8. Checklista transparentności
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -321,37 +243,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy logujemy odtworzenie/zgodę?
 - Czy jest procedura przerwania komunikatu?
 
-## 2.10. Mini case study
+### 13.2.9. Mini case study
 
 Voicebot bankowy zaczynał od naturalnego "Dzień dobry, w czym mogę pomóc?", bez ujawnienia automatyzacji. Testy UAT pokazały, że klienci czuli się oszukani, gdy bot nie rozumiał złożonych spraw. Zmieniono powitanie na transparentne: "Jestem automatycznym asystentem banku". Spadła liczba negatywnych komentarzy po pierwszym fallbacku.
 
-## 2.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz krótkie powitanie informujące o bocie i nagrywaniu.
-2. Zaprojektuj warstwową informację o prywatności.
-3. Wskaż, co trzeba logować dla zgody.
-4. Zaprojektuj test zrozumiałości komunikatu.
-
-## 2.12. Podsumowanie
+### 13.2.10. Podsumowanie
 
 Transparentność w voicebocie nie jest formalnością. To element zaufania i compliance. Komunikaty prawne muszą być krótkie, zrozumiałe, zatwierdzone i audytowalne.
 
 ---
 
-# Rozdział 3. Retencja danych, minimalizacja, szyfrowanie i dostęp do logów
+## 13.3. Retencja danych, minimalizacja, szyfrowanie i dostęp do logów
 
-## 3.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować retencję nagrań, transkrypcji i logów;
-- stosować minimalizację danych w praktyce;
-- rozumieć wymagania szyfrowania i kontroli dostępu;
-- ograniczać ryzyko przez architekturę danych.
-
-## 3.2. Kluczowe pojęcia
+### 13.3.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -366,7 +270,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Pseudonimizacja | Zastąpienie identyfikatorów innymi wartościami |
 | Anonimizacja | Trwałe usunięcie możliwości identyfikacji osoby |
 
-## 3.3. Wyjaśnienie eksperckie
+### 13.3.2. Wyjaśnienie eksperckie
 
 Voicebot generuje kilka typów danych o różnej retencji:
 
@@ -381,7 +285,7 @@ Voicebot generuje kilka typów danych o różnej retencji:
 
 Nie ma jednej uniwersalnej retencji. Musi wynikać z celu, podstawy prawnej, wymagań branżowych i oceny ryzyka.
 
-## 3.4. Perspektywa biznesowa
+### 13.3.3. Perspektywa biznesowa
 
 Krótsza retencja zmniejsza ryzyko, ale może ograniczyć:
 
@@ -393,11 +297,11 @@ Krótsza retencja zmniejsza ryzyko, ale może ograniczyć:
 
 Decyzja musi być świadoma i udokumentowana.
 
-## 3.5. Perspektywa użytkownika
+### 13.3.4. Perspektywa użytkownika
 
 Użytkownik ma prawo oczekiwać, że dane nie będą przechowywane bez końca i bez celu. Szczególnie wrażliwe są nagrania głosu, dane zdrowotne, finansowe i identyfikacyjne.
 
-## 3.6. Perspektywa technologiczna
+### 13.3.5. Perspektywa technologiczna
 
 Wymagania:
 
@@ -412,7 +316,7 @@ Wymagania:
 - maskowanie w logach;
 - bezpieczny eksport danych.
 
-## 3.7. Dobre praktyki
+### 13.3.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -425,7 +329,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Oddziel dane produkcyjne od testowych.
 - Nie używaj produkcyjnych danych w testach bez anonimizacji.
 
-## 3.8. Typowe błędy
+### 13.3.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -438,7 +342,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Ręczne usuwanie danych | Błędy operacyjne |
 | Produkcyjne dane w testach | Ryzyko naruszenia |
 
-## 3.9. Checklista retencji i dostępu
+### 13.3.8. Checklista retencji i dostępu
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -452,37 +356,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy logi są maskowane?
 - Czy dane testowe są anonimizowane?
 
-## 3.10. Mini case study
+### 13.3.9. Mini case study
 
 Voicebot contact center zapisywał pełne transkrypcje w logach developerskich. Dostęp miał szeroki zespół techniczny. Po review security wprowadzono maskowanie numerów, adresów i identyfikatorów, ograniczono dostęp do transkrypcji oraz rozdzielono logi techniczne od danych rozmowy.
 
-## 3.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj tabelę retencji dla nagrań, transkrypcji i logów.
-2. Wypisz pola do maskowania w logach.
-3. Zaprojektuj role dostępu do transkrypcji.
-4. Opisz proces usuwania danych po retencji.
-
-## 3.12. Podsumowanie
+### 13.3.10. Podsumowanie
 
 Retencja i dostępy są praktycznym rdzeniem privacy-by-design. Im mniej danych przechowujesz i im mniejszy dostęp dajesz, tym mniejsze ryzyko. Ale ograniczenia muszą być pogodzone z audytem, jakością i wymaganiami biznesowymi.
 
 ---
 
-# Rozdział 4. Bezpieczeństwo API, integracji i infrastruktury voicebota
+## 13.4. Bezpieczeństwo API, integracji i infrastruktury voicebota
 
-## 4.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozumieć ryzyka techniczne integracji voicebota;
-- projektować bezpieczną komunikację z API;
-- ograniczać uprawnienia narzędzi i dostępów;
-- przygotować podstawowe wymagania security.
-
-## 4.2. Kluczowe pojęcia
+### 13.4.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -497,7 +383,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Output validation | Walidacja odpowiedzi przed użyciem |
 | Audit trail | Ślad audytowy działań |
 
-## 4.3. Wyjaśnienie eksperckie
+### 13.4.2. Wyjaśnienie eksperckie
 
 Voicebot łączy kanał zewnętrzny z systemami firmy. To oznacza, że źle zaprojektowany bot może stać się wejściem do:
 
@@ -511,7 +397,7 @@ Voicebot łączy kanał zewnętrzny z systemami firmy. To oznacza, że źle zapr
 
 Dlatego każde narzędzie/API musi mieć ograniczony zakres. Bot nie powinien mieć jednego super-tokena do wszystkiego.
 
-## 4.4. Perspektywa biznesowa
+### 13.4.3. Perspektywa biznesowa
 
 Security failures są kosztowne:
 
@@ -524,7 +410,7 @@ Security failures są kosztowne:
 
 Security powinno uczestniczyć od discovery, nie dopiero przed go-live.
 
-## 4.5. Perspektywa użytkownika
+### 13.4.4. Perspektywa użytkownika
 
 Użytkownik może nie widzieć security, ale widzi jego skutki:
 
@@ -533,7 +419,7 @@ Użytkownik może nie widzieć security, ale widzi jego skutki:
 - bot nie daje dostępu osobie nieuprawnionej;
 - bot informuje o problemie bez zdradzania szczegółów.
 
-## 4.6. Perspektywa technologiczna
+### 13.4.5. Perspektywa technologiczna
 
 Wymagania:
 
@@ -548,7 +434,7 @@ Wymagania:
 - monitoring anomalii;
 - oddzielenie środowisk.
 
-## 4.7. Dobre praktyki
+### 13.4.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -560,7 +446,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Dla akcji krytycznych wymagaj potwierdzenia i autoryzacji.
 - Testuj nieuprawnione scenariusze.
 
-## 4.8. Typowe błędy
+### 13.4.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -573,7 +459,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak audytu akcji | Brak rozliczalności |
 | Brak testów autoryzacji | Ryzyko dostępu do cudzych danych |
 
-## 4.9. Checklista security API
+### 13.4.8. Checklista security API
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -587,37 +473,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy środowiska są oddzielone?
 - Czy testowano nieuprawniony dostęp?
 
-## 4.10. Mini case study
+### 13.4.9. Mini case study
 
 Voicebot helpdeskowy miał narzędzie `update_user`, które mogło zmieniać wiele pól profilu. Po review security rozbito je na wąskie narzędzia: `create_ticket`, `send_password_reset_link`, `check_ticket_status`. Bot nie mógł już dowolnie modyfikować użytkownika, a ryzyko spadło.
 
-## 4.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Wypisz uprawnienia potrzebne botowi do statusu zamówienia.
-2. Zaprojektuj least privilege dla ticketingu.
-3. Wskaż, gdzie nie wolno trzymać sekretów.
-4. Przygotuj test nieuprawnionej zmiany danych.
-
-## 4.12. Podsumowanie
+### 13.4.10. Podsumowanie
 
 Bezpieczeństwo API polega na ograniczaniu możliwości systemu do tego, co potrzebne. Im bardziej generatywny bot, tym ważniejsze są wąskie narzędzia, walidacja i audyt.
 
 ---
 
-# Rozdział 5. Prompt injection, data leakage i halucynacje jako ryzyko compliance
+## 13.5. Prompt injection, data leakage i halucynacje jako ryzyko compliance
 
-## 5.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozumieć ryzyka LLM w compliance;
-- projektować mechanizmy ochronne;
-- testować prompt injection i data leakage;
-- oceniać halucynacje jako ryzyko prawne, nie tylko jakościowe.
-
-## 5.2. Kluczowe pojęcia
+### 13.5.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -630,7 +498,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Safety classifier | Mechanizm klasyfikujący ryzykowne inputy/outputy |
 | Grounded response | Odpowiedź oparta na źródłach lub narzędziach |
 
-## 5.3. Wyjaśnienie eksperckie
+### 13.5.2. Wyjaśnienie eksperckie
 
 W voicebocie LLM ryzyko compliance może wyglądać tak:
 
@@ -645,7 +513,7 @@ W voicebocie LLM ryzyko compliance może wyglądać tak:
 
 To nie są tylko błędy UX. To mogą być incydenty compliance.
 
-## 5.4. Perspektywa biznesowa
+### 13.5.3. Perspektywa biznesowa
 
 Organizacja musi określić:
 
@@ -657,13 +525,13 @@ Organizacja musi określić:
 - procedury incydentów;
 - odpowiedzialność za monitoring.
 
-## 5.5. Perspektywa użytkownika
+### 13.5.4. Perspektywa użytkownika
 
 Użytkownik może nie wiedzieć, że model halucynuje. Im bardziej pewny ton, tym większe ryzyko nadmiernego zaufania. Bot powinien komunikować ograniczenia:
 
 "Nie mogę ocenić tej indywidualnej sprawy. Mogę sprawdzić status albo połączyć z konsultantem."
 
-## 5.6. Perspektywa technologiczna
+### 13.5.5. Perspektywa technologiczna
 
 Warstwy ochrony:
 
@@ -677,7 +545,7 @@ Warstwy ochrony:
 - human handoff;
 - audit logs.
 
-## 5.7. Dobre praktyki
+### 13.5.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -690,7 +558,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Monitoruj odpowiedzi losowo i ryzykowne.
 - Miej proces incydentu.
 
-## 5.8. Typowe błędy
+### 13.5.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -703,7 +571,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Model potwierdza akcje bez API | Fałszywe wykonanie |
 | Brak handoff dla decyzji indywidualnych | Ryzyko prawne |
 
-## 5.9. Checklista LLM compliance
+### 13.5.8. Checklista LLM compliance
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -717,37 +585,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy logujemy prompt version i output?
 - Czy mamy incident process?
 
-## 5.10. Mini case study
+### 13.5.9. Mini case study
 
 Voicebot ubezpieczeniowy odpowiadał na pytania o OWU. Użytkownik zapytał: "Czy w mojej sytuacji na pewno dostanę wypłatę?". Model odpowiedział twierdząco na podstawie ogólnego opisu. Po incydencie wprowadzono politykę: bot może wyjaśniać ogólne zasady, ale nie przewiduje decyzji. Pytania o indywidualny wynik idą do konsultanta lub procesu szkody.
 
-## 5.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz 10 prompt injection testów.
-2. Zaprojektuj odmowę dla pytania prawnego.
-3. Wskaż, które odpowiedzi wymagają źródła.
-4. Zaprojektuj output policy checker na poziomie wymagań.
-
-## 5.12. Podsumowanie
+### 13.5.10. Podsumowanie
 
 LLM compliance wymaga warstwowej kontroli. Halucynacja w voicebocie nie jest tylko "złą odpowiedzią". Może być obietnicą, decyzją, poradą lub ujawnieniem danych. Dlatego guardrails, logi i handoff są konieczne.
 
 ---
 
-# Rozdział 6. Audyt, odpowiedzialność za decyzję i branże regulowane
+## 13.6. Audyt, odpowiedzialność za decyzję i branże regulowane
 
-## 6.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować audytowalność voicebota;
-- rozumieć odpowiedzialność za decyzje;
-- rozpoznawać dodatkowe ryzyka branż regulowanych;
-- przygotowywać dokumentację compliance.
-
-## 6.2. Kluczowe pojęcia
+### 13.6.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -760,7 +610,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Decision boundary | Granica, gdzie bot może działać, a gdzie musi eskalować |
 | Model/version trace | Informacja, jaka wersja modelu/promptu/flow działała |
 
-## 6.3. Wyjaśnienie eksperckie
+### 13.6.2. Wyjaśnienie eksperckie
 
 Audyt voicebota powinien pozwolić odpowiedzieć:
 
@@ -787,7 +637,7 @@ Odpowiedzialność nie może być przerzucona na "model". Organizacja musi wiedz
 - monitoring;
 - incydenty.
 
-## 6.4. Branże regulowane
+### 13.6.3. Branże regulowane
 
 | Branża | Szczególne ryzyka |
 |---|---|
@@ -798,7 +648,7 @@ Odpowiedzialność nie może być przerzucona na "model". Organizacja musi wiedz
 | Administracja publiczna | Legalizm, dostępność, wykluczenie cyfrowe, decyzje administracyjne |
 | Windykacja | Presja, spory, dane finansowe, etyka komunikacji |
 
-## 6.5. Perspektywa biznesowa
+### 13.6.4. Perspektywa biznesowa
 
 W branżach regulowanych voicebot powinien często:
 
@@ -818,7 +668,7 @@ ale nie powinien samodzielnie:
 - podejmować decyzji kredytowych;
 - negocjować w sposób niekontrolowany.
 
-## 6.6. Perspektywa użytkownika
+### 13.6.5. Perspektywa użytkownika
 
 W sprawach regulowanych użytkownik potrzebuje:
 
@@ -829,7 +679,7 @@ W sprawach regulowanych użytkownik potrzebuje:
 - braku manipulacji;
 - uczciwego "nie mogę tego ocenić".
 
-## 6.7. Perspektywa technologiczna
+### 13.6.6. Perspektywa technologiczna
 
 Audyt wymaga:
 
@@ -843,7 +693,7 @@ Audyt wymaga:
 - retention policy;
 - eksportu do audytu.
 
-## 6.8. Dobre praktyki
+### 13.6.7. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -856,7 +706,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Ustal incident response.
 - Regularnie rób compliance review.
 
-## 6.9. Typowe błędy
+### 13.6.8. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -869,7 +719,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak confirmation logs | Trudno wykazać zgodę |
 | Brak incident process | Chaos po naruszeniu |
 
-## 6.10. Checklista audytu
+### 13.6.9. Checklista audytu
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -884,39 +734,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy mamy incident process?
 - Czy mamy compliance review?
 
-## 6.11. Mini case study
+### 13.6.10. Mini case study
 
 W bankowym voicebocie klient twierdził, że bot źle poinformował o opłatach. Dzięki trace można było sprawdzić wersję promptu, źródło RAG, odpowiedź TTS i czas rozmowy. Okazało się, że baza wiedzy miała nieaktualny dokument. Incydent naprawiono przez filtr dat obowiązywania i review bazy.
 
-## 6.12. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zdefiniuj decision boundaries dla voicebota ubezpieczeniowego.
-2. Przygotuj audit trail dla zmiany limitu.
-3. Wypisz ryzyka medycznego voicebota rezerwacyjnego.
-4. Zaprojektuj compliance review przed release.
-
-## 6.13. Podsumowanie
+### 13.6.11. Podsumowanie
 
 Audytowalność jest warunkiem zaufania w organizacji. Voicebot musi zostawiać ślad: co zrozumiał, co zrobił, na jakiej podstawie i w jakiej wersji systemu. W branżach regulowanych granice automatyzacji muszą być szczególnie jasne.
 
 ---
 
-# Rozdział 7. Voicebot jako cel i jako narzędzie ataku
+## 13.7. Voicebot jako cel i jako narzędzie ataku
 
-## 7.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozumieć, że voicebot funkcjonuje w krajobrazie cyberzagrożeń w dwóch rolach — jako narzędzie oszustów i jako cel ataku;
-- rozpoznawać najczęstsze wektory ataku wykorzystujące syntetyczny głos: AI-vishing, klonowanie głosu, deepfake audio, oszustwo „na wnuczka" i „na prezesa";
-- opisać, na czym polega głosowy prompt injection i dlaczego bot z dostępem do systemów jest łakomym celem;
-- rozumieć ograniczenia biometrii głosowej i rolę liveness detection oraz uwierzytelnienia wieloskładnikowego;
-- projektować warstwową obronę: transparentność, MFA, monitoring anomalii, procedury eskalacji, edukacja użytkowników;
-- odnieść projekt voicebota do obowiązku informowania z art. 50 AI Act, który wchodzi w życie 2 sierpnia 2026.
-
-## 7.2. Kluczowe pojęcia
+### 13.7.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia zagrożeń związanych z syntetycznym głosem. Nie chodzi o zapamiętanie definicji, tylko o umiejętność rozpoznania, którym z tych mechanizmów mamy do czynienia w konkretnej sytuacji.
 
@@ -937,9 +767,9 @@ Poniższe pojęcia są podstawą rozumienia zagrożeń związanych z syntetyczny
 | Incident response | Zestaw procedur uruchamianych po wykryciu incydentu bezpieczeństwa |
 | AI Act art. 50 | Przepis unijnego rozporządzenia o sztucznej inteligencji nakładający obowiązek informowania użytkownika o kontakcie z AI (od 2 sierpnia 2026) |
 
-## 7.3. Wyjaśnienie eksperckie
+### 13.7.2. Wyjaśnienie eksperckie
 
-### 7.3.1. Voicebot jako narzędzie oszustów
+#### Voicebot jako narzędzie oszustów
 
 Voicebot Specialist musi zdawać sobie sprawę z niewygodnej prawdy: technologia, którą wdraża, jest bronią obosieczną. Ta sama konwersacyjna AI, która pomaga sklepowi obsłużyć tysiąc rozmów dziennie, pozwala oszustowi prowadzić jednocześnie tysiące rozmów na całym świecie, bez konieczności osobistego telefonu. W klasycznym vishingu skala ataku była ograniczona liczbą ludzi, których oszust mógł zwerbować. Dziś jeden system prowadzi płynne, bezbłędne, wielojęzyczne rozmowy na masę.
 
@@ -949,7 +779,7 @@ Skala nie jest teoretyczna. Amerykańska firma Pindrop, wyspecjalizowana w wykry
 
 Dla Voicebot Specialista wynikają z tego dwa wnioski. Pierwszy: wdrażamy technologię, której złe użycia rosną szybciej niż dobre. Nie zwalnia to z pracy, ale zobowiązuje do myślenia o skutkach ubocznych. Drugi: klienci, którzy dzwonią do naszego bota, coraz częściej mieli ostatnio kontakt z botem oszukańczym. Ich domyślne zaufanie do rozmówcy głosowego spada. Nasz bot musi tę różnicę pokazać — przez transparentność, jakość, granice, mechanizmy weryfikacji.
 
-### 7.3.2. Voicebot jako cel ataku
+#### Voicebot jako cel ataku
 
 Druga rola voicebota to rola celu. Firma dająca botowi dostęp do wewnętrznych systemów — sprawdzenia stanu konta, zmiany hasła, przekazania danych klienta — otwiera nowy wektor ataku, którego nie było w klasycznym IVR.
 
@@ -959,7 +789,7 @@ Odmiennym wektorem jest socjotechnika skierowana nie przeciwko modelowi, lecz pr
 
 Trzeci wektor to atak łańcuchowy: klient nagrywany jest przez bota-oszusta („poproszę Pana o powtórzenie zdania kontrolnego"), a nagranie służy potem do przełamania biometrii w prawdziwym banku. Bot staje się nie tyle bezpośrednim celem, co narzędziem zbierania biometrycznych materiałów.
 
-### 7.3.3. Biometria głosowa — dlaczego to nie może być jedyny klucz
+#### Biometria głosowa — dlaczego to nie może być jedyny klucz
 
 Biometria głosowa jest wygodna dla klienta i tania w skali. Dlatego wiele instytucji ją wdrożyło. Ale wygoda i taniość nie równoważą jednej twardej właściwości: głos jest publiczny. Nie da się zmienić głosu jak hasła. Nie da się zablokować, tak jak się blokuje wykradzioną kartę. Sklonowany głos raz wyprodukowany, będzie działać w nieskończoność.
 
@@ -967,7 +797,7 @@ Prace naukowe nad wykrywaniem deepfake audio, w tym badania zespołu profesora H
 
 Wniosek dla projektu voicebota: liveness detection jest potrzebne, ale nie jest niezawodne. Traktujmy je jako jedną warstwę obrony, nie jako jedyny mechanizm. Dla akcji wrażliwych (przelew, zmiana danych, autoryzacja transakcji) obowiązkowe jest MFA — drugi kanał uwierzytelnienia, niepowiązany z głosem. Kod z aplikacji bankowej, powiadomienie push, potwierdzenie mailem, PIN wpisany klawiaturą telefonu. Nawet jeśli rozmówca pomyślnie przejdzie weryfikację głosową, akcja krytyczna musi wymagać czegoś, czego klon nie ma.
 
-### 7.3.4. AI Act art. 50 — kontekst prawny od 2 sierpnia 2026
+#### AI Act art. 50 — kontekst prawny od 2 sierpnia 2026
 
 Unijne rozporządzenie o sztucznej inteligencji (AI Act) nakłada od 2 sierpnia 2026 roku obowiązek transparentności na dostawców i wdrażających systemy AI, które prowadzą interakcję z ludźmi. Artykuł 50 mówi wprost: użytkownik musi być poinformowany, że rozmawia z maszyną — chyba że jest to oczywiste w kontekście (co w praktyce interpretuje się wąsko). Przepis dotyczy chatbotów tekstowych, voicebotów, wirtualnych asystentów, automatycznych konsultantów w bankach, ubezpieczeniach i urzędach.
 
@@ -975,7 +805,7 @@ Sens regulacji jest podwójny. Po pierwsze, chroni użytkownika przed manipulacj
 
 Dla Voicebot Specialista oznacza to jedno konkretne zadanie: przygotować wszystkie wdrożone i projektowane systemy do 2 sierpnia 2026. W praktyce to zwykle jedno zdanie w powitaniu („Dzień dobry, tu automatyczny asystent…") plus decyzja projektowa, żeby bot nie udawał człowieka na dalszych etapach rozmowy. Niektóre organizacje pójdą dalej i wymuszą jasną wypowiedź typu „nadal rozmawiasz z automatycznym systemem", jeśli klient zapyta. Nie należy tego traktować jako niedogodności — użytkownicy poinformowani, że rozmawiają z botem, ufają mu bardziej, gdy widzą, że reszta rozmowy jest kompetentna.
 
-## 7.4. Perspektywa biznesowa
+### 13.7.3. Perspektywa biznesowa
 
 Dla organizacji wdrażającej voicebota cyberbezpieczeństwo w tym rozdziale nie jest osobnym projektem IT. To warstwa, która decyduje o tym, czy wdrożenie się utrzyma na produkcji, czy będzie musiało zostać zatrzymane po pierwszym poważnym incydencie.
 
@@ -983,7 +813,7 @@ Trzy typy strat są tu realne. Pierwsza to strata finansowa — bezpośrednio, j
 
 Sensowna postawa biznesowa to potraktowanie bezpieczeństwa jako założenia projektu, a nie dodatku. To znaczy: zanim voicebot wejdzie na produkcję, ma za sobą threat modeling (przemyślenie, kto i jak może go atakować), testy prompt injection, audyt biometrii (jeśli używana), zdefiniowane akcje wymagające MFA, procedury incident response i szkolenie zespołu wsparcia z rozpoznawania oszustw. Koszt tego jest niski względem kosztu incydentu.
 
-## 7.5. Perspektywa użytkownika
+### 13.7.4. Perspektywa użytkownika
 
 Klient dzwoniący do voicebota firmy nie zna wewnętrznej architektury, nie zna terminów „prompt injection" ani „liveness detection". Ale doskonale rozumie, kiedy coś jest podejrzane. Perspektywa użytkownika sprowadza się do trzech konkretów.
 
@@ -993,7 +823,7 @@ Po drugie, klient chce mieć drogę weryfikacji. Jeśli bot mówi, że dzwoni z 
 
 Po trzecie, klient nie zawsze wie, kiedy padł ofiarą oszustwa. Skutki klonowania głosu i AI-vishingu bywają widoczne dopiero po dniach — dziadek uświadamia sobie, że „wnuk" nie oddzwonił, pracownik działu finansowego dowiaduje się, że przelew był fikcyjny. Perspektywa użytkownika to także edukacja: klienci naszej firmy powinni wiedzieć, że deepfake istnieje, że jeden telefon z „prezesem" żądającym pilnego przelewu nie wystarcza jako podstawa działania, że warto mieć hasło rodzinne uzgodnione poza kanałem cyfrowym.
 
-## 7.6. Perspektywa technologiczna
+### 13.7.5. Perspektywa technologiczna
 
 Techniczna obrona składa się z kilku warstw, które warto projektować równolegle, nie sekwencyjnie.
 
@@ -1007,7 +837,7 @@ Warstwa czwarta to monitoring anomalii. Voicebot powinien logować wzorce zachow
 
 Warstwa piąta to procedury eskalacji i incident response. Kiedy voicebot lub człowiek monitorujący wykryje coś podejrzanego, musi być jasna droga: zatrzymanie akcji, transfer do konsultanta, powiadomienie zespołu bezpieczeństwa, przegląd logów. Bez tej procedury pojedynczy incydent zamienia się w serię.
 
-## 7.7. Dobre praktyki
+### 13.7.6. Dobre praktyki
 
 - Traktuj transparentność jako projekt, nie jako komunikat marketingowy — bot powinien jasno informować, że jest automatyczny, i powtarzać to na żądanie klienta.
 - Nigdy nie pozwól, żeby biometria głosowa była jedynym mechanizmem uwierzytelnienia do akcji krytycznych — MFA obowiązkowe.
@@ -1020,7 +850,7 @@ Warstwa piąta to procedury eskalacji i incident response. Kiedy voicebot lub cz
 - Przygotuj projekt do 2 sierpnia 2026: audyt komunikatów pod kątem art. 50 AI Act, poprawki w powitaniach i w reakcjach bota na pytanie „czy jesteś człowiekiem?".
 - Nie ukrywaj deepfake jako tematu przed klientami — komunikacja edukacyjna („uważajcie na telefony z podszytym głosem") buduje zaufanie.
 
-## 7.8. Typowe błędy
+### 13.7.7. Typowe błędy
 
 | Błąd | Konsekwencja |
 |---|---|
@@ -1035,7 +865,7 @@ Warstwa piąta to procedury eskalacji i incident response. Kiedy voicebot lub cz
 | Brak drogi weryfikacji dla botów wychodzących | Klient nie odróżnia naszego bota od bota oszustów |
 | Zignorowanie art. 50 AI Act | Kara regulatora po 2 sierpnia 2026 i ryzyko reputacyjne |
 
-## 7.9. Checklista bezpieczeństwa
+### 13.7.8. Checklista bezpieczeństwa
 
 - Czy bot jasno informuje, że jest automatycznym systemem?
 - Czy powitanie i reakcja na pytanie „czy jesteś człowiekiem" są zgodne z art. 50 AI Act?
@@ -1050,7 +880,7 @@ Warstwa piąta to procedury eskalacji i incident response. Kiedy voicebot lub cz
 - Czy komunikaty edukacyjne o deepfake są częścią komunikacji z klientami?
 - Czy odpowiedzialność za bezpieczeństwo voicebota jest jasno przypisana (właściciel, DPO/IOD, security)?
 
-## 7.10. Mini case study
+### 13.7.9. Mini case study
 
 W styczniu 2024 roku pracownik działu finansowego globalnej firmy inżynieryjnej Arup, w biurze w Hongkongu, otrzymał zaproszenie na wideokonferencję z „dyrektorem finansowym" i kilkoma członkami zarządu. W trakcie spotkania — technicznie sprawnego, wizualnie i dźwiękowo przekonującego — otrzymał polecenie wykonania serii przelewów. W ciągu jednej rozmowy wykonał 15 przelewów na łączną kwotę 25 milionów dolarów amerykańskich (200 milionów dolarów hongkońskich). Dopiero po rozmowie okazało się, że wszyscy „uczestnicy" konferencji byli deepfake'ami wygenerowanymi w czasie rzeczywistym. Sprawa została nagłośniona przez CNN, Financial Times, Reuters i South China Morning Post.
 
@@ -1058,21 +888,13 @@ Sprawa Arupu nie jest bezpośrednio przypadkiem voicebota, ale ilustruje skalę 
 
 Dla Voicebot Specialista lekcja jest konkretna: jeśli twój bot ma zdolność uruchomienia dowolnej akcji finansowej lub prawnej, MFA i off-band verification nie są opcją, tylko warunkiem produkcyjnym.
 
-## 7.11. Ćwiczenia
-
-1. Wypisz wszystkie akcje, które twój voicebot może wykonać. Przy każdej odpowiedz: czy sam głos wystarcza do jej autoryzacji? Jeśli tak, zaproponuj drugi kanał uwierzytelnienia.
-2. Przygotuj listę 10 fraz, którymi rozmówca mógłby próbować przeprowadzić prompt injection w twoim bocie. Sprawdź, jak bot reaguje na każdą z nich.
-3. Zaprojektuj procedurę incident response na wypadek wykrycia serii podejrzanych prób oszustwa przez twojego bota. Kto podejmuje decyzję o czasowym wyłączeniu bota? Kogo powiadamiasz? Jak informujesz klientów?
-4. Sprawdź, czy komunikaty twojego bota (powitanie, odpowiedź na pytanie „czy jesteś człowiekiem", pożegnanie) spełniają wymagania art. 50 AI Act obowiązujące od 2 sierpnia 2026.
-5. Przygotuj krótki materiał edukacyjny dla klientów o zagrożeniach związanych z klonowaniem głosu — jednostronicowy, w prostym języku, z konkretnymi wskazówkami (hasło rodzinne, oddzwonienie na oficjalny numer).
-
-## 7.12. Podsumowanie
+### 13.7.10. Podsumowanie
 
 Voicebot funkcjonuje w krajobrazie zagrożeń w dwóch rolach — jako narzędzie oszustów wykorzystujących skalę i klonowany głos oraz jako cel ataków wymierzonych w model, biometrię i logikę procesu. Obie role wymagają aktywnej postawy specjalisty: transparentności zgodnej z art. 50 AI Act, wielowarstwowej obrony z obowiązkowym MFA na akcjach krytycznych, monitoringu anomalii, procedur incident response i edukacji zarówno zespołu, jak i klientów. Bezpieczeństwo w tej części nie jest osobnym projektem — jest warstwą, bez której voicebot na produkcji nie utrzymuje się długo.
 
 ---
 
-# 8. Zbiorcza checklista po Części XII
+## 13.8. Zbiorcza checklista po Części XII
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
@@ -1096,15 +918,3 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy branże regulowane mają dodatkowe review?
 
 ---
-
-# 9. Co będzie w kolejnej części
-
-Kolejna część powinna opracować **Część XIII. Etyka, dostępność i odpowiedzialne projektowanie**:
-
-1. Transparentność i zaufanie.
-2. Projektowanie bez manipulacji.
-3. Dostępność dla osób starszych, osób z wadami mowy/słuchu i osób o niskich kompetencjach cyfrowych.
-4. Język prosty, inkluzywność i bias.
-5. Obsługa emocji i sytuacji kryzysowych.
-6. Kiedy bot powinien natychmiast przekazać rozmowę człowiekowi.
-

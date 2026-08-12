@@ -1,20 +1,10 @@
-# Voicebot Specialist Handbook
+# Rozdział 16. Szablony, narzędzia i dokumenty projektowe
 
-## Część 16: Szablony, narzędzia i dokumenty projektowe
-
-Wersja robocza: 2026-07-29
+Dokumentacja projektu voicebota łączy decyzje biznesowe, konwersacyjne i techniczne w zestaw artefaktów, które można zweryfikować i utrzymywać. Powinna wskazywać właścicieli decyzji, obsługiwane procesy, dane i integracje, przebieg dialogu, warunki eskalacji, ryzyka, testy oraz metryki. Zakres każdego dokumentu trzeba dopasować do organizacji, branży, procesu i używanej platformy.
 
 ---
 
-# Część XV. Szablony, narzędzia i dokumenty projektowe
-
-## Cel części
-
-Ta część zawiera praktyczne szablony do wykorzystania w projektach voicebotów. Każdy szablon można skopiować do dokumentacji projektu i dostosować do organizacji, branży oraz platformy.
-
----
-
-## 1. Brief projektu voicebota
+## 16.1. Brief projektu voicebota
 
 ```text
 Nazwa projektu:
@@ -46,7 +36,7 @@ Kryteria sukcesu:
 Termin MVP:
 ```
 
-## 2. Karta use case'u
+## 16.2. Karta use case'u
 
 ```text
 Nazwa use case'u:
@@ -64,7 +54,7 @@ Out of scope:
 Rekomendacja: MVP / później / nie wdrażać
 ```
 
-## 3. Matryca oceny automatyzacji
+## 16.3. Matryca oceny automatyzacji
 
 | Kryterium | Ocena 1-5 | Waga | Wynik | Komentarz |
 |---|---:|---:|---:|---|
@@ -79,7 +69,7 @@ Rekomendacja: MVP / później / nie wdrażać
 | Łatwość handoff |  | 3 |  |  |
 | Pomiar sukcesu |  | 2 |  |  |
 
-## 4. Mapa procesu rozmowy
+## 16.4. Mapa procesu rozmowy
 
 ```text
 Start:
@@ -95,12 +85,12 @@ Zakończenie:
 Metryki:
 ```
 
-## 5. Szablon scenariusza dialogowego
+## 16.5. Szablon scenariusza dialogowego
 
 | Step ID | Stan | Prompt bota | Expected input | Intent/slot | Walidacja | Next step | No-input | No-match | Barge-in | Handoff |
 |---|---|---|---|---|---|---|---|---|---|---|
 
-## 6. Szablon intencji
+## 16.6. Szablon intencji
 
 ```text
 Intent ID:
@@ -119,7 +109,7 @@ Handoff:
 Metryki:
 ```
 
-## 7. Szablon encji
+## 16.7. Szablon encji
 
 ```text
 Entity ID:
@@ -134,12 +124,12 @@ Owner:
 Aktualizacja:
 ```
 
-## 8. Tabela fraz treningowych
+## 16.8. Tabela fraz treningowych
 
 | ID | Fraza | Intencja | Encje | Źródło | Real/synthetic | Uwagi | Wersja |
 |---|---|---|---|---|---|---|---|
 
-## 9. Dokument persony voicebota
+## 16.9. Dokument persony voicebota
 
 ```text
 Rola bota:
@@ -156,7 +146,7 @@ Zasady eskalacji:
 Transparentność:
 ```
 
-## 10. Dokument promptu systemowego
+## 16.10. Dokument promptu systemowego
 
 ```text
 Prompt ID:
@@ -175,7 +165,7 @@ Testy regresji:
 Owner:
 ```
 
-## 11. Specyfikacja integracji
+## 16.11. Specyfikacja integracji
 
 ```text
 Nazwa integracji:
@@ -197,7 +187,7 @@ Security:
 Test cases:
 ```
 
-## 12. Plan testów
+## 16.12. Plan testów
 
 ```text
 Zakres:
@@ -211,7 +201,7 @@ Go/no-go:
 Raport:
 ```
 
-## 13. Checklista QA
+## 16.13. Checklista QA
 
 - Happy path.
 - Unhappy paths.
@@ -230,7 +220,7 @@ Raport:
 - Compliance.
 - Dashboard.
 
-## 14. Checklista przedwdrożeniowa
+## 16.14. Checklista przedwdrożeniowa
 
 - Zakres zatwierdzony.
 - Legal/compliance zatwierdzone.
@@ -242,7 +232,7 @@ Raport:
 - Rollback gotowy.
 - Hypercare zaplanowany.
 
-## 15. Raport z pilotażu
+## 16.15. Raport z pilotażu
 
 ```text
 Zakres pilota:
@@ -262,12 +252,12 @@ Rekomendacja:
 Backlog:
 ```
 
-## 16. Dashboard metryk
+## 16.16. Dashboard metryk
 
 | Metryka | Definicja | Źródło | Częstotliwość | Owner | Prog alarmowy |
 |---|---|---|---|---|---|
 
-## 17. Raport z analizy rozmów
+## 16.17. Raport z analizy rozmów
 
 ```text
 Próbka:
@@ -282,12 +272,12 @@ Nowe use case'y:
 Rekomendacje:
 ```
 
-## 18. Backlog optymalizacji
+## 16.18. Backlog optymalizacji
 
 | ID | Problem | Dane | Hipoteza | Zmiana | Ryzyko | Test regresji | Metryka sukcesu | Priorytet |
 |---|---|---|---|---|---|---|---|---|
 
-## 19. Dokument handoff do konsultanta
+## 16.19. Dokument handoff do konsultanta
 
 ```text
 Handoff reason taxonomy:
@@ -302,7 +292,7 @@ Transcript link:
 Fallback, gdy context push fail:
 ```
 
-## 20. Dokumentacja utrzymaniowa
+## 16.20. Dokumentacja utrzymaniowa
 
 ```text
 Ownerzy:
@@ -320,7 +310,7 @@ Kontakt awaryjny:
 
 ---
 
-# Zbiorcza checklista dokumentacji
+## 16.21. Zbiorcza checklista dokumentacji
 
 - Czy każdy dokument ma ownera?
 - Czy jest wersjonowany?
@@ -330,8 +320,3 @@ Kontakt awaryjny:
 - Czy jest użyteczny dla biznesu, IT, QA i compliance?
 
 ---
-
-# Co będzie w kolejnej części
-
-Kolejna część: **Case studies**.
-

@@ -1,20 +1,10 @@
-# Voicebot Specialist Handbook
+# Rozdział 18. Egzamin i certyfikacja Voicebot Specialist
 
-## Część 18: Egzamin i certyfikacja Voicebot Specialist
-
-Wersja robocza: 2026-07-29
+Kompetencje specjalisty ds. voicebotów obejmują nie tylko znajomość pojęć, lecz także umiejętność zaprojektowania rozmowy, przeanalizowania danych, przygotowania testów, oceny ryzyka i pracy z rzeczywistym procesem. Certyfikacja ma wartość tylko wtedy, gdy sprawdza te umiejętności na zadaniach praktycznych, a nie wyłącznie przez odtwarzanie definicji.
 
 ---
 
-# Część XVII. Egzamin i certyfikacja Voicebot Specialist
-
-## Cel części
-
-Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Specialist. Certyfikacja powinna sprawdzać nie tylko znajomość definicji, ale zdolność projektowania, analizowania danych, testowania, oceny ryzyka i pracy z realnym procesem.
-
----
-
-# 1. Poziomy certyfikacji
+## 18.1. Poziomy certyfikacji
 
 | Poziom | Charakterystyka |
 |---|---|
@@ -22,7 +12,7 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 | Professional | Samodzielnie projektuje use case, scenariusz, testy, metryki i handoff |
 | Expert | Projektuje strategie enterprise, governance LLM/RAG, compliance, roadmapy i programy optymalizacji |
 
-## Foundation - zakres
+### 18.1.1. Foundation - zakres
 
 - definicje: voicebot, IVR, chatbot, virtual agent;
 - podstawowa architektura;
@@ -32,7 +22,7 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 - fallback, no-input, no-match;
 - podstawowe metryki.
 
-## Professional - zakres
+### 18.1.2. Professional - zakres
 
 - discovery i use case;
 - matryca automatyzacji;
@@ -44,7 +34,7 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 - metryki i optymalizacja;
 - compliance basics.
 
-## Expert - zakres
+### 18.1.3. Expert - zakres
 
 - enterprise architecture;
 - governance danych i modeli;
@@ -57,7 +47,7 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 
 ---
 
-# 2. Format egzaminu
+## 18.2. Format egzaminu
 
 | Element | Foundation | Professional | Expert |
 |---|---:|---:|---:|
@@ -69,7 +59,7 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 
 ---
 
-# 3. Przykładowe pytania testowe
+## 18.3. Przykładowe pytania testowe
 
 1. Czym voicebot różni się od IVR?
 2. Dlaczego kanał głosowy wymaga krótszych komunikatów niż tekst?
@@ -89,9 +79,9 @@ Ta część proponuje kompletny system certyfikacji kompetencji Voicebot Special
 
 ---
 
-# 4. Zadania praktyczne
+## 18.4. Zadania praktyczne
 
-## Zadanie Foundation
+### 18.4.1. Zadanie Foundation
 
 Zaprojektuj prosty flow dla voicebota sprawdzającego status zamówienia:
 
@@ -102,7 +92,7 @@ Zaprojektuj prosty flow dla voicebota sprawdzającego status zamówienia:
 - no-match;
 - handoff.
 
-## Zadanie Professional
+### 18.4.2. Zadanie Professional
 
 Dostajesz use case: zmiana terminu wizyty medycznej. Przygotuj:
 
@@ -115,7 +105,7 @@ Dostajesz use case: zmiana terminu wizyty medycznej. Przygotuj:
 - metryki sukcesu;
 - ryzyka compliance.
 
-## Zadanie Expert
+### 18.4.3. Zadanie Expert
 
 Firma ubezpieczeniowa chce wdrożyć program voicebotów w 3 krajach. Przygotuj:
 
@@ -130,7 +120,7 @@ Firma ubezpieczeniowa chce wdrożyć program voicebotów w 3 krajach. Przygotuj:
 
 ---
 
-# 5. Projekt końcowy
+## 18.5. Projekt końcowy
 
 Projekt końcowy powinien zawierać:
 
@@ -150,7 +140,7 @@ Projekt końcowy powinien zawierać:
 
 ---
 
-# 6. Rubryka oceny projektu
+## 18.6. Rubryka oceny projektu
 
 | Kryterium | Waga | Ocena |
 |---|---:|---|
@@ -165,7 +155,7 @@ Projekt końcowy powinien zawierać:
 
 ---
 
-# 7. Kryteria zaliczenia
+## 18.7. Kryteria zaliczenia
 
 | Poziom | Prog |
 |---|---|
@@ -175,7 +165,7 @@ Projekt końcowy powinien zawierać:
 
 ---
 
-# 8. Wymagania portfolio
+## 18.8. Wymagania portfolio
 
 Portfolio Professional:
 
@@ -195,7 +185,7 @@ Portfolio Expert:
 
 ---
 
-# 9. Przykładowy scenariusz egzaminacyjny
+## 18.9. Przykładowy scenariusz egzaminacyjny
 
 Firma e-commerce ma 80 000 rozmów miesięcznie. Najczęstsze powody: status zamówienia, zwroty, reklamacje, faktury. Contact center ma wysoki repeat contact dla statusu. API statusu istnieje, API reklamacji jest niedostępne. Zaproponuj MVP voicebota.
 
@@ -211,13 +201,8 @@ Oczekiwana odpowiedź:
 
 ---
 
-# 10. Podsumowanie
+## 18.10. Podsumowanie
 
 Certyfikacja Voicebot Specialist powinna sprawdzać praktyczne kompetencje. Najlepszy kandydat nie tylko zna definicje, ale potrafi zaprojektować proces, przewidzieć błędy, mierzyć wyniki i powiedzieć, kiedy voicebot nie jest dobrym rozwiązaniem.
 
 ---
-
-# Co będzie w kolejnej części
-
-Kolejna część: **Psychologia rozmowy z voicebotem**.
-

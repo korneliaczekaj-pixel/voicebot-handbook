@@ -16,7 +16,7 @@ FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A'
 const OMOW_FILE = 'Voicebot_Specialist_Handbook_omowienia_do_czytania.md';
 
 const NAV_TITLE_OVERRIDES = {
-  '1': 'Wprowadzenie i barge-in',
+  '1': 'Podstawy voicebotów i zarządzanie turami',
 };
 
 // ---------- pomocnicze ----------
@@ -186,6 +186,12 @@ function processFile(meta) {
   let i = 0, partTitle = meta.title || null;
   while (i < lines.length) {
     const l = lines[i];
+    const h1Part = l.match(/^#\s+Cz[eę][sś][cć]\s+[IVXLCDM]+\.\s*(.+)$/i);
+    if (h1Part && !partTitle) { partTitle = h1Part[1].trim(); i++; continue; }
+    const h1Compendium = l.match(/^#\s+(Voiceboty:\s*kompendium wiedzy specjalistycznej)$/i);
+    if (h1Compendium && !partTitle) { partTitle = h1Compendium[1].trim(); i++; continue; }
+    const h1Chapter = l.match(/^#\s+Rozdział\s+\d+\.\s*(.+)$/i);
+    if (h1Chapter && !partTitle) { partTitle = h1Chapter[1].trim(); i++; continue; }
     if (/^# (Voicebot Specialist Handbook|Audyt poprawno[sś]ci)/.test(l)) { i++; continue; }
     const m = l.match(/^##\s+(.*)$/);
     if (m && (/^Cz[eę][sś][cć] \d+:/.test(m[1]) || /^Kompletna mapa/.test(m[1]) || /^Bibliografia/.test(m[1])) && !partTitle) {
@@ -275,13 +281,13 @@ const parts = FILES.map(processFile);
 // omowienia jako fragmenty do wyszukiwania
 for (const p of parts) {
   if (omow[p.num]) chunks.push({
-    id: p.id, czesc: p.title, num: p.num, tytul: 'Omówienie części',
+    id: p.id, czesc: p.title, num: p.num, tytul: 'Wprowadzenie do rozdziału',
     tekst: omow[p.num].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
   });
 }
 
 // ---------- sklejenie strony ----------
-const NUM_LABEL = n => (n === 'B' ? 'Bibliografia' : n === 'A' ? 'Audyt' : `Część ${n}`);
+const NUM_LABEL = n => (n === 'B' ? 'Bibliografia' : n === 'A' ? 'Audyt' : `Rozdział ${n}`);
 
 const waveSymbol = (() => {
   const heights = [6, 11, 18, 9, 14, 22, 16, 7, 12, 20, 10, 15, 8, 19, 13, 6, 17, 11, 21, 9, 14, 7, 18, 12, 16, 10, 20, 8, 13, 15];
@@ -298,11 +304,11 @@ for (const p of parts) {
   navHtml += `<details data-part="${p.id}"><summary><a class="pl" href="#${p.id}"><span class="pn">${p.num}</span><span>${esc(navTitle)}</span></a></summary><div class="chl">`;
   navHtml += p.chapters.map(c => `<a href="#${c.id}">${esc(c.title)}</a>`).join('');
   navHtml += '</div></details>';
-  chapterCount += p.chapters.length;
+  if (p.kind === 'part') chapterCount += p.chapters.length;
 
   bodyHtml += `<section class="part" id="${p.id}">`;
   bodyHtml += `<header class="popen"><p class="kick">${NUM_LABEL(p.num)}</p><h1>${inline(p.title)}</h1><svg class="wave" aria-hidden="true"><use href="#wv"/></svg></header>`;
-  if (omow[p.num]) bodyHtml += `<div class="omow"><span class="co-tag">Omówienie</span>${omow[p.num]}</div>`;
+  if (omow[p.num]) bodyHtml += `<div class="omow">${omow[p.num]}</div>`;
   bodyHtml += p.body;
   bodyHtml += '</section>';
 }
@@ -482,6 +488,9 @@ tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 3%,transparent)
   .content{max-width:none;padding:0}
   .popen{page-break-before:always}
   .tw{overflow:visible;border:none;box-shadow:none}
+  table{table-layout:auto;font-size:11.8px;line-height:1.42}
+  th,td{min-width:0;padding:7px 8px;overflow-wrap:break-word;word-break:normal}
+  th{white-space:normal}
   a{color:inherit;text-decoration:none}
 }
 `;
@@ -628,7 +637,7 @@ const js = `
 })();
 `;
 
-const today = '2026-07-29';
+const today = '2026-08-12';
 const core = `
 <title>Voicebot Specialist Handbook</title>
 <script>try{if(location.hostname!=='claude.ai'){document.documentElement.setAttribute('data-theme',localStorage.getItem('vh-theme')||'dark');}}catch(e){}</script>
@@ -645,12 +654,12 @@ ${waveSymbol}
 <main>
 <div class="content" id="top">
   <header class="hero">
-    <p class="kick">Podręcznik zawodowy</p>
-    <h1>Voicebot Specialist Handbook</h1>
-    <p class="lede">Kompletna mapa wiedzy, program nauki i praktyka projektowania voicebotów:
-    od architektury, conversation designu i danych, przez LLM, integracje i QA,
-    po metryki, compliance i psychologię rozmowy.</p>
-    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> części</span><span><b>${chapterCount}</b> rozdziałów i sekcji</span><span>Bibliografia + audyt źródeł</span></div>
+    <p class="kick">Kompendium specjalistyczne</p>
+    <h1>Voiceboty</h1>
+    <p class="lede">Praktyczna wiedza o projektowaniu, wdrażaniu i optymalizacji systemów głosowych:
+    od architektury, dialogów i danych, przez modele językowe, integracje i testy,
+    po metryki, zgodność z przepisami i psychologię rozmowy.</p>
+    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> rozdziałów</span><span>Bibliografia + audyt źródeł</span></div>
     <svg class="wave" aria-hidden="true"><use href="#wv"/></svg>
     <div class="cards">${heroCards}</div>
   </header>
@@ -677,6 +686,6 @@ if (process.env.ARTIFACT_OUT) fs.writeFileSync(process.env.ARTIFACT_OUT, `<style
 fs.mkdirSync(path.join(__dirname, 'dane'), { recursive: true });
 fs.writeFileSync(path.join(__dirname, 'dane', 'fragmenty.json'), JSON.stringify(chunks), 'utf8');
 
-console.log('Czesci:', parts.length, '| rozdzialow w nawigacji:', chapterCount, '| omowien:', Object.keys(omow).length, '| fragmentow:', chunks.length);
+console.log('Rozdzialy:', parts.filter(p => p.kind === 'part').length, '| podrozdzialy:', chapterCount, '| wprowadzenia:', Object.keys(omow).length, '| fragmenty:', chunks.length);
 dropped.forEach(d => console.log('  pominieto:', d));
 console.log('->', OUT, fs.statSync(OUT).size, 'B');

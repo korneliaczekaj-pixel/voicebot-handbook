@@ -1,18 +1,10 @@
-# Voicebot Specialist Handbook
+# Rozdział 15. Praca Voicebot Specialist
 
-## Część 15: Praca Voicebot Specialist
-
-Wersja robocza: 2026-07-29
+Voicebot Specialist łączy conversation design, analizę biznesową, AI/NLP, podstawy architektury, QA, analizę danych, metryki, compliance i pracę z interesariuszami. Nie jest wyłącznie autorem komunikatów ani osobą konfigurującą intencje. Odpowiada za przełożenie rzeczywistych rozmów i procesów telefonicznych na bezpieczną, mierzalną i użyteczną automatyzację oraz za jej późniejszą optymalizację.
 
 ---
 
-# Część XIV. Praca Voicebot Specialist
-
-## Cel części
-
-Voicebot Specialist to rola łącząca conversation design, analizę biznesową, AI/NLP, podstawy architektury, QA, dane, metryki, compliance i pracę z interesariuszami. Nie jest to tylko copywriter dialogów ani tylko osoba konfigurująca intencje. To specjalista, który pomaga organizacji zamienić rozmowy telefoniczne w bezpieczną, mierzalną i użyteczną automatyzację.
-
-## Rozdział 1. Czym zajmuje się Voicebot Specialist
+## 15.1. Czym zajmuje się Voicebot Specialist
 
 ### Zakres roli
 
@@ -42,7 +34,7 @@ Nie musi być:
 
 Ale musi umieć rozmawiać z każdą z tych ról.
 
-## Rozdział 2. Kompetencje
+## 15.2. Kompetencje
 
 | Obszar | Kompetencje |
 |---|---|
@@ -55,7 +47,7 @@ Ale musi umieć rozmawiać z każdą z tych ról.
 | Analityka | metryki, dashboardy, optymalizacja |
 | Komunikacja | warsztaty, wymagania, dokumentacja, RACI |
 
-## Rozdział 3. Typowy dzień pracy
+## 15.3. Typowy dzień pracy
 
 Przykładowy dzień:
 
@@ -67,7 +59,7 @@ Przykładowy dzień:
 6. Review promptu systemowego z compliance.
 7. Przygotowanie backlogu optymalizacji.
 
-## Rozdział 4. Dokumentacja w pracy Voicebot Specialist
+## 15.4. Dokumentacja w pracy Voicebot Specialist
 
 Najważniejsze dokumenty:
 
@@ -86,7 +78,7 @@ Najważniejsze dokumenty:
 - dokument handoff;
 - dokumentacja utrzymaniowa.
 
-## Rozdział 5. Ścieżka junior-mid-senior
+## 15.5. Ścieżka junior-mid-senior
 
 | Poziom | Charakterystyka |
 |---|---|
@@ -119,7 +111,7 @@ Najważniejsze dokumenty:
 - zarządzać ryzykiem;
 - budować program certyfikacji lub akademię.
 
-## Rozdział 6. Portfolio
+## 15.6. Portfolio
 
 Dobre portfolio powinno zawierać:
 
@@ -136,7 +128,7 @@ Dobre portfolio powinno zawierać:
 
 Nie pokazuj danych klientów ani poufnych transkrypcji. Używaj anonimizacji lub projektów syntetycznych.
 
-## Rozdział 7. Zadania rekrutacyjne
+## 15.7. Zadania rekrutacyjne
 
 Przykłady:
 
@@ -148,7 +140,7 @@ Przykłady:
 6. Zaproponuj prompt systemowy dla bota FAQ z RAG.
 7. Przygotuj matrycę use case'u.
 
-## Rozdział 8. Pytania na rozmowę kwalifikacyjną
+## 15.8. Pytania na rozmowę kwalifikacyjną
 
 - Czym voicebot różni się od IVR?
 - Jak projektujesz fallback?
@@ -161,7 +153,7 @@ Przykłady:
 - Jak projektujesz handoff?
 - Jak pracujesz z compliance?
 
-## Rozdział 9. Jak rozwijać się w tej roli
+## 15.9. Jak rozwijać się w tej roli
 
 Plan rozwoju:
 
@@ -176,7 +168,7 @@ Plan rozwoju:
 9. Słuchaj prawdziwych rozmów.
 10. Analizuj porażki botów, nie tylko sukcesy.
 
-## Zbiorcza checklista
+## 15.10. Zbiorcza checklista
 
 - Czy rozumiesz pełny cykl życia voicebota?
 - Czy umiesz rozmawiać z biznesem i IT?
@@ -186,8 +178,3 @@ Plan rozwoju:
 - Czy masz portfolio z dokumentacją?
 
 ---
-
-# Co będzie w kolejnej części
-
-Kolejna część: **Szablony, narzędzia i dokumenty projektowe**.
-

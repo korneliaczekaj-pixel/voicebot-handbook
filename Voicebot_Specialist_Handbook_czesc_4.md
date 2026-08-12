@@ -1,54 +1,8 @@
-# Voicebot Specialist Handbook
+# Rozdział 4. Conversation Design dla voicebotów
 
-## Część 4: Conversation Design dla voicebotów
+## 4.1. Pisanie tekstu a projektowanie rozmowy głosowej
 
-Wersja robocza: 2026-07-29  
-Kontynuacja plików:
-
-- `Voicebot_Specialist_Handbook_czesc_1.md`
-- `Voicebot_Specialist_Handbook_czesc_2.md`
-- `Voicebot_Specialist_Handbook_czesc_3.md`
-
----
-
-# Część III. Conversation Design dla voicebotów
-
-## Cel całej części
-
-Conversation design dla voicebotów to projektowanie przebiegu rozmowy głosowej tak, aby użytkownik mógł wykonać zadanie szybko, zrozumiale i z poczuciem kontroli. Nie jest to samo pisanie tekstów. To projektowanie tur, pytań, potwierdzeń, naprawy błędów, pauz, przerwań, tonu, emocji i eskalacji.
-
-Po tej części czytelnik powinien umieć:
-
-1. Rozróżnić tekst ekranowy od komunikatu głosowego.
-2. Projektować wypowiedzi krótkie, jednoznaczne i naturalne w TTS.
-3. Tworzyć powitania, pytania, potwierdzenia, reprompt'y, fallbacki i zakończenia.
-4. Projektować flow odporny na ciszę, no-match, korekty i przerwania.
-5. Zdefiniować personę i ton voicebota bez udawania człowieka.
-6. Projektować rozmowy z uwzględnieniem emocji, frustracji i poczucia kontroli.
-7. Przygotowywać scenariusze dialogowe użyteczne dla biznesu, technologii, QA i contact center.
-
-Źródła wspierające część:
-
-- Skantze, turn-taking w systemach konwersacyjnych: rozumienie tur, pauz, overlap i naturalności.
-- Źródła o interruption handling i barge-in: szczególnie LiveKit, Amazon Lex, Google Dialogflow CX, VoiceXML oraz prace badawcze o przerwaniach.
-- W3C VoiceXML: no-input, no-match, prompt'y, formularze, menu, mixed initiative.
-- Dokumentacje platform enterprise: konfiguracja speech, barge-in, endpointing, timeouty, slot filling.
-- Uzupełnienie eksperckie: praktyczne zasady conversation design, projektowanie komunikatów głosowych, recovery i QA scenariuszy.
-
----
-
-# Rozdział 1. Pisanie tekstu a projektowanie rozmowy głosowej
-
-## 1.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozumieć, dlaczego komunikat głosowy nie jest tekstem odczytanym na głos;
-- skracać, porcjować i porządkować informacje;
-- projektować wypowiedzi pod pamięć słuchową;
-- rozpoznawać, kiedy ekran, SMS lub e-mail są lepszym kanałem pomocniczym niż głos.
-
-## 1.2. Kluczowe pojęcia
+### 4.1.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -60,7 +14,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Progressive disclosure | Stopniowe ujawnianie informacji | "Trzeba od razu podać wszystkie możliwości" |
 | Multichannel support | Wsparcie rozmowy głosowej innym kanałem, np. SMS-em | "Voicebot musi wszystko załatwić głosem" |
 
-## 1.3. Wyjaśnienie eksperckie
+### 4.1.2. Wyjaśnienie eksperckie
 
 Tekst ekranowy może być dłuższy, bo użytkownik widzi go cały czas. Może do niego wrócić, porównać opcję, przeczytać wolniej, zignorować fragmenty i skupić wzrok na ważnych danych. Głos znika po wypowiedzeniu. Dlatego każde dodatkowe słowo ma koszt.
 
@@ -90,7 +44,7 @@ Uwaga praktyczna:
 
 W głosie lista opcji jest narzędziem awaryjnym, nie podstawowym sposobem projektowania. Jeśli system potrafi rozpoznać intencje, zacznij od pytania otwartego w granicach domeny, a przy ciszy podaj 2-3 przykłady.
 
-## 1.4. Perspektywa biznesowa
+### 4.1.3. Perspektywa biznesowa
 
 Dobre komunikaty głosowe zmniejszają:
 
@@ -103,7 +57,7 @@ Dobre komunikaty głosowe zmniejszają:
 
 Złe komunikaty zwiększają koszt, nawet jeśli technologia działa poprawnie. Bot może mieć dobry ASR i NLU, ale jeśli zada pytania niezrozumiałe, użytkownik nie da mu dobrego inputu.
 
-## 1.5. Perspektywa użytkownika
+### 4.1.4. Perspektywa użytkownika
 
 Użytkownik często dzwoni w sytuacji zadaniowej: chce załatwić sprawę, nie uczyć się systemu. Komunikat głosowy powinien odpowiadać na trzy pytania:
 
@@ -117,7 +71,7 @@ Przykład:
 
 Ten komunikat jest dobry, bo nie tłumaczy całej logiki systemu. Daje kontekst i jasny wybór.
 
-## 1.6. Perspektywa technologiczna
+### 4.1.5. Perspektywa technologiczna
 
 Tekst dialogowy trafia do TTS, a czasem do LLM jako instrukcja odpowiedzi. Dlatego musi być zaprojektowany tak, aby:
 
@@ -130,7 +84,7 @@ Tekst dialogowy trafia do TTS, a czasem do LLM jako instrukcja odpowiedzi. Dlate
 
 W generatywnych voicebotach warto mieć response style guide: zasady długości, tonu, potwierdzeń, zakazów i sposobów eskalacji. Model nie powinien sam decydować, jak długi ma być komunikat w kanale głosowym.
 
-## 1.7. Dobre praktyki
+### 4.1.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -143,7 +97,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj komunikaty przez odczyt na głos.
 - Usuwaj słowa, które nie pomagają użytkownikowi wykonać kroku.
 
-## 1.8. Typowe błędy
+### 4.1.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -156,7 +110,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Zbyt formalny język | Dystans i większe obciążenie poznawcze |
 | Ukrywanie celu pytania | Użytkownik nie rozumie, po co podaje dane |
 
-## 1.9. Checklista
+### 4.1.8. Checklista
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -169,37 +123,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy komunikat jest krótszy niż wersja tekstowa?
 - Czy długie dane można wysłać innym kanałem?
 
-## 1.10. Mini case study
+### 4.1.9. Mini case study
 
 Sklep internetowy wdrożył voicebota do zwrotów. Pierwsza wersja odczytywała całą politykę zwrotów. Użytkownicy przerywali i prosili o konsultanta. Druga wersja zaczynała od pytania: "Czy chce pan sprawdzić status zwrotu, czy dowiedzieć się, jak go nadać?". Dopiero po wyborze bot podawał krótką, dopasowaną odpowiedź i proponował SMS z linkiem. Spadły przerwania i czas rozmowy.
 
-## 1.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Weź długi komunikat z FAQ i przepisz go na wersję głosową.
-2. Skróć listę siedmiu opcji do pytania otwartego i repromptu.
-3. Zaprojektuj komunikat, który można bezpiecznie przerwać.
-4. Wskaż informacje, które lepiej wysłać SMS-em niż czytać.
-
-## 1.12. Podsumowanie
+### 4.1.10. Podsumowanie
 
 Projektowanie głosu wymaga dyscypliny. Każdy komunikat powinien prowadzić użytkownika do następnego kroku, a nie prezentować wszystko, co firma wie. Voicebot nie jest audiobookiem procedury.
 
 ---
 
-# Rozdział 2. Zasady projektowania wypowiedzi voicebota
+## 4.2. Zasady projektowania wypowiedzi voicebota
 
-## 2.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- stosować zasady jasnych wypowiedzi głosowych;
-- projektować komunikaty informacyjne, pytania i potwierdzenia;
-- kontrolować długość, formalność, tempo i jednoznaczność;
-- tworzyć standardy copy dla voicebota.
-
-## 2.2. Kluczowe pojęcia
+### 4.2.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -213,7 +149,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Implicit confirmation | Potwierdzenie wplecione w kolejny krok |
 | Repair prompt | Komunikat naprawczy po błędzie |
 
-## 2.3. Wyjaśnienie eksperckie
+### 4.2.2. Wyjaśnienie eksperckie
 
 Dobra wypowiedź voicebota ma funkcję. Nie "brzmi ładnie", tylko wykonuje zadanie w rozmowie.
 
@@ -243,7 +179,7 @@ Komunikat jest lepszy niż:
 
 "Niestety, w wyniku wyszukiwania w naszym systemie nie udało się odnaleźć zamówienia, które odpowiadałoby podanym przez pana danym, dlatego proszę spróbować ponownie."
 
-## 2.4. Perspektywa biznesowa
+### 4.2.3. Perspektywa biznesowa
 
 Standard wypowiedzi bota jest częścią standardu obsługi klienta. Dobre wypowiedzi:
 
@@ -264,7 +200,7 @@ Firma powinna mieć voice style guide, czyli dokument zawierający:
 - wzorce fallbacków;
 - wzorce eskalacji.
 
-## 2.5. Perspektywa użytkownika
+### 4.2.4. Perspektywa użytkownika
 
 Użytkownik ceni:
 
@@ -283,7 +219,7 @@ Lepiej:
 
 "Nie mam pewności, czy dobrze zrozumiałem. Proszę powiedzieć: tak albo nie."
 
-## 2.6. Perspektywa technologiczna
+### 4.2.5. Perspektywa technologiczna
 
 Komunikaty powinny być zapisane w sposób pozwalający:
 
@@ -308,7 +244,7 @@ Przykłady pól w dokumentacji promptu:
 | fallback | Co robimy po no-match |
 | metrics | Jak mierzymy skuteczność |
 
-## 2.7. Dobre praktyki
+### 4.2.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -321,7 +257,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Dla błędów dawaj instrukcje, nie tylko komunikat błędu.
 - Projektuj warianty dla pierwszej i kolejnej próby.
 
-## 2.8. Typowe błędy
+### 4.2.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -334,7 +270,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Niepotwierdzanie danych krytycznych | Ryzyko błędnej akcji |
 | "Czy mogę jeszcze w czymś pomóc?" po każdej sprawie | Dodatkowe, często niepotrzebne tury |
 
-## 2.9. Checklista wypowiedzi
+### 4.2.8. Checklista wypowiedzi
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -347,37 +283,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy dane krytyczne są potwierdzone?
 - Czy prompt ma ID i miejsce w flow?
 
-## 2.10. Mini case study
+### 4.2.9. Mini case study
 
 Voicebot helpdesku IT po nierozpoznaniu problemu mówił: "Przepraszam, nie zrozumiałem. Proszę powtórzyć." Po trzech próbach użytkownicy byli sfrustrowani. Nowy wariant: "Nie mam pewności, czy chodzi o VPN, hasło czy pocztę. Które z tych trzech?". Bot nie tylko informuje o błędzie, ale zawęża przestrzeń odpowiedzi. No-match spada.
 
-## 2.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz trzy warianty promptu po no-match: pierwszy, drugi i trzeci.
-2. Zaprojektuj explicit confirmation dla zmiany adresu.
-3. Zaprojektuj implicit confirmation dla statusu zamówienia.
-4. Wypisz 10 słów, których bot w twojej organizacji nie powinien używać.
-
-## 2.12. Podsumowanie
+### 4.2.10. Podsumowanie
 
 Każda wypowiedź voicebota powinna mieć funkcję dialogową. Dobre microcopy głosowe prowadzi rozmowę, zmniejsza obciążenie poznawcze i ułatwia systemowi otrzymanie poprawnego inputu.
 
 ---
 
-# Rozdział 3. Turn-taking w praktyce conversation design
+## 4.3. Turn-taking w praktyce conversation design
 
-## 3.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować rozmowę jako wymianę tur;
-- rozumieć, kiedy bot powinien mówić, słuchać i czekać;
-- uwzględniać pauzy, overlap, barge-in i endpointing;
-- projektować timing rozmowy razem z zespołem technicznym.
-
-## 3.2. Kluczowe pojęcia
+### 4.3.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -391,7 +309,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Endpointing | Decyzja, czy użytkownik skończył mówić |
 | Floor | "Prawo głosu" w danym momencie rozmowy |
 
-## 3.3. Wyjaśnienie eksperckie
+### 4.3.2. Wyjaśnienie eksperckie
 
 Projektant rozmowy głosowej nie projektuje tylko tekstów. Projektuje rytm:
 
@@ -416,7 +334,7 @@ Uzupełnienie eksperckie: conversation designer powinien oznaczać w scenariuszu
 | Wybór z 2 opcji | Jasny prompt, szybka interpretacja |
 | Swobodna intencja | Pytanie otwarte, disambiguation przy niepewności |
 
-## 3.4. Perspektywa biznesowa
+### 4.3.3. Perspektywa biznesowa
 
 Timing wpływa na:
 
@@ -429,7 +347,7 @@ Timing wpływa na:
 
 Zbyt szybki bot może robić błędy. Zbyt wolny bot generuje koszt i frustrację. Dobra decyzja timingowa wynika z wartości kroku: dla prostego potwierdzenia liczy się szybkość, dla numeru klienta liczy się dokładność.
 
-## 3.5. Perspektywa użytkownika
+### 4.3.4. Perspektywa użytkownika
 
 Użytkownik czuje się dobrze, gdy:
 
@@ -441,7 +359,7 @@ Użytkownik czuje się dobrze, gdy:
 
 Bot powinien dopasować tempo do zadania. Starszy użytkownik dyktujący numer potrzebuje innego rytmu niż klient e-commerce mówiący "chce zwrot".
 
-## 3.6. Perspektywa technologiczna
+### 4.3.5. Perspektywa technologiczna
 
 Conversation designer powinien współpracować z technologią przy ustawieniach:
 
@@ -456,7 +374,7 @@ Conversation designer powinien współpracować z technologią przy ustawieniach
 
 Te ustawienia nie powinny być globalne. Powinny zależeć od kroku dialogu.
 
-## 3.7. Dobre praktyki
+### 4.3.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -468,7 +386,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Mierz przerwania per prompt.
 - Projektuj recovery po overlap.
 
-## 3.8. Typowe błędy
+### 4.3.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -480,7 +398,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak barge-in przy podsumowaniach | Użytkownik nie może poprawić błędu |
 | Bot odpowiada po każdej mikropauzie | Wchodzi w słowo |
 
-## 3.9. Checklista turn-taking
+### 4.3.8. Checklista turn-taking
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -492,37 +410,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy no-input i no-match mają różne reakcje?
 - Czy testujemy rozmowy z pauzami i overlap?
 
-## 3.10. Mini case study
+### 4.3.9. Mini case study
 
 Voicebot medyczny pyta: "Proszę opisać, co się dzieje." Endpointing był ustawiony jak dla pytań tak/nie. Pacjenci robili pauzę po pierwszym zdaniu, a bot od razu zaczynał diagnozować kategorie sprawy. Po zmianie ten krok otrzymał dłuższe okno słuchania, krótki backchannel "Rozumiem, proszę mówić dalej" tylko w wybranych sytuacjach oraz eskalację przy sygnałach pilności. Jakość klasyfikacji wzrosła.
 
-## 3.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Dla pięciu kroków flow oznacz typ inputu i politykę endpointing.
-2. Zaprojektuj krok zbierania kodu z pauzami.
-3. Zaprojektuj zachowanie bota, gdy użytkownik zaczyna mówić w trakcie podsumowania.
-4. Wypisz metryki turn-taking dla pilota.
-
-## 3.12. Podsumowanie
+### 4.3.10. Podsumowanie
 
 Turn-taking jest ukrytym szkieletem rozmowy. Jeśli jest źle zaprojektowane, nawet dobre teksty i modele będą brzmieć sztucznie. Conversation designer musi projektować nie tylko co bot mówi, ale kiedy mówi, kiedy słucha i kiedy oddaje kontrolę.
 
 ---
 
-# Rozdział 4. Persona voicebota, ton, styl i formalność
+## 4.4. Persona voicebota, ton, styl i formalność
 
-## 4.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- definiować personę voicebota w sposób praktyczny;
-- odróżniać osobowość marki od udawania człowieka;
-- dobierać ton do branży, sytuacji i emocji;
-- tworzyć zasady językowe dla zespołu.
-
-## 4.2. Kluczowe pojęcia
+### 4.4.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -536,7 +436,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Transparency | Jasne informowanie, że rozmowca jest systemem AI |
 | False empathy | Udawanie emocjonalnego rozumienia bez realnej zdolności pomocy |
 
-## 4.3. Wyjaśnienie eksperckie
+### 4.4.2. Wyjaśnienie eksperckie
 
 Persona voicebota nie polega na wymyśleniu imienia i charakteru. To operacyjny dokument, który pomaga pisać spójne komunikaty i ograniczać ryzyka.
 
@@ -563,7 +463,7 @@ Mowi o sobie: "jestem automatycznym asystentem"
 Priorytet: zalatwic sprawe lub szybko przekazac do konsultanta
 ```
 
-## 4.4. Perspektywa biznesowa
+### 4.4.3. Perspektywa biznesowa
 
 Persona bota wpływa na:
 
@@ -575,7 +475,7 @@ Persona bota wpływa na:
 
 W banku, medycynie lub windykacji zbyt swobodny ton może być nieprofesjonalny. W e-commerce zbyt urzędowy ton może zwiększać dystans. Persona musi wynikać z kontekstu użycia, nie z gustu zespołu.
 
-## 4.5. Perspektywa użytkownika
+### 4.4.4. Perspektywa użytkownika
 
 Użytkownik powinien od początku wiedzieć:
 
@@ -588,7 +488,7 @@ Transparentność nie musi brzmieć ciężko:
 
 "Dzień dobry, jestem automatycznym asystentem firmy X. Pomogę sprawdzić zamówienie albo połączę z konsultantem. W czym mogę pomóc?"
 
-## 4.6. Perspektywa technologiczna
+### 4.4.5. Perspektywa technologiczna
 
 Persona powinna być zakodowana w:
 
@@ -610,7 +510,7 @@ W voicebotach generatywnych persona musi mieć twarde ograniczenia:
 - zasady eskalacji;
 - zakaz porad poza domeną.
 
-## 4.7. Dobre praktyki
+### 4.4.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -622,7 +522,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Testuj tone-of-voice na trudnych scenariuszach, nie tylko happy path.
 - Unikaj żartów w sytuacjach stresowych.
 
-## 4.8. Typowe błędy
+### 4.4.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -635,7 +535,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Żarty w reklamacjach | Eskalacja frustracji |
 | Brak zasad dla LLM | Niespójny ton |
 
-## 4.9. Checklista persony
+### 4.4.8. Checklista persony
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -648,37 +548,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy persona jest wpisana w prompt systemowy?
 - Czy QA ocenia ton, nie tylko poprawną intencję?
 
-## 4.10. Mini case study
+### 4.4.9. Mini case study
 
 Firma windykacyjna chciała, aby bot brzmiał "przyjaźnie i lekko". Pierwsze komunikaty używały sformułowań "spokojnie, zaraz to ogarniemy". Użytkownicy odbierali to jako lekceważenie. Persona została zmieniona na spokojną, rzeczową i neutralną: "Wyjaśnię dostępne opcje. Jeśli kwestionuje pan należność, połączę z konsultantem." Spadła liczba agresywnych reakcji w testach UAT.
 
-## 4.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zdefiniuj personę bota dla przychodni.
-2. Napisz trzy rzeczy, których bot nie powinien mówić.
-3. Przygotuj powitanie transparentne, ale krótkie.
-4. Przepisz zbyt luźny komunikat na wersję profesjonalną.
-
-## 4.12. Podsumowanie
+### 4.4.10. Podsumowanie
 
 Persona voicebota to narzędzie kontroli jakości i zaufania. Dobry bot nie musi być "jak człowiek". Ma być jasny, pomocny, przewidywalny i uczciwy co do swoich możliwości.
 
 ---
 
-# Rozdział 5. Projektowanie powitań, pytań, potwierdzeń i zakończeń
+## 4.5. Projektowanie powitań, pytań, potwierdzeń i zakończeń
 
-## 5.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować pierwsze sekundy rozmowy;
-- zadawać pytania, które dają dobre dane;
-- dobierać typ potwierdzenia do ryzyka;
-- kończyć rozmowę bez niepotrzebnych tur.
-
-## 5.2. Kluczowe pojęcia
+### 4.5.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -693,9 +575,9 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Implicit confirmation | Potwierdzenie bez zatrzymywania flow |
 | Closing | Zakończenie rozmowy |
 
-## 5.3. Wyjaśnienie eksperckie
+### 4.5.2. Wyjaśnienie eksperckie
 
-### Powitanie
+#### Powitanie
 
 Powitanie ma trzy funkcje:
 
@@ -711,7 +593,7 @@ Dobre:
 
 "Witamy serdecznie w najnowocześniejszym systemie automatycznej obsługi klienta firmy X, który został zaprojektowany, aby zapewnić państwu najwyższą jakość kontaktu..."
 
-### Pytania
+#### Pytania
 
 Dobre pytanie:
 
@@ -726,7 +608,7 @@ Przykłady:
 - "Na jaki dzień chce pan przełożyć dostawę?"
 - "Czy chodzi o fakturę, dostawę czy zwrot?"
 
-### Potwierdzenia
+#### Potwierdzenia
 
 Nie wszystko trzeba potwierdzać. Potwierdzenia mają koszt czasowy. Dobieraj je do ryzyka.
 
@@ -738,7 +620,7 @@ Nie wszystko trzeba potwierdzać. Potwierdzenia mają koszt czasowy. Dobieraj je
 | Pytanie FAQ | Brak lub implicit |
 | Dane osobowe | Ostrozne, minimalne |
 
-### Zakończenie
+#### Zakończenie
 
 Dobre zakończenie:
 
@@ -749,13 +631,13 @@ Dobre zakończenie:
 
 "Gotowe. Termin zmieniony na czwartek, 15:30. Potwierdzenie wysłałem SMS-em. Dziękuję za rozmowę."
 
-## 5.4. Perspektywa biznesowa
+### 4.5.3. Perspektywa biznesowa
 
 Powitanie wpływa na opt-in do automatyzacji. Pytania wpływają na jakość danych. Potwierdzenia wpływają na koszt błędów. Zakończenie wpływa na repeat contact.
 
 Jeśli bot nie powie, co zostało zrobione, użytkownik może zadzwonić ponownie. Jeśli bot zada źle pytanie, integracja może dostać złe dane. Jeśli bot nie potwierdzi anulowania, firma może mieć reklamację.
 
-## 5.5. Perspektywa użytkownika
+### 4.5.4. Perspektywa użytkownika
 
 Użytkownik potrzebuje przewidywalności:
 
@@ -770,7 +652,7 @@ Najbardziej frustrujące są pytania, które wyglądają prosto, ale są niejasn
 
 Jakie dane? Numer zamówienia, PESEL, nazwisko, telefon?
 
-## 5.6. Perspektywa technologiczna
+### 4.5.5. Perspektywa technologiczna
 
 Pytania muszą być powiązane ze slotami. Każde pytanie powinno mieć:
 
@@ -783,7 +665,7 @@ Pytania muszą być powiązane ze slotami. Każde pytanie powinno mieć:
 - politykę endpointing;
 - barge-in policy.
 
-## 5.7. Dobre praktyki
+### 4.5.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -795,7 +677,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - W zakończeniu nazwij wykonaną akcję.
 - Przy ważnych sprawach wysyłaj potwierdzenie poza kanałem głosowym.
 
-## 5.8. Typowe błędy
+### 4.5.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -808,7 +690,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak potwierdzenia akcji krytycznej | Ryzyko reklamacji |
 | Otwarte zakończenie bez wyniku | Repeat contact |
 
-## 5.9. Checklista
+### 4.5.8. Checklista
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -821,37 +703,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy zakończenie mówi, co zostało zrobione?
 - Czy użytkownik dostaje potwierdzenie SMS/e-mail, jeśli potrzebne?
 
-## 5.10. Mini case study
+### 4.5.9. Mini case study
 
 Voicebot rezerwacyjny kończył rozmowę słowami: "Czy mogę jeszcze w czymś pomóc?". Wielu użytkowników odpowiadało "nie wiem" albo zadawało pytania poza zakresem, co wydłużało rozmowy. Zmieniono zakończenie: "Wizyta jest umówiona na środę o 11:00. Potwierdzenie wysłałem SMS-em. Dziękuję za rozmowę." Dodatkowe tury spadły, a repeat contact nie wzrósł.
 
-## 5.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz powitanie dla bota bankowego.
-2. Zaprojektuj pytanie o termin wizyty.
-3. Wybierz typ potwierdzenia dla zmiany adresu.
-4. Napisz zakończenie po utworzeniu reklamacji.
-
-## 5.12. Podsumowanie
+### 4.5.10. Podsumowanie
 
 Powitania, pytania, potwierdzenia i zakończenia są podstawowymi narzędziami kontroli rozmowy. Dobrze zaprojektowane pozwalają użytkownikowi mówić naturalnie, a systemowi zbierać dane bez chaosu.
 
 ---
 
-# Rozdział 6. Cisza, no-input, no-match, fallback i reprompt
+## 4.6. Cisza, no-input, no-match, fallback i reprompt
 
-## 6.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- odróżniać ciszę od niezrozumienia;
-- projektować no-input i no-match jako różne sytuacje;
-- tworzyć reprompt'y, które pomagają, a nie powtarzają błąd;
-- projektować fallback jako naprawę rozmowy, nie porażkę.
-
-## 6.2. Kluczowe pojęcia
+### 4.6.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -864,7 +728,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Escalation threshold | Moment, w którym trzeba przekazać do człowieka |
 | Repair strategy | Strategia naprawy rozmowy |
 
-## 6.3. Wyjaśnienie eksperckie
+### 4.6.2. Wyjaśnienie eksperckie
 
 No-input i no-match wymagają innych reakcji.
 
@@ -899,7 +763,7 @@ Lepszy drugi no-match:
 
 "Żeby nie przedłużać, połączę z konsultantem, który pomoże w tej sprawie."
 
-## 6.4. Perspektywa biznesowa
+### 4.6.3. Perspektywa biznesowa
 
 Fallbacki to jedno z najważniejszych miejsc optymalizacji. Wysoki fallback rate pokazuje:
 
@@ -912,7 +776,7 @@ Fallbacki to jedno z najważniejszych miejsc optymalizacji. Wysoki fallback rate
 
 Nie należy ukrywać fallbacków. Trzeba je analizować jako głos rynku: ludzie mówią, czego system nie obsługuje.
 
-## 6.5. Perspektywa użytkownika
+### 4.6.4. Perspektywa użytkownika
 
 Użytkownik akceptuje naprawę, jeśli czuje postęp. Nie akceptuje pętli.
 
@@ -920,7 +784,7 @@ Zasada psychologiczna:
 
 Nie powtarzaj identycznie tego samego pytania trzy razy. Jeśli pierwsza forma nie zadziałała, druga powinna zawęzić opcję, uprościć zadanie albo dać przykład. Trzecia powinna oferować alternatywę lub handoff.
 
-## 6.6. Perspektywa technologiczna
+### 4.6.5. Perspektywa technologiczna
 
 Fallback powinien być logowany z kontekstem:
 
@@ -936,7 +800,7 @@ Fallback powinien być logowany z kontekstem:
 
 W LLM voicebotach fallback może być bardziej subtelny: model zawsze coś odpowie. Dlatego trzeba wykrywać odpowiedzi niskiej jakości, nie tylko klasyczne no-match.
 
-## 6.7. Dobre praktyki
+### 4.6.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -949,7 +813,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Analizuj fallbacki co tydzień po wdrożeniu.
 - Projektuj fallbacki per krok, nie tylko globalne.
 
-## 6.8. Typowe błędy
+### 4.6.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -962,7 +826,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Bot przeprasza, ale nie pomaga | Poczucie bezradności systemu |
 | LLM improwizuje poza zakresem zamiast fallbacku | Ryzyko halucynacji |
 
-## 6.9. Checklista fallbacków
+### 4.6.8. Checklista fallbacków
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -975,37 +839,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy analizujemy najczęstsze frazy z fallbacków?
 - Czy bot nie obwinia użytkownika?
 
-## 6.10. Mini case study
+### 4.6.9. Mini case study
 
 Voicebot przyjmujący zgłoszenia IT miał globalny fallback. Gdy użytkownik mówił "nie działa mi token", bot odpowiadał "Proszę powtórzyć". Po analizie okazało się, że wiele fallbacków dotyczy MFA, ale intencja nie istniała. Dodano intencje "problem_mfa", przykłady fraz i reprompt: "Czy chodzi o kod SMS, aplikację autoryzacyjną czy token?". Fallback rate spadł.
 
-## 6.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj no-input i no-match dla pytania o numer zamówienia.
-2. Napisz trzy poziomy repromptu dla wyboru terminu.
-3. Wskaż, kiedy bot powinien eskalować.
-4. Zaprojektuj raport analizy fallbacków.
-
-## 6.12. Podsumowanie
+### 4.6.10. Podsumowanie
 
 Fallback to nie śmietnik na błędy. To zaprojektowana strategia naprawy rozmowy. Dobre fallbacki pomagają użytkownikowi odpowiedzieć inaczej, ujawniają luki systemu i chronią przed frustracją.
 
 ---
 
-# Rozdział 7. Projektowanie barge-in, przerwań i korekt w dialogu
+## 4.7. Projektowanie barge-in, przerwań i korekt w dialogu
 
-## 7.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować przerwania jako normalną część rozmowy;
-- rozróżnić korektę, zmianę tematu, przyspieszenie i eskalację;
-- dokumentować politykę barge-in w scenariuszu;
-- projektować recovery po przerwaniu.
-
-## 7.2. Kluczowe pojęcia
+### 4.7.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -1018,7 +864,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Escalation request | Prośba o człowieka |
 | Recovery after interruption | Kontynuacja rozmowy po przerwaniu z zachowaniem kontekstu |
 
-## 7.3. Wyjaśnienie eksperckie
+### 4.7.2. Wyjaśnienie eksperckie
 
 Przerwania są naturalne. Użytkownik przerywa, gdy:
 
@@ -1040,7 +886,7 @@ Conversation designer powinien dla każdego ważnego promptu określić:
 | Co robimy z kontekstem? | Wracamy do slotu, zmieniamy intencje, eskalujemy? |
 | Jak odpowiadamy? | Krótkie uznanie i kolejny krok |
 
-## 7.4. Perspektywa biznesowa
+### 4.7.3. Perspektywa biznesowa
 
 Barge-in poprawia:
 
@@ -1056,7 +902,7 @@ Ale źle zaprojektowany może pogorszyć:
 - compliance przy promptach prawnych;
 - analityke, jeśli przerwania nie są logowane.
 
-## 7.5. Perspektywa użytkownika
+### 4.7.4. Perspektywa użytkownika
 
 Użytkownik, który przerywa, często komunikuje: "system idzie w złą stronę". Dobra reakcja pokazuje, że bot słucha:
 
@@ -1067,7 +913,7 @@ Zła reakcja:
 
 Bot kontynuuje odczyt albo wraca do początku.
 
-## 7.6. Perspektywa technologiczna
+### 4.7.5. Perspektywa technologiczna
 
 Scenariusz powinien zawierać wymagania:
 
@@ -1081,7 +927,7 @@ Scenariusz powinien zawierać wymagania:
 - LLM response cancellation;
 - logging interruption event.
 
-## 7.7. Dobre praktyki
+### 4.7.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -1093,7 +939,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Przy frustracji skróć rozmowę.
 - Przy drugim nieudanym recovery eskaluj.
 
-## 7.8. Typowe błędy
+### 4.7.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -1106,7 +952,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak logów przerwań | Nie wiadomo, co poprawiać |
 | Nieodróżnianie backchannel od przerwania | Nienaturalna rozmowa |
 
-## 7.9. Checklista przerwań
+### 4.7.8. Checklista przerwań
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -1119,37 +965,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy QA testuje przerwania w tym kroku?
 - Czy komunikat recovery jest krótki?
 
-## 7.10. Mini case study
+### 4.7.9. Mini case study
 
 Voicebot bankowy odczytywał ofertę limitu i nie pozwalał przerwać. Użytkownicy mówili "nie chcę", ale bot kończył cały komunikat. Po zmianie barge-in włączono dla części sprzedażowej, a "nie chcę" kierowało do neutralnego zamknięcia: "Rozumiem, nie będę kontynuować oferty. Czy chce pan załatwić coś jeszcze z kartą?". Spadły skargi na nachalność.
 
-## 7.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Dla podsumowania zamówienia zaprojektuj trzy typy przerwań i recovery.
-2. Napisz dialog z korektą adresu.
-3. Zaprojektuj reakcję na "konsultant" w trakcie promptu.
-4. Wskaż prompt, gdzie barge-in powinien być ograniczony.
-
-## 7.12. Podsumowanie
+### 4.7.10. Podsumowanie
 
 Przerwania nie są wyjątkiem od rozmowy. Są częścią naturalnej kontroli dialogu. Dobry voicebot nie tylko pozwala przerwać, ale wie, co przerwanie znaczy i jak wrócić do sensownego miejsca.
 
 ---
 
-# Rozdział 8. Projektowanie dla emocji użytkownika
+## 4.8. Projektowanie dla emocji użytkownika
 
-## 8.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- rozpoznawać emocjonalne konteksty rozmów;
-- projektować komunikaty dla frustracji, niepewności i stresu;
-- odróżniać empatię od fałszywej empatii;
-- tworzyć warunki szybkiej eskalacji w sytuacjach trudnych.
-
-## 8.2. Kluczowe pojęcia
+### 4.8.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -1162,7 +990,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Sensitive domain | Obszar o wysokim ryzyku emocjonalnym lub prawnym |
 | Crisis escalation | Natychmiastowe przekazanie do człowieka lub odpowiedniej procedury |
 
-## 8.3. Wyjaśnienie eksperckie
+### 4.8.2. Wyjaśnienie eksperckie
 
 Voicebot często rozmawia z ludźmi, którzy:
 
@@ -1185,7 +1013,7 @@ Lepiej:
 
 "Widzę, że to nie działa tak, jak powinno. Skrócę rozmowę i połączę z konsultantem."
 
-## 8.4. Perspektywa biznesowa
+### 4.8.3. Perspektywa biznesowa
 
 Emocje wpływają na:
 
@@ -1198,7 +1026,7 @@ Emocje wpływają na:
 
 Automatyzacja trudnych emocjonalnie procesów bez dobrego handoff może obniżyć koszt pierwszej linii, ale zwiększyć koszt drugiej linii i reklamacji.
 
-## 8.5. Perspektywa użytkownika
+### 4.8.4. Perspektywa użytkownika
 
 Użytkownik w emocjach potrzebuje:
 
@@ -1210,7 +1038,7 @@ Użytkownik w emocjach potrzebuje:
 - braku moralizowania;
 - braku powtarzania tego samego.
 
-## 8.6. Perspektywa technologiczna
+### 4.8.5. Perspektywa technologiczna
 
 System może wykrywać emocje przez:
 
@@ -1224,7 +1052,7 @@ System może wykrywać emocje przez:
 
 Uwaga: klasyfikacja emocji jest niepewna. Nie należy traktować jej jako diagnozy. Lepiej mówić o "sygnałach frustracji" niż "użytkownik jest zły".
 
-## 8.7. Dobre praktyki
+### 4.8.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -1236,7 +1064,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Nie proś użytkownika o powtarzanie danych, jeśli masz je w stanie.
 - Projektuj komunikaty neutralne i rzeczowe.
 
-## 8.8. Typowe błędy
+### 4.8.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -1248,7 +1076,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Zbyt marketingowy ton w reklamacji | Wrażenie lekceważenia |
 | Automatyzacja sytuacji kryzysowej | Ryzyko etyczne i prawne |
 
-## 8.9. Checklista emocji
+### 4.8.8. Checklista emocji
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -1260,37 +1088,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy sytuacje krytyczne są eskalowane natychmiast?
 - Czy konsultant dostaje informacje o trudnościach w rozmowie?
 
-## 8.10. Mini case study
+### 4.8.9. Mini case study
 
 Voicebot reklamacyjny po nierozpoznaniu dokumentu prosił trzy razy o numer sprawy. Użytkownicy mówili: "już podawałem". Dodano pamięć ostatnich prób, komunikat: "Mam podany numer, ale nie mogę go znaleźć w systemie. Połączę z konsultantem i przekażę ten numer." Bot przestał zmuszać użytkownika do powtarzania, a konsultant dostawał kontekst.
 
-## 8.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz komunikat dla użytkownika, który mówi "już to podawałem".
-2. Zaprojektuj reakcję na agresywną prośbę o konsultanta.
-3. Wskaż trzy sygnały frustracji w logach.
-4. Zaprojektuj eskalację dla sytuacji medycznie pilnej.
-
-## 8.12. Podsumowanie
+### 4.8.10. Podsumowanie
 
 Emocje nie są dodatkiem do conversation design. Są częścią realnego środowiska rozmowy. Dobry voicebot nie udaje terapeuty ani konsultanta, ale potrafi skrócić drogę, dać kontrolę i oddać rozmowę człowiekowi, gdy to najlepsze dla użytkownika.
 
 ---
 
-# Rozdział 9. Dokumentacja scenariusza dialogowego
+## 4.9. Dokumentacja scenariusza dialogowego
 
-## 9.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- dokumentować scenariusz w sposób użyteczny dla zespołu;
-- łączyć dialog z intencjami, slotami, integracjami, metrykami i QA;
-- przygotować materiał, który nie jest tylko "skryptem tekstów";
-- tworzyć dokumentację gotową do wdrożenia i utrzymania.
-
-## 9.2. Kluczowe pojęcia
+### 4.9.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -1304,7 +1114,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Acceptance criteria | Kryteria akceptacji zachowania |
 | Conversation spec | Pełna specyfikacja rozmowy |
 
-## 9.3. Wyjaśnienie eksperckie
+### 4.9.2. Wyjaśnienie eksperckie
 
 Scenariusz dialogowy powinien być pomostem między:
 
@@ -1337,7 +1147,7 @@ Minimalna struktura scenariusza:
 | Metrics | Jak mierzymy sukces |
 | QA cases | Ścieżki testowe |
 
-## 9.4. Perspektywa biznesowa
+### 4.9.3. Perspektywa biznesowa
 
 Dobra dokumentacja:
 
@@ -1350,7 +1160,7 @@ Dobra dokumentacja:
 
 Zła dokumentacja to zwykle lista tekstów bota bez stanów, integracji i warunków. Taki dokument wygląda dobrze na warsztacie, ale nie wystarcza do wdrożenia.
 
-## 9.5. Perspektywa użytkownika
+### 4.9.4. Perspektywa użytkownika
 
 Dokumentacja powinna zawierać nie tylko happy path, ale też naturalne zachowania użytkownika:
 
@@ -1365,7 +1175,7 @@ Dokumentacja powinna zawierać nie tylko happy path, ale też naturalne zachowan
 
 Jeśli scenariusz opisuje tylko idealnego użytkownika, nie opisuje prawdziwej rozmowy.
 
-## 9.6. Perspektywa technologiczna
+### 4.9.5. Perspektywa technologiczna
 
 Technologia potrzebuje:
 
@@ -1381,7 +1191,7 @@ Technologia potrzebuje:
 - reguł handoff;
 - wymagań logowania.
 
-## 9.7. Dobre praktyki
+### 4.9.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -1393,7 +1203,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Utrzymuj wersje dokumentu.
 - Powiąż dokumentację z testami QA.
 
-## 9.8. Typowe błędy
+### 4.9.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -1406,7 +1216,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak wersjonowania | Nie wiadomo, co jest na produkcji |
 | Brak metryk per krok | Trudno optymalizować |
 
-## 9.9. Szablon scenariusza dialogowego
+### 4.9.8. Szablon scenariusza dialogowego
 
 ```text
 Nazwa flow:
@@ -1456,26 +1266,17 @@ Sciezki testowe:
 - edge cases
 ```
 
-## 9.10. Mini case study
+### 4.9.9. Mini case study
 
 Zespół projektował voicebota do zmiany terminu dostawy. Pierwszy dokument zawierał tylko dialog: bot pyta o numer zamówienia, potem o datę. Developerzy nie wiedzieli, co robić, gdy zamówienie jest już wysłane, a QA nie miało testów dla korekty daty. Druga wersja dokumentacji dodała statusy zamówienia, walidacje dat, błędy API, politykę korekty i handoff. Wdrożenie przyspieszyło, bo scenariusz stał się specyfikacją, nie tekstem.
 
-## 9.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Uzupełnij szablon scenariusza dla statusu zamówienia.
-2. Dodaj trzy unhappy paths.
-3. Dodaj warunki handoff.
-4. Dodaj metryki per krok.
-
-## 9.12. Podsumowanie
+### 4.9.10. Podsumowanie
 
 Scenariusz dialogowy jest dokumentem produktowo-technicznym. Dobry scenariusz opisuje rozmowę, dane, decyzje, integracje, błędy i metryki. To narzędzie wdrożenia i utrzymania, nie tylko ładny zapis rozmowy.
 
 ---
 
-# 10. Zbiorcza checklista po Części III
+## 4.10. Zbiorcza checklista po Części III
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
@@ -1495,16 +1296,3 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy dokumentacja nadaje się dla biznesu, dev, QA i contact center?
 
 ---
-
-# 11. Co będzie w kolejnej części
-
-Kolejna część powinna opracować **Część IV. Analiza biznesowa i wybór use case'ów**:
-
-1. Jak analizować procesy contact center.
-2. Jak rozpoznać dobry use case dla voicebota.
-3. Jak ocenić automatyzowalność procesu.
-4. Jak mierzyć wartość biznesowa i ROI.
-5. Kiedy nie wdrażać voicebota.
-6. Jak przygotować brief, wymagania i business case.
-7. Pełna matryca oceny use case'u.
-

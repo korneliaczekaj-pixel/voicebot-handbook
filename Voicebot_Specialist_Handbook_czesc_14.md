@@ -1,24 +1,10 @@
-# Voicebot Specialist Handbook
+# Rozdział 14. Etyka, dostępność i odpowiedzialne projektowanie
 
-## Część 14: Etyka, dostępność i odpowiedzialne projektowanie
-
-Wersja robocza: 2026-07-29
+Odpowiedzialny voicebot automatyzuje kontakt bez ukrywania swojej tożsamości, wywierania niedozwolonej presji ani przerzucania kosztu błędów na użytkownika. Powinien być przewidywalny, dostępny dla osób o różnych potrzebach, odporny na nieporozumienia i gotowy przekazać rozmowę człowiekowi, gdy automatyzacja nie pozwala bezpiecznie lub uczciwie załatwić sprawy.
 
 ---
 
-# Część XIII. Etyka, dostępność i odpowiedzialne projektowanie
-
-## Cel części
-
-Skuteczny voicebot nie powinien tylko automatyzować kontaktu. Powinien robić to uczciwie, dostępnie i bez przerzucania kosztu automatyzacji na użytkownika. Etyka w voicebotach oznacza projektowanie systemu, który jest transparentny, przewidywalny, nienachalny, odporny na błędy i gotowy oddać rozmowę człowiekowi, gdy automatyzacja nie jest najlepszą drogą.
-
-## Rozdział 1. Transparentność i zaufanie
-
-### Cele rozdziału
-
-- Zrozumieć, dlaczego voicebot powinien jasno informować, że jest systemem automatycznym.
-- Projektować komunikaty budujące zaufanie bez udawania człowieka.
-- Rozpoznawać zachowania niszczące zaufanie.
+## 14.1. Transparentność i zaufanie
 
 ### Kluczowe pojęcia
 
@@ -76,7 +62,7 @@ Użytkownik chce wiedzieć:
 - Czy prośba o konsultanta jest respektowana?
 - Czy bot nie udaje empatii?
 
-## Rozdział 2. Projektowanie bez manipulacji
+## 14.2. Projektowanie bez manipulacji
 
 ### Wyjaśnienie eksperckie
 
@@ -110,7 +96,7 @@ Lepiej:
 
 "Mogę sprawdzić dostępną ofertę. Czy chce pan, żebym to zrobił?"
 
-## Rozdział 3. Dostępność i inkluzywność
+## 14.3. Dostępność i inkluzywność
 
 ### Dlaczego dostępność w głosie jest trudniejsza niż wygląda
 
@@ -185,7 +171,7 @@ Ten wzorzec jest dłuższy na papierze, ale w rozmowie bywa łatwiejszy, bo prow
 - Czy bot toleruje wolniejszą mowę i pauzy?
 - Czy testowano osoby starsze lub o różnych sposobach mówienia?
 
-## Rozdział 4. Bias, język prosty i inkluzywność
+## 14.4. Bias, język prosty i inkluzywność
 
 ### Wyjaśnienie eksperckie
 
@@ -200,7 +186,7 @@ Bias w voicebotach może pojawić się w ASR, NLU, LLM, danych treningowych i pr
 - Monitoruj no-match per segment, jeśli zgodne z prywatnością.
 - Dla grup szczególnie narażonych dawaj łatwiejszy handoff.
 
-## Rozdział 5. Sytuacje kryzysowe i natychmiastowy handoff
+## 14.5. Sytuacje kryzysowe i natychmiastowy handoff
 
 ### Kiedy bot powinien natychmiast przekazać rozmowę człowiekowi
 
@@ -226,9 +212,9 @@ Bias w voicebotach może pojawić się w ASR, NLU, LLM, danych treningowych i pr
 - Czy bot nie próbuje diagnozować lub negocjować poza zakresem?
 - Czy istnieje procedura awaryjna dla branży?
 
-## Mini case studies
+## 14.6. Mini case studies
 
-### 1. Osoba starsza nie rozumie pytania
+### Osoba starsza nie rozumie pytania
 
 Błąd: bot powtarza identyczny prompt.  
 Poprawa: bot upraszcza pytanie i daje opcję konsultanta.  
@@ -238,7 +224,7 @@ Bot: "Proszę podać numer sprawy."
 Użytkownik: "Nie wiem, gdzie to jest."  
 Bot: "Rozumiem. Numer jest w SMS-ie od nas. Mogę poczekać albo połączyć z konsultantem."
 
-### 2. Użytkownik agresywny
+### Użytkownik agresywny
 
 Błąd: bot kontynuuje flow.  
 Poprawa: skrócenie i eskalacja.  
@@ -247,7 +233,7 @@ Dialog:
 Użytkownik: "Daj mi człowieka, mam dość tego bota."  
 Bot: "Jasne. Połączę z konsultantem i przekażę dotychczasowe informacje."
 
-### 3. Sprzedaż bez presji
+### Sprzedaż bez presji
 
 Błąd: bot ignoruje "nie".  
 Poprawa: akceptuje odmowę.  
@@ -257,7 +243,7 @@ Bot: "Mogę sprawdzić ofertę."
 Użytkownik: "Nie."  
 Bot: "Dobrze, nie będę jej sprawdzać. W czym jeszcze mogę pomóc?"
 
-## Zbiorcza checklista po Części XIII
+## 14.7. Zbiorcza checklista po Części XIII
 
 - Czy bot jest transparentny?
 - Czy nie udaje człowieka?
@@ -270,8 +256,3 @@ Bot: "Dobrze, nie będę jej sprawdzać. W czym jeszcze mogę pomóc?"
 - Czy sytuacje kryzysowe mają natychmiastowy handoff?
 
 ---
-
-# Co będzie w kolejnej części
-
-Kolejna część: **Praca Voicebot Specialist**.
-

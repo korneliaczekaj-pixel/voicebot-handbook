@@ -1,20 +1,10 @@
-# Voicebot Specialist Handbook
+# Rozdział 17. Case studies
 
-## Część 17: Case studies
-
-Wersja robocza: 2026-07-29
+Projekt voicebota zmienia się wraz z procesem, branżą i konsekwencjami błędu. Status przesyłki wymaga przede wszystkim aktualnych danych i krótkiej odpowiedzi, zastrzeżenie karty wymaga szybkiej autoryzacji i rygorystycznej obsługi ryzyka, a rejestracja medyczna musi oddzielać zarządzanie terminem od oceny stanu zdrowia. Dlatego każdy przypadek należy analizować przez cel użytkownika, wymagane integracje, poziom ryzyka, warunki przekazania rozmowy oraz miarę rzeczywistego wyniku.
 
 ---
 
-# Część XVI. Case studies
-
-## Cel części
-
-Case studies pokazują, jak te same zasady projektowania voicebotów zmieniają się w zależności od branży, emocji użytkownika, ryzyka prawnego, integracji i metryk sukcesu.
-
----
-
-## 1. E-commerce: status zamówienia i zmiana adresu
+## 17.1. E-commerce: status zamówienia i zmiana adresu
 
 | Element | Opis |
 |---|---|
@@ -34,7 +24,7 @@ Bot: "Mam Kwiatowa 8. Proszę podać jeszcze miasto."
 
 Plan optymalizacji: analiza no-match dla fraz o kurierze, monitorowanie repeat contact po statusie opóźnionym.
 
-## 2. Bankowość: zastrzeżenie karty
+## 17.2. Bankowość: zastrzeżenie karty
 
 Problem: klient zgubił kartę lub podejrzewa kradzież.  
 Voicebot: szybka klasyfikacja, weryfikacja, zastrzeżenie przez bezpieczne narzędzie lub natychmiastowy handoff.  
@@ -47,7 +37,7 @@ Bot: "Czy chce pan zastrzec kartę, czy sprawdzić status nowej karty?"
 Użytkownik: "Zgubiłem kartę."  
 Bot: "Rozumiem. Dla bezpieczeństwa przejdę do zastrzeżenia. Najpierw potwierdzę tożsamość."
 
-## 3. Ubezpieczenia: status szkody
+## 17.3. Ubezpieczenia: status szkody
 
 Problem: klienci pytają o status i brakujące dokumenty.  
 Voicebot: sprawdza status szkody, listę braków, wysyła link do dosłania dokumentów.  
@@ -59,7 +49,7 @@ Dialog:
 Użytkownik: "Czy dostanę odszkodowanie?"  
 Bot: "Nie mogę ocenić decyzji. Mogę sprawdzić aktualny status szkody albo połączyć z konsultantem."
 
-## 4. Medycyna: rezerwacja wizyty
+## 17.4. Medycyna: rezerwacja wizyty
 
 Problem: rejestracja obciążona potwierdzaniem i przekładaniem wizyt.  
 Voicebot: umawia, przekłada, odwołuje wizyty; nie diagnozuje.  
@@ -70,35 +60,35 @@ Dialog:
 
 Bot: "Mogę pomóc umówić lub przełożyć wizytę. Jeśli to nagła sytuacja zdrowotna, proszę skorzystać z pilnej pomocy medycznej."
 
-## 5. Telekomunikacja: awaria internetu
+## 17.5. Telekomunikacja: awaria internetu
 
 Problem: duży wolumen awarii i pytań o faktury.  
 Voicebot: klasyfikuje problem, sprawdza awarię lokalną, wykonuje prostą diagnostykę, tworzy ticket.  
 Ryzyka: frustracja, wiele wyjątków, zły endpointing przy opisach.  
 Metryki: ticket completeness, outage detection, handoff after frustration.
 
-## 6. Energetyka: odczyt licznika i status zgłoszenia
+## 17.6. Energetyka: odczyt licznika i status zgłoszenia
 
 Problem: powtarzalne kontakty o odczyty i status awarii.  
 Voicebot: przyjmuje odczyt, sprawdza status, wysyła potwierdzenie.  
 Ryzyka: błędne cyfry, numery PPE, reklamacje rachunku.  
 Metryki: digit accuracy, reading accepted, repeat contact.
 
-## 7. Administracja publiczna: status sprawy
+## 17.7. Administracja publiczna: status sprawy
 
 Problem: obywatele pytają o status wniosku i wymagane dokumenty.  
 Voicebot: informuje o statusie i wymaganiach, nie wydaje decyzji administracyjnej.  
 Ryzyka: dostępność, język urzędowy, wykluczenie cyfrowe.  
 Metryki: status completion, accessibility feedback, handoff.
 
-## 8. Rekrutacja: pre-screening kandydatów
+## 17.8. Rekrutacja: pre-screening kandydatów
 
 Problem: duży wolumen kandydatów i umawianie rozmów.  
 Voicebot: zbiera dostępność, podstawowe wymagania, umawia termin.  
 Ryzyka: bias, wrażenie automatycznego odrzucenia, dane osobowe.  
 Metryki: scheduling success, candidate drop-off, fairness review.
 
-## 9. Windykacja: informacja i deklaracja
+## 17.9. Windykacja: informacja i deklaracja
 
 Problem: przypomnienia o płatności i deklaracje.  
 Voicebot: neutralnie informuje, zbiera deklaracje, eskaluje spory.  
@@ -109,14 +99,14 @@ Dialog:
 
 Bot: "Mogę podać dostępne opcje płatności albo połączyć z konsultantem, jeśli kwestionuje pan należność."
 
-## 10. Sprzedaż B2B: kwalifikacja leadów
+## 17.10. Sprzedaż B2B: kwalifikacja leadów
 
 Problem: wiele zapytań o różnej jakości.  
 Voicebot: kwalifikuje potrzebę, wielkość firmy, termin, umawia rozmowę.  
 Ryzyka: utrata leadów premium, zbyt agresywny ton.  
 Metryki: qualified leads, meeting booked, sales acceptance rate.
 
-## 11. Helpdesk IT: ticket i instrukcje
+## 17.11. Helpdesk IT: ticket i instrukcje
 
 Problem: powtarzalne problemy z hasłem, VPN, poczta.  
 Voicebot: klasyfikuje, podaje krótkie instrukcje, tworzy ticket, streszcza.  
@@ -125,7 +115,7 @@ Metryki: ticket completeness, password reset success, escalation quality.
 
 ---
 
-# Porównanie case studies
+## 17.12. Porównanie case studies
 
 | Branża | Najlepszy start | Największe ryzyko | Handoff |
 |---|---|---|---|
@@ -143,7 +133,7 @@ Metryki: ticket completeness, password reset success, escalation quality.
 
 ---
 
-# Zbiorcza checklista case study
+## 17.13. Zbiorcza checklista case study
 
 - Czy problem biznesowy jest konkretny?
 - Czy kontekst użytkownika jest opisany?
@@ -155,8 +145,3 @@ Metryki: ticket completeness, password reset success, escalation quality.
 - Czy plan optymalizacji istnieje?
 
 ---
-
-# Co będzie w kolejnej części
-
-Kolejna część: **Egzamin i certyfikacja Voicebot Specialist**.
-

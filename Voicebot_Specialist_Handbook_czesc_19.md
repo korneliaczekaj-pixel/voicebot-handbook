@@ -1,24 +1,14 @@
-# Voicebot Specialist Handbook
+# Rozdział 19. Psychologia rozmowy z voicebotem
 
-## Część 19: Psychologia rozmowy z voicebotem
-
-Wersja robocza: 2026-07-29
+Rozmowa głosowa jest doświadczeniem sekwencyjnym, społecznym i często emocjonalnym. Użytkownik nie tylko przetwarza treść komunikatów voicebota. Na podstawie tempa, pauz, intonacji, kolejności pytań i reakcji na błędy ocenia kompetencję systemu, własną kontrolę nad rozmową oraz ryzyko dalszego działania. Te oceny wpływają na zaufanie, gotowość do podania danych, cierpliwość i decyzję o kontynuowaniu automatycznej obsługi.
 
 ---
 
-# Część XVIII. Psychologia rozmowy z voicebotem
-
-## Cel części
-
-Voicebot działa w kanale, który jest silnie emocjonalny, sekwencyjny i społeczny. Głos niesie tempo, pauzy, ton i poczucie intencji. Użytkownik nie tylko przetwarza informacje; buduje model mentalny systemu, ocenia zaufanie, kontrolę, kompetencje i ryzyko. Ta część pokazuje psychologiczną warstwę rozmowy z AI.
-
----
-
-# 1. Psychologia rozmowy głosowej
+## 19.1. Psychologia rozmowy głosowej
 
 Głos jest bardziej bezpośredni niż tekst. Tempo, pauza, intonacja i dobór słów są interpretowane jako sygnały kompetencji, uwagi, uprzejmości lub ignorowania. Voicebot, który odpowiada zbyt wolno, może brzmieć jak uszkodzony. Voicebot, który odpowiada zbyt szybko po złożonej wypowiedzi, może brzmieć jak niesłuchający.
 
-## Zasady
+### 19.1.1. Zasady
 
 - Projektuj tempo do sytuacji.
 - Nie twórz długich monologów.
@@ -28,7 +18,7 @@ Głos jest bardziej bezpośredni niż tekst. Tempo, pauza, intonacja i dobór s�
 
 ---
 
-# 2. Modele mentalne użytkownika
+## 19.2. Modele mentalne użytkownika
 
 Użytkownik może myśleć, że rozmawia z:
 
@@ -40,7 +30,7 @@ Użytkownik może myśleć, że rozmawia z:
 
 Mental model mismatch powstaje, gdy system obiecuje więcej, niż robi. Jeśli bot brzmi jak człowiek, ale nie rozumie korekty, frustracja rośnie.
 
-## Dobre komunikowanie możliwości
+### 19.2.1. Dobre komunikowanie możliwości
 
 "Pomoge sprawdzić status, zmienić termin albo połączyć z konsultantem."
 
@@ -48,7 +38,7 @@ To zmniejsza niepewność i ustawia granice.
 
 ---
 
-# 3. Zaufanie, kontrola i poczucie bezpieczeństwa
+## 19.3. Zaufanie, kontrola i poczucie bezpieczeństwa
 
 Zaufanie do voicebota ma dwa wymiary. Pierwszy to kompetencja: czy system rozumie sprawę, odpowiada trafnie i prowadzi do wyniku. Drugi to integralność: czy system jest uczciwy, przewidywalny i nie ukrywa ograniczeń. Naturalny głos może poprawić pierwsze wrażenie, ale nie zastąpi kompetencji. Jeśli bot brzmi bardzo ludzko, a potem nie rozumie prostej korekty, spadek zaufania jest silniejszy niż przy skromniejszym, ale jasnym systemie.
 
@@ -82,7 +72,7 @@ Taki komunikat nie osłabia bota. Przeciwnie, ustawia uczciwe granice i zmniejsz
 
 ---
 
-# 4. Obciążenie poznawcze
+## 19.4. Obciążenie poznawcze
 
 W głosie użytkownik nie widzi listy opcji. Musi ją utrzymać w pamięci. Dlatego:
 
@@ -100,7 +90,7 @@ Lepiej: "W czym mogę pomóc przy zamówieniu?"
 
 ---
 
-# 5. Emocje użytkownika
+## 19.5. Emocje użytkownika
 
 Typowe emocje:
 
@@ -119,11 +109,11 @@ Lepiej: "Skrócę rozmowę. Połączę z konsultantem i przekażę, co już pan 
 
 ---
 
-# 6. Psychologia błędu i naprawy rozmowy
+## 19.6. Psychologia błędu i naprawy rozmowy
 
 Najbardziej frustrujące nie jest pojedyncze niezrozumienie, ale brak postępu. Powtarzanie tego samego pytania zwiększa poczucie porażki użytkownika.
 
-## Zasady repair
+### 19.6.1. Zasady repair
 
 - Nie obwiniaj.
 - Powiedz, czego brakuje.
@@ -137,7 +127,7 @@ Przykład:
 
 ---
 
-# 7. Perswazja, decyzje i wpływ społeczny
+## 19.7. Perswazja, decyzje i wpływ społeczny
 
 Voicebot sprzedażowy, windykacyjny lub ankietowy może wywierać presję. Etyczna perswazja:
 
@@ -158,20 +148,20 @@ Ryzykowne efekty:
 
 ---
 
-# 8. Antropomorfizacja voicebota
+## 19.8. Antropomorfizacja voicebota
 
 Ludzie przypisują głosom intencje i emocje. Antropomorfizacja może pomagać w płynnej interakcji, ale szkodzi, gdy bot udaje człowieka, obiecuje zrozumienie lub tworzy fałszywą empatię.
 
 Najbezpieczniejsza zasada brzmi: bot może mieć styl, ale nie powinien mieć fikcyjnego życia. Może być spokojny, uprzejmy i konsekwentny. Nie musi mówić, że "cieszy się", "martwi" albo "doskonale rozumie", jeżeli za tym nie idzie realna zdolność pomocy. W obsłudze klienta nadmierna ludzkość często podnosi oczekiwania wobec systemu. Użytkownik zaczyna zakładać, że bot rozumie kontekst tak jak konsultant, a potem szybciej się irytuje.
 
-## Dobre zasady
+### 19.8.1. Dobre zasady
 
 - Persona jako rola, nie fikcyjny człowiek.
 - Transparentność.
 - Brak udawania uczuć.
 - Kompetencja zamiast "osobowości".
 
-## Backchannel i sygnały słuchania
+### 19.8.2. Backchannel i sygnały słuchania
 
 Backchannel to krótki sygnał, że rozmówca słucha, np. "mhm", "rozumiem", "dobrze". W voicebotach LLM backchannel może zwiększać naturalność rozmowy, ale trzeba używać go ostrożnie. Jeśli bot mówi "rozumiem" po każdej wypowiedzi, zaczyna brzmieć mechanicznie. Jeśli używa backchannelu w chwili, gdy użytkownik nadal mówi, może wejść w słowo.
 
@@ -191,7 +181,7 @@ Ryzykowne użycie:
 
 ---
 
-# 9. Psychologia języka
+## 19.9. Psychologia języka
 
 Dobry język voicebota:
 
@@ -208,30 +198,30 @@ Lepiej: "Nie mam pewności, czy dobrze usłyszałem. Proszę podać numer jeszcz
 
 ---
 
-# 10. Różnice indywidualne użytkowników
+## 19.10. Różnice indywidualne użytkowników
 
-## Osoby starsze
+### 19.10.1. Osoby starsze
 
 - wolniejsze tempo;
 - więcej czasu na odpowiedź;
 - proste słowa;
 - opcja konsultanta.
 
-## Osoby neuroatypowe
+### 19.10.2. Osoby neuroatypowe
 
 - przewidywalna struktura;
 - brak presji;
 - jednoznaczne pytania;
 - brak ironii.
 
-## Osoby z wadami mowy/słuchu
+### 19.10.3. Osoby z wadami mowy/słuchu
 
 - DTMF;
 - SMS;
 - powtórzenie;
 - handoff.
 
-## Osoby nieufne wobec automatyzacji
+### 19.10.4. Osoby nieufne wobec automatyzacji
 
 - transparentność;
 - szybki zakres;
@@ -239,20 +229,20 @@ Lepiej: "Nie mam pewności, czy dobrze usłyszałem. Proszę podać numer jeszcz
 
 ---
 
-# 11. Psychologia zaufania do AI
+## 19.11. Psychologia zaufania do AI
 
 Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potrafi. Voicebot powinien unikać dwóch skrajności:
 
 - nadmiernej pewności;
 - zbyt częstego bezradnego fallbacku.
 
-## Jak mówić "nie wiem"
+### 19.11.1. Jak mówić "nie wiem"
 
 "Nie mam wystarczających danych, żeby to ocenić. Mogę sprawdzić status sprawy albo połączyć z konsultantem."
 
 ---
 
-# 12. Psychologiczne metryki jakości rozmowy
+## 19.12. Psychologiczne metryki jakości rozmowy
 
 | Metryka | Znaczenie |
 |---|---|
@@ -267,9 +257,9 @@ Calibrated trust oznacza, że użytkownik ufa botowi w tym, co bot realnie potra
 
 ---
 
-# 13. Praktyczne narzędzia psychologiczne
+## 19.13. Praktyczne narzędzia psychologiczne
 
-## Checklista redukcji frustracji
+### 19.13.1. Checklista redukcji frustracji
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -280,7 +270,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy daje człowieka?
 - Czy nie obwinia użytkownika?
 
-## Matryca emocji i reakcji
+### 19.13.2. Matryca emocji i reakcji
 
 | Emocja | Sygnał | Reakcja bota |
 |---|---|---|
@@ -290,7 +280,7 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 | Złość | agresja | Skróć i eskaluj |
 | Niepewność | cisza, "nie wiem" | Podaj przykład lub alternatywę |
 
-## Zdania, których bot powinien unikać
+### 19.13.3. Zdania, których bot powinien unikać
 
 - "Doskonale rozumiem, co pan czuje."
 - "To bardzo proste."
@@ -301,9 +291,9 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 
 ---
 
-# 14. Mini case studies psychologiczne
+## 19.14. Mini case studies psychologiczne
 
-## Użytkownik nie ufa botowi
+### 19.14.1. Użytkownik nie ufa botowi
 
 Błąd: bot udaje człowieka.  
 Poprawa: transparentność i zakres.  
@@ -311,28 +301,28 @@ Dialog:
 
 Bot: "Jestem automatycznym asystentem. Mogę sprawdzić status albo połączyć z konsultantem."
 
-## Użytkownik zdenerwowany reklamacją
+### 19.14.2. Użytkownik zdenerwowany reklamacją
 
 Błąd: bot pyta po raz trzeci o numer.  
 Poprawa: wykorzystuje dane i eskaluje.
 
 Bot: "Mam już numer, ale system nie znajduje sprawy. Połączę z konsultantem i przekażę ten numer."
 
-## Użytkownik starszy
+### 19.14.3. Użytkownik starszy
 
 Błąd: szybkie listy opcji.  
 Poprawa: wolniejsze tempo, jedno pytanie.
 
 Bot: "W czym pomóc: wizyta czy recepta?"
 
-## Użytkownik wymusza człowieka
+### 19.14.4. Użytkownik wymusza człowieka
 
 Błąd: bot próbuje zatrzymać.  
 Poprawa: handoff.
 
 Bot: "Jasne. Połączę z konsultantem."
 
-## Użytkownik z problemem wrażliwym
+### 19.14.5. Użytkownik z problemem wrażliwym
 
 Błąd: bot próbuje doradzać.  
 Poprawa: granica i bezpieczny kanał.
@@ -341,7 +331,7 @@ Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osobą, która 
 
 ---
 
-# Zbiorcza checklista po Części XVIII
+## 19.15. Zbiorcza checklista po Części XVIII
 
 - Czy bot buduje calibrated trust?
 - Czy zmniejsza cognitive load?
@@ -354,8 +344,3 @@ Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osobą, która 
 - Czy sytuacje wrażliwe są eskalowane?
 
 ---
-
-# Koniec części merytorycznych
-
-Następny plik: **bibliografia i mapa źródeł**.
-

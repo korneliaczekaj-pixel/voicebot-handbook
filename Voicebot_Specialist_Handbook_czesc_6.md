@@ -1,57 +1,8 @@
-# Voicebot Specialist Handbook
+# Rozdział 6. Projektowanie dialogów i scenariuszy
 
-## Część 6: Projektowanie dialogów i scenariuszy
+## 6.1. Intencje, encje, sloty i konteksty
 
-Wersja robocza: 2026-07-29  
-Kontynuacja plików:
-
-- `Voicebot_Specialist_Handbook_czesc_1.md`
-- `Voicebot_Specialist_Handbook_czesc_2.md`
-- `Voicebot_Specialist_Handbook_czesc_3.md`
-- `Voicebot_Specialist_Handbook_czesc_4.md`
-- `Voicebot_Specialist_Handbook_czesc_5.md`
-
----
-
-# Część V. Projektowanie dialogów i scenariuszy
-
-## Cel całej części
-
-Ta część pokazuje, jak zamienić use case i wymagania biznesowe w konkretny projekt rozmowy. W praktyce voicebot nie składa się tylko z intencji i ładnych promptów. Składa się z kontrolowanej struktury dialogu: stanów, slotów, kontekstów, walidacji, potwierdzeń, napraw, eskalacji, przerwań i integracji.
-
-Po tej części czytelnik powinien umieć:
-
-1. Projektować intencje, encje, sloty i konteksty.
-2. Budować flow rozmowy dla happy path i unhappy paths.
-3. Projektować fallback path, escalation path i recovery.
-4. Dobierać strategie potwierdzeń do ryzyka.
-5. Obsługiwać korekty, zmianę tematu, multi-intent i przerwania.
-6. Tworzyć dialogi informacyjne, transakcyjne, sprzedażowe, windykacyjne, medyczne/rezerwacyjne i ankietowe.
-7. Analizować dobre i złe dialogi.
-8. Dokumentować scenariusz tak, aby mógł być wdrożony, testowany i optymalizowany.
-
-Źródła wspierające część:
-
-- W3C VoiceXML 2.0: formularze, pola, gramatyki, menu, no-input, no-match, event handling, mixed initiative.
-- Google Dialogflow CX i Amazon Lex: intencje, sloty/parametry, speech settings, interruption handling.
-- LiveKit i OpenAI Realtime: realtime turns, interruption handling, cancellation, turn detection.
-- Źródła naukowe o turn-taking i przerwaniach: uzasadnienie projektowania korekt, przerwań, pauz i recovery.
-- Uzupełnienie eksperckie: wzorce scenariuszy, strategie repair, matryce potwierdzeń, praktyczne dialogi branżowe.
-
----
-
-# Rozdział 1. Intencje, encje, sloty i konteksty
-
-## 1.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować intencje jako cele użytkownika, nie tematy firmowe;
-- definiować encje i sloty potrzebne do wykonania procesu;
-- rozumieć role kontekstu w interpretacji wypowiedzi;
-- unikać modeli intencji, które są trudne do trenowania i utrzymania.
-
-## 1.2. Kluczowe pojęcia
+### 6.1.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -64,7 +15,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Utterance | Przykładowa wypowiedź użytkownika | "Kilka sztucznych przykładów wystarczy" |
 | Meta-intencja | Intencja sterująca rozmową, np. "konsultant", "powtórz", "anuluj" | "To nie jest prawdziwy use case, więc nie trzeba jej modelować" |
 
-## 1.3. Wyjaśnienie eksperckie
+### 6.1.2. Wyjaśnienie eksperckie
 
 Intencja powinna odpowiadać temu, co użytkownik chce osiągnąć. Nie powinna być kopią struktury organizacyjnej ani raportu contact center.
 
@@ -104,7 +55,7 @@ slots:
 
 Kontekst decyduje, co znaczy krótka wypowiedź. "Tak" po pytaniu o anulowanie ma inny ciężar niż "tak" po pytaniu o wysłanie SMS-a. "Nie" może oznaczać odmowę, korektę, sprzeciw, frustrację albo prośbę o cofnięcie.
 
-## 1.4. Perspektywa biznesowa
+### 6.1.3. Perspektywa biznesowa
 
 Model intencji jest operacyjną mapą procesów. Jeśli intencje są zbyt szerokie, raportowanie nie powie, czego chcą klienci. Jeśli są zbyt wąskie, model będzie się mylił, a utrzymanie stanie się kosztowne.
 
@@ -116,7 +67,7 @@ Dobra struktura intencji pozwala:
 - łączyć dialog z procesem;
 - rozpoznawać luki produktowe i operacyjne.
 
-## 1.5. Perspektywa użytkownika
+### 6.1.4. Perspektywa użytkownika
 
 Użytkownik nie zna nazw intencji. Mówi potocznie:
 
@@ -131,7 +82,7 @@ Bot powinien rozumieć cel mimo różnych sformułowań, ale nie powinien udawa�
 
 "Czy chce pan sprawdzić status przesyłki, czy zmienić adres dostawy?"
 
-## 1.6. Perspektywa technologiczna
+### 6.1.5. Perspektywa technologiczna
 
 Projekt intencji powinien zawierać:
 
@@ -151,7 +102,7 @@ Projekt intencji powinien zawierać:
 - handoff conditions;
 - metryki.
 
-## 1.7. Dobre praktyki
+### 6.1.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -163,7 +114,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Zbieraj realne wypowiedzi z nagrań i transkrypcji.
 - Utrzymuj test set niezależny od training set.
 
-## 1.8. Typowe błędy
+### 6.1.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -176,7 +127,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak intencji konsultanta | Bot walczy z użytkownikiem |
 | Brak negatywnych przykładów | Model łapie wypowiedzi spoza zakresu |
 
-## 1.9. Checklista intencji
+### 6.1.8. Checklista intencji
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -189,37 +140,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy istnieje strategia niskiego confidence?
 - Czy istnieje handoff, jeśli intencja jest poza zakresem?
 
-## 1.10. Mini case study
+### 6.1.9. Mini case study
 
 Telekom miał osobne intencje: `brak_internetu`, `wolny_internet`, `problem_wifi`, `awaria_routera`. W praktyce użytkownicy mówili podobnie: "internet nie działa", "mam problem z netem", "wszystko mi przerywa". Model mylił intencje. Zespół połączył je w `problem_z_internetem`, a typ problemu zbierał jako slot w kolejnym kroku. Rozumienie na starcie wzrosło, a raportowanie nadal było możliwe przez slot `problem_type`.
 
-## 1.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj 12 intencji dla voicebota e-commerce.
-2. Dla jednej intencji wpisz zakres i poza zakresem.
-3. Wypisz 20 realnych fraz użytkownika dla "zmiana adresu".
-4. Zaprojektuj meta-intencje potrzebne w każdym voicebocie.
-
-## 1.12. Podsumowanie
+### 6.1.10. Podsumowanie
 
 Intencje, encje, sloty i konteksty są fundamentem scenariusza. Dobre intencje są blisko celu użytkownika i procesu biznesowego. Złe intencje są listą tematów, która dobrze wygląda w tabeli, ale źle działa w rozmowie.
 
 ---
 
-# Rozdział 2. Flow, happy path, unhappy paths, fallback path i escalation path
+## 6.2. Flow, happy path, unhappy paths, fallback path i escalation path
 
-## 2.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować flow jako strukturę stanów i przejść;
-- rozróżnić happy path, unhappy path, fallback path i escalation path;
-- dokumentować warunki przejść;
-- unikać scenariuszy, które działają tylko dla idealnego użytkownika.
-
-## 2.2. Kluczowe pojęcia
+### 6.2.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -233,7 +166,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Fallback path | Ścieżka po niezrozumieniu, ciszy lub input poza zakresem |
 | Escalation path | Ścieżka przekazania do konsultanta lub innego procesu |
 
-## 2.3. Wyjaśnienie eksperckie
+### 6.2.2. Wyjaśnienie eksperckie
 
 Happy path jest potrzebny, ale nie wystarcza. Realna rozmowa zawiera:
 
@@ -274,7 +207,7 @@ Unhappy paths:
 - integracja nie odpowiada;
 - użytkownik chce konsultanta.
 
-## 2.4. Perspektywa biznesowa
+### 6.2.3. Perspektywa biznesowa
 
 Flow przekłada proces biznesowy na rozmowę. Jeśli proces ma reguły, voicebot musi je znać:
 
@@ -286,7 +219,7 @@ Flow przekłada proces biznesowy na rozmowę. Jeśli proces ma reguły, voicebot
 
 Brak unhappy paths prowadzi do tego, że bot działa w demo, ale nie na produkcji.
 
-## 2.5. Perspektywa użytkownika
+### 6.2.4. Perspektywa użytkownika
 
 Użytkownik nie powinien czuć, że zboczył ze scenariusza. Nawet jeśli nie poda wszystkich danych, bot powinien pomóc:
 
@@ -296,7 +229,7 @@ Zamiast:
 
 "Adres niepoprawny. Proszę podać adres."
 
-## 2.6. Perspektywa technologiczna
+### 6.2.5. Perspektywa technologiczna
 
 Flow powinien być zapisany jako:
 
@@ -312,7 +245,7 @@ Flow powinien być zapisany jako:
 - metryki;
 - test cases.
 
-## 2.7. Dobre praktyki
+### 6.2.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -324,7 +257,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Nie twórz pętli bez limitu.
 - Dokumentuj warunki przejść.
 
-## 2.8. Typowe błędy
+### 6.2.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -337,7 +270,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak flow dla wielu wyników | Bot nie wie, które zamówienie wybrać |
 | Brak escalation path | Automatyzacja blokuje sprawę |
 
-## 2.9. Checklista flow
+### 6.2.8. Checklista flow
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -351,37 +284,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy pętle mają limit?
 - Czy flow ma test cases?
 
-## 2.10. Mini case study
+### 6.2.9. Mini case study
 
 Voicebot rezerwacyjny miał happy path: użytkownik podaje datę, system rezerwuje termin. Na produkcji 30% rozmów dotyczyło terminów niedostępnych. Bot mówił tylko "termin niedostępny" i wracał do pytania. Po poprawie flow dodano proponowanie dwóch najbliższych terminów, możliwość zmiany lokalizacji i handoff dla pilnych spraw. Task completion wzrósł.
 
-## 2.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Narysuj flow dla statusu reklamacji.
-2. Dodaj trzy unhappy paths.
-3. Dodaj fallback path po no-match.
-4. Dodaj escalation path po prośbie o konsultanta.
-
-## 2.12. Podsumowanie
+### 6.2.10. Podsumowanie
 
 Flow to nie liniowy skrypt. To system decyzji. Dobry flow prowadzi użytkownika przez proces, ale umie też obsługiwać wyjątki, błędy i emocje bez utraty kontroli.
 
 ---
 
-# Rozdział 3. Repair strategies i confirmation strategies
+## 6.3. Repair strategies i confirmation strategies
 
-## 3.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować naprawę rozmowy po błędzie;
-- dobierać potwierdzenia do ryzyka;
-- odróżniać explicit i implicit confirmation;
-- zmniejszać frustrację bez utraty kontroli procesu.
-
-## 3.2. Kluczowe pojęcia
+### 6.3.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -395,7 +310,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Correction loop | Krótka ścieżka poprawiania konkretnego slotu |
 | Confidence threshold | Próg pewności wymagany do decyzji |
 
-## 3.3. Wyjaśnienie eksperckie
+### 6.3.2. Wyjaśnienie eksperckie
 
 W rozmowie błędy są normalne. Problemem nie jest to, że bot czasem nie zrozumie. Problemem jest to, że naprawa jest zła.
 
@@ -411,7 +326,7 @@ Bot: "Nie mam pewności, czy numer domu to osiem czy osiemnaście. Który numer 
 
 Naprawa powinna zmniejszać przestrzeń błędu. Zamiast prosić o powtórzenie wszystkiego, bot powinien wskazać, czego brakuje albo co jest niepewne.
 
-## 3.4. Strategie repair
+### 6.3.3. Strategie repair
 
 | Sytuacja | Strategia |
 |---|---|
@@ -424,7 +339,7 @@ Naprawa powinna zmniejszać przestrzeń błędu. Zamiast prosić o powtórzenie 
 | Frustracja | Skróć, uznaj problem, eskaluj |
 | Korekta użytkownika | Popraw konkretny slot i potwierdź |
 
-## 3.5. Strategie potwierdzeń
+### 6.3.4. Strategie potwierdzeń
 
 | Typ danych/akcji | Zalecana strategia |
 |---|---|
@@ -446,7 +361,7 @@ Przykład explicit:
 
 "Mam zmienić adres na Kwiatowa 8 mieszkania 12. Czy się zgadza?"
 
-## 3.6. Perspektywa biznesowa
+### 6.3.5. Perspektywa biznesowa
 
 Potwierdzenia mają koszt czasu, ale brak potwierdzeń ma koszt błędów. Decyzja zależy od:
 
@@ -458,7 +373,7 @@ Potwierdzenia mają koszt czasu, ale brak potwierdzeń ma koszt błędów. Decyz
 - wartości klienta;
 - emocjonalnego kontekstu.
 
-## 3.7. Perspektywa użytkownika
+### 6.3.6. Perspektywa użytkownika
 
 Użytkownik chce, aby bot:
 
@@ -470,7 +385,7 @@ Użytkownik chce, aby bot:
 
 Zbyt wiele potwierdzeń brzmi jak brak kompetencji. Za mało potwierdzeń brzmi jak ryzyko.
 
-## 3.8. Perspektywa technologiczna
+### 6.3.7. Perspektywa technologiczna
 
 Repair i confirmation powinny korzystać z:
 
@@ -485,7 +400,7 @@ Repair i confirmation powinny korzystać z:
 
 W LLM voicebotach potwierdzenia muszą być kontrolowane przez flow, nie pozostawione stylowi modelu. Model może sformułować tekst, ale decyzja "czy potwierdzać" powinna być deterministyczna.
 
-## 3.9. Dobre praktyki
+### 6.3.8. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -498,7 +413,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Daj możliwość "popraw".
 - Projektuj potwierdzenia pod TTS, szczególnie liczby i adresy.
 
-## 3.10. Typowe błędy
+### 6.3.9. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -511,7 +426,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak walidacji slotu | Bot potwierdza złe dane |
 | LLM improwizuje potwierdzenia | Brak audytu i niespójność |
 
-## 3.11. Checklista repair i confirmation
+### 6.3.10. Checklista repair i confirmation
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -524,37 +439,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy po wielu błędach jest handoff?
 - Czy potwierdzenia są logowane?
 
-## 3.12. Mini case study
+### 6.3.11. Mini case study
 
 Voicebot przyjmujący reklamację pytał o numer faktury. Gdy ASR nie rozpoznawał jednej cyfry, bot prosił o cały numer od nowa. Użytkownicy się irytowali. Po poprawie bot powtarzał numer grupami: "Mam FV 247, potem nie mam pewności, czy 8 czy 9. Proszę powtórzyć ostatnią cyfrę." Czas zbierania danych spadł.
 
-## 3.13. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj repair dla niepewnego adresu.
-2. Wybierz strategie potwierdzenia dla pięciu typów danych.
-3. Napisz komunikat po drugiej nieudanej próbie.
-4. Zaprojektuj korektę jednego slotu bez resetu flow.
-
-## 3.14. Podsumowanie
+### 6.3.12. Podsumowanie
 
 Naprawa rozmowy jest jednym z najważniejszych testów jakości voicebota. Dobry bot nie musi rozumieć wszystkiego od razu. Musi umieć naprawiać szybko, konkretnie i bez obwiniania użytkownika.
 
 ---
 
-# Rozdział 4. Disambiguation, multi-intent handling, interruptions i zmiana tematu
+## 6.4. Disambiguation, multi-intent handling, interruptions i zmiana tematu
 
-## 4.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować doprecyzowanie przy niejednoznaczności;
-- obsługiwać wypowiedzi z wieloma intencjami;
-- reagować na zmianę tematu;
-- projektować przerwania w kontekście aktywnego flow.
-
-## 4.2. Kluczowe pojęcia
+### 6.4.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -567,7 +464,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Context stack | Stos aktywnych tematów/procesów |
 | Resume | Powrót do przerwanego procesu |
 
-## 4.3. Wyjaśnienie eksperckie
+### 6.4.2. Wyjaśnienie eksperckie
 
 Użytkownicy nie mówią według jednego flow. Mogą powiedzieć:
 
@@ -594,7 +491,7 @@ Pytaj:
 
 "Czy chce pan sprawdzić status przesyłki, czy zmienić adres?"
 
-## 4.4. Typy niejednoznaczności
+### 6.4.3. Typy niejednoznaczności
 
 | Typ | Przykład | Reakcja |
 |---|---|---|
@@ -605,7 +502,7 @@ Pytaj:
 | Zmiana tematu | "a faktura?" | Zapytaj, czy zapisać obecną sprawę i przejść do faktury |
 | Przerwanie korekcyjne | "nie, inny adres" | Popraw slot i wróć do flow |
 
-## 4.5. Perspektywa biznesowa
+### 6.4.4. Perspektywa biznesowa
 
 Multi-intent może zwiększyć skuteczność, ale też złożoność. Warto określić:
 
@@ -617,7 +514,7 @@ Multi-intent może zwiększyć skuteczność, ale też złożoność. Warto okre
 
 Przykład: w banku pytanie o saldo i zmiana limitu mogą być w jednej rozmowie, ale zmiana limitu wymaga weryfikacji i explicit confirmation. Nie należy wykonywać obu akcji jednym krokiem.
 
-## 4.6. Perspektywa użytkownika
+### 6.4.5. Perspektywa użytkownika
 
 Użytkownik chce, aby bot rozumiał naturalne łączenie spraw, ale potrzebuje kontroli:
 
@@ -625,7 +522,7 @@ Użytkownik chce, aby bot rozumiał naturalne łączenie spraw, ale potrzebuje k
 
 Taki komunikat informuje o planie i zmniejsza niepewność.
 
-## 4.7. Perspektywa technologiczna
+### 6.4.6. Perspektywa technologiczna
 
 Potrzebne mechanizmy:
 
@@ -641,7 +538,7 @@ Potrzebne mechanizmy:
 
 W LLM voicebotach model może dobrze rozpoznać wiele intencji, ale flow nadal musi decydować o kolejności i bezpieczeństwie.
 
-## 4.8. Dobre praktyki
+### 6.4.7. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -653,7 +550,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Loguj zmiany tematu.
 - Projektuj resume: "Wróćmy do zmiany adresu."
 
-## 4.9. Typowe błędy
+### 6.4.8. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -666,7 +563,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak resume | Użytkownik musi zacząć od nowa |
 | LLM decyduje o kolejności bez reguł | Nieprzewidywalność |
 
-## 4.10. Checklista
+### 6.4.9. Checklista
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -678,37 +575,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy akcje krytyczne mają osobne potwierdzenia?
 - Czy zmiana tematu jest logowana?
 
-## 4.11. Mini case study
+### 6.4.10. Mini case study
 
 Klient dzwoni do operatora: "Nie działa mi internet i chcę sprawdzić ostatnią fakturę." Pierwsza wersja bota obsługiwała tylko internet i ignorowała fakturę. Klienci po diagnozie musieli zaczynać od nowa. Druga wersja tworzyła context stack: najpierw awaria, potem faktura. Bot mówił: "Zajmę się najpierw internetem. Potem mogę sprawdzić fakturę." Completion dla drugiej sprawy wzrósł.
 
-## 4.12. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj disambiguation dla "problem z płatnością".
-2. Napisz dialog multi-intent: status zamówienia i faktura.
-3. Zaprojektuj resume po przerwaniu flow.
-4. Określ priorytet intencji "konsultant".
-
-## 4.13. Podsumowanie
+### 6.4.11. Podsumowanie
 
 Prawdziwi użytkownicy nie trzymają się idealnego scenariusza. Dobre dialogi potrafią doprecyzować, uporządkować kilka celów i wrócić do przerwanego procesu bez chaosu.
 
 ---
 
-# Rozdział 5. Dialogi transakcyjne
+## 6.5. Dialogi transakcyjne
 
-## 5.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- projektować dialogi, które wykonują akcję;
-- odróżniać zbieranie danych od zatwierdzania transakcji;
-- stosować walidacje, potwierdzenia i granice transakcji;
-- minimalizować ryzyko błędów.
-
-## 5.2. Kluczowe pojęcia
+### 6.5.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
@@ -721,7 +600,7 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 | Confirmation | Potwierdzenie przed wykonaniem lub po wykonaniu |
 | Rollback | Cofnięcie akcji, jeśli możliwe |
 
-## 5.3. Wyjaśnienie eksperckie
+### 6.5.2. Wyjaśnienie eksperckie
 
 Dialog transakcyjny ma wysoką stawkę, bo bot nie tylko informuje, ale zmienia stan systemu:
 
@@ -748,7 +627,7 @@ Minimalna struktura:
 10. Zakoncz lub zaproponuj kolejny krok.
 ```
 
-## 5.4. Perspektywa biznesowa
+### 6.5.3. Perspektywa biznesowa
 
 Transakcje dają dużą wartość, bo realnie odciążają konsultantów. Jednocześnie wymagają:
 
@@ -760,7 +639,7 @@ Transakcje dają dużą wartość, bo realnie odciążają konsultantów. Jednoc
 - potwierdzeń;
 - procedury awarii.
 
-## 5.5. Perspektywa użytkownika
+### 6.5.4. Perspektywa użytkownika
 
 Użytkownik powinien wiedzieć:
 
@@ -774,7 +653,7 @@ Przykład:
 
 "Mogę anulować to zamówienie. Po anulowaniu nie będzie można go przywrócić. Czy mam anulować?"
 
-## 5.6. Perspektywa technologiczna
+### 6.5.5. Perspektywa technologiczna
 
 Wymagania:
 
@@ -789,7 +668,7 @@ Wymagania:
 - confirmation event;
 - audit trail.
 
-## 5.7. Dobre praktyki
+### 6.5.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
@@ -801,7 +680,7 @@ Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakaz
 - Po wykonaniu wyślij potwierdzenie SMS/e-mail, jeśli potrzebne.
 - Loguj kto, kiedy i co zatwierdził.
 
-## 5.8. Typowe błędy
+### 6.5.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
@@ -813,7 +692,7 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 | Brak mapowania błędów API | Zły komunikat do użytkownika |
 | Zbyt dużo danych naraz | Błędy ASR i frustracja |
 
-## 5.9. Checklista dialogu transakcyjnego
+### 6.5.8. Checklista dialogu transakcyjnego
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -828,9 +707,9 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy jest audyt?
 - Czy jest fallback dla błędu API?
 
-## 5.10. Dobry i zły dialog
+### 6.5.9. Dobry i zły dialog
 
-### Zły
+#### Zły
 
 Bot: "Podaj nowy adres."  
 Użytkownik: "Kwiatowa 8."  
@@ -838,7 +717,7 @@ Bot: "Adres zmieniony."
 
 Problemy: brak pełnego adresu, brak walidacji, brak potwierdzenia, brak informacji o zamówieniu.
 
-### Dobry
+#### Dobry
 
 Bot: "Mogę zmienić adres dla zamówienia 12345, bo nie zostało jeszcze wysłane. Jaki ma być nowy adres?"  
 Użytkownik: "Kwiatowa 8 mieszkania 12, Warszawa."  
@@ -846,33 +725,15 @@ Bot: "Mam Kwiatowa 8 mieszkania 12, Warszawa. Czy zmienić adres na ten?"
 Użytkownik: "Tak."  
 Bot: "Gotowe. Adres został zmieniony. Potwierdzenie wysłałem SMS-em."
 
-## 5.11. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Zaprojektuj dialog zmiany terminu wizyty.
-2. Wskaż transaction boundary.
-3. Dodaj explicit confirmation.
-4. Dodaj błąd API i recovery.
-
-## 5.12. Podsumowanie
+### 6.5.10. Podsumowanie
 
 Dialog transakcyjny wymaga dyscypliny. Nie wystarczy zrozumieć intencje. Trzeba zweryfikować, zebrać dane, potwierdzić ryzykowne akcje, wykonać je bezpiecznie i jasno poinformować o wyniku.
 
 ---
 
-# Rozdział 6. Dialogi informacyjne, sprzedażowe, windykacyjne, medyczne/rezerwacyjne i ankietowe
+## 6.6. Dialogi informacyjne, sprzedażowe, windykacyjne, medyczne/rezerwacyjne i ankietowe
 
-## 6.1. Cele rozdziału
-
-Czytelnik nauczy się:
-
-- dopasowywać strukturę dialogu do typu sprawy;
-- rozpoznawać specyficzne ryzyka branżowe;
-- projektować komunikaty dla różnych emocji i regulacji;
-- tworzyć wzorce dialogowe dla kilku klas use case'ow.
-
-## 6.2. Dialogi informacyjne
+### 6.6.1. Dialogi informacyjne
 
 Cel: udzielić odpowiedzi lub wskazać dalszy krok.
 
@@ -896,7 +757,7 @@ Przykład:
 
 Bot: "Zwrot zwykle trwa do 14 dni od przyjęcia paczki. Mogę też sprawdzić status konkretnego zwrotu. Czy mam to zrobić?"
 
-## 6.3. Dialogi sprzedażowe
+### 6.6.2. Dialogi sprzedażowe
 
 Cel: zakwalifikować potrzebę, udzielić informacji, umówić kontakt lub doprowadzić do bezpiecznej konwersji.
 
@@ -926,7 +787,7 @@ Dobry:
 
 Bot: "Mogę sprawdzić, czy jest dostępna lepsza oferta. Czy chce pan, żebym to zrobił?"
 
-## 6.4. Dialogi windykacyjne
+### 6.6.3. Dialogi windykacyjne
 
 Cel: poinformować o sprawie, zebrać deklaracje, wyjaśnić opcje lub przekazać do człowieka.
 
@@ -952,7 +813,7 @@ Przykład:
 
 Bot: "Mogę podać dostępne opcje płatności albo połączyć z konsultantem, jeśli kwestionuje pan należność. Co wybiera pan teraz?"
 
-## 6.5. Dialogi medyczne i rezerwacyjne
+### 6.6.4. Dialogi medyczne i rezerwacyjne
 
 Cel: umówić, przełożyć, potwierdzić wizytę, zebrać administracyjne informacje.
 
@@ -977,7 +838,7 @@ Przykład:
 
 Bot: "Mogę pomóc umówić lub przełożyć wizytę. Jeśli to nagła sytuacja zdrowotna, proszę zadzwonić pod numer alarmowy albo skontaktować się z dyżurną pomocą medyczną."
 
-## 6.6. Dialogi ankietowe
+### 6.6.5. Dialogi ankietowe
 
 Cel: zebrać odpowiedzi po kontakcie, zakupie, wizycie lub usłudze.
 
@@ -1002,7 +863,7 @@ Przykład:
 
 Bot: "Mam trzy krótkie pytania po wizycie. Pierwsze: w skali od 1 do 5, jak ocenia pani łatwość umówienia terminu?"
 
-## 6.7. Tabela porownawcza typów dialogów
+### 6.6.6. Tabela porownawcza typów dialogów
 
 | Typ dialogu | Priorytet | Główne ryzyko | Kluczowa praktyka |
 |---|---|---|---|
@@ -1013,7 +874,7 @@ Bot: "Mam trzy krótkie pytania po wizycie. Pierwsze: w skali od 1 do 5, jak oce
 | Medyczny/rezerwacyjny | Bezpieczeństwo | Porada poza zakresem | Jasne granice |
 | Ankietowy | Jakość danych | Zmęczenie | Krótka ankieta |
 
-## 6.8. Checklista branżowa
+### 6.6.7. Checklista branżowa
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
@@ -1026,32 +887,19 @@ Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myśle
 - Czy akcje krytyczne są potwierdzane?
 - Czy bot może bezpiecznie odmówić odpowiedzi?
 
-## 6.9. Mini case study
+### 6.6.8. Mini case study
 
 Firma medyczna chciała dodać do bota rezerwacyjnego odpowiedzi na pytania o objawy. Zespół ograniczył zakres: bot może umawiać wizyty, przekładać terminy i informować o przygotowaniu do badania na podstawie zatwierdzonych instrukcji. Nie interpretuje objawów. Dla fraz typu "silny ból w klatce" uruchamia komunikat awaryjny i eskalację zgodnie z procedurą. Zakres jest mniej efektowny, ale bezpieczny.
 
-## 6.10. Ćwiczenia
-
-Ćwiczenia mają przełożyć teorię na pracę projektową. Najlepiej wykonywać je na jednym wybranym use case, ponieważ wtedy widać, jak decyzje z rozdziału zmieniają realny scenariusz voicebota.
-
-1. Napisz dialog informacyjny o zwrocie.
-2. Napisz dialog sprzedażowy bez presji.
-3. Zaprojektuj windykacyjny handoff przy sporze.
-4. Zaprojektuj trzy pytania ankietowe w kanale głosowym.
-
-## 6.11. Podsumowanie
+### 6.6.9. Podsumowanie
 
 Nie istnieje jeden styl dialogu dla wszystkich procesów. Dialog informacyjny, transakcyjny, sprzedażowy, windykacyjny, medyczny i ankietowy mają inne ryzyka, emocje i reguły. Voicebot Specialist musi projektować pod kontekst, nie pod uniwersalny skrypt.
 
 ---
 
-# Rozdział 7. Kompletny przykład scenariusza: zmiana terminu dostawy
+## 6.7. Kompletny przykład scenariusza: zmiana terminu dostawy
 
-## 7.1. Cele rozdziału
-
-Czytelnik zobaczy, jak połączyć intencje, sloty, flow, potwierdzenia, fallbacki, przerwania, integracje i metryki w jednym scenariuszu.
-
-## 7.2. Specyfikacja wysokiego poziomu
+### 6.7.1. Specyfikacja wysokiego poziomu
 
 ```text
 Flow: zmiana_terminu_dostawy
@@ -1063,7 +911,7 @@ Integracje: order API, delivery slots API, SMS confirmation
 Handoff: zamowienie wyslane, API error, frustracja, prosba o konsultanta
 ```
 
-## 7.3. Intencje
+### 6.7.2. Intencje
 
 | Intencja | Definicja |
 |---|---|
@@ -1073,7 +921,7 @@ Handoff: zamowienie wyslane, API error, frustracja, prosba o konsultanta
 | `popros_o_konsultanta` | Użytkownik chce człowieka |
 | `anuluj` | Użytkownik rezygnuje z procesu |
 
-## 7.4. Sloty
+### 6.7.3. Sloty
 
 | Slot | Wymagany | Walidacja | Potwierdzenie |
 |---|---|---|---|
@@ -1082,7 +930,7 @@ Handoff: zamowienie wyslane, API error, frustracja, prosba o konsultanta
 | `desired_date` | Tak | Delivery slots API | Explicit przy zapisie |
 | `desired_time_window` | Opcjonalny | Dostępność | Explicit przy zapisie |
 
-## 7.5. Happy path
+### 6.7.4. Happy path
 
 ```text
 Bot: Dzień dobry, jestem automatycznym asystentem firmy X. W czym moge pomoc przy zamowieniu?
@@ -1098,31 +946,31 @@ User: Tak.
 Bot: Gotowe. Termin dostawy zostal zmieniony. Potwierdzenie wyslalem SMS-em.
 ```
 
-## 7.6. Unhappy paths
+### 6.7.5. Unhappy paths
 
-### Zamówienie wysłane
+#### Zamówienie wysłane
 
 Bot: "To zamówienie jest już u kuriera, dlatego nie mogę zmienić terminu w systemie. Mogę podać kontakt do kuriera albo połączyć z konsultantem."
 
-### Brak dostępnego terminu
+#### Brak dostępnego terminu
 
 Bot: "W piątek nie ma już wolnych okien dostawy. Najbliższe terminy to sobota 10-12 albo poniedziałek 14-16. Który wybiera pan?"
 
-### API timeout
+#### API timeout
 
 Bot: "Nie mogę teraz sprawdzić dostępnych terminów. Mogę utworzyć zgłoszenie dla konsultanta albo wysłać link do samodzielnej zmiany."
 
-### Korekta
+#### Korekta
 
 User: "Nie, chodziło mi o sobotę."  
 Bot: "Dobrze, sprawdzam sobotę."
 
-### Konsultant
+#### Konsultant
 
 User: "Połącz z człowiekiem."  
 Bot: "Jasne. Połączę z konsultantem i przekażę, że chodzi o zmianę terminu dostawy zamówienia 12345."
 
-## 7.7. Fallbacki
+### 6.7.6. Fallbacki
 
 Pierwszy no-match przy dacie:
 
@@ -1136,7 +984,7 @@ No-input:
 
 "Proszę powiedzieć, na jaki dzień chce pan przełożyć dostawę."
 
-## 7.8. Polityka barge-in
+### 6.7.7. Polityka barge-in
 
 | Prompt | Barge-in | Uzasadnienie |
 |---|---|---|
@@ -1145,7 +993,7 @@ No-input:
 | Potwierdzenie finalne | Tak, ale wymaga jasnego "tak/nie" | Użytkownik może poprawić datę |
 | Komunikat po wykonaniu | Tak | Użytkownik może zapytać o coś jeszcze |
 
-## 7.9. Metryki
+### 6.7.8. Metryki
 
 - task completion rate;
 - fallback rate przy dacie;
@@ -1157,7 +1005,7 @@ No-input:
 - repeat contact w ciągu 48h;
 - CSAT po zmianie terminu.
 
-## 7.10. QA cases
+### 6.7.9. QA cases
 
 - happy path;
 - data niedostępna;
@@ -1171,13 +1019,13 @@ No-input:
 - API timeout;
 - użytkownik sfrustrowany.
 
-## 7.11. Podsumowanie
+### 6.7.10. Podsumowanie
 
 Kompletny scenariusz łączy treść rozmowy z logiką biznesową, integracjami, barge-in, fallbackami, handoff i metrykami. Dopiero taki dokument jest gotowy do wdrożenia.
 
 ---
 
-# 8. Zbiorcza checklista po Części V
+## 6.8. Zbiorcza checklista po Części V
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
@@ -1197,16 +1045,3 @@ Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przej�
 - Czy scenariusz zawiera metryki i QA cases?
 
 ---
-
-# 9. Co będzie w kolejnej części
-
-Kolejna część powinna opracować **Część VI. Dane, trening i jakość rozumienia**:
-
-1. Zbieranie danych i transkrypcje.
-2. Dane treningowe, frazy użytkowników, klasy intencji i encje.
-3. Słowniki, synonimy, dane syntetyczne i balans danych.
-4. Błędy etykietowania.
-5. Jakość ASR: akcenty, hałas, tempo, osoby starsze, wady wymowy.
-6. Testowanie NLU: confusion matrix, precision, recall, F1.
-7. Continuous training i analiza nierozpoznanych wypowiedzi.
-
