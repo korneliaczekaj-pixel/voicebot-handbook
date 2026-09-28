@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Voicebot Specialist Handbook: 19 rozdziałów o Conversational AI, wyszukiwarka, czat oparty na treści oraz dokumentacja źródeł.">
+  <title>Voicebot Specialist Handbook | Portfolio projektu</title>
+  <style>
+    :root{--bg:#101b25;--panel:#192936;--panel2:#223544;--ink:#f0f3f2;--muted:#b6c4c9;--line:#3a5060;--accent:#e6ab65;--light:#edf2f0;--dark:#192b36}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}h1,h2,h3,p{margin-top:0}h1,h2{line-height:1.13;letter-spacing:-.035em}h1{font-size:clamp(2.9rem,7vw,5.8rem);max-width:12ch;margin-bottom:22px}h2{font-size:clamp(2rem,4vw,3.2rem)}h3{font-size:1.27rem;line-height:1.28}.wrap{width:min(1160px,calc(100% - 44px));margin:auto}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.17em;font-size:.75rem;font-weight:800}.muted{color:var(--muted)}
+    .top{border-bottom:1px solid var(--line)}.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}.brand{text-decoration:none;font-weight:800;letter-spacing:.02em}.top nav{display:flex;gap:22px;flex-wrap:wrap}.top nav a{font-size:.88rem;text-decoration:none;color:var(--muted)}.top nav a:hover,.text-link:hover{color:var(--accent)}
+    .hero{padding:100px 0 88px;position:relative;overflow:hidden}.hero:before{content:"";position:absolute;width:520px;height:520px;border:1px solid #3b5668;border-radius:50%;right:-175px;top:15px;box-shadow:0 0 0 80px #ffffff06,0 0 0 160px #ffffff04;pointer-events:none}.hero .wrap{position:relative}.lead{max-width:670px;font-size:clamp(1.1rem,2vw,1.35rem);color:#c9d4d5}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0 52px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 20px;border:1px solid var(--accent);border-radius:5px;background:var(--accent);color:#17232a;text-decoration:none;font-weight:750}.button.secondary{color:var(--ink);background:transparent;border-color:#708693}.button:hover{filter:brightness(1.12)}.facts{display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);font-size:.91rem;border-top:1px solid var(--line);padding-top:20px;max-width:800px}.facts strong{color:var(--ink)}
+    section{padding:84px 0}.section-head{max-width:760px;margin-bottom:34px}.section-head p:last-child{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:26px;display:flex;flex-direction:column;align-items:flex-start}.card .num{color:var(--accent);font-size:.82rem;font-weight:800;letter-spacing:.08em}.card p{color:var(--muted)}.card .text-link{margin-top:auto;padding-top:14px}.text-link{color:var(--accent);font-weight:700;text-underline-offset:4px}.case-note{font-size:.9rem;color:var(--muted);margin:20px 0 0}
+    .light{background:var(--light);color:var(--dark)}.light .eyebrow{color:#985821}.light .section-head p:last-child,.light .small{color:#47606e}.light .card{background:#fff;border-color:#cfdbda}.light .card p{color:#47606e}.light .card .num,.light .text-link{color:#91511e}.cap-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.cap{padding:18px 20px;border:1px solid #cfdbda;border-radius:6px;background:#fff}.cap strong{display:block;margin-bottom:4px}.cap span{color:#47606e;font-size:.91rem}
+    .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:28px 0}.flow li{background:var(--panel);padding:22px 18px;border:1px solid var(--line);border-radius:6px}.flow b{display:block;color:var(--accent);font-size:.8rem;margin-bottom:8px}.flow span{color:var(--muted);font-size:.91rem}.limits{border-left:3px solid var(--accent);padding:5px 0 5px 24px;max-width:830px}.limits p{color:var(--muted)}footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.9rem}footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:800px){.grid,.flow{grid-template-columns:1fr 1fr}.hero{padding:70px 0}.top .wrap{padding:17px 0;align-items:flex-start;flex-direction:column}.top nav{gap:14px}section{padding:64px 0}}
+    @media(max-width:560px){.grid,.flow,.cap-list{grid-template-columns:1fr}.wrap{width:min(100% - 32px,1160px)}.hero:before{opacity:.45}.facts{gap:12px 20px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap">
+    <a class="brand" href="/">KORNELIA CZEKAJ / VOICEBOT HANDBOOK</a>
+    <nav aria-label="Nawigacja główna"><a href="#projekt">Projekt</a><a href="#case-studies">Case studies</a><a href="#kompetencje">Kompetencje</a><a href="#metoda">Jak działa</a></nav>
+  </div></header>
+  <main>
+    <div class="hero"><div class="wrap">
+      <p class="eyebrow">Kornelia Czekaj · projekt portfolio · Conversational AI</p>
+      <h1>Od rozmowy do działającego systemu.</h1>
+      <p class="lead">Voicebot Specialist Handbook łączy praktyczny materiał o projektowaniu voicebotów z aplikacją, która pomaga go przeszukiwać i zadawać pytania o jego treść.</p>
+      <div class="actions"><a class="button" href="/handbook">Otwórz handbook →</a><a class="button secondary" href="#case-studies">Zobacz case studies</a></div>
+      <div class="facts"><span><strong>19</strong> rozdziałów</span><span>Bibliografia i audyt źródeł</span><span>Wyszukiwarka i czat</span><span>Konfiguracja dla Railway</span></div>
+    </div></div>
+
+    <section id="projekt" class="light"><div class="wrap">
+      <div class="section-head"><p class="eyebrow">Projekt</p><h2>Wiedza, którą można sprawdzić i wykorzystać</h2><p>Materiał obejmuje architekturę głosową, dialogi, testowanie, integracje, metryki, dostępność i odpowiedzialne projektowanie. Obok treści znajduje się aplikacja z nawigacją po rozdziałach, wyszukiwarką oraz czatem wskazującym powiązane sekcje.</p></div>
+      <div class="grid">
+        <article class="card"><span class="num">01 / TREŚĆ</span><h3>Handbook</h3><p>19 rozdziałów, omówienia do czytania oraz praktyczne checklisty i szablony dokumentacji.</p><a class="text-link" href="/handbook">Przejdź do spisu treści →</a></article>
+        <article class="card"><span class="num">02 / ŹRÓDŁA</span><h3>Bibliografia i audyt</h3><p>Mapa źródeł i audyt redakcyjno-merytoryczny z określonym zakresem oraz ograniczeniami.</p><a class="text-link" href="/handbook#part-b">Zobacz bibliografię →</a></article>
+        <article class="card"><span class="num">03 / APLIKACJA</span><h3>Wyszukiwanie i czat</h3><p>Wyszukiwanie w treści oraz pytania do asystenta korzystającego z fragmentów handbooka. Bez klucza API czat pokazuje dopasowane fragmenty.</p><a class="text-link" href="/handbook">Wypróbuj w handbooku →</a></article>
+      </div>
+    </div></section>
+
+    <section id="case-studies"><div class="wrap">
+      <div class="section-head"><p class="eyebrow">Wybrane case studies projektu</p><h2>Trzy sposoby spojrzenia na Conversational AI</h2><p>Opisują decyzje i artefakty dostępne w tym repozytorium. Przykładowe scenariusze branżowe są materiałem dydaktycznym, nie opisem wdrożeń u klientów.</p></div>
+      <div class="grid">
+        <article class="card"><span class="num">01 / CONVERSATION DESIGN</span><h3>Dialog, który radzi sobie z odstępstwami</h3><p><strong>Problem:</strong> użytkownik przerywa, poprawia dane lub zmienia temat. <strong>Podejście:</strong> rozpisanie ścieżek, potwierdzeń, naprawy dialogu i przekazania do człowieka. <strong>Artefakt:</strong> rozdział 6 i szablony z rozdziału 16.</p><a class="text-link" href="/handbook#part-6">Zobacz materiał →</a></article>
+        <article class="card"><span class="num">02 / KNOWLEDGE-GROUNDED AI</span><h3>Asystent oparty na treści handbooka</h3><p><strong>Problem:</strong> szybkie dotarcie do właściwej odpowiedzi w długim materiale. <strong>Podejście:</strong> indeks fragmentów, dobór kontekstu, odpowiedź i odsyłacze do sekcji. <strong>Artefakt:</strong> generator, indeks i endpoint czatu.</p><a class="text-link" href="https://github.com/korneliaczekaj-pixel/voicebot-handbook">Zobacz kod →</a></article>
+        <article class="card"><span class="num">03 / QA I OPTYMALIZACJA</span><h3>Od scenariusza do oceny jakości</h3><p><strong>Problem:</strong> sama ścieżka idealna nie wystarcza do oceny rozmowy. <strong>Podejście:</strong> testy wariantów, analiza błędów i oddzielne metryki jakości. <strong>Artefakt:</strong> rozdziały o testach i metrykach oraz szablony raportów.</p><a class="text-link" href="/handbook#part-11">Zobacz metryki →</a></article>
+      </div>
+      <p class="case-note">Te karty pokazują zakres projektu i sposób myślenia. Nie przypisują mu wyników produkcyjnych ani danych firmowych.</p>
+    </div></section>
+
+    <section id="kompetencje" class="light"><div class="wrap">
+      <div class="section-head"><p class="eyebrow">Kompetencje pokazane w projekcie</p><h2>Od projektu dialogu do jego utrzymania</h2></div>
+      <div class="cap-list">
+        <div class="cap"><strong>Conversation design</strong><span>Intencje, sloty, fallback, repair, potwierdzenia i handoff · rozdział 6</span></div>
+        <div class="cap"><strong>Voice AI i architektura</strong><span>Turn-taking, ASR, TTS, integracje i przepływ rozmowy · rozdziały 1–4</span></div>
+        <div class="cap"><strong>Testowanie i analityka</strong><span>Scenariusze, analiza rozmów, metryki oraz optymalizacja · rozdziały 10–11</span></div>
+        <div class="cap"><strong>Knowledge-grounded AI</strong><span>Fragmentacja treści, wyszukiwanie kontekstu i odsyłacze do źródeł · aplikacja</span></div>
+        <div class="cap"><strong>Praca produktowa</strong><span>Ocena zastosowania, wymagania, MVP i cykl wdrożenia · rozdziały 5 i 12</span></div>
+        <div class="cap"><strong>Odpowiedzialne projektowanie</strong><span>Dostępność, prywatność, bibliografia i zakres audytu · rozdziały 13–14</span></div>
+      </div>
+    </div></section>
+
+    <section id="metoda"><div class="wrap">
+      <div class="section-head"><p class="eyebrow">Jak działa aplikacja</p><h2>Od plików źródłowych do odpowiedzi</h2><p>Generator składa rozdziały Markdown w stronę HTML i tworzy indeks fragmentów. Serwer udostępnia handbook oraz endpoint czatu; opcjonalna konfiguracja pozwala uruchomić model i ochronę hasłem.</p></div>
+      <ol class="flow"><li><b>01 / ŹRÓDŁA</b>Markdown: 19 części, bibliografia, audyt</li><li><b>02 / BUILD</b><span>HTML i indeks fragmentów</span></li><li><b>03 / ODKRYWANIE</b><span>Spis treści i wyszukiwarka</span></li><li><b>04 / PYTANIA</b><span>Czat z linkami do sekcji</span></li></ol>
+      <div class="limits"><h3>Zakres i ograniczenia</h3><p>Audyt z 29 lipca 2026 r. ma charakter redakcyjno-merytoryczny. Nie jest opinią prawną ani certyfikacją techniczną. Czat otrzymuje wybrane fragmenty i instrukcję opierania odpowiedzi na treści, ale repozytorium nie zawiera jeszcze ilościowej ewaluacji trafności odpowiedzi.</p><a class="text-link" href="/handbook#part-a">Przeczytaj audyt →</a></div>
+    </div></section>
+  </main>
+  <footer><div class="wrap"><span>Kornelia Czekaj · Voicebot Specialist Handbook</span><a href="https://github.com/korneliaczekaj-pixel/voicebot-handbook">Kod i dokumentacja w GitHub →</a></div></footer>
+</body>
+</html>

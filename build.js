@@ -681,6 +681,7 @@ ${waveSymbol}
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT,
   `<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voicebot Specialist Handbook</title><style>${css}</style></head><body>${core}</body></html>`, 'utf8');
+fs.copyFileSync(path.join(__dirname, 'portfolio.html'), path.join(__dirname, 'public', 'portfolio.html'));
 if (process.env.ARTIFACT_OUT) fs.writeFileSync(process.env.ARTIFACT_OUT, `<style>${css}</style>${core}`, 'utf8');
 
 fs.mkdirSync(path.join(__dirname, 'dane'), { recursive: true });

@@ -293,7 +293,7 @@ http.createServer((req, res) => {
         const given = params.get('haslo') || '';
         if (given && safeEq(given, PASS)) {
           setAuthCookie(req, res, TOKEN, 60 * 60 * 24 * 30);
-          res.writeHead(303, { Location: '/' });
+          res.writeHead(303, { Location: '/handbook' });
           res.end();
         } else {
           res.writeHead(401, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -308,7 +308,8 @@ http.createServer((req, res) => {
       res.end();
       return;
     }
-    if (!isAuthed(req)) {
+    // Portfolio jest publiczne; haslo dotyczy podrecznika i jego czatu.
+    if (!isAuthed(req) && p !== '/' && p !== '/index.html') {
       res.writeHead(p === '/login' ? 200 : 401, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end(loginPage(false));
       return;
@@ -316,7 +317,8 @@ http.createServer((req, res) => {
   }
 
   // pliki statyczne
-  if (p === '/') p = '/index.html';
+  if (p === '/') p = '/portfolio.html';
+  if (p === '/handbook') p = '/index.html';
   const f = path.normalize(path.join(PUB, p));
   if (!f.startsWith(PUB) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
