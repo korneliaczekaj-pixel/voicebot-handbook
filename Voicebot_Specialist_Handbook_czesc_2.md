@@ -1002,7 +1002,7 @@ LLM jest ważna zmiana, ale nie magicznym skrotem. Najlepsze voiceboty łączą 
 
 ---
 
-## 2.8. Zbiorcza checklista po Części I
+## 2.8. Zbiorcza checklista rozdziału
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 

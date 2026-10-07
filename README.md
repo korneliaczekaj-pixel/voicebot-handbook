@@ -3,6 +3,16 @@
 Podrecznik o projektowaniu i budowaniu voicebotow jako strona WWW: 17 czesci + bibliografia + audyt zrodel,
 z podlinkowanym spisem tresci, wyszukiwarka i omowieniami do czytania na poczatku kazdej czesci.
 
+## Uklad tresci
+
+- Wstep: rozdzialy 1-3 (podstawy, fundamenty, wybor zastosowan)
+- Konstrukcja, czesc konwersacyjna: rozdzialy 4-7 (psychologia rozmowy, conversation design, dialogi, etyka i dostepnosc)
+- Konstrukcja, czesc techniczna: rozdzialy 8-12 (architektura, dane, LLM i RAG, integracje, bezpieczenstwo i prawo)
+- Testy i utrzymanie: rozdzialy 13-15 (testowanie, wdrozenie, metryki)
+- Dodatki: rozdzialy 16-17 (szablony, case studies)
+
+Etykiety grup ustawia sie w `build.js` (stala `GROUPS`).
+
 ## Struktura
 
 - `zrodla/` — pliki zrodlowe Markdown (czesci 1-17, bibliografia, audyt, omowienia)
