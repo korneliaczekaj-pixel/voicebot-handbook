@@ -9,7 +9,7 @@ const DIR = fs.existsSync(preferredDir) ? preferredDir : __dirname;
 const OUT = path.join(__dirname, 'public', 'index.html');
 
 const FILES = [];
-for (let i = 1; i <= 19; i++) FILES.push({ file: `Voicebot_Specialist_Handbook_czesc_${i}.md`, num: String(i), kind: 'part' });
+for (let i = 1; i <= 18; i++) FILES.push({ file: `Voicebot_Specialist_Handbook_czesc_${i}.md`, num: String(i), kind: 'part' });
 FILES.push({ file: 'Voicebot_Specialist_Handbook_bibliografia.md', num: 'B', kind: 'biblio', title: 'Bibliografia, źródła i mapa wykorzystania' });
 FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A', kind: 'audit', title: 'Audyt poprawności merytorycznej' });
 
@@ -659,7 +659,7 @@ ${waveSymbol}
     <p class="lede">Praktyczna wiedza o projektowaniu, wdrażaniu i optymalizacji systemów głosowych:
     od architektury, dialogów i danych, przez modele językowe, integracje i testy,
     po metryki, zgodność z przepisami i psychologię rozmowy.</p>
-    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> rozdziałów</span><span>Bibliografia + audyt źródeł</span></div>
+    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>18</b> rozdziałów</span><span>Bibliografia + audyt źródeł</span></div>
     <svg class="wave" aria-hidden="true"><use href="#wv"/></svg>
     <div class="cards">${heroCards}</div>
   </header>

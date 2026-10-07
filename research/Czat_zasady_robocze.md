@@ -1,8 +1,8 @@
 # Czat: zasady robocze
 
-Notatka robocza do własnego rozwiązania czatowego. Zebrane tu zasady wypadły z sekcji 19.9 podręcznika, gdy czat stał się w niej tylko porównaniem dla voicebota.
+Notatka robocza do własnego rozwiązania czatowego. Zebrane tu zasady wypadły z sekcji 18.9 podręcznika, gdy czat stał się w niej tylko porównaniem dla voicebota.
 
-Status: wszystkie zasady są syntezą praktyczną. Źródła, na których się opierają, są wymienione w sekcji 19.9.8 podręcznika ("Źródła do porównania z czatem").
+Status: wszystkie zasady są syntezą praktyczną. Źródła, na których się opierają, są wymienione w sekcji 18.16 podręcznika.
 
 ## Krótkie odpowiedzi
 

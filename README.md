@@ -1,11 +1,11 @@
 # Voicebot Specialist Handbook
 
-Podrecznik zawodowy Voicebot Specialist jako strona WWW: 19 czesci + bibliografia + audyt zrodel,
+Podrecznik zawodowy Voicebot Specialist jako strona WWW: 18 czesci + bibliografia + audyt zrodel,
 z podlinkowanym spisem tresci, wyszukiwarka i omowieniami do czytania na poczatku kazdej czesci.
 
 ## Struktura
 
-- `zrodla/` — pliki zrodlowe Markdown (czesci 1-19, bibliografia, audyt, omowienia)
+- `zrodla/` — pliki zrodlowe Markdown (czesci 1-18, bibliografia, audyt, omowienia)
 - `build.js` — generator: sklada wszystkie zrodla w jeden plik `public/index.html`
 - `public/index.html` — gotowy podrecznik (samowystarczalny HTML, dziala tez offline)
 - `server.js` — minimalny serwer statyczny (zero zaleznosci) dla Railway
