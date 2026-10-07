@@ -179,6 +179,30 @@ W badaniu [Liu i in.](https://doi.org/10.1145/3706598.3714228) szesnaście stars
 
 **Z praktyki.** Backchannel sprawdza się przy dłuższym podawaniu danych, gdy użytkownik robi pauzę, ale nie skończył myśli, gdy bot potrzebuje chwili na sprawdzenie informacji oraz w rozmowach opiekuńczych i senioralnych. Ryzykowny jest w procesach transakcyjnych wysokiego ryzyka, podczas odczytywania numerów, dat i kwot, jako zamiennik realnego zrozumienia oraz wtedy, gdy pada zbyt często. Jeśli bot mówi "rozumiem" po każdej wypowiedzi, zaczyna brzmieć mechanicznie.
 
+### 19.8.2. Głos bota: płeć, neutralność i rodzaj gramatyczny
+
+Każdy voicebot ma jakiś głos, a słuchacz od pierwszego słowa przypisuje ten głos kobiecie, mężczyźnie albo maszynie. Tej decyzji nie da się nie podjąć. Można ją tylko podjąć świadomie albo przez przypadek, razem z domyślnym ustawieniem syntezatora.
+
+Jedyne znalezione badanie voicebotów telefonicznych sugeruje, że wybór ma znaczenie. [Guo i in.](https://aisel.aisnet.org/misq/vol49/iss4/19/) przeanalizowali dane z rozmów windykacyjnych prowadzonych przez voiceboty. Głos kobiecy zwiększał szansę na deklarację spłaty o 28,3%. Efekt był silniejszy, gdy rozmowa zaczynała się od większego napięcia, na przykład z klientem początkowo niechętnym. Autorzy tłumaczą go tym, że głos kobiecy skuteczniej obniżał napięcie w rozmowie.
+
+Badania laboratoryjne nie układają się jednak w jedną regułę. Punktem wyjścia jest eksperyment Nassa, Moon i Green z 1997 roku: komputer mówiący głosem kobiecym uchodził za lepiej znający się na miłości i związkach, a mówiący głosem męskim na tematach technicznych. W badaniu [Jones i Zellou](https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2024.1436341/full) powtórzono ten układ po ponad dwudziestu latach, z 85 studentami i głosami syntetycznymi. Płeć głosu nie wpłynęła na żadną z mierzonych ocen ani na zapamiętywanie. Autorzy przypuszczają, że zmieniły się normy dotyczące płci.
+
+Kolejne dwa wyniki przeczą sobie wprost. [Ernst i Herm-Stapelberg](https://scholarspace.manoa.hawaii.edu/items/8e5bd437-004d-408a-8b41-89d2c827fd65) stwierdzili, że asystent o głosie męskim był postrzegany jako bardziej kompetentny. U [Mahmood i Huanga](https://arxiv.org/abs/2310.13074) 40 osób robiło zakupy z asystentem, który celowo popełniał błędy, i bardziej kompetentny wydawał się asystent o głosie kobiecym. Z kolei [Borau i in.](http://publications.ut-capitole.fr/43613/) w pięciu eksperymentach z ponad trzema tysiącami uczestników pokazali, że boty przedstawione jako kobiece są odbierane jako bardziej ludzkie, bo przypisuje się im ciepło i zdolność odczuwania.
+
+Osobną sprawą jest głos neutralny płciowo. [De Cet, Obaid i Torre](https://research.chalmers.se/publication/546755/file/546755_Fulltext.pdf) przejrzeli 36 prac na ten temat i opisują wyniki jako mieszane. W części badań głos neutralny oceniano gorzej niż głosy kobiece i męskie i jako bardziej sztuczny. Słuchacze często nie potrafili określić jego płci albo skłaniali się ku kobiecej. W badaniu Mahmood i Huanga głos neutralny uznano za najbardziej "robotyczny" i mniej ciepły niż kobiecy, choć autorzy widzą w nim sposób na osłabienie stereotypów.
+
+Jedna cecha głosu dała w badaniu Jones i Zellou wynik wyraźniejszy niż płeć. Głos z obcym akcentem oceniano jako mniej kompetentny, mniej znający się na rzeczy i mniej pomocny, choć fakty zapamiętywano z niego równie dobrze.
+
+**Wniosek dla voicebota.** Reguły "głos kobiecy jest ciepły, a męski kompetentny" nie da się obronić badaniami, bo wyniki są sprzeczne. Wyboru płci głosu nie warto więc uzasadniać literaturą, tylko sprawdzić go na własnych rozmówcach i we własnym procesie. Jedyny wynik z prawdziwych rozmów telefonicznych dotyczy windykacji i nie musi przenosić się na obsługę sklepu.
+
+Głos neutralny nie jest wyjściem bez kosztu, bo bywa odbierany jako bardziej sztuczny. Skoro akcent zaważył na ocenie kompetencji bardziej niż płeć, przy wyborze głosu polskiego warto najpierw odsłuchać jakość wymowy, a dopiero potem rozstrzygać płeć.
+
+Polszczyzna dokłada do tego gramatykę. W czasie przeszłym i w przymiotnikach bot musi wybrać rodzaj: "sprawdziłam" albo "sprawdziłem", "jestem pewna" albo "jestem pewien". Skrypt i głos muszą się zgadzać. Tekst z formą "wysłałem" odczytany głosem kobiecym jest błędem słyszalnym od razu. Czas teraźniejszy i formy bezosobowe z sekcji 19.9.4 i 19.9.5 ("Sprawdzam", "Zapisane", "Kod został wysłany") usuwają ten problem, a przy głosie neutralnym są jedynym wyjściem.
+
+Ograniczenia: żadne z tych badań nie dotyczy języka polskiego, a większość prowadzono po angielsku na studentach. Badanie rozmów windykacyjnych jest znane tylko z abstraktu.
+
+**W czacie.** Bot tekstowy nie ma głosu, ale płeć niosą jego imię i awatar. Po polsku dochodzą formy czasownika: "sprawdziłam" w wiadomości mówi o bocie tyle samo, co głos kobiecy w telefonie.
+
 ---
 
 ## 19.9. Psychologia języka
@@ -538,6 +562,7 @@ Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osobą, która 
 - Czy na złość reaguje działaniem, a nie deklaracją empatii?
 - Czy odmowa jest podana tak samo wyraźnie jak zgoda?
 - Czy brzmienie bota nie obiecuje więcej, niż bot potrafi?
+- Czy formy gramatyczne w skrypcie zgadzają się z płcią głosu bota?
 - Czy próg ciszy i tempo uwzględniają osoby mówiące wolniej i z przerwami?
 - Czy sytuacje wrażliwe są eskalowane?
 
@@ -551,16 +576,19 @@ Sprawdzone w pełnym tekście:
 
 - Bavelas, Coates, Johnson, "Listeners as Co-Narrators", Journal of Personality and Social Psychology, 2000: https://pubmed.ncbi.nlm.nih.gov/11138763
 - Crolic, Thomaz, Hadi, Stephen, "Blame the Bot: Anthropomorphism and Anger in Customer-Chatbot Interactions", Journal of Marketing, 2022: https://ora.ox.ac.uk/objects/uuid:73d46bba-35d1-465c-be00-aa6f4f4ccb84
+- De Cet, Obaid, Torre, "Breaking the Binary: A Systematic Review of Gender-Ambiguous Voices in Human-Computer Interaction", CHI 2025: https://research.chalmers.se/publication/546755/file/546755_Fulltext.pdf
 - Dingemanse et al., "Universal Principles in the Repair of Communication Problems", PLOS ONE, 2015: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0136100
 - Gnewuch, Morana, Adam, Maedche, "Opposing Effects of Response Time in Human-Chatbot Interaction", Business & Information Systems Engineering, 2022: https://aisel.aisnet.org/bise/vol64/iss6/5/
 - Haas, Rietzler, Jones, Rukzio, "Keep it Short: A Comparison of Voice Assistants' Response Behavior", CHI 2022: https://dl.acm.org/doi/fullHtml/10.1145/3491102.3517684
 - Hu, Qu, Maus, Mutlu, "Polite or Direct? Conversation Design of a Smart Display for Older Adults Based on Politeness Theory", CHI 2022: https://arxiv.org/abs/2203.15767
+- Jones, Zellou, "Voice accentedness, but not gender, affects social responses to a computer tutor", Frontiers in Computer Science, 2024: https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2024.1436341/full
 - Kruger, Epley, Parker, Ng, "Egocentrism Over E-Mail: Can We Communicate as Well as We Think?", Journal of Personality and Social Psychology, 2005: https://doi.org/10.1037/0022-3514.89.6.925
 - Lee, See, "Trust in Automation: Designing for Appropriate Reliance", Human Factors, 2004: https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf
 - Levinson, Torreira, "Timing in turn-taking and its implications for processing models of language", Frontiers in Psychology, 2015: https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00731/full
 - Liu et al., "Toward Enabling Natural Conversation with Older Adults via the Design of LLM-Powered Voice Agents that Support Interruptions and Backchannels", CHI 2025: https://doi.org/10.1145/3706598.3714228
 - de Hoop, Schoenmakers, "Introduction: Perception and Processing of Address Terms", Languages, 2025 (przegląd badań): https://www.mdpi.com/2226-471X/10/10/267
 - Luger, Sellen, "Like Having a Really Bad PA: The Gulf between User Expectation and Experience of Conversational Agents", CHI 2016: https://www.microsoft.com/en-us/research/publication/like-having-a-really-bad-pa-the-gulf-between-user-expectation-and-experience-of-conversational-agents/
+- Mahmood, Huang, "Gender Biases in Error Mitigation by Voice Assistants", CSCW 2024 (sprawdzono wersję z arXiv): https://arxiv.org/abs/2310.13074
 - Ollier, Nißen, von Wangenheim, "The Terms of 'You(s)': How the Term of Address Used by Conversational Agents Influences User Evaluations in French and German Linguaculture", Frontiers in Public Health, 2022: https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2021.691595/full
 - Owens et al., "Exploring Deceptive Design Patterns in Voice Interfaces", EuroUSEC 2022: https://www.franziroesner.com/pdf/owens-deceptivevoice-eurousec22.pdf
 - Pałka, "Polski model kulturowy a komunikacja sprzedawcy z klientem", Socjolingwistyka, 2020: https://socjolingwistyka.ijppan.pl/index.php/SOCJO/article/view/215
@@ -573,9 +601,12 @@ Sprawdzone w pełnym tekście:
 Sprawdzone tylko w abstrakcie lub opisie wydawcy:
 
 - Ashktorab, Jain, Liao, Weisz, "Resilient Chatbots: Repair Strategy Preferences for Conversational Breakdowns", CHI 2019: https://research.ibm.com/publications/resilient-chatbots-repair-strategy-preferences-for-conversational-breakdowns
+- Borau, Otterbring, Laporte, Fosso Wamba, "The most human bot: Female gendering increases humanness perceptions of bots and acceptance of AI", Psychology & Marketing, 2021: http://publications.ut-capitole.fr/43613/
 - Commarford, Lewis, Smither, Gentzler, "A Comparison of Broad Versus Deep Auditory Menu Structures", Human Factors, 2008: https://doi.org/10.1518/001872008x250665
 - Dixon, Freeman, Toman, "Stop Trying to Delight Your Customers", Harvard Business Review, 2010 (dostępne tylko streszczenie): https://hbr.org/2010/07/stop-trying-to-delight-your-customers
 - "Emojifying chatbot interactions", Telematics and Informatics: https://dl.acm.org/doi/10.1016/j.tele.2023.102071
+- Ernst, Herm-Stapelberg, "Gender Stereotyping's Influence on the Perceived Competence of Siri and Co.", HICSS 2020: https://scholarspace.manoa.hawaii.edu/items/8e5bd437-004d-408a-8b41-89d2c827fd65
+- Guo, Liu, Xu, Yin, "Does Bot Gender Matter? Theory and Evidence from a High-Tension Service Context", MIS Quarterly, 2025: https://aisel.aisnet.org/misq/vol49/iss4/19/
 - Han, Yin, Zhang, "Chatbot Empathy in Customer Service: When It Works and When It Backfires", SIGHCI 2022 Proceedings (praca wstępna): https://aisel.aisnet.org/sighci2022/1/
 - Koenecke et al., "Racial disparities in automated speech recognition", PNAS, 2020: https://pmc.ncbi.nlm.nih.gov/articles/PMC7149386
 - Lea et al., "From User Perceptions to Technical Improvement: Enabling People Who Stutter to Better Use Speech Recognition", CHI 2023: https://arxiv.org/abs/2302.09044
@@ -583,6 +614,7 @@ Sprawdzone tylko w abstrakcie lub opisie wydawcy:
 - Li, Chan, Kim, "Service with Emoticons", Journal of Consumer Research, 2019: https://doi.org/10.1093/jcr/ucy016
 - Luo, Tong, Fang, Qu, "Machines vs. Humans: The Impact of Artificial Intelligence Chatbot Disclosure on Customer Purchases", Marketing Science, 2019: https://econpapers.repec.org/RePEc:inm:ormksc:v:38:y:2019:i:6:p:937-947
 - Nass, Moon, "Machines and Mindlessness: Social Responses to Computers", Journal of Social Issues, 2000: https://spssi.onlinelibrary.wiley.com/doi/10.1111/0022-4537.00153
+- Nass, Moon, Green, "Are Machines Gender Neutral? Gender-Stereotypic Responses to Computers With Voices", Journal of Applied Social Psychology, 1997 (znane tylko z omówienia w pracy Jones i Zellou): https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1559-1816.1997.tb00275.x
 - Roberts, Francis, "Identifying a temporal threshold of tolerance for silent gaps after requests", Journal of the Acoustical Society of America, 2013: https://pubmed.ncbi.nlm.nih.gov/23742442
 - Shiwa et al., "How Quickly Should Communication Robots Respond?", Journal of the Robotics Society of Japan, 2009 (pełny tekst po japońsku): https://www.jstage.jst.go.jp/article/jrsj/27/1/27_1_87/_article/-char/en
 
@@ -604,5 +636,6 @@ Luki, których nie udało się wypełnić źródłami:
 - reakcja na formę bezosobową oraz na formy adresatywne w voicebocie i w języku polskim;
 - wpływ empatii wyrażanej przez voicebota (dostępne badania dotyczą chatbotów tekstowych);
 - próg tolerancji ciszy wobec bota, o którym użytkownik wie, że jest botem;
+- wpływ płci głosu voicebota na odbiór rozmowy w języku polskim;
 - rozmowy osób neuroatypowych z voicebotami;
 - jakość rozpoznawania mowy polskiej w różnych grupach użytkowników.
