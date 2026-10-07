@@ -9,14 +9,22 @@ const DIR = fs.existsSync(preferredDir) ? preferredDir : __dirname;
 const OUT = path.join(__dirname, 'public', 'index.html');
 
 const FILES = [];
-for (let i = 1; i <= 19; i++) FILES.push({ file: `Voicebot_Specialist_Handbook_czesc_${i}.md`, num: String(i), kind: 'part' });
+for (let i = 1; i <= 17; i++) FILES.push({ file: `Voicebot_Specialist_Handbook_czesc_${i}.md`, num: String(i), kind: 'part' });
 FILES.push({ file: 'Voicebot_Specialist_Handbook_bibliografia.md', num: 'B', kind: 'biblio', title: 'Bibliografia, źródła i mapa wykorzystania' });
 FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A', kind: 'audit', title: 'Audyt poprawności merytorycznej' });
 
 const OMOW_FILE = 'Voicebot_Specialist_Handbook_omowienia_do_czytania.md';
 
-const NAV_TITLE_OVERRIDES = {
-  '1': 'Podstawy voicebotów i zarządzanie turami',
+const NAV_TITLE_OVERRIDES = {};
+
+// Uklad tresci: etykieta grupy pojawia sie przed pierwszym rozdzialem grupy (w spisie i na stronie startowej).
+const GROUPS = {
+  '1': 'Wstęp',
+  '3': 'Konstrukcja: część konwersacyjna',
+  '8': 'Konstrukcja: część techniczna',
+  '13': 'Testy i utrzymanie',
+  '16': 'Dodatki',
+  'B': 'Źródła',
 };
 
 // ---------- pomocnicze ----------
@@ -301,6 +309,7 @@ let bodyHtml = '';
 let chapterCount = 0;
 for (const p of parts) {
   const navTitle = NAV_TITLE_OVERRIDES[p.num] || p.title;
+  if (GROUPS[p.num]) navHtml += `<p class="grp">${esc(GROUPS[p.num])}</p>`;
   navHtml += `<details data-part="${p.id}"><summary><a class="pl" href="#${p.id}"><span class="pn">${p.num}</span><span>${esc(navTitle)}</span></a></summary><div class="chl">`;
   navHtml += p.chapters.map(c => `<a href="#${c.id}">${esc(c.title)}</a>`).join('');
   navHtml += '</div></details>';
@@ -314,6 +323,7 @@ for (const p of parts) {
 }
 
 const heroCards = parts.map(p =>
+  (GROUPS[p.num] ? `<p class="grp">${esc(GROUPS[p.num])}</p>` : '') +
   `<a class="card" href="#${p.id}"><span class="pn">${p.num}</span><span>${esc(NAV_TITLE_OVERRIDES[p.num] || p.title)}</span></a>`).join('');
 
 const css = `
@@ -385,6 +395,8 @@ main{flex:1;min-width:0}
 .hero .meta{font-size:13px;color:var(--mut);display:flex;gap:18px;flex-wrap:wrap;margin-bottom:34px}
 .hero .meta b{color:var(--ink);font-variant-numeric:tabular-nums}
 .wave{width:190px;height:24px;color:var(--acc);display:block}
+.grp{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);font-weight:600;margin:18px 4px 6px}
+.cards .grp{grid-column:1/-1;margin:16px 0 0}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:34px}
 .card{display:flex;gap:12px;align-items:baseline;padding:13px 15px;background:var(--surface);
   border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--ink);
@@ -656,10 +668,10 @@ ${waveSymbol}
   <header class="hero">
     <p class="kick">Kompendium specjalistyczne</p>
     <h1>Voiceboty</h1>
-    <p class="lede">Praktyczna wiedza o projektowaniu, wdrażaniu i optymalizacji systemów głosowych:
-    od architektury, dialogów i danych, przez modele językowe, integracje i testy,
-    po metryki, zgodność z przepisami i psychologię rozmowy.</p>
-    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>19</b> rozdziałów</span><span>Bibliografia + audyt źródeł</span></div>
+    <p class="lede">Jak zbudować dobrego voicebota: od psychologii rozmowy i projektowania dialogów,
+    przez architekturę, dane, modele językowe i integracje,
+    po testy, wdrożenie i metryki.</p>
+    <div class="meta"><span>Wersja robocza: <b>${today}</b></span><span><b>17</b> rozdziałów</span><span>Bibliografia + audyt źródeł</span></div>
     <svg class="wave" aria-hidden="true"><use href="#wv"/></svg>
     <div class="cards">${heroCards}</div>
   </header>

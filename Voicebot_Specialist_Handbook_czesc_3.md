@@ -1,1793 +1,641 @@
-# Rozdział 3. Architektura voicebota
+# Rozdział 3. Psychologia rozmowy z voicebotem
 
-## 3.1. Architektura wysokiego poziomu: od głosu użytkownika do akcji systemu
+Rozmowa głosowa jest doświadczeniem sekwencyjnym, społecznym i często emocjonalnym. Użytkownik nie tylko przetwarza treść komunikatów voicebota. Na podstawie tempa, pauz, intonacji, kolejności pytań i reakcji na błędy ocenia kompetencję systemu, własną kontrolę nad rozmową oraz ryzyko dalszego działania.
 
-### 3.1.1. Kluczowe pojęcia
+W tym rozdziale twierdzenia mają trzy rodzaje podstaw i są odpowiednio oznaczone. Tam, gdzie pada nazwisko autora albo tytuł badania, mowa o wyniku ze źródła. **Wniosek dla voicebota** to rozumowanie wyprowadzone z przytoczonych badań. **Z praktyki** oznacza zasadę z doświadczenia wdrożeniowego, za którą nie stoi badanie. Akapity **W czacie** i **W e-mailu** porównują voicebota z kanałami tekstowymi. Lista źródeł ze statusem weryfikacji zamyka rozdział (sekcja 3.16).
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+---
 
-| Pojęcie | Definicja praktyczna |
-|---|---|
-| Pipeline voicebota | Sekwencja komponentów przetwarzających rozmowę od audio do odpowiedzi |
-| Audio stream | Strumień dźwięku przesyłany w czasie rzeczywistym |
-| ASR/STT | Automatic Speech Recognition / Speech-to-Text, zamiana mowy na tekst |
-| NLU | Natural Language Understanding, interpretacja intencji i encji |
-| Dialog manager | Komponent zarządzający stanem rozmowy i kolejnymi krokami |
-| Business logic | Reguły procesu, decyzje, walidacje, obsługa wyjątków |
-| Backend integration | Połączenie z CRM, ERP, ticketingiem, kalendarzem, płatnościami itd. |
-| TTS | Text-to-Speech, zamiana tekstu na mowę |
-| Observability | Logi, metryki, tracing, transkrypcje, monitoring jakości i kosztów |
-| Human handoff | Przekazanie rozmowy do konsultanta wraz z kontekstem |
+## 3.1. Psychologia rozmowy głosowej
 
-### 3.1.2. Wyjaśnienie eksperckie
+W badaniu [Liu i in.](https://doi.org/10.1145/3706598.3714228) starsze osoby rozmawiały z agentem głosowym. Gdy agent milczał dłużej, bo przetwarzał wypowiedź, jedna z uczestniczących osób zapytała badaczy, czy system się zepsuł. Nikt jej nie powiedział, że cisza oznacza awarię. Tak po prostu działa rozmowa: cisza coś znaczy.
 
-Najprostszy przepływ voicebota wygląda tak:
+Ludzie stosują wobec mówiących maszyn te same reguły co wobec ludzi. [Nass i Moon](https://spssi.onlinelibrary.wiley.com/doi/10.1111/0022-4537.00153) w przeglądzie serii eksperymentów opisują, że ludzie bezrefleksyjnie przenoszą na komputery reguły społeczne, między innymi uprzejmość, wzajemność i stereotypy płci. [Lee i See](https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf) dodają, że naruszenie zasad etykiety przez system, w tym reguł dobrej komunikacji, może budzić negatywne emocje i podkopywać zaufanie.
 
-```text
-Uzytkownik mowi
-  -> telefonia / kanał audio
-  -> streaming audio
-  -> VAD / endpointing / turn detection
-  -> ASR
-  -> NLU lub LLM
-  -> dialog manager
-  -> logika biznesowa
-  -> integracje
-  -> odpowiedz tekstowa
-  -> TTS
-  -> audio do użytkownika
-  -> logi, metryki, transkrypcje, monitoring
-```
+Najlepiej zbadaną z tych reguł jest tempo wymiany. [Levinson i Torreira](https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00731/full) podają, że typowa przerwa między wypowiedziami rozmówców wynosi około 200 ms, choć samo zaplanowanie jednego słowa zajmuje ponad 600 ms. Rozmówcy muszą więc przewidywać koniec cudzej wypowiedzi i przygotowywać odpowiedź, zanim on nastąpi. Ci sami autorzy przytaczają analizy korpusowe, w których przerwy od 700 ms wzwyż wiążą się z odpowiedziami niepożądanymi, takimi jak odmowa. Dłuższa cisza zapowiada więc kłopot, zanim padnie jakiekolwiek słowo.
 
-W praktyce ten przepływ nie jest liniowy jak fabryczna taśma. Dzieje się wiele procesów równolegle:
+Czy da się odpowiedzieć za szybko? Tu dowody są podzielone. [Templeton i in.](https://www.pnas.org/doi/10.1073/pnas.2116915119) pokazali na rozmowach ludzi, że im szybsze odpowiedzi rozmówcy, tym większe poczucie więzi. W badaniu z robotem [Shiwa i in.](https://www.jstage.jst.go.jp/article/jrsj/27/1/27_1_87/_article/-char/en) stwierdzili natomiast, że użytkownicy najwyżej oceniali odpowiedź po około sekundzie, a nie odpowiedź najszybszą. Wypełniacz zapowiadający odpowiedź łagodził wrażenie długiego czekania. Nie udało się znaleźć badania, które pokazywałoby, że szybka odpowiedź voicebota brzmi jak niesłuchanie.
 
-- system słucha, gdy użytkownik mówi;
-- system może generować odpowiedź, zanim ma finalną transkrypcję, jeśli architektura wspiera preemptive generation;
-- system może odtwarzać TTS i jednocześnie nasłuchiwać barge-in;
-- system może wywoływać API, a w tym czasie odtwarzać komunikat wypełniający ciszę;
-- monitoring zbiera dane w tle;
-- dialog manager aktualizuje stan rozmowy po każdym kroku.
+**Wniosek dla voicebota.** Voicebot nie odpowie w 200 ms, więc jego cisza zawsze będzie coś komunikować. Skoro dłuższa cisza zapowiada w rozmowie kłopot, a wypełniacz łagodził czekanie w badaniu z robotem, przy dłuższym przetwarzaniu warto ją czymś zapowiedzieć ("Już sprawdzam"). Szerzej o ciszy przed odpowiedzią mówi sekcja 3.9.3.
 
-Uwaga praktyczna:
+**Z praktyki.**
 
-Voicebot jest tak dobry, jak jego najsłabsza warstwa. Świetny LLM nie naprawi złej telefonii, a dobry ASR nie naprawi scenariusza, który pyta o trzy rzeczy naraz.
+- Projektuj tempo do sytuacji.
+- Nie twórz długich monologów.
+- Używaj pauz przy danych.
+- Nie udawaj ludzkiej empatii (sekcja 3.5).
+- Kompetencja jest ważniejsza niż "ciepły charakter".
+- Voicebot, który odpowiada bardzo szybko po złożonej wypowiedzi, może brzmieć, jakby nie słuchał. Badania przytoczone wyżej tego nie rozstrzygają.
 
-### 3.1.3. Perspektywa biznesowa
+---
 
-Architektura decyduje o:
+## 3.2. Modele mentalne użytkownika
 
-- czasie reakcji;
-- koszcie rozmowy;
-- możliwości skalowania;
-- jakości rozumienia;
-- poziomie kontroli nad odpowiedziami;
-- łatwości integracji;
-- ryzyku compliance;
-- łatwości późniejszej optymalizacji.
+[Luger i Sellen](https://www.microsoft.com/en-us/research/publication/like-having-a-really-bad-pa-the-gulf-between-user-expectation-and-experience-of-conversational-agents/) przeprowadziły wywiady z czternastoma stałymi użytkownikami asystentów głosowych w telefonach. Tytuł ich pracy streszcza wynik: "to jak mieć naprawdę kiepskiego asystenta". Oczekiwania badanych rozmijały się z działaniem systemu pod względem inteligencji, możliwości i celów. Połowa z nich przyznała wprost, że nie wie, co ich asystent potrafi.
 
-Dla biznesu architektura nie jest "tematem IT". To wybór modelu operacyjnego. Inna architektura pasuje do prostego statusu zamówienia, inna do voicebota medycznego, inna do generatywnego helpdesku IT.
+Z tych wywiadów wynikają trzy obserwacje ważne dla projektanta. Po pierwsze, żartobliwe odpowiedzi asystenta podnosiły oczekiwania: użytkownicy przypisywali systemowi więcej inteligencji społecznej, niż miał. Po drugie, po serii niepowodzeń ludzie upraszczali język, gubili wszystko poza słowami kluczowymi, mówili wolniej i wyraźniej. Po trzecie, osoby bez przygotowania technicznego częściej widziały w błędzie własną winę i mówiły, że czują się głupio. W efekcie badani zostawali przy prostych zadaniach, a przy złożonych wszyscy szukali potwierdzenia na ekranie.
 
-### 3.1.4. Perspektywa użytkownika
+Drugie źródło pokazuje ten sam mechanizm w liczbach, tyle że dla chatbota tekstowego. [Crolic i in.](https://ora.ox.ac.uk/objects/uuid:73d46bba-35d1-465c-be00-aa6f4f4ccb84/download_file?safe_filename=Crolic_et_al_2021_blame_the_bot.pdf&type_of_work=Journal+article) sprawdzili, że chatbot z imieniem, awatarem i mówiący w pierwszej osobie budził przed rozmową wyższe oczekiwania co do skuteczności niż "Automatyczne Centrum Obsługi Klienta". Po rozmowie ocena obu była taka sama. Za tę różnicę płacili klienci rozzłoszczeni: u nich bot uczłowieczony obniżał satysfakcję, ocenę firmy i chęć zakupu. Efekt znikał, gdy bot na początku sam obniżył oczekiwania i uprzedził, że jest tylko botem.
 
-Użytkownik nie widzi architektury, ale czuje jej konsekwencje:
+**Wniosek dla voicebota.** Model mentalny użytkownika powstaje w pierwszych sekundach i lepiej ustawić go wprost, niż liczyć, że użytkownik zgadnie. Autorki pierwszego badania zalecają, żeby system pokazywał swoje możliwości w samej interakcji, a nie dopiero przy porażce. Zdanie o zakresie robi to najtaniej.
 
-- czy bot odpowiada szybko;
-- czy ucina wypowiedzi;
-- czy pozwala przerwać;
-- czy poprawnie czyta nazwiska, daty, numery i kwoty;
-- czy pamięta kontekst;
-- czy sprawa zostaje wykonana, a nie tylko omówiona;
-- czy konsultant po przekazaniu wie, co się działo.
+"Pomogę sprawdzić status, zmienić termin albo połączyć z konsultantem."
 
-### 3.1.5. Perspektywa technologiczna
+Ograniczenia: wywiady dotyczyły asystentów w telefonach z lat 2014-2015 i czternastu osób, głównie z Wielkiej Brytanii. Eksperymenty z gniewem prowadzono na chatbotach tekstowych.
 
-Każdy komponent ma wejścia, wyjścia i ryzyka:
+**Z praktyki.** Użytkownik może myśleć, że rozmawia z IVR, z konsultantem, z chatbotem głosowym, z asystentem AI albo z filtrem przed konsultantem. Każde z tych założeń prowadzi do innego sposobu mówienia. Jeśli bot brzmi jak człowiek, ale nie rozumie korekty, frustracja rośnie.
 
-| Komponent | Wejście | Wyjście | Typowe ryzyka |
+---
+
+## 3.3. Zaufanie, kontrola i poczucie bezpieczeństwa
+
+W sondażu [Armatis Customer Experience Index](https://300gospodarka.pl/news/boty-w-obsludze-klienta-wiecej-kontaktow-mniej-frustracji-ale-zaufania-wciaz-brak), przeprowadzonym przez SW Research w czerwcu 2025 roku na próbie 817 osób, kontakt z botem w obsłudze klienta miało już 75,9% badanych. W pełni ufa botom 8,1%. Najwięcej, bo 39,5%, ufa im tylko w prostych, rutynowych sprawach, a 19,9% nie ufa wcale. Voicebot zaczyna więc rozmowę z kredytem zaufania na sprawy proste i bez kredytu na trudne.
+
+Ramę do myślenia o takim zaufaniu dali [Lee i See](https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf). Definiują zaufanie jako postawę, zgodnie z którą drugi podmiot pomoże osiągnąć cel w sytuacji niepewności i podatności na szkodę. Opiera się ono na trzech rodzajach informacji: o działaniu systemu (co robi i jak niezawodnie), o procesie (czy jego sposób działania pasuje do sytuacji) i o celu (czy używa się go zgodnie z zamysłem twórców). Autorzy łączą je odpowiednio z kompetencją, integralnością i życzliwością z modelu zaufania między ludźmi.
+
+Ten sam przegląd opisuje, jak zaufanie reaguje na błędy. Po pojedynczej awarii spada, a potem wraca. Przy awariach przewlekłych spada, dopóki człowiek nie zrozumie usterki. Niska niezawodność na początku ciąży długo, nawet gdy system później działa lepiej. Mała usterka o nieprzewidywalnych skutkach szkodzi zaufaniu bardziej niż duża, ale stała.
+
+**Wniosek dla voicebota.** Dwa wymiary, o których mówi praktyka, czyli kompetencja i uczciwość, odpowiadają informacjom o działaniu i o procesie. Z dynamiki błędów wynika, że pierwsze wymiany liczą się podwójnie, a przewidywalność jest warta więcej niż okazjonalna błyskotliwość. Bot, który zawsze tak samo przyznaje, czego nie potrafi, traci mniej niż bot, który raz zgaduje dobrze, a raz źle.
+
+**Z praktyki.** Zaufanie budują: transparentność, szybka reakcja, potwierdzenia danych krytycznych, możliwość poprawy, łatwy handoff, brak przesadnej pewności i konsekwentny ton. Niszczą je: ignorowanie przerwań, pętle fallbacków, brak konsultanta, udawanie człowieka, halucynacje, zbyt długie komunikaty i powtarzanie pytań.
+
+"Mogę sprawdzić status przesyłki i zmienić termin dostawy. Nie podejmę decyzji reklamacyjnej automatycznie; w takiej sprawie połączę z konsultantem."
+
+Taki komunikat nie osłabia bota. Ustawia uczciwe granice i zmniejsza ryzyko rozczarowania.
+
+---
+
+## 3.4. Obciążenie poznawcze
+
+W głosie użytkownik nie widzi listy opcji. Musi ją utrzymać w pamięci, a to, czego nie utrzyma, przepada.
+
+[Leahy i Sweller](https://researchers.mq.edu.au/en/publications/cognitive-load-theory-modality-of-presentation-and-the-transient-/) nazwali to efektem informacji ulotnej. W ich eksperymentach z uczniami szkoły podstawowej długie objaśnienia mówione wypadały gorzej niż te same objaśnienia na piśmie. Po skróceniu przewagę odzyskiwała wersja mówiona. Problemem nie jest więc sam głos, tylko długość tego, co trzeba zapamiętać naraz.
+
+Drugie badanie podważa popularną regułę. [Commarford i in.](https://doi.org/10.1518/001872008x250665) zauważają, że zalecenie, by menu głosowe miało najwyżej pięć pozycji, powołuje się zwykle na klasyczny artykuł Millera o pojemności pamięci, który go nie uzasadnia. W ich eksperymencie użytkownicy systemu IVR z jednym szerokim menu radzili sobie lepiej i byli bardziej zadowoleni niż użytkownicy menu głębokiego, podzielonego na poziomy. Różnica była największa u osób o małej pojemności pamięci roboczej. Skracanie list przez dokładanie kolejnych pięter obciąża więc pamięć bardziej niż dłuższa, płaska lista.
+
+**Wniosek dla voicebota.** Liczy się długość pojedynczej wypowiedzi, a nie sama liczba opcji. Listy nie warto skracać przez dzielenie rozmowy na kolejne pytania pośrednie. Najlepiej w ogóle jej nie odczytywać i zacząć od pytania otwartego.
+
+Źle: "Do wyboru są: zmiana adresu, zmiana terminu, anulowanie, zwrot, faktura, reklamacja albo konsultant."  
+Lepiej: "W czym mogę pomóc przy zamówieniu?"
+
+**Z praktyki.**
+
+- Maksymalnie 2-3 opcje w jednej wypowiedzi. Przytoczone badania nie wyznaczają takiej granicy; to reguła robocza.
+- Jedno pytanie naraz.
+- Krótkie zdania.
+- Informacje porcjowane.
+- Liczby w grupach.
+- SMS albo e-mail dla długich informacji.
+
+**W czacie.** Wiadomość zostaje na ekranie, więc lista opcji nie obciąża pamięci. Uczestnicy wywiadów Luger i Sellen przy złożonych zadaniach głosowych sami szukali potwierdzenia na ekranie. Voicebot może dać jego odpowiednik, wysyłając potwierdzenie SMS-em.
+
+---
+
+## 3.5. Emocje użytkownika
+
+Dużo rozmów z voicebotem zaczyna się od emocji: pośpiechu, irytacji, niepewności, wstydu, lęku, bezradności albo złości. Naturalnym odruchem projektanta jest kazać botowi tę emocję nazwać i wyrazić współczucie. Badania nad chatbotami pokazują, że ten odruch bywa kosztowny.
+
+[Yin, Han i Zhang](https://www.usf.edu/business/news/2026/04-20-chatbot-empathy-can-worsen-customer-reactions-usf-study.aspx) w trzech eksperymentach, w tym z chatbotem opartym na dużym modelu językowym, stwierdzili, że empatia wyrażana przez bota pogarszała reakcje klientów. Klienci reagowali oporem na to, że system rozpoznaje ich emocje i na nie odpowiada, a bot wydawał się przez to mniej kompetentny. We wcześniejszej, wstępnej pracy [ci sami autorzy](https://aisel.aisnet.org/sighci2022/1/) rozróżnili dwa przypadki, a ich wyniki, jak sami piszą, są tylko sugestią. Empatia wobec złego doświadczenia klienta z produktem podnosiła postrzegane ciepło bota. Empatia wobec własnego błędu bota obniżała jego postrzeganą kompetencję.
+
+Trzecie źródło dotyczy gniewu. W opisanych w sekcji 3.2 badaniach [Crolic i in.](https://ora.ox.ac.uk/objects/uuid:73d46bba-35d1-465c-be00-aa6f4f4ccb84/download_file?safe_filename=Crolic_et_al_2021_blame_the_bot.pdf&type_of_work=Journal+article) uczłowieczony chatbot szkodził tylko wtedy, gdy klient był zły. U klientów spokojnych nie robił różnicy. Autorzy radzą rozpoznawać gniew na początku rozmowy i kierować takich klientów do bota mniej uczłowieczonego albo od razu do człowieka.
+
+Czego klient oczekuje zamiast współczucia? [Dixon, Freeman i Toman](https://hbr.org/2010/07/stop-trying-to-delight-your-customers) na podstawie badania ponad 75 tysięcy osób kontaktujących się z obsługą twierdzą, że ponadprzeciętne starania niewiele zmieniają, a klienci chcą prostego i szybkiego rozwiązania sprawy.
+
+**Wniosek dla voicebota.** Wszystkie te wyniki pochodzą z czatu tekstowego albo z obsługi prowadzonej przez ludzi; badania nad empatią voicebota nie udało się sprawdzić. Kierunek jest jednak spójny z praktyką: najbardziej ryzykowna jest empatia wypowiadana po własnym błędzie bota i wobec klienta, który już jest zły.
+
+**Z praktyki.** Bot powinien reagować przez działanie, nie przez teatralną empatię.
+
+Źle: "Doskonale rozumiem tę frustrację."  
+Lepiej: "Skrócę rozmowę. Łączę z konsultantem i przekażę to, co zostało już podane."
+
+---
+
+## 3.6. Psychologia błędu i naprawy rozmowy
+
+Nieporozumienie nie jest w rozmowie wypadkiem, tylko codziennością. [Dingemanse i in.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0136100) przeanalizowali nagrania swobodnych rozmów w dwunastu językach z pięciu kontynentów. Prośba o naprawę padała średnio raz na 1,4 minuty. Ludzie mają na to sprawny, wspólny dla wszystkich badanych języków system.
+
+Składa się on z trzech rodzajów próśb. Prośba otwarta ("Hę?") sygnalizuje kłopot, ale nie mówi, gdzie leży. Prośba zawężona ("Kto?") wskazuje brakujący element. Propozycja ("Urodziła chłopca?") podaje to, co usłyszano, i prosi tylko o potwierdzenie. Autorzy stwierdzają, że ludzie wybierają najbardziej szczegółową prośbę, na jaką pozwala sytuacja, zgodnie z zasadą najmniejszego wspólnego wysiłku. Im bardziej szczegółowa prośba, tym krótsza odpowiedź, której wymaga: po prośbie otwartej rozmówca zwykle powtarza całość, po propozycji wystarcza potwierdzenie.
+
+Po stronie użytkownika błąd bota ma jeszcze jeden koszt. W wywiadach [Luger i Sellen](https://www.microsoft.com/en-us/research/publication/like-having-a-really-bad-pa-the-gulf-between-user-expectation-and-experience-of-conversational-agents/) osoby bez przygotowania technicznego częściej uznawały niepowodzenie za własną winę.
+
+**Wniosek dla voicebota.** "Nie rozumiem, proszę powtórzyć" to prośba otwarta, czyli najdroższa dla użytkownika forma naprawy. Bot, który wie, czego mu brakuje, powinien pytać tak, jak robią to ludzie: zawężać albo proponować.
+
+"Nie mam pewności, czy ostatnia cyfra to osiem czy dziewięć. Proszę powtórzyć tylko ostatnią cyfrę."
+
+Skoro część użytkowników bierze winę na siebie, komunikat o błędzie powinien mówić o tym, czego bot nie usłyszał, a nie o tym, co użytkownik zrobił źle.
+
+**Z praktyki.** Najbardziej frustrujące nie jest pojedyncze niezrozumienie, ale brak postępu. Powtarzanie tego samego pytania zwiększa poczucie porażki użytkownika.
+
+- Nie obwiniaj.
+- Powiedz, czego brakuje.
+- Napraw najmniejszy fragment.
+- Zmień strategię po drugim błędzie.
+- Daj alternatywę.
+
+**W czacie.** [Ashktorab i in.](https://research.ibm.com/publications/resilient-chatbots-repair-strategy-preferences-for-conversational-breakdowns) dali 203 osobom do oceny osiem strategii naprawy w chatbocie tekstowym. Najlepiej wypadały te, w których bot podawał opcje do wyboru albo wyjaśniał, czego nie zrozumiał. W czacie opcje można pokazać. W głosie zostaje pytanie zawężone.
+
+---
+
+## 3.7. Perswazja, decyzje i wpływ społeczny
+
+Voicebot sprzedażowy, windykacyjny albo ankietowy wywiera wpływ samą konstrukcją rozmowy. [Owens i in.](https://www.franziroesner.com/pdf/owens-deceptivevoice-eurousec22.pdf) opisali cechy interfejsów głosowych, które ułatwiają wzorce zwodnicze. Dla voicebota telefonicznego najważniejsze są trzy.
+
+Pierwsza to liniowość. Informacja płynie w ustalonej kolejności, a użytkownik nie może się zatrzymać ani przejrzeć opcji; może tylko przyjąć to, co słyszy, albo zacząć od nowa. Druga to trudność odkrywania: nie wiadomo, co można powiedzieć. Trzecia to sam głos, czyli głośność, tempo, wysokość i akcent, którymi da się wyróżnić opcję korzystną dla firmy, a niechcianą podać ciszej albo szybciej.
+
+Autorzy sprawdzili dwanaście scenariuszy w badaniu z 93 osobami. Tylko 41% uczestników oceniło scenariusze pomyślane jako zwodnicze jako problematyczne. Część takich zabiegów pozostaje więc niezauważona, co jest argumentem za ostrożnością, a nie przeciw niej.
+
+Osobną pokusą jest ukrywanie, że rozmawia bot. [Luo i in.](https://econpapers.repec.org/RePEc:inm:ormksc:v:38:y:2019:i:6:p:937-947) przeprowadzili eksperyment na ponad 6200 klientach, do których z ofertą dzwonił bot albo człowiek. Bot, który się nie przedstawił, sprzedawał tak skutecznie jak doświadczeni sprzedawcy. Ujawnienie, że dzwoni bot, obniżało sprzedaż o ponad 79,7%: klienci byli oschli i kupowali mniej, bo uznawali ujawnionego bota za mniej kompetentnego i mniej empatycznego.
+
+**Wniosek dla voicebota.** Transparentność ma w sprzedaży mierzalny koszt. Decyzja, by mimo to informować, że rozmawia bot, jest wyborem etycznym i prawnym (rozdziały 7 i 12), a nie sposobem na lepszy wynik. Z liniowości wynika z kolei, że kolejność i sposób podania opcji są narzędziem wpływu: odmowa powinna być podana tak samo wyraźnie i tak samo wcześnie jak zgoda.
+
+**Z praktyki.** Etyczna perswazja informuje, pyta o zgodę, daje łatwe "nie", nie ukrywa opcji, nie manipuluje strachem i nie udaje autorytetu człowieka. Ryzykowne są: efekt autorytetu, domyślna opcja, efekt pilności, efekt straty i presja sekwencyjna.
+
+---
+
+## 3.8. Antropomorfizacja voicebota
+
+Ludzie przypisują głosom intencje i emocje, i dzieje się to bez ich decyzji (sekcja 3.1). Pytanie projektowe brzmi więc nie "czy bot będzie odbierany społecznie", tylko "ile obietnicy składa swoim brzmieniem".
+
+Głos tę obietnicę wzmacnia. [Schroeder, Kardas i Epley](https://escholarship.org/uc/item/4bd9d03k) pokazali w trzech eksperymentach, że osoba, z którą oceniający się nie zgadzał, wydawała mu się bardziej myśląca i bardziej ludzka, gdy słyszał jej wypowiedź, niż gdy czytał te same słowa. W czwartym eksperymencie te same wypowiedzi odczytał syntezator. Głos syntetyczny miał mniej zróżnicowaną intonację i mniej pauz niż ludzki, i to właśnie intonacja oraz udział pauz przewidywały oceny. Pod względem cech związanych z uczuciami mówca odczytany przez syntezator wypadł gorzej niż mówca ludzki i gorzej niż sam tekst.
+
+Obietnica ma cenę wtedy, gdy bot jej nie dotrzymuje. Pokazują to badania z sekcji 3.2: żartobliwość asystenta zawyżała oczekiwania, a uczłowieczony chatbot szkodził w rozmowie z rozzłoszczonym klientem. Z kolei w eksperymencie [Luo i in.](https://econpapers.repec.org/RePEc:inm:ormksc:v:38:y:2019:i:6:p:937-947) bota ujawnionego jako bot oceniano jako mniej kompetentnego i mniej empatycznego, choć prowadził tę samą, ściśle ustrukturyzowaną rozmowę.
+
+**Wniosek dla voicebota.** Ludzkie brzmienie nie jest ani zaletą, ani wadą samą w sobie. Podnosi oczekiwania, a koszt pojawia się przy błędzie i przy gniewie. Bezpieczniej jest obiecywać brzmieniem tyle, ile bot naprawdę potrafi.
+
+Ograniczenie: syntezator w badaniu z 2017 roku brzmiał gorzej niż dzisiejsze głosy, a oceniano ludzi wypowiadających opinie, nie boty obsługujące sprawę.
+
+**Z praktyki.** Bot może mieć styl, ale nie powinien mieć fikcyjnego życia. Może być spokojny, uprzejmy i konsekwentny. Nie musi mówić, że "cieszy się", "martwi" albo "doskonale rozumie", jeżeli nie idzie za tym realna zdolność pomocy.
+
+- Persona jako rola, nie fikcyjny człowiek.
+- Transparentność.
+- Brak udawania uczuć.
+- Kompetencja zamiast "osobowości".
+
+### 3.8.1. Backchannel i sygnały słuchania
+
+Backchannel to krótki sygnał, że rozmówca słucha, na przykład "mhm" albo "dobrze". O tym, dlaczego sam taki sygnał nie dowodzi słuchania, mówi sekcja 3.9.1.
+
+W badaniu [Liu i in.](https://doi.org/10.1145/3706598.3714228) szesnaście starszych osób rozmawiało po chińsku z agentem głosowym, który w pauzach wtrącał nagrane wcześniej "mm-hmm" i "tak". Czternaście osób odebrało to dobrze: czuły się wysłuchane i szanowane, a osiem w ogóle nie zauważyło wtrąceń. Dwie osoby mówiły, że wtrącenia wybijały je z toku myśli, i chciały móc dopasować ich głośność, wysokość i treść. Agent prowadził rozmowy towarzyskie, więc autorzy sami zastrzegają, że nie wiadomo, czy wyniki przenoszą się na agentów zadaniowych.
+
+**Z praktyki.** Backchannel sprawdza się przy dłuższym podawaniu danych, gdy użytkownik robi pauzę, ale nie skończył myśli, gdy bot potrzebuje chwili na sprawdzenie informacji oraz w rozmowach opiekuńczych i senioralnych. Ryzykowny jest w procesach transakcyjnych wysokiego ryzyka, podczas odczytywania numerów, dat i kwot, jako zamiennik realnego zrozumienia oraz wtedy, gdy pada zbyt często. Jeśli bot mówi "rozumiem" po każdej wypowiedzi, zaczyna brzmieć mechanicznie.
+
+### 3.8.2. Głos bota: płeć, neutralność i rodzaj gramatyczny
+
+Każdy voicebot ma jakiś głos, a słuchacz od pierwszego słowa przypisuje ten głos kobiecie, mężczyźnie albo maszynie. Tej decyzji nie da się nie podjąć. Można ją tylko podjąć świadomie albo przez przypadek, razem z domyślnym ustawieniem syntezatora.
+
+Jedyne znalezione badanie voicebotów telefonicznych sugeruje, że wybór ma znaczenie. [Guo i in.](https://aisel.aisnet.org/misq/vol49/iss4/19/) przeanalizowali dane z rozmów windykacyjnych prowadzonych przez voiceboty. Głos kobiecy zwiększał szansę na deklarację spłaty o 28,3%. Efekt był silniejszy, gdy rozmowa zaczynała się od większego napięcia, na przykład z klientem początkowo niechętnym. Autorzy tłumaczą go tym, że głos kobiecy skuteczniej obniżał napięcie w rozmowie.
+
+Badania laboratoryjne nie układają się jednak w jedną regułę. Punktem wyjścia jest eksperyment Nassa, Moon i Green z 1997 roku: komputer mówiący głosem kobiecym uchodził za lepiej znający się na miłości i związkach, a mówiący głosem męskim na tematach technicznych. W badaniu [Jones i Zellou](https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2024.1436341/full) powtórzono ten układ po ponad dwudziestu latach, z 85 studentami i głosami syntetycznymi. Płeć głosu nie wpłynęła na żadną z mierzonych ocen ani na zapamiętywanie. Autorzy przypuszczają, że zmieniły się normy dotyczące płci.
+
+Kolejne dwa wyniki przeczą sobie wprost. [Ernst i Herm-Stapelberg](https://scholarspace.manoa.hawaii.edu/items/8e5bd437-004d-408a-8b41-89d2c827fd65) stwierdzili, że asystent o głosie męskim był postrzegany jako bardziej kompetentny. U [Mahmood i Huanga](https://arxiv.org/abs/2310.13074) 40 osób robiło zakupy z asystentem, który celowo popełniał błędy, i bardziej kompetentny wydawał się asystent o głosie kobiecym. Z kolei [Borau i in.](http://publications.ut-capitole.fr/43613/) w pięciu eksperymentach z ponad trzema tysiącami uczestników pokazali, że boty przedstawione jako kobiece są odbierane jako bardziej ludzkie, bo przypisuje się im ciepło i zdolność odczuwania.
+
+Osobną sprawą jest głos neutralny płciowo. [De Cet, Obaid i Torre](https://research.chalmers.se/publication/546755/file/546755_Fulltext.pdf) przejrzeli 36 prac na ten temat i opisują wyniki jako mieszane. W części badań głos neutralny oceniano gorzej niż głosy kobiece i męskie i jako bardziej sztuczny. Słuchacze często nie potrafili określić jego płci albo skłaniali się ku kobiecej. W badaniu Mahmood i Huanga głos neutralny uznano za najbardziej "robotyczny" i mniej ciepły niż kobiecy, choć autorzy widzą w nim sposób na osłabienie stereotypów.
+
+Jedna cecha głosu dała w badaniu Jones i Zellou wynik wyraźniejszy niż płeć. Głos z obcym akcentem oceniano jako mniej kompetentny, mniej znający się na rzeczy i mniej pomocny, choć fakty zapamiętywano z niego równie dobrze.
+
+**Wniosek dla voicebota.** Reguły "głos kobiecy jest ciepły, a męski kompetentny" nie da się obronić badaniami, bo wyniki są sprzeczne. Wyboru płci głosu nie warto więc uzasadniać literaturą, tylko sprawdzić go na własnych rozmówcach i we własnym procesie. Jedyny wynik z prawdziwych rozmów telefonicznych dotyczy windykacji i nie musi przenosić się na obsługę sklepu.
+
+Głos neutralny nie jest wyjściem bez kosztu, bo bywa odbierany jako bardziej sztuczny. Skoro akcent zaważył na ocenie kompetencji bardziej niż płeć, przy wyborze głosu polskiego warto najpierw odsłuchać jakość wymowy, a dopiero potem rozstrzygać płeć.
+
+Polszczyzna dokłada do tego gramatykę. W czasie przeszłym i w przymiotnikach bot musi wybrać rodzaj: "sprawdziłam" albo "sprawdziłem", "jestem pewna" albo "jestem pewien". Skrypt i głos muszą się zgadzać. Tekst z formą "wysłałem" odczytany głosem kobiecym jest błędem słyszalnym od razu. Czas teraźniejszy i formy bezosobowe z sekcji 3.9.4 i 3.9.5 ("Sprawdzam", "Zapisane", "Kod został wysłany") usuwają ten problem, a przy głosie neutralnym są jedynym wyjściem.
+
+Ograniczenia: żadne z tych badań nie dotyczy języka polskiego, a większość prowadzono po angielsku na studentach. Badanie rozmów windykacyjnych jest znane tylko z abstraktu.
+
+**W czacie.** Bot tekstowy nie ma głosu, ale płeć niosą jego imię i awatar. Po polsku dochodzą formy czasownika: "sprawdziłam" w wiadomości mówi o bocie tyle samo, co głos kobiecy w telefonie.
+
+---
+
+## 3.9. Psychologia języka
+
+**Z praktyki.** Dobry język voicebota jest prosty, konkretny i uprzejmy. Nie ma w nim żargonu ani długich zdań, najważniejsza informacja stoi na początku, a ramowanie jest pozytywne, ale nie manipulacyjne.
+
+Źle: "Niestety niepoprawnie podano dane."  
+Lepiej: "Nie mam pewności co do numeru. Proszę podać go jeszcze raz, po trzy cyfry."
+
+### 3.9.1. Dlaczego "tak, jasne" potrafi zabrzmieć niemiło
+
+Ktoś chce się upewnić, że znajoma odbierze go z dworca o ustalonej godzinie. Prosi o potwierdzenie i dostaje odpowiedź: "tak, jasne". Formalnie wszystko się zgadza, a jednak odpowiedź brzmi niemiło, choć nie było ku temu żadnego powodu.
+
+Językoznawstwo ma na takie słowa nazwę. Roman Jakobson pisał o funkcji fatycznej: komunikat służy samemu kontaktowi, czyli sprawdzeniu, że łączność działa. "Jasne", "mhm" i "no tak" robią właśnie to.
+
+Psychologia rozmowy dokłada drugi element. [Bavelas, Coates i Johnson](https://pubmed.ncbi.nlm.nih.gov/11138763) odróżnili reakcje słuchacza ogólne, które pasują do każdej wypowiedzi (kiwnięcie głową, "mhm"), od konkretnych, ściśle związanych z tym, co właśnie padło. W dwóch eksperymentach z 63 parami nieznajomych jedna osoba opowiadała historię, a druga słuchała, w części par rozpraszana dodatkowym zadaniem. Rozproszeni słuchacze nadal wtrącali trochę reakcji ogólnych, ale prawie żadnych konkretnych. Opowiadający radzili sobie wtedy wyraźnie gorzej, zwłaszcza przy zakończeniu historii. Autorzy zastrzegają, że nie mogą statystycznie wykazać, co było przyczyną, a co skutkiem.
+
+**Wniosek dla voicebota.** Samo "słyszę" nie wystarcza rozmówcy, który potrzebuje dowodu, że został zrozumiany. Pytający o potwierdzenie prosi o pewność. Znajoma z dworca potwierdziła, ale nie powtórzyła godziny, więc tej pewności nie dała. Stąd zasada: na pytanie o potwierdzenie bot powtarza to, co potwierdza. Wspiera ją także badanie asystentów głosowych opisane w sekcji 3.9.6.
+
+Źle: "Tak, jasne."  
+Lepiej: "Tak, zamówienie zostało dziś wysłane. Kurier doręczy je jutro."
+
+**Z praktyki.** "Jasne" znaczy tyle co "oczywiście", więc podpowiada, że pytanie było zbędne. Podwojone "tak, jasne" ma w polszczyźnie także odczytanie ironiczne. Które odczytanie wygra, rozstrzyga zwykle ton głosu, a gdy go brakuje albo jest mylący, odbiorca dopowiada resztę sam.
+
+**W czacie.** Działa ta sama zasada. Sucha odpowiedź nie przemija jednak, tylko zostaje na ekranie, a szczegół można pokazać tak, żeby dało się go odczytać jednym spojrzeniem: "Tak, zamówienie zostało dziś wysłane. Dostawa kurierem: jutro."
+
+### 3.9.2. Ten sam tekst w czterech kanałach
+
+To samo "tak, jasne" może być ciepłe, zbywające albo ironiczne. Które z nich usłyszy odbiorca, zależy od kanału, bo każdy kanał gubi albo zniekształca inne sygnały.
+
+| Kanał | Co dzieje się z tonem | Główne ryzyko | Co pomaga |
 |---|---|---|---|
-| Telefonia | Połączenie głosowe | Strumień audio | Kodeki, jitter, echo, opóźnienia |
-| VAD | Audio | Informacja: mowa/brak mowy | Szum jako mowa, cicha mowa jako cisza |
-| Endpointing | Audio/ASR partials | Decyzja: koniec tury | Ucinanie lub martwa cisza |
-| ASR | Audio | Transkrypcja | Akcent, hałas, nazwy własne, cyfry |
-| NLU | Tekst | Intencja, encje | Błędna klasyfikacja, brak danych |
-| LLM | Tekst/kontekst | Odpowiedź/decyzja/narzędzie | Halucynacje, latency, koszt |
-| Dialog manager | Stan + interpretacja | Następny krok | Utrata kontekstu, zły fallback |
-| Integracje | Zapytania API | Dane/akcje | Timeouty, błędy, brak spójności |
-| TTS | Tekst | Audio | Zła wymowa, tempo, nienaturalność |
-| Monitoring | Zdarzenia/logi | Metryki/alerty | Brak danych do diagnostyki |
+| Rozmowa ludzi (na żywo, telefon) | Ton i tempo niesie głos mówiącego | Opóźniona lub przeciągnięta odpowiedź brzmi jak niechęć | Szybka reakcja i ciąg dalszy po potwierdzeniu |
+| Tekst między ludźmi (SMS, komunikator) | Tonu nie ma; odbiorca dopowiada go sam | Nadawca "słyszy" własny ton i zakłada, że dotarł | Konkret w treści, pełne zdanie |
+| Voicebot | Ton wybiera syntezator, a słuchacz bierze go za zamierzony | Błędna lub płaska intonacja, cisza przed odpowiedzią | Dłuższa fraza zamiast jednego słowa, ocena ze słuchu |
+| Chatbot | Tonu nie ma; zastępują go interpunkcja, emoji i długość wiadomości | Sucha odpowiedź zostaje na ekranie | Powtórzony szczegół, pełne zdanie |
 
-### 3.1.6. Dobre praktyki
+Że głos przenosi ton lepiej niż tekst, pokazali [Kruger i in.](https://doi.org/10.1037/0022-3514.89.6.925). W jednym z ich eksperymentów nadawcy przekazywali zdania poważne i sarkastyczne mailem albo głosem. W obu grupach spodziewali się, że odbiorca odczyta ton w blisko 90% przypadków. Głosem udawało się to w mniej więcej trzech czwartych przypadków, a mailem na poziomie nieodróżnialnym od zgadywania. Piszący "słyszeli" własny ton i zakładali, że odbiorca też go usłyszy. Autorzy zaznaczają, że zakazali uczestnikom emotikonów, co mogło obniżyć trafność w mailu.
 
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+Że nie każdy głos przenosi go równie dobrze, pokazali [Schroeder, Kardas i Epley](https://escholarship.org/uc/item/4bd9d03k) w badaniu opisanym w sekcji 3.8. Mówca odczytany przez syntezator, o mniej zróżnicowanej intonacji i z mniejszą liczbą pauz, wypadł pod względem cech związanych z uczuciami gorzej niż ten sam tekst podany do czytania.
 
-- Rysuj architekturę jako przepływ audio, tekstu, decyzji i danych.
-- Oznacz miejsca, gdzie powstaje latency.
-- Oznacz miejsca, gdzie trzeba logować decyzję.
-- Oddziel stan rozmowy od tekstu generowanej odpowiedzi.
-- Projektuj fallback dla każdego komponentu krytycznego.
-- Wymagaj testów end-to-end przez prawdziwy kanał.
-- Nie oceniaj voicebota tylko na podstawie demo w przeglądarce.
+**Wniosek dla voicebota.** W tekście sygnału tonu po prostu nie ma. W voicebocie jest zawsze, tylko że wybiera go syntezator, a słuchacz bierze go za zamierzony. Płaski głos nie jest więc neutralny. Najbardziej narażone są wypowiedzi jednowyrazowe: całe ich znaczenie spoczywa na intonacji, a syntezator ma wtedy najmniej kontekstu, żeby ją dobrać. W dłuższej frazie melodię niesie całe zdanie.
 
-### 3.1.7. Typowe błędy
+Z badania Krugera wynika jeszcze jedno: autor komunikatu, czytając własny tekst, "słyszy" zamierzony ton. Komunikaty trzeba więc oceniać ze słuchu, w głosie, którym bot naprawdę mówi, a nie ze skryptu.
 
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+**Z praktyki.** Dla kilku najczęstszych krótkich potwierdzeń opłaca się rozważyć nagrania albo ręczne ustawienie prozodii.
 
-| Błąd | Konsekwencja |
-|---|---|
-| Brak diagramu architektury | Interesariusze nie rozumieją zależności i kosztów |
-| Traktowanie voicebota jako jednego komponentu | Trudna diagnostyka |
-| Brak logowania ASR partials i decyzji dialogowych | Nie wiadomo, czemu bot źle odpowiedział |
-| Brak planu timeoutów integracji | Cisza lub przypadkowe fallbacki |
-| Brak osobnej polityki handoff | Konsultant dostaje klienta bez kontekstu |
+**W czacie.** Problem jest odwrotny. Komunikat nie zabrzmi źle z winy syntezatora, ale nic też nie złagodzi go tonem. Tekst, który w skrypcie wygląda neutralnie, klient odczyta tak, jak sam go sobie dopowie.
 
-### 3.1.8. Checklista architektury wysokiego poziomu
+### 3.9.3. Cisza też jest komunikatem
 
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+W rozmowie liczy się nie tylko to, co pada, ale też kiedy. [Roberts, Francis i Morgan](https://doi.org/10.1016/j.specom.2006.02.001) przygotowali nagrania udające rozmowy telefoniczne dwóch koleżanek. Jedna o coś prosiła albo wyrażała opinię, druga odpowiadała twierdząco: "Sure" albo "Yeah". Badacze zmieniali długość ciszy przed odpowiedzią (0, 600 i 1200 ms), długość samego słowa oraz jego wysokość i melodię. Im dłuższa cisza, tym mniej chętna wydawała się odpowiadająca. Cisza okazała się sygnałem najsilniejszym. Wydłużenie samego słowa szkodziło wtedy, gdy było duże: słowo rozciągnięte trzykrotnie brzmiało niechętnie nawet bez żadnej ciszy. Wysokość i melodia głosu miały znaczenie mniejsze.
 
-- Czy mamy rozrysowany przepływ audio?
-- Czy wiemy, gdzie kończy się telefonia, a zaczyna voice platform?
-- Czy znamy ASR, NLU/LLM i TTS?
-- Czy dialog manager przechowuje stan rozmowy?
-- Czy integracje mają retry, timeout i fallback?
-- Czy TTS można przerwać?
-- Czy system loguje transkrypcje, intencje, encje, zdarzenia, metryki?
-- Czy handoff przekazuje kontekst do konsultanta?
-- Czy mamy plan awarii dla komponentów krytycznych?
+W kolejnym badaniu [Roberts i Francis](https://pubmed.ncbi.nlm.nih.gov/23742442) szukali progu. Dali 380 osobom do oceny dialogi z identyczną, twierdzącą odpowiedzią na prośbę, różniące się tylko długością ciszy, od 200 do 1200 ms. Postrzegana chęć była wysoka do około 500 ms, zaczynała spadać po 600 ms i wyraźnie obniżała się między 700 a 800 ms. Zgadza się to z analizami korpusowymi przytoczonymi w sekcji 3.1, w których przerwy od 700 ms wiążą się z odpowiedziami niepożądanymi.
 
-### 3.1.9. Mini case study
+[Templeton i in.](https://www.pnas.org/doi/10.1073/pnas.2116915119) pokazali drugą stronę tego zjawiska. W 322 dziesięciominutowych rozmowach studentów szybsze odpowiedzi rozmówcy wiązały się z większym poczuciem więzi. Gdy badacze sztucznie skrócili przerwy w nagraniach, 450 postronnych słuchaczy oceniło rozmówców jako bardziej związanych; gdy je wydłużyli, jako mniej. Były to rozmowy zapoznawcze, a autorzy zaznaczają, że nie badali rozmów nastawionych na cel.
 
-Firma kurierska wdraża voicebota do statusu przesyłek. Pierwsza architektura ma ASR, NLU i odpowiedzi TTS, ale brak integracji z systemem śledzenia. Bot rozpoznaje intencję "status paczki", ale i tak odsyła do strony internetowej. Po zmianie architektury dodano identyfikację po numerze telefonu, integrację tracking API, potwierdzenie przesyłki i handoff dla statusów spornych. Dopiero wtedy bot zaczął realnie rozwiązywać sprawę.
+**Wniosek dla voicebota.** Krótkie potwierdzenie jest zagrożone podwójnie. Nawet dobrze zaintonowane "Dobrze", które pada po sekundzie ciszy, może zabrzmieć jak zgoda z niechęcią. Krótkie potwierdzenie powinno więc paść szybko albo wcale. Kiedy odpowiedź wymaga czasu, lepiej zacząć od sygnału działania ("Już sprawdzam"), a treść podać chwilę później. Syntezator nie powinien też rozciągać słowa potwierdzenia.
 
-### 3.1.10. Podsumowanie
+Zastrzeżenie: wszystkie trzy badania dotyczą rozmów między ludźmi i języka angielskiego. Nie wiadomo, czy użytkownicy stosują ten sam próg wobec systemu, o którym wiedzą, że jest botem. Jedyne znalezione badanie z maszyną, opisane w sekcji 3.1, wskazuje na większą tolerancję.
 
-Architektura voicebota to łańcuch decyzji o dźwięku, języku, dialogu, danych i operacjach. Specjalista nie musi być inżynierem każdego komponentu, ale musi rozumieć zależności, bo to one decydują o jakości rozmowy.
+**Z praktyki.** Ciszę przed odpowiedzią warto mierzyć osobno dla potwierdzeń, a nie tylko jako średnią z całej rozmowy.
 
----
+**W czacie.** Czas znaczy tu co innego. [Gnewuch i in.](https://aisel.aisnet.org/bise/vol64/iss6/5/) porównali u 202 studentów chatbota odpowiadającego niemal natychmiast z chatbotem odpowiadającym po średnio 2,3 sekundy. U nowicjuszy opóźnienie zwiększało poczucie obecności rozmówcy i chęć korzystania z bota. U osób doświadczonych działało odwrotnie. Nie ma podstaw, by przenosić ten wynik na głos, więc budżetu czasu nie da się przejąć z czatu do voicebota.
 
-## 3.2. Kanał telefoniczny, SIP, VoIP, contact center i telephony gateway
+### 3.9.4. Jakimi słowami potwierdzać
 
-### 3.2.1. Kluczowe pojęcia
+Skoro samo "jasne" nie wystarcza, zostaje pytanie, czego używać. Tej sekcji nie da się oprzeć na badaniach: nie udało się znaleźć pracy o tym, jak użytkownicy polskojęzyczni odbierają poszczególne słowa potwierdzenia. Całość, poza jednym wskazanym miejscem, jest więc zapisem praktyki. Kiedy potwierdzać i jakim typem potwierdzenia, opisują sekcje 5.5 i 6.3. Tutaj chodzi o samo brzmienie.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+**Z praktyki.** Dobór słowa zależy od tego, co ma ono zrobić, i od rejestru, w jakim mówi bot.
 
-| Pojęcie | Definicja praktyczna |
-|---|---|
-| PSTN | Klasyczna publiczna sieć telefoniczna |
-| VoIP | Przesyłanie głosu przez sieć IP |
-| SIP | Protokół inicjowania, modyfikowania i kończenia sesji komunikacyjnych |
-| RTP | Protokół transportu mediów, np. audio w czasie rzeczywistym |
-| Telephony gateway | Warstwa łącząca telefonię z aplikacją voicebota |
-| Contact center platform | System obsługi kolejek, konsultantów, routingów, nagrań i raportów |
-| DTMF | Tonowe sygnały klawiatury telefonu |
-| Call transfer | Przekazanie rozmowy do innej kolejki lub konsultanta |
-| ANI/CLI | Numer dzwoniącego, jeśli dostępny |
+| Funkcja | Słowa i zwroty | Pułapka |
+|---|---|---|
+| Przyjęcie danych | "Dziękuję", "Dobrze", "Zapisane" | "Dobrze" po złej wiadomości od klienta brzmi niestosownie |
+| Zgoda na prośbę | "Oczywiście", "Dobrze", "Już to robię" | "Oczywiście" w odpowiedzi na pytanie o potwierdzenie sugeruje, że pytanie było zbędne |
+| Sygnał działania | "Już sprawdzam", "Chwileczkę", "Sprawdzam status przesyłki" | Sygnał bez dalszego ciągu |
+| Potwierdzenie faktu | "Tak", "Zgadza się", "Potwierdzam" | Samo słowo bez szczegółu |
+| Zakończenie zadania | "Gotowe", "Zrobione" | Brak informacji, co dokładnie zostało zrobione |
 
-### 3.2.2. Wyjaśnienie eksperckie
+Osobną grupą są słowa oceniające, takie jak "świetnie" czy "super". Nie są potwierdzeniami: po numerze zamówienia brzmią sztucznie, a po opisie problemu niestosownie.
 
-Voicebot telefoniczny nie zaczyna się w modelu AI. Zaczyna się od połączenia. Użytkownik dzwoni, sieć telefoniczna zestawia rozmowę, contact center albo gateway odbiera połączenie, a audio jest przekazywane do systemu voicebota.
+O tym, które słowa w ogóle wchodzą w grę, decyduje rejestr (o personie i formalności mówi sekcja 5.4). Bot mówiący bezosobowo ("proszę podać") dobrze brzmi z "Dziękuję", "Dobrze", "Zgadza się", "Potwierdzam" i "Sprawdzam". Źle brzmi z "jasne", "pewnie" i "super", które są potoczne i zakładają bliższą relację. Przy formie Pan/Pani dochodzi "Oczywiście". Dopiero bot mówiący na "ty" może pozwolić sobie na "jasne", "pewnie" i "OK", zawsze z treścią. Którąkolwiek formę bot wybierze, powinna być jedna w całym kanale.
 
-Typowy przepływ:
+Forma bezosobowa ma dużą zaletę: nie trzeba zgadywać płci rozmówcy ani wybierać między "Pan/Pani" a "ty" (wybór formy uzasadnia sekcja 3.9.5). Ma też dwie pułapki. Pierwsza to efekt formularza, bo seria poleceń brzmi jak przesłuchanie. Pomaga przeplatanie poleceń pytaniem.
 
-```text
-Telefon użytkownika
-  -> operator / PSTN / VoIP
-  -> SIP trunk lub platforma contact center
-  -> telephony gateway
-  -> voicebot runtime
-  -> ASR / dialog / TTS
-  -> powrot audio do użytkownika
-```
+Źle: "Proszę podać numer zamówienia. Proszę podać kod pocztowy."  
+Lepiej: "Jaki jest numer zamówienia?" (po odpowiedzi) "Dziękuję. Jeszcze kod pocztowy."
 
-SIP jest często warstwą sygnalizacyjną: kto dzwoni, dokąd, kiedy odebrano, kiedy rozłączono, jak przekazać rozmowę. Audio najczęściej płynie osobnym strumieniem mediów. Dla Voicebot Specialist najważniejsze nie jest recytowanie szczegółów protokołów, ale rozumienie konsekwencji:
+Druga pułapka to strona bierna w odmowie i w błędzie. Brzmi jak ściana, bo nikt się sprawą nie zajmuje.
 
-- telefonia dodaje opóźnienia;
-- kodeki mogą ograniczac jakość audio;
-- przekazanie do konsultanta wymaga zachowania kontekstu;
-- nagrania i transkrypcje podlegaja zasadom prawnym;
-- DTMF może być potrzebne dla kodów, wyborów i awaryjnej obsługi;
-- caller ID może pomóc w identyfikacji, ale nie może być jedyna weryfikacja w procesach wrażliwych.
+Źle: "Zamówienie nie może zostać anulowane."  
+Lepiej: "Zamówienie jest już spakowane, więc anulowanie wymaga konsultanta. Łączę."
 
-### 3.2.3. Perspektywa biznesowa
+Źle: "Nie znaleziono zamówienia."  
+Lepiej: "Nie widzę zamówienia o tym numerze. Proszę podać go jeszcze raz, cyfra po cyfrze."
 
-Telefonia decyduje o możliwości wdrożenia w realnym contact center:
+W obu przypadkach pomaga to samo: bot zwraca się do użytkownika bezosobowo, ale o sobie mówi w pierwszej osobie ("Sprawdzam", "Nie widzę", "Łączę"). Widać wtedy, że ktoś się sprawą zajmuje. Czas teraźniejszy i formy typu "Zapisane" pozwalają przy okazji ominąć formy z rodzajem ("zapisałam", "zapisałem").
 
-- Czy voicebot może odbierac część ruchu?
-- Czy może oddać rozmowę do odpowiedniej kolejki?
-- Czy konsultant zobaczy transkrypcje i podsumowanie?
-- Czy da się mierzyć kolejki, transfery i abandoned calls?
-- Czy system działa w godzinach szczytu?
-- Czy koszt minut audio jest przewidywalny?
+Jedno zalecenie ma źródło zewnętrzne, choć nie badawcze. [Wytyczne Google dla projektantów rozmów](https://developers.google.com/assistant/conversation-design/acknowledgements?hl=pl) zalecają różnicowanie potwierdzeń i pomijanie części z nich, żeby rozmowa nie brzmiała monotonnie.
 
-Dla biznesu ważne jest też, czy voicebot będzie warstwa przed contact center, elementem platformy contact center, czy osobna usługa połączona przez SIP/API.
+**W czacie.** Próg potoczności leży niżej: "OK" czy "jasne" uchodzą w rozmowie na "ty", o ile idzie za nimi treść. Zmienia się też czasownik, bo w czacie prosi się o wpisanie, a nie o podanie.
 
-### 3.2.4. Perspektywa użytkownika
+### 3.9.5. Pan, ty czy bezosobowo: forma zwracania się
 
-Użytkownik odczuwa telefonię jako:
+Firma odpisuje klientowi na Twitterze: "Podaj numer usługi". Klient odpowiada: "O, to przeszliśmy na ty?". Firma chciała tylko dostać numer. Klient usłyszał coś jeszcze: decyzję o tym, jaka relacja ich łączy.
 
-- jakość dźwięku;
-- opóźnienie;
-- martwa ciszę;
-- łatwość lub trudnosc przekazania do konsultanta;
-- konieczność powtarzania danych po transferze;
-- przerwanie rozmowy przy blednym przekazaniu.
+Polszczyzna wymusza tę decyzję przy każdym zwrocie do rozmówcy. Do wyboru są "ty", "pan" albo "pani", "państwo" oraz konstrukcja bezosobowa, która wybór omija ("proszę podać"). Językoznawcy nazywają te formy adresatywnymi. Angielskie "you" takiego wyboru nie wymaga, więc wzorce przenoszone z anglojęzycznych botów niczego tu nie rozstrzygają.
 
-Najgorszy handoff to taki, w którym użytkownik po pieciu minutach rozmowy z botem słyszy od konsultanta: "W czym mogę pomóc?". To sygnał, że architektura nie przekazala kontekstu.
+Wymianę z Twittera przytacza [Anna Tereszkiewicz](https://uwm.edu.pl/mkks/wp-content/uploads/04_Tereszkiewicz-A.pdf), która przeanalizowała 800 odpowiedzi ośmiu polskich firm na wiadomości klientów. Banki pisały "pan/pani", często z imieniem. Operatorzy telekomunikacyjni, firmy pocztowe i sklepy internetowe pisały głównie na "ty". Formy bywały mieszane w obrębie jednego profilu, a klienci reagowali w obie strony: jedni oburzali się na "ty", inni irytowali się na "pan".
 
-### 3.2.5. Perspektywa technologiczna
+O tym, kto ma prawo skracać dystans, pisze [Patrycja Pałka](https://socjolingwistyka.ijppan.pl/index.php/SOCJO/article/view/215). Na podstawie 1559 minut nagrań rozmów handlowych, materiałów szkoleniowych dla sprzedawców i wypowiedzi klientów z forów stwierdza, że skracanie dystansu przez sprzedawcę, czyli "ty", "pan" z imieniem albo zdrobnienia, jest niezgodne z polskim kodem kulturowym. Prawo do skrócenia dystansu ma ten, kto w rozmowie stoi wyżej, czyli klient. Podobnie radzą poradnie językowe. [Poradnia Uniwersytetu Warszawskiego](https://poradniajezykowa.uw.edu.pl/porady/zwrot-do-klienta/) odradza "ty" w korespondencji z klientem, bo taka forma "bardzo skraca dystans" i może zostać odebrana jako naruszenie prywatności. [Małgorzata Marcjanik](https://sjp.pwn.pl/poradnia/haslo/na-ty-czy-na-pan-pani;8967.html) zauważa, że "ty" rozpowszechnia się w reklamie i biznesie, ale eleganckie firmy zostają przy formach "pan", "pani", "państwo".
 
-Wymagania techniczne dla telefonii:
+Reakcję na formę zmierzono dotąd w innych językach. [Ollier, Nißen i von Wangenheim](https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2021.691595/full) pokazali 284 osobom ze Szwajcarii chatbota ubezpieczyciela, który różnił się wyłącznie formą: "du" albo "Sie" po niemiecku, "tu" albo "vous" po francusku. Ocena zależała od języka, wieku i płci użytkownika. U osób niemieckojęzycznych forma grzecznościowa dawała oceny stabilne niezależnie od płci, a forma "ty" obniżała oceny starszych użytkowników, wyraźniej u mężczyzn. U osób francuskojęzycznych wzór był bardziej złożony i zależał jednocześnie od wieku i płci.
 
-- obsługa inbound i/lub outbound;
-- SIP trunk lub natywna integracja contact center;
-- streaming audio do ASR/voice runtime;
-- obsługa DTMF;
-- transfer blind/attended, zalezne od platformy;
-- przekazywanie metadanych rozmowy;
-- nagrywanie i/lub eksport audio;
-- synchronizacja transkrypcji z audio;
-- monitoring jakości połączenia;
-- mechanizmy awaryjne.
+Szerszy obraz daje przegląd [de Hoop i Schoenmakersa](https://www.mdpi.com/2226-471X/10/10/267): wyniki badań nad formami adresatywnymi są mieszane i zależą od kontekstu. W przytaczanych tam badaniach, głównie niderlandzkich, forma "ty" podobała się bardziej w reklamach, a forma grzecznościowa była lepiej oceniana w mailach działu kadr i oczekiwana od marek postrzeganych jako kompetentne. Przegląd nie obejmuje żadnego języka słowiańskiego ani żadnego badania z voicebotem.
 
-### 3.2.6. Dobre praktyki
+**Wniosek dla voicebota.** Za formą bezosobową przemawiają trzy rzeczy. Polska norma odradza firmie "ty" wobec klienta. Forma "pan/pani" wymaga znajomości płci, której voicebot na początku rozmowy zwykle nie zna, a pomyłka pada wtedy w pierwszym zdaniu. Wreszcie w jedynym znalezionym eksperymencie z botem forma grzecznościowa dawała u osób niemieckojęzycznych stabilne oceny, a "ty" obniżało je u starszych. Forma bezosobowa zachowuje dystans i nie wskazuje płci.
 
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+Trzeba przy tym pilnować gramatyki. "Podaj" to już forma "ty", podobnie jak "twoje zamówienie" i "wysłaliśmy ci". Bezosobowo jest dopiero "proszę podać", "zamówienie" i "kod został wysłany SMS-em".
 
-- Testuj voicebota przez ten sam kanał, który będzie na produkcji.
-- Nie oceniaj ASR na podstawie studyjnych nagrań, jeśli produkcja to telefon.
-- Zachowaj DTMF jako alternatywe w krytycznych danych.
-- Projektuj handoff jako przepływ danych, nie tylko transfer audio.
-- Ustal, kto jest właścicielem nagrań: platforma contact center, voicebot czy klient.
-- Uzgodnij retencję i dostepy do nagrań oraz transkrypcji.
+| Forma | Przykład | Czego wymaga |
+|---|---|---|
+| Ty | "Podaj numer zamówienia." | Zgody klienta na skrócenie dystansu |
+| Pan, pani | "Czy chce pani zmienić termin?" | Znajomości płci rozmówcy |
+| Państwo | "Czy chcą państwo zmienić termin?" | Liczby mnogiej wobec jednej osoby |
+| Bezosobowa | "Proszę podać numer zamówienia." | Pilnowania pułapek z sekcji 3.9.4 |
 
-### 3.2.7. Typowe błędy
+Ograniczenie: nie udało się znaleźć badania, które mierzyłoby reakcję na formę bezosobową, ani żadnego badania form adresatywnych w voicebocie lub po polsku. Wniosek opiera się na opisie normy i na eksperymencie z czatem w innych językach.
 
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+**Z praktyki.** Przykłady w tym podręczniku stosują formę bezosobową. Voicebot sklepu internetowego mówi "proszę podać", a o sobie w pierwszej osobie i w czasie teraźniejszym ("Sprawdzam", "Łączę").
 
-| Błąd | Konsekwencja |
-|---|---|
-| Testowanie tylko w aplikacji webowej | Produkcyjna telefonia zachowuje się inaczej |
-| Brak DTMF fallback | Problemy z numerami, kodami i halasem |
-| Brak przekazania kontekstu do konsultanta | Powtarzanie danych i frustracja |
-| Nieuzgodnione nagrywanie | Ryzyko prawne |
-| Brak monitoringu jakości połączenia | Trudno odróżnić błąd bota od złego audio |
+**W czacie.** Forma "ty" jest tu częstsza: w badaniu Tereszkiewicz dominowała u firm spoza bankowości. Eksperyment szwajcarski pokazuje jej koszt u starszych użytkowników. Marka, która mimo to wybiera "ty", powinna trzymać się jednej formy w całym kanale, bo mieszanie form samo wywoływało reakcje klientów.
 
-### 3.2.8. Checklista telefonii
+**W e-mailu.** Poradnia Uniwersytetu Warszawskiego zaleca formę "pan/pani", gdy wiadomo, do kogo się pisze, a "Szanowni Państwo" w wiadomościach niespersonalizowanych. W mailu imię i nazwisko adresata są zwykle znane z zamówienia, więc forma "pan/pani" jest dostępna częściej niż w rozmowie telefonicznej.
 
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+### 3.9.6. Kiedy krótko wystarczy
 
-- Czy znamy kanał: PSTN, VoIP, WebRTC, SIP?
-- Czy znamy kodeki i jakość audio?
-- Czy voicebot będzie przed contact center czy w środku platformy?
-- Czy transfer do konsultanta jest technicznie wspierany?
-- Czy przekazujemy kontekst rozmowy?
-- Czy obslugujemy DTMF?
-- Czy nagrywamy rozmowy?
-- Czy informujemy o nagrywaniu i automatyzacji?
-- Czy testujemy outbound, jeśli dotyczy?
-- Czy mamy plan awarii, gdy voicebot nie odpowiada?
+Z tego wszystkiego nie wynika, że voicebot ma mówić długo. [Haas i in.](https://dl.acm.org/doi/fullHtml/10.1145/3491102.3517684) w badaniu "Keep it Short" dali 71 osobom przeglądarkowego asystenta głosowego, który na osiem poleceń i pytań odpowiadał w jednym z trzech stylów. Pełnym zdaniem: "Okay, I set a timer to 10 minutes. Starting now." Słowami kluczowymi: "Timer, 10 minutes." Albo minimalnie: "Okay."
 
-### 3.2.9. Mini case study
+Styl słów kluczowych wybierano najczęściej w pięciu z ośmiu zadań. Oceniano go jako podobnie użyteczny i sympatyczny jak pełne zdania, a zajmował około dwóch trzecich ich czasu. Wyraźnego zwycięzcy nie było: przy kilku zadaniach, między innymi przy kalendarzu i przypomnieniu, lepiej oceniano pełne zdania.
 
-Przychodnia wdraza voicebota do potwierdzania wizyt outbound. Technicznie bot działa dobrze w testach webowych, ale w telefonii część pacjentow odpowiada bardzo krótko: "tak", "nie", "przelozyc". ASR w slabej jakości połączenia myli "nie" z szumem. Zespół dodaje DTMF jako alternatywe: "Może pani powiedzieć tak lub nacisnac 1". Completion rate rośnie, bo architektura uwzględnia realny kanał.
+Najciekawszy jest los samego "Okay." Przy ustawianiu minutnika i przypomnienia budziło brak zaufania, bo nie dawało informacji zwrotnej. Pięć osób powiedziało wprost, że chce, by asystent powtarzał parametry polecenia, bo wtedy wiadomo, czy dobrze je zrozumiał. Styl słów kluczowych tę informację dawał, i to w trzech słowach.
 
-### 3.2.10. Podsumowanie
+**Wniosek dla voicebota.** Krótko nie znaczy pusto. Najkrótsza dobra odpowiedź to ta, która zawiera rozpoznany szczegół. Krótkość szkodzi wtedy, gdy komunikat dotyka czegoś ważnego dla użytkownika, a nie mówi, co bot zrozumiał albo zrobił.
 
-Telefonia nie jest dodatkiem do voicebota. Jest jego srodowiskiem pracy. Jakość połączenia, transfery, DTMF, nagrania i kontekst handoff bezpośrednio wpływają na to, czy automatyzacja będzie działać w prawdziwym contact center.
+Ograniczenia: badanie prowadzono online, po angielsku, na prostych poleceniach domowego asystenta. Autorzy przypuszczają, że na oceny wpływały przyzwyczajenia do asystentów, których uczestnicy używali na co dzień.
+
+**Z praktyki.**
+
+| Typ komunikatu | Czy krótko wystarczy | Co dodać |
+|---|---|---|
+| Wykonanie polecenia | Tak | Rozpoznany szczegół albo krótki wynik |
+| Potwierdzenie danych lub terminu | Nie | Powtórzony szczegół |
+| Odmowa | Nie | Powód albo następny krok |
+| Błąd rozumienia | Nie | Co dokładnie powtórzyć |
+| Oczekiwanie | Nie | Co się dzieje |
+
+Źle: "Nie rozumiem."  
+Lepiej: "Nie mam pewności co do końcówki. Proszę powtórzyć trzy ostatnie cyfry."
+
+Źle: "Nie ma takiej opcji."  
+Lepiej: "Tego nie zmienię automatycznie. Połączę z konsultantem."
+
+Źle: "Proszę czekać."  
+Lepiej: "Sprawdzam, to potrwa chwilę."
+
+### 3.9.7. Voicebot a czat: co się zmienia, gdy rozmowę widać
+
+Czat jest kanałem najbliższym voicebotowi. To też rozmowa prowadzona tura po turze, z tym samym klientem i w tych samych sprawach. Dlatego najłatwiej pomylić jedno z drugim i przenieść teksty z czatu do głosu. Sekcja 1.2 przestrzega przed tym od strony projektu. Tutaj widać, dlaczego nie działa to także od strony odbioru.
+
+Czat nie ma tonu, ale ma własne środki, które go zastępują. Pierwszym jest interpunkcja. Zespół Celii Klin badał jednowyrazowe odpowiedzi w wiadomościach tekstowych, takie jak "yup", z kropką i bez niej. Jak streszczają to [Poirier, Cook i Klin](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1410698/full), kropka sprawiała, że czytelnicy odbierali wiadomość jako mniej szczerą albo bardziej szorstką. Efektu nie było, gdy te same odpowiedzi pokazano jako odręczne notatki.
+
+Drugim środkiem są emoji. [Li, Chan i Kim](https://doi.org/10.1093/jcr/ucy016) stwierdzili, że pracownicy obsługi używający emotikonów są odbierani jako cieplejsi, ale mniej kompetentni. W badaniu ["Emojifying chatbot interactions"](https://dl.acm.org/doi/10.1016/j.tele.2023.102071) emoji podnosiły postrzegane ciepło bota i satysfakcję, lecz nie kompetencję, a efekt był słabszy niż u ludzi.
+
+Trzecia różnica to trwałość. Wiadomość zostaje na ekranie, więc szorstka odpowiedź nie przemija. Użytkownik może jednak do niej wrócić i niczego nie musi pamiętać (sekcja 3.4).
+
+**Wniosek dla voicebota.** Voicebot nie ma żadnego z tych środków. Nie postawi emoji, nie pokaże listy i nie zostawi niczego do ponownego przeczytania. Zostają mu słowa, melodia i czas. To, co w czacie załatwia znak albo układ wiadomości, w głosie musi załatwić sformułowanie: powód, następny krok, powtórzony szczegół.
+
+| Cecha | Voicebot | Czat |
+|---|---|---|
+| Ton | Jest zawsze; wybiera go syntezator | Nie ma go; klient dopowiada go sam |
+| Czas odpowiedzi | Cisza brzmi jak niechęć albo awaria | Krótkie opóźnienie bywa akceptowalne |
+| Trwałość | Komunikat przemija | Komunikat zostaje na ekranie |
+| Liczba opcji | Ograniczona tym, co da się zapamiętać | Większa, bo opcje można pokazać |
+| Co łagodzi krótki komunikat | Sformułowanie i prozodia | Sformułowanie, interpunkcja, emoji |
+| Prośba o dane | "Proszę podać" | "Proszę wpisać" |
+
+### 3.9.8. Checklista krótkich komunikatów
+
+- Czy potwierdzenie powtarza szczegół, o który pytał użytkownik?
+- Czy odmowa i błąd mają powód albo następny krok?
+- Czy bot nie odpowiada samym "jasne", "tak" lub "nie"?
+- Czy słowa potwierdzenia pasują do rejestru bota?
+- Czy bot trzyma się jednej formy zwracania się i nie wpada w "ty" ("podaj", "twoje zamówienie")?
+- Czy krótkie komunikaty oceniono ze słuchu, a nie ze skryptu?
+- Czy potwierdzenie pada bez wyraźnej ciszy przed odpowiedzią?
+- Czy przy dłuższym przetwarzaniu bot najpierw sygnalizuje działanie?
+- Czy żaden komunikat nie trafił z czatu do głosu bez odsłuchania?
 
 ---
 
-## 3.3. Streaming audio, latency i czas rzeczywisty
+## 3.10. Różnice indywidualne użytkowników
 
-### 3.3.1. Kluczowe pojęcia
+Przeciętny użytkownik nie istnieje. Poniższe cztery grupy pokazują, gdzie ta sama rozmowa najczęściej się rozjeżdża.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+### 3.10.1. Osoby starsze
 
-| Pojęcie | Definicja praktyczna |
-|---|---|
-| Streaming audio | Przesylanie dźwięku na biezaco, w malych fragmentach |
-| Frame | Krótki blok audio, np. kilkanascie lub kilkadziesiat ms |
-| Latency | Opóźnienie od zdarzenia do reakcji systemu |
-| Jitter | Zmiennosc opóźnienia pakietow |
-| Buffer | Bufor przechowujacy fragmenty audio |
-| Realtime agent | Agent reagujacy w czasie rozmowy, bez dlugiego oczekiwania na pełne nagranie |
-| WebRTC | Technologia realtime audio/wideo, często używana w aplikacjach webowych |
-| WebSocket | Dwukierunkowe połączenie do przesylania zdarzeń i danych, w tym audio |
-| SIP | Czesciowo standardowy sposób łączenia z telefonia/contact center |
+[Hu i in.](https://arxiv.org/abs/2203.15767) sprawdzili w domach piętnastu osób w wieku od 61 do 86 lat dwie wersje asystenta głosowego z ekranem: grzeczną, z rozbudowanymi formami uprzejmości, i bezpośrednią. Przez dziesięć dni nie znaleźli istotnych różnic w satysfakcji, czasie interakcji ani wykonaniu zadań. Różnili się za to sami użytkownicy. Część chwaliła, że system "nie jest taki robotyczny". Inni nazywali uprzejmość zbędną i dziwną, a jedna osoba omijała komunikaty głosowe ekranem dotykowym, żeby było szybciej. Autorzy wyróżnili cztery typy użytkowników i zwracają uwagę, że na odbiór wpływały także ton i tempo głosu, a nie tylko dobór słów.
 
-### 3.3.2. Wyjaśnienie eksperckie
+Drugie badanie dotyczy tempa rozmowy. [Liu i in.](https://doi.org/10.1145/3706598.3714228) zalecają na podstawie rozmów ze starszymi osobami proste zdania bez wtrąceń i żargonu oraz czas oczekiwania dopasowany do rozmówcy: jeśli ktoś często robi pauzy albo mówi "yyy", bot powinien czekać dłużej, zanim uzna wypowiedź za skończoną.
 
-Voicebot nie powinien czekac, az użytkownik skonczy cała rozmowę i dopiero potem przetwarzac audio. Musi przetwarzac strumien na biezaco:
+**Wniosek dla voicebota.** "Osoby starsze" nie są jedną grupą o jednym guście. Bezpieczniej dopasowywać tempo i cierpliwość bota do zachowania rozmówcy, niż zakładać z góry, że starszy rozmówca chce więcej uprzejmości.
 
-- VAD wykrywa, czy pojawia się mowa.
-- ASR generuje partial transcripts.
-- Endpointing decyduje, czy tura użytkownika się skończyła.
-- Dialog manager przygotowuje odpowiedź.
-- TTS zaczyna syntezowac audio.
-- System monitoruje, czy użytkownik nie przerywa.
+**Z praktyki.** Wolniejsze tempo, więcej czasu na odpowiedź, proste słowa, opcja konsultanta.
 
-Latency voicebota składa się z wielu malych opóźnień:
+### 3.10.2. Osoby neuroatypowe
 
-```text
-latency telefonii
-+ bufor audio
-+ VAD/endpointing
-+ ASR
-+ NLU/LLM
-+ integracje/API
-+ generowanie odpowiedzi
-+ TTS
-+ playback buffer
-= odczuwalna zwloka
-```
+Nie udało się znaleźć badania o rozmowach osób neuroatypowych z voicebotami, które dałoby się tu rzetelnie przytoczyć.
 
-Dla użytkownika liczy się całość, nie to, który komponent był szybki. Bot z szybkim LLM, ale wolnym endpointingiem i wolnym TTS, nadal brzmi wolno.
+**Z praktyki.** Przewidywalna struktura, brak presji, jednoznaczne pytania, brak ironii.
 
-### 3.3.3. Perspektywa biznesowa
+### 3.10.3. Osoby z wadami mowy i słuchu
 
-Latency wpływa na:
+[Lea i in.](https://arxiv.org/abs/2302.09044) zapytali 61 osób jąkających się o doświadczenia z rozpoznawaniem mowy. Badani chcieli z niego korzystać, ale mówili, że system często ucina im wypowiedź, źle ich rozumie albo zapisuje coś innego, niż chcieli powiedzieć. Autorzy pokazali też, że da się to poprawić po stronie systemu: po zmianach technicznych system ucinał wypowiedzi o 79,1% rzadziej, a odsetek błędnie rozpoznanych słów spadł z 25,4% do 9,9%.
 
-- AHT;
-- abandonment;
-- frustrację;
-- liczbę powtórzeń;
-- eskalację;
-- koszt minut rozmowy;
-- postrzegana kompetencje bota.
+Błędy rozpoznawania nie rozkładają się równo także między innymi grupami. [Koenecke i in.](https://pmc.ncbi.nlm.nih.gov/articles/PMC7149386) sprawdzili pięć komercyjnych systemów rozpoznawania mowy na nagraniach osób mówiących po angielsku w USA. Średni odsetek błędnych słów wynosił 0,35 dla mówców czarnoskórych i 0,19 dla białych. Dla języka polskiego nie udało się znaleźć podobnego pomiaru.
 
-W procesach wysokowolumenowych nawet 1 sekunda dodatkowego czasu na rozmowę może generowac duzy koszt. Ale zbyt agresywne skracanie latency może zwiększyć ucinanie wypowiedzi i błędy. Optymalizacja latency to balans, nie wyscig do najnizszej liczby.
+**Wniosek dla voicebota.** Dla części użytkowników problemem nie jest scenariusz, tylko próg ciszy, po którym bot uznaje, że wypowiedź się skończyła. Próg ustawiony pod płynnie mówiących ucina tych, którzy mówią z przerwami. Jakość rozpoznawania warto mierzyć osobno dla grup rozmówców, a nie tylko jako średnią.
 
-### 3.3.4. Perspektywa użytkownika
+**Z praktyki.** DTMF, SMS, powtórzenie, handoff.
 
-Użytkownik interpretuje opóźnienia psychologicznie:
+### 3.10.4. Osoby nieufne wobec automatyzacji
 
-- krótka pauza po trudnym pytaniu może brzmieć naturalnie;
-- długa cisza po prostym "tak" brzmi jak awaria;
-- odpowiedź zbyt szybka po zlozonej wypowiedzi może brzmieć jak brak słuchania;
-- bot mowiacy podczas przerwania brzmi jak ignorujacy.
+Jak pokazuje sondaż z sekcji 3.3, to w Polsce większość: w pełni ufa botom 8,1% badanych, a 19,9% nie ufa im wcale. Z eksperymentu Luo i in. (sekcja 3.7) wiadomo też, że klient, który wie, że rozmawia z botem, bywa oschły i uważa bota za mniej kompetentnego.
 
-Projektowanie latency musi uwzględniać typ dialogu. Potwierdzenie "tak/nie" powinno być szybkie. Analiza reklamacji może mieć krótki filler: "Sprawdzam to".
-
-### 3.3.5. Perspektywa technologiczna
-
-W nowoczesnych architekturach:
-
-- WebRTC i SIP mogą pozwalać serwerowi zarzadzac buforem audio i ucinaniem nieodtworzonego audio przy przerwaniu.
-- WebSocket często oznacza, że klient zarzadza playbackiem, więc musi sam zatrzymywac audio i synchronizowac truncation.
-- Realtime modele mogą skrócić pipeline, ale wymagają innych mechanizmow kontroli, monitoringu i testów.
-
-Ważne parametry:
-
-- czas do pierwszego tokenu/fragmentu odpowiedzi;
-- czas do pierwszego audio TTS;
-- end-of-turn delay;
-- latency integracji;
-- latency zatrzymania TTS po barge-in;
-- jitter i utrata pakietow.
-
-### 3.3.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Mierz latency end-to-end, nie tylko latency modelu.
-- Mierz osobno: endpointing, ASR, LLM/NLU, API, TTS, playback.
-- Projektuj filler prompts dla długich integracji.
-- Nie otwieraj mikrofonu na kolejny slot, jeśli backend jeszcze nie jest gotowy.
-- Testuj w realnej sieci i przez telefonię.
-- Ustal budzet latency dla każdego typu kroku.
-- Optymalizuj najpierw miejsca najczesciej wystepujace.
-
-### 3.3.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Mierzenie tylko czasu odpowiedzi LLM | Pomija ASR, TTS, endpointing i telefonię |
-| Brak fillerow przy API | Martwa cisza |
-| Za niski endpointing timeout | Ucinanie użytkownika |
-| Za wysoki endpointing timeout | Rozmowa brzmi ospale |
-| Brak pomiaru latency barge-in | Bot przegaduje użytkownika |
-| Za długie prompt'y | Wysokie AHT i więcej przerwań |
-
-### 3.3.8. Checklista latency
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy mamy budzet latency dla typowej tury?
-- Czy mierzymy end-of-turn delay?
-- Czy mierzymy czas ASR?
-- Czy mierzymy czas integracji?
-- Czy mierzymy czas TTS?
-- Czy mierzymy czas zatrzymania TTS po przerwaniu?
-- Czy mamy filler dla operacji dłuższych niż ok. 1-2 sekundy?
-- Czy bot nie mówi, zanim dane są gotowe?
-- Czy różne sloty mają różne ustawienia endpointing?
-
-### 3.3.9. Mini case study
-
-Voicebot bankowy podczas weryfikacji klienta wywołuje API antyfraudowe, które czasem odpowiada po 4 sekundach. Pierwsza wersja bota milczy. Użytkownicy mówią "halo?" albo przerywają. Druga wersja odtwarza krótki komunikat: "Chwileczkę, sprawdzam dane", ale nie otwiera jeszcze kolejnego pytania. Barge-in pozostaje włączony, aby użytkownik mógł poprosić o konsultanta. Martwa cisza spada, a liczba porzuconych rozmów maleje.
-
-### 3.3.10. Podsumowanie
-
-Realtime w voicebocie to nie tylko szybki model. To zsynchronizowany system audio, decyzji, API i TTS. Naturalna rozmową wymaga kontroli opóźnień, endpointing i przerwań w każdym kroku.
+**Z praktyki.** Transparentność, szybkie podanie zakresu, konsultant bez walki.
 
 ---
 
-## 3.4. ASR: od mowy do tekstu
+## 3.11. Psychologia zaufania do AI
 
-### 3.4.1. Kluczowe pojęcia
+Celem nie jest największe możliwe zaufanie. [Lee i See](https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf) nazywają kalibracją zgodność między zaufaniem człowieka a rzeczywistymi możliwościami automatu. Zaufanie większe niż możliwości prowadzi do nadużycia: człowiek polega na systemie tam, gdzie nie powinien. Zaufanie mniejsze niż możliwości prowadzi do zaniechania: człowiek odrzuca system także tam, gdzie ten działa dobrze. Oba błędy kosztują.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+**Wniosek dla voicebota.** Nadużycie to klient, który przyjmuje błędną odpowiedź bota za pewną. Zaniechanie to klient, który od pierwszego słowa żąda konsultanta w sprawie, którą bot załatwiłby w pół minuty. Bot kalibruje zaufanie tym, jak mówi o własnych granicach.
 
-| Pojęcie | Definicja |
-|---|---|
-| ASR/STT | Technologia zamiany mowy na tekst |
-| Transcript | Transkrypcją wypowiedzi |
-| Partial transcript | Czesciowa hipoteza ASR podczas mówienia |
-| Final transcript | Ustabilizowana transkrypcją po zakonczeniu tury |
-| Confidence | Ocena pewności rozpoznania |
-| Word error rate | Metryka błędów transkrypcji |
-| Custom vocabulary | Słownik nazw, terminow, produktow, skrótów |
-| Diarization | Rozróżnianie mowcow |
-| Noise robustness | Odpornosc na hałas |
+**Z praktyki.** Voicebot powinien unikać dwóch skrajności: nadmiernej pewności i zbyt częstego bezradnego fallbacku.
 
-### 3.4.2. Wyjaśnienie eksperckie
-
-ASR jest pierwsza warstwa interpretacji języka. Jeśli ASR źle przepisze wypowiedź, kolejne komponenty mogą podjac zła decyzję. Ale ASR nie musi być idealny, aby voicebot działał. Musi być wystarczajaco dobry dla konkretnego procesu i zaprojektowany z mechanizmami naprawy.
-
-Przykłady błędów ASR:
-
-- "Kwiatowa osiem" -> "światowa 8";
-- "nie" -> brak rozpoznania;
-- "PESEL" -> losowy ciąg słów;
-- nazwa firmy -> zwykle słowo;
-- "chce konsultanta" -> "chce konsultacje";
-- numer "15" -> "50".
-
-Dobry projekt zakłada, że ASR będzie się mylil przy:
-
-- nazwach własnych;
-- cyfrach;
-- adresach;
-- kodach;
-- obcych nazwach;
-- mówię w hałasie;
-- krotkich odpowiedziach;
-- emocjach i podniesionym głosie.
-
-### 3.4.3. Perspektywa biznesowa
-
-Jakość ASR wpływa na:
-
-- task completion;
-- liczbę powtórzeń;
-- czas rozmowy;
-- frustrację;
-- błędy transakcyjne;
-- koszt obsługi;
-- zaufanie do automatyzacji.
-
-Nie każdy błąd ASR ma ten sam koszt. Błędne rozpoznanie pytania FAQ może skończyć się fallbackiem. Błędne rozpoznanie numeru konta, adresu dostawy albo zgody może mieć realne skutki finansowe lub prawne.
-
-### 3.4.4. Perspektywa użytkownika
-
-Użytkownik nie wie, czy zawinil ASR, NLU czy integracja. Słyszy tylko:
-
-- "bot mnie nie rozumie";
-- "musze powtarzać";
-- "bot przekrecil moje dane";
-- "system nie radzi sobie z moim nazwiskiem";
-- "lepiej poczekam na człowieka".
-
-Dlatego komunikaty naprawcze nie powinny obwiniac użytkownika. Zamiast "Powiedział pan niepoprawnie" lepiej: "Nie mam pewności, czy dobrze uslyszalem. Proszę powtórzyć numer powoli, po trzy cyfry."
-
-### 3.4.5. Perspektywa technologiczna
-
-Wymagania ASR:
-
-- język i wariant języka;
-- model telefoniczny lub szerokopasmowy;
-- streaming partials;
-- timestampy;
-- confidence;
-- custom vocabulary;
-- wsparcie dla cyfr, dat, kwot;
-- diarization, jeśli potrzebna;
-- możliwość eksportu audio i transkrypcji;
-- zgodność z retencja danych.
-
-Ustawienia ASR powinny być zalezne od kontekstu. Dla "tak/nie" potrzebna jest szybka detekcja. Dla numeru klienta trzeba tolerowac pauzy. Dla opisu reklamacji potrzebne jest dłuższe okno i lepsze przetwarzanie swobodnej mowy.
-
-### 3.4.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Testuj ASR na realnych nagraniach telefonicznych.
-- Zbieraj frazy i nazwy charakterystyczne dla domeny.
-- Używaj custom vocabulary dla produktow, miejsc, marek, skrótów.
-- Projektuj potwierdzenia dla danych wysokiego ryzyka.
-- Dziel długie numery na grupy.
-- Daj alternatywe DTMF dla kodów i numerow.
-- Analizuj ASR errors osobno od NLU errors.
-- Nie oceniaj ASR tylko na podstawie ogólnego WER; oceniaj skutki dla procesu.
-
-### 3.4.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Brak testów na realnym audio | Produkcja gorsza niż demo |
-| Brak słownika domenowego | Błędy nazw produktow i firm |
-| Brak potwierdzeń dla danych krytycznych | Ryzyko błędnej akcji |
-| Za szybkie endpointing przy cyfrach | Ucinanie numerow |
-| Traktowanie confidence jako prawdy | Błędne decyzję przy pewnych, ale złych transkrypcjach |
-| Brak zapisu audio do diagnostyki | Trudno poprawić system |
-
-### 3.4.8. Checklista ASR
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy ASR jest dobrany do kanału telefonicznego?
-- Czy wspiera język i wariant regionalny?
-- Czy mamy custom vocabulary?
-- Czy testujemy akcenty, hałas, osoby starsze, szybka mowę?
-- Czy mamy partials i final transcripts?
-- Czy mamy timestampy?
-- Czy dane krytyczne są potwierdzane?
-- Czy istnieje DTMF fallback?
-- Czy analizujemy błędy ASR w raportach?
-- Czy retencja audio/transkrypcji jest zgodna z polityka?
-
-### 3.4.9. Mini case study
-
-Voicebot ubezpieczeniowy zbiera numer polisy. Użytkownicy mówią numer w różnych grupach: "AB 123 45", "A B jeden dwa trzy", "a-be sto dwadziescia trzy". ASR myli litery i cyfry. Zespół zmienia projekt: bot prosi o numer w grupach, potwierdza każda grupe, pozwala użyć klawiatury telefonu i dodaje słownik prefiksow polis. Spada liczba nieudanych identyfikacji.
-
-### 3.4.10. Podsumowanie
-
-ASR nie jest neutralnym przepisywaczem mowy. Jest źródłem niepewności, która trzeba projektować, testować i monitorowac. Dobry voicebot nie zakłada idealnej transkrypcji, tylko umie działać mimo jej niedoskonalosci.
+"Nie mam wystarczających danych, żeby to ocenić. Mogę sprawdzić status sprawy albo połączyć z konsultantem."
 
 ---
 
-## 3.5. NLU/NLP: intencje, encje, sloty i rozumienie wypowiedzi
+## 3.12. Psychologiczne metryki jakości rozmowy
 
-### 3.5.1. Kluczowe pojęcia
+**Z praktyki.** Poniższe miary uzupełniają metryki techniczne o to, jak rozmowę odebrał człowiek. Szerzej opisuje je sekcja 15.9.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
+| Metryka | Znaczenie |
 |---|---|
-| Intent | Cel wypowiedzi użytkownika, np. "sprawdz_status" |
-| Entity | Informacja wyodrebniona z wypowiedzi, np. data, miasto, numer |
-| Slot | Pole wymagane do wykonania zadania, np. numer zamówienia |
-| Utterance | Przykładowa wypowiedź użytkownika |
-| Confidence | Pewność klasyfikacji |
-| Disambiguation | Doprecyzowanie, gdy mozliwych jest kilka interpretacji |
-| Multi-intent | Wypowiedź zawierajaca więcej niż jeden cel |
-| Context | Stan rozmowy, który zmienia interpretacje wypowiedzi |
+| Frustration signal rate | Sygnały irytacji |
+| Perceived control | Poczucie kontroli |
+| Customer effort | Wysiłek użytkownika |
+| Repeat rate | Powtarzanie informacji |
+| Interruption rate | Przerywanie bota |
+| Emotional escalation | Wzrost napięcia |
+| Trust score | Ocena zaufania |
+| Helpful resolution | Subiektywna pomocność |
 
-### 3.5.2. Wyjaśnienie eksperckie
+Dwie z tych miar mają oparcie w źródłach z tego rozdziału. Wysiłek klienta jako miarę wprowadzili [Dixon, Freeman i Toman](https://hbr.org/2010/07/stop-trying-to-delight-your-customers), którzy twierdzą, że przewiduje on lojalność lepiej niż satysfakcja i wskaźnik NPS. Ocena zaufania ma sens dopiero w zestawieniu z faktyczną skutecznością bota, bo zgodnie z pojęciem kalibracji (sekcja 3.11) wysokie zaufanie do słabego bota jest problemem, a nie sukcesem.
 
-NLU odpowiada na pytanie: "Co użytkownik próbuje zrobić i jakie informacje już podal?". Przykład:
-
-Użytkownik: "Chce przelozyc dostawe na piatek po poludniu."
-
-Możliwa interpretacja:
-
-```text
-intent: change_delivery_date
-entities:
-  date: piatek
-  time_preference: po poludniu
-slots filled:
-  desired_date = piatek
-  desired_time_window = afternoon
-```
-
-NLU nie powinno samo decydowac, czy zmiana jest możliwa. To należy do logiki biznesowej i integracji. NLU rozpoznaje znaczenie wypowiedzi, dialog manager decyduje, co dalej, a backend sprawdza realne możliwości.
-
-W kanale głosowym NLU pracuje na transkrypcji ASR, więc dostaje tekst potencjalnie błędny. Dlatego klasy intencji muszą być projektowane z uwzglednieniem:
-
-- typowych błędów transkrypcji;
-- krotkich odpowiedzi;
-- przerwań;
-- korekt;
-- niepełnych zdań;
-- emocji;
-- wielointencyjnosci.
-
-### 3.5.3. Perspektywa biznesowa
-
-Model intencji jest mapa procesów firmy. Jeśli intencje są źle zaprojektowane, bot nie tylko źle rozumie język, ale też źle odzwierciedla biznes.
-
-Zły model:
-
-- jedna intencja "reklamacja" obejmuje fakture, produkt, dostawe, płatność, zwrot i gwarancje;
-- brak oddzielnej intencji "konsultant";
-- brak intencji korekty;
-- brak intencji "nie wiem";
-- brak intencji "anuluj".
-
-Dobry model:
-
-- rozdziela sprawy wedlug akcji, danych i procesu;
-- ma intencje obslugowe i meta-intencje;
-- przewiduje korekty, eskalację i zmianę tematu;
-- jest powiazany z raportowaniem.
-
-### 3.5.4. Perspektywa użytkownika
-
-Użytkownik mówi po swojemu:
-
-- "gdzie jest paczka";
-- "kurier miał być wczoraj";
-- "nie mam przesyłki";
-- "chce wiedzieć, co z moim zamówieniem";
-- "zmiencie mi adres, bo tam nikogo nie będzie";
-- "dobra, jednak konsultant".
-
-Bot nie powinien wymagać idealnych komend. Ale nie powinien też udawać, że rozumie, gdy pewność jest niska. Lepiej dopytać:
-
-"Czy chodzi o sprawdzenie statusu przesyłki, czy o zmianę adresu dostawy?"
-
-### 3.5.5. Perspektywa technologiczna
-
-NLU może być:
-
-- klasycznym modelem intencji i encji;
-- częścią platformy dialogowej;
-- klasyfikatorem LLM;
-- hybryda reguł, modeli i LLM;
-- osobnym serwisem w architekturze.
-
-Wymagania:
-
-- lista intencji;
-- definicje intencji;
-- pozytywne i negatywne przykłady;
-- encje systemowe i domenowe;
-- słowniki;
-- threshold confidence;
-- strategie disambiguation;
-- analiza confusion matrix;
-- wersjonowanie modelu;
-- test set oddzielony od training set.
-
-### 3.5.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Projektuj intencje wedlug celu użytkownika, nie struktury organizacyjnej firmy.
-- Nie tworz zbyt podobnych intencji bez dobrych danych.
-- Dodaj intencje meta: konsultant, powtórz, anuluj, stop, nie rozumiem.
-- Oddziel intencje informacyjne od transakcyjnych.
-- Testuj multi-intent.
-- Regularnie analizuj nierozpoznane wypowiedzi.
-- Utrzymuj dataset testowy.
-- Nie zmieniaj modelu bez testów regresji.
-
-### 3.5.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Zbyt szerokie intencje | Bot rozumie ogólny temat, ale nie wie, co zrobić |
-| Zbyt waskie intencje | Confusion i trudne utrzymanie |
-| Brak negatywnych przykładów | Model myli podobne sprawy |
-| Brak intencji korekty | Przerwania psuja flow |
-| Brak intencji eskalacji | Użytkownik walczy z botem |
-| Trenowanie na sztucznych frazach bez walidacji | Produkcja różni się od testów |
-
-### 3.5.8. Checklista NLU
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy każda intencja ma jasna definicje?
-- Czy intencje odpowiadają akcjom/procesom?
-- Czy mamy przykłady realnych wypowiedzi?
-- Czy mamy negatywne przykłady?
-- Czy encje są potrzebne do wykonania zadania?
-- Czy sloty mają walidacje?
-- Czy jest strategia niskiej pewności?
-- Czy jest disambiguation?
-- Czy analizujemy confusion matrix?
-- Czy model ma wersjonowanie i testy regresji?
-
-### 3.5.9. Mini case study
-
-W telekomie intencje "awaria internetu", "wolny internet" i "brak internetu" myla się w modelu. Biznes chce trzy osobne raporty, ale użytkownicy mówią podobnie. Zespół zmienia model: jedna intencja "problem_z_internetem", a typ problemu zbierany jest jako slot po pytaniu doprecyzowujacym. Model staje się stabilniejszy, a biznes nadal dostaje raport przez slot "problem_type".
-
-### 3.5.10. Podsumowanie
-
-NLU jest mostem między językiem użytkownika a procesem biznesowym. Dobre intencje nie są lista tematow, lecz mapa tego, co użytkownik chce osiągnąć i jakie dane są potrzebne, aby system mógł działać.
+Bibliografia podręcznika wymienia też gotowe kwestionariusze do oceny systemów mowy, między innymi SASSI i skalę SUS zweryfikowaną dla interfejsów głosowych. Nie były one sprawdzane w ramach tego rozdziału.
 
 ---
 
-## 3.6. Menedżer dialogu, logika biznesowa i zarządzanie stanem
+## 3.13. Praktyczne narzędzia psychologiczne
 
-### 3.6.1. Kluczowe pojęcia
+Narzędzia w tej sekcji są zapisem praktyki. Przy każdym wskazano sekcję, która podaje dla niego podstawę.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+### 3.13.1. Checklista redukcji frustracji
 
-| Pojęcie | Definicja |
-|---|---|
-| Dialog manager | Komponent decydujacy o następnym kroku rozmowy |
-| State | Aktualny stan rozmowy i zebrane informacje |
-| Slot filling | Proces zbierania brakujacych danych |
-| Policy | Regula decydujaca, co bot robi w danej sytuacji |
-| Context stack | Pamięć aktywnych tematow i procesów |
-| Recovery | Powrót do sensownego miejsca po błędzie lub przerwaniu |
-| Business rule | Regula biznesowa, np. "adres można zmienić tylko przed wysyłka" |
-| Transaction boundary | Moment, w którym akcja zostaje zatwierdzona |
+- Czy bot pyta jednoznacznie? (3.6)
+- Czy nie powtarza tego samego? (3.6)
+- Czy pozwala poprawić? (3.6)
+- Czy pozwala przerwać? (rozdział 5)
+- Czy daje człowieka? (3.3)
+- Czy nie obwinia użytkownika? (3.6)
 
-### 3.6.2. Wyjaśnienie eksperckie
+### 3.13.2. Matryca emocji i reakcji
 
-NLU mówi: "użytkownik chce zmienić adres". Dialog manager pyta: "czy mamy wszystkie dane i co teraz?". Business logic sprawdza: "czy adres można jeszcze zmienić dla tego zamówienia?".
+| Emocja | Sygnał | Reakcja bota |
+|---|---|---|
+| Pośpiech | "szybko" | Skróć i przejdź do celu |
+| Irytacja | "już mówiłem" | Nie powtarzaj, uznaj i napraw |
+| Lęk | pytania o konsekwencje | Wyjaśnij spokojnie, bez przesady |
+| Złość | agresja | Skróć i eskaluj |
+| Niepewność | cisza, "nie wiem" | Podaj przykład lub alternatywę |
 
-Przykład stanu:
+Reakcja na złość ma oparcie w badaniach z sekcji 3.5: przy rozzłoszczonym kliencie uczłowieczanie i empatia bota szkodziły, a autorzy radzą przekazać takiego klienta człowiekowi.
 
-```text
-current_intent: change_delivery_address
-customer_verified: true
-order_id: 12345
-order_status: packed_not_shipped
-current_address: Lesna 14
-new_address: null
-last_bot_question: ask_new_address
-fallback_count: 0
-handoff_requested: false
-```
+### 3.13.3. Zdania, których bot powinien unikać
 
-Bez stanu bot nie prowadzi rozmowy, tylko reaguje na pojedyncze wypowiedzi. Stan pozwala:
-
-- pamiętać, co już zebrano;
-- wracać po przerwaniu;
-- obsługiwać korekty;
-- unikać powtarzania pytań;
-- przekazać kontekst konsultantowi;
-- logować proces.
-
-### 3.6.3. Perspektywa biznesowa
-
-Business logic chroni proces przed blednymi akcjami. Przykłady:
-
-- nie można anulowac zamówienia po wysylce;
-- nie można zmienić adresu po przekazaniu kurierowi;
-- nie można udzielić informacji o polisie bez weryfikacji;
-- nie można zarezerwowac terminu, który jest już zajety;
-- nie można przyjac zgody, jeśli użytkownik przerwal wymagany komunikat.
-
-Dialog manager musi wiedzieć, kiedy pytać dalej, kiedy wykonać akcję, kiedy powiedzieć "nie mogę tego zrobić" i kiedy eskalować.
-
-### 3.6.4. Perspektywa użytkownika
-
-Dobry stan rozmowy sprawia, że użytkownik czuje:
-
-- "bot pamięta, co powiedzialem";
-- "nie musze zaczynać od nowa";
-- "mogę poprawić jeden element";
-- "system wie, gdzie jestesmy w procesie".
-
-Zły stan rozmowy objawia się jako:
-
-- powtarzanie tych samych pytań;
-- reset po przerwaniu;
-- utrata danych po fallbacku;
-- przekazanie konsultantowi bez kontekstu.
-
-### 3.6.5. Perspektywa technologiczna
-
-State management musi być:
-
-- jawny;
-- wersjonowany;
-- odporny na przerwania;
-- zgodny z retencja danych;
-- ograniczony do danych potrzebnych;
-- dostępny dla handoff;
-- logowany w sposób bezpieczny.
-
-W voicebotach LLM ważne jest oddzielenie:
-
-- stabilnego stanu procesu;
-- historii rozmowy;
-- aktualnego planu odpowiedzi;
-- generowanego tekstu;
-- wyniku narzędzi/API.
-
-Jeśli LLM generuje odpowiedź, ale użytkownik przerywa, stan nie powinien slepo przejść dalej. Trzeba wiedzieć, czy akcja została wykonana, czy tylko zapowiedziana.
-
-### 3.6.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Zapisuj stan jako jawne pola, nie tylko historie czatu.
-- Oddziel dane potwierdzone od niepotwierdzonych.
-- Projektuj korektę slotu.
-- Projektuj anulowanie akcji.
-- Projektuj recovery po przerwaniu.
-- Projektuj licznik fallbackow.
-- Ustal granice transakcji.
-- Przekazuj stan do konsultanta w czytelnym podsumowaniu.
-
-### 3.6.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Trzymanie stanu tylko w promptcie LLM | Nieprzewidywalnosc i utrata kontroli |
-| Brak rozroznienia danych potwierdzonych | Błędne akcję |
-| Brak korekty slotu | Użytkownik musi zaczynać od nowa |
-| Brak transaction boundary | Bot może sugerowac wykonanie akcji, która się nie wykonala |
-| Brak context handoff | Konsultant nie wie, co się działo |
-
-### 3.6.8. Checklista dialog managera
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy każdy proces ma jasno opisane stany?
-- Czy wiemy, jakie sloty są wymagane?
-- Czy każdy slot ma walidacje?
-- Czy dane krytyczne są potwierdzane?
-- Czy można poprawić pojedynczy slot?
-- Czy jest licznik fallbackow?
-- Czy jest polityka eskalacji?
-- Czy stan jest przekazywany do konsultanta?
-- Czy LLM nie jest jedynym miejscem przechowywania stanu?
-- Czy wiemy, kiedy akcja jest formalnie zatwierdzona?
-
-### 3.6.9. Mini case study
-
-Voicebot rezerwacyjny zbiera datę i godzinę wizyty. Użytkownik mówi: "Nie, jednak czwartek". W pierwszej wersji bot interpretuje to jako nowa rozmowę i pyta od początku o specjalizacje. Po poprawie stan rozmowy przechowuje specjalizacje, lokalizacje i lekarza, a korekta dotyczy tylko slotu `appointment_datę`. Bot mówi: "Zmieniam datę na czwartek. Godzina 15:30 nadal pasuje?"
-
-### 3.6.10. Podsumowanie
-
-Dialog manager jest sercem voicebota procesowego. To on sprawia, że rozmową nie jest seria losowych odpowiedzi, lecz kontrolowana droga do wyniku. W voicebotach generatywnych jawny stan jest jeszcze ważniejszy, bo chroni proces przed nieprzewidywalnoscia modelu.
+- "Doskonale rozumiem, co pan czuje." (3.5)
+- "To bardzo proste." (3.6)
+- "Musi pan..."
+- "Niepoprawna odpowiedź." (3.6)
+- "Proszę słuchać uważnie." (3.6)
+- "Nie ma potrzeby rozmowy z konsultantem." (3.3)
 
 ---
 
-## 3.7. Integracje backendowe i logika procesów
+## 3.14. Przykłady projektowe
 
-### 3.7.1. Kluczowe pojęcia
+Poniższe sytuacje są scenariuszami ilustrującymi zasady z rozdziału. Nie są opisami wdrożeń i nie stoją za nimi zmierzone wyniki.
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+### 3.14.1. Użytkownik nie ufa botowi
 
-| Pojęcie | Definicja |
-|---|---|
-| API | Interfejs pozwalajacy systemom wymieniać dane |
-| Webhook | Wywolanie HTTP do zewnetrznego systemu w reakcji na zdarzenie |
-| CRM | System zarzadzania relacjami z klientami |
-| ERP | System zarzadzania zasobami firmy |
-| Ticketing | System obsługi zgloszen |
-| Timeout | Maksymalny czas oczekiwania na odpowiedź systemu |
-| Retry | Ponowienie zapytania po błędzie |
-| Idempotency | Właściwość, dzięki której ponowienie akcji nie powoduje duplikatu |
-| PII | Dane osobowe |
+Błąd: bot udaje człowieka.  
+Poprawa: transparentność i zakres.
 
-### 3.7.2. Wyjaśnienie eksperckie
+Bot: "Jestem automatycznym asystentem. Mogę sprawdzić status albo połączyć z konsultantem."
 
-Voicebot bez integracji może informowac. Voicebot z integracjami może działać.
+### 3.14.2. Użytkownik zdenerwowany reklamacją
 
-Przykłady:
+Błąd: bot pyta po raz trzeci o numer.  
+Poprawa: wykorzystuje dane i eskaluje.
 
-- status zamówienia: integracja z order management;
-- wizyta: integracja z kalendarzem;
-- reklamacja: ticketing;
-- windykacja: system płatności i saldo;
-- helpdesk IT: system zgloszen, katalog usług, baza użytkowników;
-- bank: system autoryzacji, karty, transakcje.
+Bot: "Mam już numer, ale system nie znajduje sprawy. Połączę z konsultantem i przekażę ten numer."
 
-Integracje muszą być projektowane pod rozmowę głosowa. Użytkownik czeka na linii. Timeout, który w aplikacji webowej jest drobnym opoznieniem, w rozmowie telefonicznej staje się cisza i frustracja.
+### 3.14.3. Użytkownik starszy
 
-### 3.7.3. Perspektywa biznesowa
+Błąd: szybkie listy opcji.  
+Poprawa: wolniejsze tempo, jedno pytanie.
 
-Integracje decydują, czy bot:
+Bot: "W czym pomóc: wizyta czy recepta?"
 
-- realnie rozwiązuje sprawę;
-- tylko zbiera dane dla konsultanta;
-- tworzy ticket;
-- wykonuje transakcje;
-- redukuje koszt;
-- poprawia jakość danych.
+### 3.14.4. Użytkownik wymusza człowieka
 
-Najważniejsze pytania biznesowe:
+Błąd: bot próbuje zatrzymać.  
+Poprawa: handoff.
 
-- Jakie akcję bot może wykonywac sam?
-- Jakie akcję wymagają potwierdzenia?
-- Jakie akcję wymagają człowieka?
-- Jakie dane bot może odczytac?
-- Jakie dane bot może zapisać?
-- Co robimy, gdy integracja nie odpowiada?
+Bot: "Dobrze. Łączę z konsultantem."
 
-### 3.7.4. Perspektywa użytkownika
+### 3.14.5. Użytkownik z problemem wrażliwym
 
-Użytkownik odczuwa dobra integracje jako sprawczosc:
+Błąd: bot próbuje doradzać.  
+Poprawa: granica i bezpieczny kanał.
 
-"Bot sprawdzil, zmienil, potwierdzil, wyslal."
-
-Zła integracja brzmi jak:
-
-"Nie mam teraz dostępu do tych danych", "proszę zadzwonic później", "połączę z konsultantem" po kilku minutach zbierania informacji.
-
-Jeśli bot zbiera dane, a potem integracja pada, komunikat musi być uczciwy:
-
-"Mam już potrzebne informacje, ale system rezerwacji teraz nie odpowiada. Mogę utworzyc zgłoszenie dla konsultanta albo wysłać link do samodzielnej zmiany terminu."
-
-### 3.7.5. Perspektywa technologiczna
-
-Specyfikacja integracji powinna zawierac:
-
-- nazwe systemu;
-- właściciela systemu;
-- endpointy/API;
-- autoryzacje;
-- dane wejsciowe;
-- dane wyjsciowe;
-- błędy i kody odpowiedzi;
-- timeout;
-- retry;
-- idempotency key dla akcji zapisujacych;
-- ograniczenia rate limit;
-- logowanie;
-- maskowanie danych;
-- tryb testowy/sandbox;
-- SLA.
-
-### 3.7.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Projektuj timeouty z perspektywy rozmowy.
-- Nie wykonuj akcji krytycznych bez potwierdzenia.
-- Używaj idempotency dla zapisow, np. rezerwacji lub płatności.
-- Oddziel odczyt danych od modyfikacji danych.
-- Daj fallback, gdy integracja nie odpowiada.
-- Loguj request ID i wynik akcji.
-- Nie wypowiadaj danych wrażliwych bez potrzeby.
-- Przekazuj konsultantowi, które API zawiodlo i co bot już zebral.
-
-### 3.7.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Integracja dopiero po projekcie dialogu | Flow nie pasuje do realnych danych |
-| Brak timeoutów | Martwa cisza |
-| Brak idempotency | Duplikaty rezerwacji lub zgloszen |
-| Brak rozroznienia błędów | Bot daje zły komunikat |
-| Brak sandboxa | Testy są ryzykowne |
-| Nadmierne odczytywanie danych | Ryzyko prywatności |
-
-### 3.7.8. Checklista integracji
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy wiemy, które systemy są potrzebne?
-- Czy API istnieje i jest dostępne?
-- Czy mamy właściciela systemu?
-- Czy mamy dokumentacje endpointow?
-- Czy znamy timeout i SLA?
-- Czy mamy retry?
-- Czy akcję zapisujace są idempotentne?
-- Czy mamy sandbox?
-- Czy błędy są mapowane na komunikaty użytkownika?
-- Czy dane wrażliwe są maskowane w logach?
-
-### 3.7.9. Mini case study
-
-Voicebot umawia wizyty serwisowe. API kalendarza czasem tworzy rezerwacje, ale odpowiedź wraca z opoznieniem i bot ponawia request. Powstają duplikaty. Po poprawce dodano idempotency key oparty o identyfikator rozmowy i proponowany slot wizyty. Ponowienie requestu zwraca te sama rezerwacje zamiast tworzyć nowa.
-
-### 3.7.10. Podsumowanie
-
-Integracje zamieniają voicebota z rozmowcy w wykonawce procesu. Muszą być projektowane z uwzglednieniem czasu rozmowy, ryzyka błędów, prywatności i handoff. Dobra integracja jest niewidoczna dla użytkownika, bo sprawa po prostu idzie do przodu.
+Bot: "Nie mogę ocenić tej sytuacji automatycznie. Połączę z osobą, która może pomóc."
 
 ---
 
-## 3.8. Bazy wiedzy, RAG i odpowiedzi informacyjne
+## 3.15. Zbiorcza checklista rozdziału
 
-### 3.8.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| Knowledge base | Zbior zweryfikowanych informacji dla bota |
-| RAG | Pobieranie informacji że źródeł i generowanie odpowiedzi na ich podstawie |
-| Chunk | Fragment dokumentu indeksowany w bazie wiedzy |
-| Retrieval | Wyszukanie pasujacych fragmentow |
-| Grounding | Oparcie odpowiedzi modelu na źródłach |
-| Citation | Wskazanie źródła odpowiedzi, w rozmowie głosowej zwykle jako log lub podsumowanie |
-| Freshness | Aktualność wiedzy |
-| Policy answer | Odpowiedź zgodna z polityka firmy, nawet jeśli użytkownik pyta szerzej |
-
-### 3.8.2. Wyjaśnienie eksperckie
-
-Baza wiedzy dla voicebota nie może być zrzutem całego intranetu. Musi być przygotowana pod rozmowę:
-
-- aktualna;
-- jednoznaczna;
-- bez sprzecznych wersji;
-- podzielona na sensowne fragmenty;
-- oznaczona metadanymi;
-- zawierajaca zakres obowiazywania;
-- przetestowana na pytaniach użytkowników;
-- przepisana do formatu głosowego tam, gdzie trzeba.
-
-RAG działa w uproszczeniu tak:
-
-```text
-Pytanie użytkownika
-  -> wyszukanie pasujacych fragmentow bazy
-  -> przekazanie fragmentow do modelu
-  -> wygenerowanie odpowiedzi
-  -> opcjonalna walidacja politykami
-  -> odpowiedź głosowa
-```
-
-Największe ryzyko: model odpowiada płynnie, ale źle. W kanale głosowym użytkownik ma mniej możliwości samodzielnego sprawdzenia odpowiedzi, więc trzeba ograniczac zakres i projektować niepewność.
-
-### 3.8.3. Perspektywa biznesowa
-
-Baza wiedzy jest produktem operacyjnym. Ktos musi być właścicielem:
-
-- treści;
-- aktualizacji;
-- zatwierdzania;
-- wersji;
-- wycofywania nieaktualnych informacji;
-- odpowiedzialności za błędy.
-
-Bez właściciela baza szybko staje się smietnikiem dokumentów. RAG nie naprawi sprzecznych procedur.
-
-### 3.8.4. Perspektywa użytkownika
-
-Użytkownik chce odpowiedzi:
-
-- krótkiej;
-- konkretnej;
-- dopasowanej do pytania;
-- bez żargonu;
-- z opcja doprecyzowania;
-- z jasnym sygnalem, gdy bot nie może rozstrzygnąć indywidualnej sprawy.
-
-Przykład:
-
-Źle:
-
-"Zgodnie z regulaminem usług dodatkowych w paragrafie 14 punkt 3..."
-
-Lepsze:
-
-"Zwrot zwykle trwa do 14 dni od przyjęcia przesyłki. Jeśli chce pan, mogę sprawdzić status konkretnego zwrotu."
-
-### 3.8.5. Perspektywa technologiczna
-
-Wymagania RAG:
-
-- źródła dokumentów;
-- pipeline indeksowania;
-- chunking;
-- embedding/search;
-- metadane: wersja, data, produkt, kraj, język, segment klienta;
-- filtrowanie dostępu;
-- ocena trafności retrieval;
-- test set pytań;
-- monitoring odpowiedzi;
-- mechanizm usuwania/aktualizacji źródeł;
-- polityka odpowiedzi "nie wiem".
-
-### 3.8.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Nie indeksuj wszystkiego.
-- Usuwaj sprzeczne i nieaktualne dokumenty.
-- Twórz wersje "voice-ready" dla najczęstszych odpowiedzi.
-- Ograniczaj odpowiedź do 1-3 zdań.
-- Dodawaj opcję: "Mogę sprawdzić konkretną sprawę".
-- Testuj pytania potoczne, nie tylko formalne.
-- Loguj, z których źródeł skorzystano.
-- Oddziel odpowiedzi ogólne od decyzji indywidualnych.
-
-### 3.8.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Indeksowanie całego SharePointa bez kuracji | Sprzeczne odpowiedzi |
-| Brak dat waznosci | Odpowiedzi nieaktualne |
-| Za długie odpowiedzi RAG | Użytkownik przerywa |
-| Brak testów retrieval | Model dostaje źle fragmenty |
-| Brak polityki "nie wiem" | Halucynacje |
-| Brak właściciela treści | Baza degraduje się po wdrożeniu |
-
-### 3.8.8. Checklista RAG
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy wiemy, z jakich źródeł bot może korzystać?
-- Czy źródła są zatwierdzone?
-- Czy dokumenty są aktualne?
-- Czy istnieja metadane?
-- Czy odpowiedzi są dopasowane do głosu?
-- Czy mamy test set pytań?
-- Czy mierzymy retrieval accuracy?
-- Czy bot może odmówić odpowiedzi?
-- Czy logujemy źródła?
-- Czy jest proces aktualizacji bazy?
-
-### 3.8.9. Mini case study
-
-Firma ubezpieczeniowa indeksuje OWU, FAQ i procedury likwidacji szkody. Bot zaczyna odpowiadać zbyt prawniczo. Zespół tworzy warstwę "voice answers": zatwierdzone, krótkie interpretacje ogólnych zasad, powiązane z dokumentami źródłowymi. LLM może używać ich do odpowiedzi głosowej, ale przy pytaniu o indywidualną decyzję tworzy zgłoszenie albo łączy z konsultantem.
-
-### 3.8.10. Podsumowanie
-
-RAG może zwiększyć użyteczność voicebota, ale tylko wtedy, gdy baza wiedzy jest kuratorowana, aktualna i przygotowana pod rozmowę. W przeciwnym razie generatywna płynność ukryje chaos źródeł.
+- Czy bot mówi na początku, co potrafi?
+- Czy zaufanie do bota odpowiada temu, co bot realnie robi?
+- Czy wypowiedzi są na tyle krótkie, żeby dało się je zapamiętać?
+- Czy użytkownik wie, jak poprawić, przerwać i przejść do człowieka?
+- Czy bot naprawia błędy pytaniem zawężonym i bez obwiniania?
+- Czy na złość reaguje działaniem, a nie deklaracją empatii?
+- Czy odmowa jest podana tak samo wyraźnie jak zgoda?
+- Czy brzmienie bota nie obiecuje więcej, niż bot potrafi?
+- Czy formy gramatyczne w skrypcie zgadzają się z płcią głosu bota?
+- Czy próg ciszy i tempo uwzględniają osoby mówiące wolniej i z przerwami?
+- Czy sytuacje wrażliwe są eskalowane?
 
 ---
 
-## 3.9. TTS: synteza mowy i projektowanie wypowiedzi audio
-
-### 3.9.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| TTS | Text-to-Speech, synteza mowy |
-| Voice persona | Charakter głosu i stylu bota |
-| Prosody | Tempo, rytm, akcent, intonacja |
-| SSML | Znaczniki sterujące synteza mowy, jeśli platforma wspiera |
-| Pronunciation lexicon | Słownik wymowy |
-| Speech output formatting | Formatowanie tekstu pod odczyt |
-| Earcons | Krótkie sygnały audio wspierające interakcje |
-
-### 3.9.2. Wyjaśnienie eksperckie
-
-TTS nie powinien po prostu odczytywać tekstu napisanego dla ekranu. Tekst głosowy musi być:
-
-- krótszy;
-- bardziej linearny;
-- łatwiejszy do zapamiętania;
-- bez nawiasów i złożonych struktur;
-- z jasnymi potwierdzeniami;
-- z naturalnym rytmem.
-
-Przykład:
-
-Tekst ekranowy:
-
-"Twoja reklamacja nr R/2026/07/18273 została przyjęta do rozpatrzenia, a przewidywany termin udzielenia odpowiedzi wynosi 14 dni roboczych od daty otrzymania kompletu dokumentów."
-
-Tekst głosowy:
-
-"Przyjęliśmy reklamację. Numer sprawy to R 18 273. Odpowiedź powinna być w ciągu 14 dni roboczych od otrzymania dokumentów."
-
-### 3.9.3. Perspektywa biznesowa
-
-TTS wpływa na:
-
-- wizerunek marki;
-- zrozumiałość;
-- czas rozmowy;
-- liczbę powtórzeń;
-- skuteczność potwierdzeń;
-- zaufanie;
-- dostępność.
-
-Zbyt ekspresyjny głos może być nieodpowiedni dla banku lub windykacji. Zbyt mechaniczny może obniżać zaufanie w opiece medycznej. Głos musi pasować do kontekstu, a nie tylko brzmieć efektownie.
-
-### 3.9.4. Perspektywa użytkownika
-
-Użytkownik reaguje na:
-
-- tempo;
-- ton;
-- pauzy;
-- sposób przepraszania;
-- czytelność liczb;
-- łatwość przerwania;
-- brak nadmiernej "ludzkości".
-
-Voicebot powinien brzmieć kompetentnie, spokojnie i transparentnie. Nie musi udawać konsultanta.
-
-### 3.9.5. Perspektywa technologiczna
-
-Wymagania TTS:
-
-- język i lokalizacja;
-- stabilność głosu;
-- wymowa liczb, dat, kwot, skrótów;
-- możliwość słownika wymowy;
-- możliwość sterowania pauzami;
-- latency syntezy;
-- streaming TTS;
-- możliwość przerwania playbacku;
-- licencje i zgody dla głosu;
-- zgodność z kanałem telefonicznym.
-
-### 3.9.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Testuj każdy ważny komunikat na głos.
-- Projektuj liczby w grupach.
-- Unikaj długich zdań podrzędnych.
-- Nie używaj żargonu.
-- Dodawaj pauzy tam, gdzie użytkownik musi zapamiętać dane.
-- Tworz słownik wymowy dla marek i nazw.
-- Używaj spokojnego tonu w błędach.
-- Skracaj odpowiedzi generatywne przed TTS.
-
-### 3.9.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Odczytywanie tekstów z FAQ bez adaptacji | Długie, trudne wypowiedzi |
-| Brak testów liczb i dat | Nieczytelne dane |
-| Zbyt szybkie tempo | Powtórzenia |
-| Zbyt emocjonalny głos | Niedopasowanie do branży |
-| Brak możliwości przerwania TTS | Frustracja |
-| Brak słownika wymowy | Śmieszne lub mylące odczyty nazw |
-
-### 3.9.8. Checklista TTS
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy teksty są pisane pod głos?
-- Czy TTS poprawnie czyta liczby, daty, kwoty, kody?
-- Czy mamy słownik wymowy?
-- Czy tempo jest odpowiednie dla grupy użytkowników?
-- Czy komunikaty są krótkie?
-- Czy głos pasuje do marki i kontekstu?
-- Czy TTS jest streamowany?
-- Czy można go zatrzymać przy barge-in?
-- Czy testowaliśmy przez telefon?
-
-### 3.9.9. Mini case study
-
-Voicebot energetyczny odczytuje numer punktu poboru energii jako jeden długi ciąg. Użytkownicy proszą o powtórzenie. Zespół zmienia format: bot czyta numer w grupach po trzy znaki, robi krótkie pauzy i pyta, czy wysłać numer SMS-em. Liczba powtórzeń spada.
-
-### 3.9.10. Podsumowanie
-
-TTS jest twarzą voicebota w kanale audio. Nawet najlepsza logika może zostać odebrana jako zła, jeśli bot mówi za długo, źle wymawia dane albo nie daje się przerwać.
-
----
-
-## 3.10. Monitoring, logging, analityka i observability
-
-### 3.10.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| Logging | Zapisywanie zdarzeń systemowych i dialogowych |
-| Monitoring | Bieżące sledzenie stanu systemu |
-| Analytics | Analiza wynikow rozmów i trendow |
-| Trace | Ścieżka pojedynczej rozmowy przez komponenty |
-| Transcript | Tekstowy zapis rozmowy |
-| Event | Zdarzenie, np. fallback, handoff, API timeout |
-| Dashboard | Widok metryk |
-| Alert | Powiadomienie o problemie |
-
-### 3.10.2. Wyjaśnienie eksperckie
-
-Nie da się optymalizować voicebota, którego nie widac. Observability musi pokazać:
-
-- co użytkownik powiedział;
-- co ASR rozpoznal;
-- jaka intencja została wykryta;
-- jakie sloty zebrano;
-- jakie API wywolano;
-- jaka odpowiedź wygenerowano;
-- kiedy był fallback;
-- kiedy był barge-in;
-- kiedy był handoff;
-- jaki był wynik rozmowy;
-- ile trwala każda faza.
-
-Trzy poziomy danych:
-
-1. Techniczne: latency, błędy API, status ASR/TTS, uptime.
-2. Konwersacyjne: intencje, fallbacki, no-input, przerwania, powtórzenia.
-3. Biznesowe: task completion, containment, koszt, konwersja, CSAT, repeat contact.
-
-### 3.10.3. Perspektywa biznesowa
-
-Dashboard biznesowy powinien odpowiadać:
-
-- Ile spraw bot zakonczyl skutecznie?
-- Jakie procesy działają najlepiej?
-- Gdzie rosna eskalację?
-- Ile kosztuje rozmową?
-- Czy spada liczba kontaktów powtornych?
-- Czy poprawia się dostępność?
-- Czy bot tworzy realną wartość?
-
-Sama liczba rozmów obsluzonych przez bota nie jest sukcesem. Sukces to wynik sprawy.
-
-### 3.10.4. Perspektywa użytkownika
-
-Monitoring powinien wykrywać sygnały złego doświadczenia:
-
-- wiele powtórzeń;
-- wiele no-match;
-- przerwania w tych samych promptach;
-- nagle eskalację po konkretnym komunikacie;
-- długie ciszę;
-- rozłączenia po fallbacku;
-- prośby o konsultanta po błędzie.
-
-Te sygnały mówią, gdzie użytkownik traci cierpliwosc.
-
-### 3.10.5. Perspektywa technologiczna
-
-Minimalny zestaw logow:
-
-- conversation_id;
-- timestampy tur;
-- ASR partial i final;
-- confidence;
-- detected intent;
-- entities/slots;
-- dialog state;
-- bot response text;
-- TTS event;
-- barge-in event;
-- endpointing decision;
-- API request ID i wynik;
-- fallback/no-input/no-match;
-- handoff reason;
-- outcome;
-- latency per component.
-
-Wymagania prywatności:
-
-- maskowanie danych osobowych;
-- kontrola dostępu do transkrypcji;
-- retencja;
-- audyt dostępu;
-- anonimizacja do analiz, jeśli możliwe.
-
-### 3.10.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Projektuj logowanie przed produkcją.
-- Ustal słownik zdarzeń.
-- Loguj powody handoff, nie tylko fakt handoff.
-- Oddziel metryki systemowe od biznesowych.
-- Przegladaj transkrypcje regularnie.
-- Tworz backlog optymalizacji na podstawie danych.
-- Monitoruj zmiany po każdym release.
-- Dbaj o prywatność i minimalizacje danych.
-
-### 3.10.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Brak logow ASR | Nie wiadomo, czy zawinil ASR czy NLU |
-| Brak powodów handoff | Eskalację są nieinterpretowalne |
-| Dashboard tylko wolumenowy | Brak wgladu w jakość |
-| Brak anonimizacji | Ryzyko prywatności |
-| Brak wersjonowania zmian | Nie wiadomo, co pogorszylo metryki |
-| Brak alertow | Problemy trwaja godzinami lub dniami |
-
-### 3.10.8. Checklista observability
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy mamy conversation_id?
-- Czy logujemy transkrypcje ASR?
-- Czy logujemy intencje i confidence?
-- Czy logujemy stan dialogu?
-- Czy logujemy API i timeouty?
-- Czy logujemy barge-in i no-input?
-- Czy logujemy powod handoff?
-- Czy mierzymy latency komponentów?
-- Czy dane wrażliwe są maskowane?
-- Czy mamy dashboard biznesowy, operacyjny i jakościowy?
-
-### 3.10.9. Mini case study
-
-Voicebot e-commerce ma containment 72%, ale CSAT spada. Analiza logow pokazuje, że wiele rozmów zakonczonych "contained" dotyczy informacji o zwrocie, ale użytkownicy dzwonia ponownie po 24 godzinach. Bot informowal ogólnie, ale nie sprawdzal statusu konkretnego zwrotu. Po dodaniu integracji i metryki repeat contact okazuje się, że realna skuteczność była nizsza niż dashboard containment.
-
-### 3.10.10. Podsumowanie
-
-Observability jest warunkiem utrzymania voicebota. Bez logow i metryk projekt kończy się w dniu wdrożenia. Z observability voicebot staje się produktem, który można rozwijac.
-
----
-
-## 3.11. Human handoff: przekazanie rozmowy do konsultanta
-
-### 3.11.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| Handoff | Przekazanie sprawy do człowieka |
-| Escalation reason | Powod eskalacji |
-| Context package | Pakiet danych przekazywany konsultantowi |
-| Warm transfer | Przekazanie z kontekstem |
-| Cold transfer | Przekazanie bez kontekstu |
-| Deflection | Próba zatrzymania użytkownika w automatyzacji |
-| Agent assist | Wsparcie konsultanta przez AI |
-
-### 3.11.2. Wyjaśnienie eksperckie
-
-Handoff nie jest porażka voicebota. Jest mechanizmem bezpieczeństwa i jakości. Dobry bot wie, kiedy nie powinien kontynuowac.
-
-Powody handoff:
-
-- użytkownik prosi o człowieka;
-- niski confidence po kilku probach;
-- wysokie ryzyko compliance;
-- emocje lub agresja;
-- sytuacja medyczna/finansowa/wrażliwa;
-- brak danych w systemie;
-- błąd integracji;
-- proces poza zakresem;
-- VIP lub szczególny segment klienta;
-- warunek biznesowy, np. reklamacja sporna.
-
-### 3.11.3. Perspektywa biznesowa
-
-Dobry handoff:
-
-- chroni CSAT;
-- zmniejsza eskalację emocjonalne;
-- poprawia produktywnosc konsultanta;
-- daje dane o lukach automatyzacji;
-- pozwala stopniowo rozszerzac zakres bota.
-
-Zły handoff:
-
-- marnuje czas klienta;
-- przerzuca frustrację na konsultanta;
-- ukrywa problemy bota;
-- obniza zaufanie do automatyzacji.
-
-### 3.11.4. Perspektywa użytkownika
-
-Użytkownik chce wiedzieć:
-
-- czy zostanie połączony;
-- ile może czekac;
-- czy musi powtarzać dane;
-- czy konsultant będzie wiedział, o co chodzi.
-
-Dobre sformulowanie:
-
-"Połączę z konsultantem i przekaze, że chodzi o zmianę adresu w zamówieniu 12345. Proszę zostać na linii."
-
-### 3.11.5. Perspektywa technologiczna
-
-Context package powinien zawierac:
-
-- identyfikator rozmowy;
-- zweryfikowanego klienta, jeśli dotyczy;
-- intencje;
-- zebrane sloty;
-- ostatnie pytanie bota;
-- powod handoff;
-- wynik API;
-- streszczenie rozmowy;
-- transkrypcje lub link do niej;
-- poziom pilnosci;
-- informacje o emocjach/frustracji, ostrożnie i jako sygnał, nie diagnoza.
-
-### 3.11.6. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Pozwol użytkownikowi poprosić o człowieka.
-- Nie ukrywaj handoff.
-- Przekazuj kontekst.
-- Nie zmuszaj do powtarzania danych.
-- Mierz powod handoff.
-- Daj konsultantowi krótkie podsumowanie, nie sciane tekstu.
-- W procesach wrażliwych eskaluj szybciej.
-- Po handoff nie kasuj danych diagnostycznych.
-
-### 3.11.7. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Handoff tylko po trzech fallbackach | Użytkownik za późno trafia do człowieka |
-| Brak powodu eskalacji | Nie wiadomo, co poprawiać |
-| Brak kontekstu dla konsultanta | Klient powtarza sprawę |
-| Bot walczy z prośba o konsultanta | Frustracja i utrata zaufania |
-| Brak metryki handoff success | Nie wiadomo, czy przekazanie pomaga |
-
-### 3.11.8. Checklista handoff
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy użytkownik może poprosić o konsultanta?
-- Czy bot zna warunki automatycznej eskalacji?
-- Czy przekazujemy intencje i sloty?
-- Czy przekazujemy powod handoff?
-- Czy konsultant widzi podsumowanie?
-- Czy klient nie musi powtarzać danych?
-- Czy mierzymy czas do połączenia?
-- Czy mierzymy wynik po handoff?
-- Czy analizujemy handoff jako źródło optymalizacji?
-
-### 3.11.9. Mini case study
-
-Voicebot windykacyjny ma wysoki containment, ale konsultanci zgłaszaja bardzo trudne rozmowy po przekazaniu. Analiza pokazuje, że bot probowal kontynuowac automatyzację mimo fraz "nie zgadzam się", "to pomylka", "chce złożyć skargę". Dodano intencje sporu i szybszy handoff z podsumowaniem. Containment spadl, ale CSAT i compliance risk poprawily się.
-
-### 3.11.10. Podsumowanie
-
-Handoff to nie awaryjne wyjscie ukryte na koncu. To integralny element architektury i doświadczenia. Dobry voicebot wie, kiedy pomaga automatyzacja, a kiedy najlepsza obsługa to człowiek z dobrym kontekstem.
-
----
-
-## 3.12. Porównanie architektur: rule-based, intent-based, generative i hybrid AI
-
-### 3.12.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| Rule-based | System oparty na regułach, menu i deterministycznych warunkach |
-| Intent-based | System rozpoznajacy intencje i encje, prowadzony przez flow |
-| Generative AI | System wykorzystujacy model generatywny do rozumienia i/lub odpowiedzi |
-| Hybrid AI | Połączenie flow, reguł, NLU, LLM i narzędzi |
-| Determinism | Przewidywalność zachowania |
-| Flexibility | Zdolność obsługi zroznicowanych wypowiedzi |
-| Control surface | Miejsca, w których można ograniczyc lub nadzorowac zachowanie systemu |
-
-### 3.12.2. Tabela porownawcza
-
-| Kryterium | Rule-based | Intent-based | Generative | Hybrid |
-|---|---|---|---|---|
-| Kontrola | Bardzo wysoka | Wysoka | Nizsza bez guardrails | Wysoka w krytycznych krokach |
-| Elastycznosc językowa | Niska | Średnia | Wysoka | Wysoka tam, gdzie potrzebna |
-| Koszt utrzymania | Rosnie z liczba reguł | Rosnie z liczba intencji | Rosnie przez testy i monitoring | Średni-wysoki, ale kontrolowany |
-| Ryzyko compliance | Niskie-średnie | Średnie | Wysokie bez ograniczeń | Kontrolowane |
-| Najlepsze dla | Menu, proste procesy | Contact center task-oriented | Informacje, swobodny opis, asysta | Enterprise voiceboty |
-| Slabosc | Sztywnosc | Dane treningowe i confusion | Halucynacje, latency | Zlozonosc architektury |
-
-### 3.12.3. Wyjaśnienie eksperckie
-
-#### Rule-based
-
-Dobre dla prostych, przewidywalnych procesów:
-
-- routing;
-- proste menu;
-- disclaimer;
-- DTMF;
-- proste potwierdzenia.
-
-Nie nadaje się do naturalnego opisu problemu i wielu parafraz.
-
-#### Intent-based
-
-Najczestszy model voicebotów contact center. Użytkownik mówi naturalnie w ramach domeny, NLU rozpoznaje intencje, a flow prowadzi proces.
-
-Dobre dla:
-
-- statusow;
-- rezerwacji;
-- reklamacji w okreslonym zakresie;
-- helpdesku;
-- powtarzalnych procesów.
-
-#### Generative
-
-LLM daje elastycznosc w rozumieniu i odpowiedziach, szczególnie dla:
-
-- FAQ z bazy wiedzy;
-- streszczen;
-- klasyfikacji otwartego opisu;
-- agent assist;
-- wielointencyjnych wypowiedzi.
-
-Ryzyko: brak kontroli, jeśli LLM sam decyduje o wszystkim.
-
-#### Hybrid
-
-Najbardziej praktyczna architektura enterprise:
-
-- flow kontroluje proces;
-- LLM rozumie język i wspiera odpowiedzi;
-- RAG dostarcza wiedzę;
-- narzędzia wykonują akcję;
-- guardrails ograniczaja zakres;
-- observability monitoruje jakość.
-
-### 3.12.4. Perspektywa biznesowa
-
-Dobor architektury powinien wynikać z:
-
-- ryzyka procesu;
-- potrzeby elastyczności;
-- dojrzalosci danych;
-- wymagań compliance;
-- kosztu latency;
-- dostępności integracji;
-- kompetencji zespolu utrzymaniowego.
-
-Nie każdy projekt potrzebuje generatywnej AI. Ale coraz więcej projektow skorzysta z LLM jako komponentu, nie jako całości systemu.
-
-### 3.12.5. Perspektywa użytkownika
-
-Użytkownik chce kombinacji:
-
-- przewidywalnosci przy decyzjach;
-- elastyczności przy mowieniu;
-- krotkich odpowiedzi;
-- możliwości poprawienia;
-- braku halucynacji;
-- szybkiej eskalacji.
-
-Architektura hybrydowa najlepiej odpowiada temu napieciu: użytkownik może mówić naturalnie, ale krytyczne akcję pozostają kontrolowane.
-
-### 3.12.6. Perspektywa technologiczna
-
-Przykładowa architektura hybrydowa:
-
-```text
-Audio
-  -> ASR
-  -> LLM/NLU intent classifier
-  -> Dialog manager
-      -> controlled flow
-      -> business rules
-      -> RAG for informational answers
-      -> tools/API for actions
-      -> guardrails
-  -> response planner
-  -> TTS
-  -> monitoring + analytics
-```
-
-Ważne: LLM nie powinien być jedynym arbitrem stanu i akcji w procesach wysokiego ryzyka. Powinien być otoczony walidacja, narzędziami i politykami.
-
-### 3.12.7. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Używaj najprostszej architektury, która spelnia wymagania.
-- Dla procesów krytycznych utrzymuj deterministyczne kroki.
-- Używaj LLM do elastyczności językowej, nie do niekontrolowanej decyzyjnosci.
-- Wersjonuj flow, prompty i bazy wiedzy.
-- Testuj architekturę na przypadkach granicznych.
-- Miej plan degradacji: LLM niedostepny, RAG niedostepny, API niedostepne.
-
-### 3.12.8. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Rule-based dla zbyt otwartej rozmowy | Frustracja i no-match |
-| Generative dla procesu wymagajacego scislej kontroli | Ryzyko compliance |
-| Intent-based z setkami podobnych intencji | Confusion i utrzymaniowy chaos |
-| Brak fallbacku, gdy LLM nie działa | Awaria całego procesu |
-| Brak guardrails | Odpowiedzi poza domena |
-| Brak testów kosztów | Nieprzewidziany koszt produkcji |
-
-### 3.12.9. Checklista wyboru architektury
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy proces jest prosty czy złożony?
-- Czy wymaga naturalnego opisu problemu?
-- Czy wymaga decyzji regulowanych?
-- Czy potrzebuje bazy wiedzy?
-- Czy potrzebuje integracji?
-- Czy odpowiedzi muszą być deterministyczne?
-- Czy mamy dane treningowe?
-- Czy mamy kompetencje utrzymania LLM/RAG?
-- Czy latency generatywna jest akceptowalna?
-- Czy mamy guardrails i observability?
-
-### 3.12.10. Mini case study
-
-Administracja publiczna chce voicebota do informacji o wnioskach. Wybrano architekturę hybrydowa. Proste statusy ida przez flow i integracje z systemem spraw. Odpowiedzi informacyjne o dokumentach ida przez RAG, ale bot nie interpretuje indywidualnej sytuacji prawnej. Gdy użytkownik pyta "czy w moim przypadku dostane decyzję pozytywna?", bot wyjaśnia, że nie może tego ocenić i może sprawdzić status albo połączyć z urzednikiem.
-
-### 3.12.11. Podsumowanie
-
-Nie istnieje jedna najlepsza architektura voicebota. Dobre rozwiązanie wynika z procesu, ryzyka, danych i oczekiwan użytkownika. W enterprise najczesciej wygrywa hybryda: kontrolowany proces plus elastycznosc AI tam, gdzie naprawde pomaga.
-
----
-
-## 3.13. Diagramy tekstowe architektury
-
-### 3.13.1. Klasyczny voicebot intent-based
-
-```text
-Telefon
-  -> Contact Center / SIP Gateway
-  -> Audio Stream
-  -> ASR
-  -> NLU
-  -> Dialog Flow
-  -> Backend API
-  -> Response Template
-  -> TTS
-  -> Telefon
-
-Rownolegle:
-  -> Logs
-  -> Metrics
-  -> Transcripts
-  -> QA Review
-```
-
-### 3.13.2. Voicebot hybrydowy flow + LLM + RAG
-
-```text
-Telefon/WebRTC
-  -> Realtime Audio Runtime
-  -> VAD / Endpointing / Turn Detection
-  -> ASR
-  -> Intent Classifier / LLM Understanding
-  -> Dialog Manager
-      -> Deterministic Flow
-      -> Business Rules
-      -> Tool Calling / APIs
-      -> RAG Knowledge Retrieval
-      -> Guardrails
-  -> Response Planner
-  -> TTS
-  -> Barge-in Monitor
-  -> User
-
-Observability:
-  -> ASR logs
-  -> LLM traces
-  -> API traces
-  -> latency metrics
-  -> handoff reasons
-  -> quality dashboard
-```
-
-### 3.13.3. Handoff z przekazaniem kontekstu
-
-```text
-Voicebot detects handoff condition
-  -> Freeze current dialog state
-  -> Generate short summary
-  -> Attach slots and API results
-  -> Set escalation reason
-  -> Transfer call to queue
-  -> Push context to agent desktop
-  -> Consultant continues with context
-```
-
----
-
-## 3.14. Zbiorcza checklista po Części II
-
-Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
-
-- Czy potrafisz narysowac architekturę voicebota end-to-end?
-- Czy rozumiesz role telefonii, SIP/VoIP i contact center?
-- Czy potrafisz wskazac źródła latency?
-- Czy rozumiesz różnice między VAD, endpointing i ASR?
-- Czy potrafisz wyjaśnić role NLU i dialog managera?
-- Czy wiesz, jak integracje zmieniaja voicebota z informacyjnego w transakcyjnego?
-- Czy rozumiesz ryzyka RAG?
-- Czy potrafisz projektować tekst pod TTS?
-- Czy wiesz, jakie logi są potrzebne do optymalizacji?
-- Czy rozumiesz, że handoff jest częścią architektury?
-- Czy potrafisz dobrać architekturę rule-based, intent-based, generative lub hybrid?
-
----
+## 3.16. Źródła i status weryfikacji
+
+Weryfikacja polegała na przeszukaniu tekstu źródła pod kątem konkretnych twierdzeń i liczb, z żądaniem dosłownych cytatów. Nie zastępuje to redakcyjnego sprawdzenia cytowań przed publikacją, w tym numerów stron. Większość badań dotyczy języka angielskiego, a część rozmów między ludźmi, nie z botem; zaznaczono to w tekście tam, gdzie ogranicza wniosek.
+
+Sprawdzone w pełnym tekście:
+
+- Bavelas, Coates, Johnson, "Listeners as Co-Narrators", Journal of Personality and Social Psychology, 2000: https://pubmed.ncbi.nlm.nih.gov/11138763
+- Crolic, Thomaz, Hadi, Stephen, "Blame the Bot: Anthropomorphism and Anger in Customer-Chatbot Interactions", Journal of Marketing, 2022: https://ora.ox.ac.uk/objects/uuid:73d46bba-35d1-465c-be00-aa6f4f4ccb84
+- De Cet, Obaid, Torre, "Breaking the Binary: A Systematic Review of Gender-Ambiguous Voices in Human-Computer Interaction", CHI 2025: https://research.chalmers.se/publication/546755/file/546755_Fulltext.pdf
+- Dingemanse et al., "Universal Principles in the Repair of Communication Problems", PLOS ONE, 2015: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0136100
+- Gnewuch, Morana, Adam, Maedche, "Opposing Effects of Response Time in Human-Chatbot Interaction", Business & Information Systems Engineering, 2022: https://aisel.aisnet.org/bise/vol64/iss6/5/
+- Haas, Rietzler, Jones, Rukzio, "Keep it Short: A Comparison of Voice Assistants' Response Behavior", CHI 2022: https://dl.acm.org/doi/fullHtml/10.1145/3491102.3517684
+- Hu, Qu, Maus, Mutlu, "Polite or Direct? Conversation Design of a Smart Display for Older Adults Based on Politeness Theory", CHI 2022: https://arxiv.org/abs/2203.15767
+- Jones, Zellou, "Voice accentedness, but not gender, affects social responses to a computer tutor", Frontiers in Computer Science, 2024: https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2024.1436341/full
+- Kruger, Epley, Parker, Ng, "Egocentrism Over E-Mail: Can We Communicate as Well as We Think?", Journal of Personality and Social Psychology, 2005: https://doi.org/10.1037/0022-3514.89.6.925
+- Lee, See, "Trust in Automation: Designing for Appropriate Reliance", Human Factors, 2004: https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf
+- Levinson, Torreira, "Timing in turn-taking and its implications for processing models of language", Frontiers in Psychology, 2015: https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00731/full
+- Liu et al., "Toward Enabling Natural Conversation with Older Adults via the Design of LLM-Powered Voice Agents that Support Interruptions and Backchannels", CHI 2025: https://doi.org/10.1145/3706598.3714228
+- de Hoop, Schoenmakers, "Introduction: Perception and Processing of Address Terms", Languages, 2025 (przegląd badań): https://www.mdpi.com/2226-471X/10/10/267
+- Luger, Sellen, "Like Having a Really Bad PA: The Gulf between User Expectation and Experience of Conversational Agents", CHI 2016: https://www.microsoft.com/en-us/research/publication/like-having-a-really-bad-pa-the-gulf-between-user-expectation-and-experience-of-conversational-agents/
+- Mahmood, Huang, "Gender Biases in Error Mitigation by Voice Assistants", CSCW 2024 (sprawdzono wersję z arXiv): https://arxiv.org/abs/2310.13074
+- Ollier, Nißen, von Wangenheim, "The Terms of 'You(s)': How the Term of Address Used by Conversational Agents Influences User Evaluations in French and German Linguaculture", Frontiers in Public Health, 2022: https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2021.691595/full
+- Owens et al., "Exploring Deceptive Design Patterns in Voice Interfaces", EuroUSEC 2022: https://www.franziroesner.com/pdf/owens-deceptivevoice-eurousec22.pdf
+- Pałka, "Polski model kulturowy a komunikacja sprzedawcy z klientem", Socjolingwistyka, 2020: https://socjolingwistyka.ijppan.pl/index.php/SOCJO/article/view/215
+- Poirier, Cook, Klin, "Read. This. Slowly: mimicking spoken pauses in text messages", Frontiers in Psychology, 2025 (streszcza wcześniejsze prace zespołu: Gunraj et al. 2016, Houghton et al. 2018): https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1410698/full
+- Roberts, Francis, Morgan, "The interaction of inter-turn silence with prosodic cues in listener perceptions of 'trouble' in conversation", Speech Communication, 2006: https://doi.org/10.1016/j.specom.2006.02.001
+- Schroeder, Kardas, Epley, "The Humanizing Voice: Speech Reveals, and Text Conceals, a More Thoughtful Mind in the Midst of Disagreement", Psychological Science, 2017: https://escholarship.org/uc/item/4bd9d03k
+- Templeton et al., "Fast response times signal social connection in conversation", PNAS, 2022: https://www.pnas.org/doi/10.1073/pnas.2116915119
+- Tereszkiewicz, "Zachowania grzecznościowe w interakcji handlowej na Twitterze" (czasopismo i rok do uzupełnienia): https://uwm.edu.pl/mkks/wp-content/uploads/04_Tereszkiewicz-A.pdf
+
+Sprawdzone tylko w abstrakcie lub opisie wydawcy:
+
+- Ashktorab, Jain, Liao, Weisz, "Resilient Chatbots: Repair Strategy Preferences for Conversational Breakdowns", CHI 2019: https://research.ibm.com/publications/resilient-chatbots-repair-strategy-preferences-for-conversational-breakdowns
+- Borau, Otterbring, Laporte, Fosso Wamba, "The most human bot: Female gendering increases humanness perceptions of bots and acceptance of AI", Psychology & Marketing, 2021: http://publications.ut-capitole.fr/43613/
+- Commarford, Lewis, Smither, Gentzler, "A Comparison of Broad Versus Deep Auditory Menu Structures", Human Factors, 2008: https://doi.org/10.1518/001872008x250665
+- Dixon, Freeman, Toman, "Stop Trying to Delight Your Customers", Harvard Business Review, 2010 (dostępne tylko streszczenie): https://hbr.org/2010/07/stop-trying-to-delight-your-customers
+- "Emojifying chatbot interactions", Telematics and Informatics: https://dl.acm.org/doi/10.1016/j.tele.2023.102071
+- Ernst, Herm-Stapelberg, "Gender Stereotyping's Influence on the Perceived Competence of Siri and Co.", HICSS 2020: https://scholarspace.manoa.hawaii.edu/items/8e5bd437-004d-408a-8b41-89d2c827fd65
+- Guo, Liu, Xu, Yin, "Does Bot Gender Matter? Theory and Evidence from a High-Tension Service Context", MIS Quarterly, 2025: https://aisel.aisnet.org/misq/vol49/iss4/19/
+- Han, Yin, Zhang, "Chatbot Empathy in Customer Service: When It Works and When It Backfires", SIGHCI 2022 Proceedings (praca wstępna): https://aisel.aisnet.org/sighci2022/1/
+- Koenecke et al., "Racial disparities in automated speech recognition", PNAS, 2020: https://pmc.ncbi.nlm.nih.gov/articles/PMC7149386
+- Lea et al., "From User Perceptions to Technical Improvement: Enabling People Who Stutter to Better Use Speech Recognition", CHI 2023: https://arxiv.org/abs/2302.09044
+- Leahy, Sweller, "Cognitive load theory, modality of presentation and the transient information effect", Applied Cognitive Psychology, 2011: https://researchers.mq.edu.au/en/publications/cognitive-load-theory-modality-of-presentation-and-the-transient-/
+- Li, Chan, Kim, "Service with Emoticons", Journal of Consumer Research, 2019: https://doi.org/10.1093/jcr/ucy016
+- Luo, Tong, Fang, Qu, "Machines vs. Humans: The Impact of Artificial Intelligence Chatbot Disclosure on Customer Purchases", Marketing Science, 2019: https://econpapers.repec.org/RePEc:inm:ormksc:v:38:y:2019:i:6:p:937-947
+- Nass, Moon, "Machines and Mindlessness: Social Responses to Computers", Journal of Social Issues, 2000: https://spssi.onlinelibrary.wiley.com/doi/10.1111/0022-4537.00153
+- Nass, Moon, Green, "Are Machines Gender Neutral? Gender-Stereotypic Responses to Computers With Voices", Journal of Applied Social Psychology, 1997 (znane tylko z omówienia w pracy Jones i Zellou): https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1559-1816.1997.tb00275.x
+- Roberts, Francis, "Identifying a temporal threshold of tolerance for silent gaps after requests", Journal of the Acoustical Society of America, 2013: https://pubmed.ncbi.nlm.nih.gov/23742442
+- Shiwa et al., "How Quickly Should Communication Robots Respond?", Journal of the Robotics Society of Japan, 2009 (pełny tekst po japońsku): https://www.jstage.jst.go.jp/article/jrsj/27/1/27_1_87/_article/-char/en
+
+Znane tylko z komunikatu prasowego:
+
+- Yin, Han, Zhang, "Bots with Empathy: Reactance Against Emotion-Aware AI Agents in Customer Service", MIS Quarterly, 2026 (komunikat uczelni; artykuł niesprawdzony): https://www.usf.edu/business/news/2026/04-20-chatbot-empathy-can-worsen-customer-reactions-usf-study.aspx
+- Armatis Customer Experience Index, sondaż SW Research, czerwiec 2025, n = 817 (omówienie prasowe): https://300gospodarka.pl/news/boty-w-obsludze-klienta-wiecej-kontaktow-mniej-frustracji-ale-zaufania-wciaz-brak
+
+Wytyczne projektowe, porady językowe i tło teoretyczne:
+
+- Google, Conversation Design, "Acknowledgements": https://developers.google.com/assistant/conversation-design/acknowledgements?hl=pl
+- Poradnia Językowa Uniwersytetu Warszawskiego, "Zwrot do klienta" (odp. Agata Hącia, 2021): https://poradniajezykowa.uw.edu.pl/porady/zwrot-do-klienta/
+- Poradnia Językowa PWN, "Na ty czy na Pan / Pani?" (odp. Małgorzata Marcjanik, 2008): https://sjp.pwn.pl/poradnia/haslo/na-ty-czy-na-pan-pani;8967.html
+- Roman Jakobson, "Linguistics and Poetics", 1960 (pol. "Poetyka w świetle językoznawstwa"); nieweryfikowane w tekście źródłowym.
+
+Luki, których nie udało się wypełnić źródłami:
+
+- odbiór słów potwierdzenia przez użytkowników polskojęzycznych, w głosie i w czacie;
+- reakcja na formę bezosobową oraz na formy adresatywne w voicebocie i w języku polskim;
+- wpływ empatii wyrażanej przez voicebota (dostępne badania dotyczą chatbotów tekstowych);
+- próg tolerancji ciszy wobec bota, o którym użytkownik wie, że jest botem;
+- wpływ płci głosu voicebota na odbiór rozmowy w języku polskim;
+- rozmowy osób neuroatypowych z voicebotami;
+- jakość rozpoznawania mowy polskiej w różnych grupach użytkowników.

@@ -1,6 +1,6 @@
-# Rozdział 11. Metryki, analityka i optymalizacja
+# Rozdział 11. Integracje i automatyzacja procesów
 
-## 11.1. Rodzaje metryk voicebota
+## 11.1. API, webhooki i architektura integracji
 
 ### 11.1.1. Kluczowe pojęcia
 
@@ -8,92 +8,89 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja praktyczna |
 |---|---|
-| Metric | Liczbowa miara zjawiska |
-| KPI | Kluczowy wskaźnik efektywności |
-| Leading indicator | Wczesny sygnał problemu lub sukcesu |
-| Lagging indicator | Metryka wynikowa widoczna po czasie |
-| Baseline | Punkt odniesienia sprzed wdrożenia |
-| Cohort | Grupa rozmów lub użytkowników analizowana razem |
-| Funnel | Sekwencja kroków i spadków w procesie |
+| API | Interfejs pozwalający systemom wymieniać dane lub wykonywać akcje |
+| Webhook | Wywołanie systemu w reakcji na zdarzenie, np. zakończenie rozmowy |
+| Endpoint | Konkretny adres/funkcja API |
+| Request | Zapytanie do systemu |
+| Response | Odpowiedź systemu |
+| Timeout | Maksymalny czas oczekiwania na odpowiedź |
+| Retry | Ponowienie zapytania po błędzie |
+| Idempotency | Właściwość lub mechanizm projektowy, dzięki któremu ponowienie tej samej akcji nie powinno utworzyć duplikatu |
+| Rate limit | Ograniczenie liczby zapytań w czasie |
+| Payload | Dane przesyłane w request lub response |
 
 ### 11.1.2. Wyjaśnienie eksperckie
 
-Metryki voicebota warto dzielić na pięć grup:
+Integracja voicebota jest trudniejsza niż integracja formularza, bo użytkownik czeka w rozmowie. Jeśli API odpowiada po 8 sekundach, w aplikacji webowej można pokazać spinner. W rozmowie telefonicznej pojawia się cisza, niepewność i "halo?".
 
-1. Techniczne: uptime, latency, błędy API, jakość audio, koszt modeli.
-2. Konwersacyjne: intencje, sloty, no-input, no-match, fallback, barge-in, przerwania.
-3. Biznesowe: task completion, automation, cost per contact, ROI, FCR, repeat contact.
-4. UX/jakościowe: CSAT, effort, frustration signals, abandonment, prośby o konsultanta.
-5. Compliance/security: naruszenia polityk, dane wrażliwe, zgody, audyt, prompt injection.
+Podstawowe typy integracji:
 
-Zła praktyka:
+1. Odczyt danych: status zamówienia, saldo, termin, lista wizyt.
+2. Walidacja danych: czy numer zamówienia istnieje, czy kod SMS jest poprawny.
+3. Zapis danych: zmiana adresu, rezerwacja, utworzenie ticketu.
+4. Akcja zewnętrzna: wysłanie SMS-a, e-maila, linku, powiadomienia.
+5. Handoff: przekazanie kontekstu do contact center.
+6. Post-call automation: notatka, tagi, aktualizacja CRM.
 
-"Bot obsłużył 50 000 rozmów."
+Najważniejsze rozróżnienie:
 
-Dobra praktyka:
-
-"Bot obsłużył 50 000 rozmów, z czego 31 000 zakończył skutecznym task completion, 8 000 przekazał z kontekstem, 5 500 zakończył fallbackiem, a 2 300 rozmów miało repeat contact w ciągu 48 godzin."
+- Odczyt danych może być wykonany przy niższym ryzyku.
+- Zapis danych i akcje transakcyjne wymagają walidacji, autoryzacji, potwierdzenia i audytu.
 
 ### 11.1.3. Perspektywa biznesowa
 
-Biznes potrzebuje metryk, które odpowiadają na pytania:
+Integracje decydują, czy bot tworzy realną wartość. Voicebot, który rozpoznaje intencje, ale nie ma dostępu do systemu źródłowego, będzie kończył rozmowy komunikatem "w tej sprawie proszę skontaktować się z konsultantem". To może być pomocne jako routing, ale nie jest pełną automatyzacją.
 
-- czy bot zmniejsza koszt;
-- czy klient załatwia sprawę;
-- czy spada repeat contact;
-- czy konsultanci są odciążeni;
-- czy SLA się poprawia;
-- czy jakość nie spada;
-- czy ryzyka są kontrolowane.
+Pytania biznesowe:
 
-Metryki muszą mieć baseline. Bez porównania do stanu sprzed wdrożenia trudno odróżnić realny efekt od sezonowości lub zmiany wolumenu.
+- Czy bot ma tylko informować, czy wykonywać akcje?
+- Które akcje są dozwolone automatycznie?
+- Które wymagają człowieka?
+- Które dane można odczytać głosem?
+- Które dane powinny być wysłane SMS-em lub e-mailem?
+- Co oznacza sukces integracji?
 
 ### 11.1.4. Perspektywa użytkownika
 
-Metryki powinny chronić użytkownika przed automatyzacją pozorną. Jeśli containment rośnie, ale repeat contact i skargi też rosną, bot zatrzymuje ludzi, ale nie pomaga.
+Użytkownik odczuwa integracje jako sprawczość:
 
-Metryki ochronne:
+- "Bot znalazł moje zamówienie."
+- "Bot zmienił termin."
+- "Bot wysłał link."
+- "Konsultant wie, o co chodzi."
 
-- repeat contact;
-- abandonment;
-- prośby o konsultanta;
-- liczba powtórzeń;
-- fallback po fallbacku;
-- CSAT;
-- customer effort score;
-- czas do rozwiązania sprawy.
+Nie odczuwa API. Odczuwalny jest tylko wynik i sposób komunikacji przy oczekiwaniu lub błędzie.
 
 ### 11.1.5. Perspektywa technologiczna
 
-Metryki wymagają logów:
+Każda integracja powinna mieć specyfikację:
 
-- conversation_id;
-- turn_id;
-- prompt_id;
-- intent;
-- confidence;
-- slot status;
-- no-input/no-match/fallback;
-- API call/result/latency;
-- handoff reason;
-- barge-in event;
-- ASR transcript;
-- TTS output;
-- outcome;
-- version modelu/flow/promptu.
+| Element | Pytanie |
+|---|---|
+| Cel | Po co bot wywołuje API? |
+| System | Jaki system jest źródłem prawdy? |
+| Owner | Kto odpowiada za system? |
+| Dane wejściowe | Jakie sloty są wymagane? |
+| Dane wyjściowe | Co wraca do bota? |
+| Timeout | Ile bot może czekać? |
+| Retry | Czy ponawiamy? Ile razy? |
+| Idempotency | Czy akcja zapisująca jest bezpieczna przy ponowieniu? |
+| Błędy | Jakie są kody błędów i komunikaty? |
+| Audyt | Co logujemy? |
+| Prywatność | Co maskujemy? |
 
 ### 11.1.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Definiuj metryki przed produkcją.
-- Miej baseline.
-- Oddziel wolumen od skuteczności.
-- Mierz wynik sprawy, nie tylko rozmowy.
-- Łącz metryki techniczne z UX.
-- Segmentuj metryki per use case, intencja, prompt i kanał.
-- Dodaj metryki ochronne.
-- Mierz trendy, nie tylko pojedynczy dzień.
+- Projektuj integracje przed finalnym dialogiem.
+- Oddziel odczyt od zapisu.
+- Dla zapisów stosuj idempotency.
+- Ustal timeouty z perspektywy rozmowy.
+- Mapuj błędy techniczne na zrozumiałe komunikaty.
+- Nie wypowiadaj danych wrażliwych bez potrzeby.
+- Testuj sandbox i produkcyjny kanał.
+- Loguj request ID, wynik i czas odpowiedzi.
 
 ### 11.1.7. Typowe błędy
 
@@ -101,264 +98,236 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Jedna metryka "liczba rozmów" | Brak informacji o jakości |
-| Containment jako jedyny KPI | Ryzyko blokowania klientów |
-| Brak baseline | Nie wiadomo, czy jest poprawa |
-| Brak repeat contact | Pozorna automatyzacja |
-| Brak podziału per intencja | Problemy ukryte w średniej |
-| Brak wersji flow/modelu | Nie wiadomo, co zmieniło wynik |
+| Projekt dialogu bez znajomości API | Flow obiecuje rzeczy niewykonalne |
+| Brak timeoutów | Martwa cisza w rozmowie |
+| Brak idempotency | Duplikaty rezerwacji lub ticketów |
+| Jeden komunikat dla wszystkich błędów | Użytkownik nie wie, co się stało |
+| Brak właściciela integracji | Problemy utrzymaniowe |
+| Brak sandboxa | Testy są ryzykowne |
 
-### 11.1.8. Checklista metryk
+### 11.1.8. Checklista integracji API
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy mamy baseline?
-- Czy mamy metryki techniczne?
-- Czy mamy metryki konwersacyjne?
-- Czy mamy metryki biznesowe?
-- Czy mamy metryki UX?
-- Czy mamy metryki compliance?
-- Czy metryki są per use case?
-- Czy mamy repeat contact?
-- Czy dashboard pokazuje trendy?
-- Czy metryki prowadzą do backlogu optymalizacji?
+- Czy system źródłowy jest wskazany?
+- Czy API istnieje?
+- Czy znamy właściciela?
+- Czy mamy sandbox?
+- Czy znamy wymagane dane?
+- Czy znamy timeout?
+- Czy znamy błędy?
+- Czy akcje zapisujące są idempotentne?
+- Czy dane wrażliwe są maskowane?
+- Czy bot ma komunikat na awarie?
 
 ### 11.1.9. Mini case study
 
-Voicebot statusu zamówień miał containment 78%. Po dodaniu repeat contact okazało się, że 22% klientów dzwoni ponownie w ciągu 24 godzin, bo bot podawał status ogólny, ale nie wyjaśniał opóźnienia. Po integracji z ETA i dodaniu komunikatu o przyczynie opóźnienia repeat contact spadł.
+Voicebot rezerwacyjny mógł utworzyć wizytę, ale API kalendarza czasem odpowiadało po utworzeniu wpisu dopiero po kilku sekundach. Bot ponawiał request i tworzył duplikaty. Po dodaniu `idempotency_key` opartego na `conversation_id`, pacjencie i terminie, ponowienie zwracało istniejącą rezerwację zamiast tworzyć nową.
 
 ### 11.1.10. Podsumowanie
 
-Metryki voicebota muszą pokazywać nie tylko aktywność systemu, ale wynik rozmowy. Dobry dashboard odpowiada: co działa, co nie działa, dlaczego i co trzeba poprawić.
+API i webhooki są mostem między rozmową a procesem. Dobra integracja jest szybka, bezpieczna, audytowalna i zaprojektowana pod rytm rozmowy głosowej.
 
 ---
 
-## 11.2. Containment, automation rate i task completion
+## 11.2. CRM, ERP, ticketing, helpdesk, kalendarze i systemy rezerwacyjne
 
-### 11.2.1. Kluczowe pojęcia
+### 11.2.1. Kluczowe systemy
 
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
+| System | Typowe użycie w voicebocie |
 |---|---|
-| Containment rate | Odsetek rozmów nieprzekazanych do konsultanta |
-| Automation rate | Odsetek rozmów, w których bot wykonał automatyczną akcję lub proces |
-| Task completion rate | Odsetek rozmów, w których cel użytkownika został skutecznie osiągnięty |
-| Self-service success | Udane załatwienie sprawy bez człowieka |
-| Deflection | Odsunięcie kontaktu od konsultanta, nie zawsze równe sukcesowi |
-| Outcome taxonomy | Uporządkowane kategorie wyniku rozmowy |
+| CRM | Dane klienta, historia kontaktu, segment, zgody |
+| ERP | Zamówienia, faktury, produkty, operacje biznesowe |
+| OMS | Order Management System, status zamówień i dostaw |
+| Ticketing | Tworzenie i aktualizacja zgłoszeń |
+| Helpdesk IT | Incydenty, kategorie, priorytety, baza użytkowników |
+| Kalendarz/rezerwacje | Wizyty, dostępne terminy, zmiany, odwołania |
+| Płatności | Linki do płatności, status płatności, deklaracje |
+| Knowledge base | Odpowiedzi informacyjne, procedury, instrukcje |
+| Contact center | Kolejki, transfery, agent desktop, nagrania |
 
 ### 11.2.2. Wyjaśnienie eksperckie
 
-Te trzy metryki są często mylone.
+Każdy system ma inną rolę:
 
-Containment:
+- CRM mówi, kim jest klient i jaką ma historię.
+- ERP lub OMS mówi, jaki jest stan procesu.
+- Ticketing zapisuje sprawę do dalszej obsługi.
+- Kalendarz pozwala zarezerwować termin.
+- Contact center przejmuje rozmowę.
+- Baza wiedzy wyjaśnia procedury.
 
-- klient nie trafił do konsultanta.
-- Nie oznacza automatycznie, że sprawa została rozwiązana.
+Voicebot nie powinien łączyć się ze wszystkim naraz tylko dlatego, że to możliwe. Zakres integracji powinien wynikać z use case'u.
 
-Automation:
+Przykład dla statusu zamówienia:
 
-- bot wykonał czynność: sprawdził status, zmienił termin, utworzył ticket.
-- Nie oznacza automatycznie, że klient jest zadowolony.
+Wymagane:
 
-Task completion:
+- identyfikacja klienta;
+- OMS/status zamówienia;
+- SMS/e-mail confirmation opcjonalnie;
+- handoff do contact center.
 
-- cel użytkownika został osiągnięty.
-- To najbliższa metryka realnego sukcesu.
+Niewymagane na start:
 
-Przykład:
+- pełny ERP;
+- system reklamacji;
+- płatności;
+- marketing automation.
 
-Użytkownik pyta o status zwrotu. Bot mówi ogólnie "zwrot trwa do 14 dni" i kończy rozmowę.
+### 11.2.3. Perspektywa biznesowa
 
-- Containment: tak.
-- Automation: niekoniecznie.
-- Task completion: raczej nie, jeśli użytkownik chciał status konkretnego zwrotu.
+Integracje są często najdroższym i najbardziej ryzykownym elementem projektu. Warto odróżniać:
 
-### 11.2.3. Outcome taxonomy
+- integracje konieczne do MVP;
+- integracje zwiększające wartość;
+- integracje, które można zastąpić ticketem;
+- integracje przyszłościowe.
 
-Przykładowe wyniki:
+Dobre pytanie:
 
-| Outcome | Znaczenie |
-|---|---|
-| completed_by_bot | Bot załatwił sprawę end-to-end |
-| completed_with_ticket | Bot zebrał dane i utworzył użyteczny ticket |
-| handed_off_with_context | Bot przekazał do konsultanta z kontekstem |
-| handed_off_no_context | Bot przekazał bez kontekstu |
-| abandoned | Użytkownik rozłączył się |
-| failed_understanding | Bot nie zrozumiał |
-| failed_integration | Integracja zawiodła |
-| out_of_scope | Sprawa poza zakresem |
-| user_declined_bot | Użytkownik nie chciał automatyzacji |
+"Czy bez tej integracji bot nadal dostarczy wartość w MVP?"
 
-### 11.2.4. Perspektywa biznesowa
+### 11.2.4. Perspektywa użytkownika
 
-Containment może być metryką pomocniczą, ale nie powinna być jedynym KPI. Firma może sztucznie podnieść containment, utrudniając handoff. To niszczy zaufanie i może zwiększyć repeat contact.
+Użytkownik nie chce wiedzieć, z ilu systemów korzysta bot. Chce, aby odpowiedź była spójna. Jeśli CRM mówi co innego niż system zamówień, bot musi mieć regułę źródła prawdy albo przekazać sprawę do człowieka.
 
-Lepszy zestaw:
+### 11.2.5. Perspektywa technologiczna
 
-- task completion;
-- containment;
-- repeat contact;
-- CSAT;
-- handoff quality;
-- cost per resolved task.
+Typowe dane i akcje:
 
-### 11.2.5. Perspektywa użytkownika
+| Use case | Dane | Akcje |
+|---|---|---|
+| Status zamówienia | order_id, status, ETA | odczyt statusu, SMS |
+| Zmiana wizyty | pacjent, dostępne sloty | rezerwacja, zmiana, anulowanie |
+| Helpdesk | user_id, asset, category | ticket, reset, instrukcja |
+| Reklamacja | klient, produkt, powód | ticket, załączniki poza kanałem |
+| Płatność | saldo, link, status | wysłanie linku, deklaracja |
 
-Użytkownik nie mierzy containment. Mierzy:
-
-- czy sprawa została załatwiona;
-- czy musiał powtarzać;
-- czy dostał człowieka, gdy potrzebowal;
-- czy ma potwierdzenie;
-- czy nie musi dzwonić drugi raz.
-
-### 11.2.6. Perspektywa technologiczna
-
-Task completion musi być zdefiniowany per use case:
-
-| Use case | Completion event |
-|---|---|
-| Status zamówienia | Status konkretnego zamówienia podany lub wysłany |
-| Zmiana terminu | API potwierdziło zmianę, SMS wysłany |
-| Rezerwacja | Termin zapisany w kalendarzu |
-| Ticket IT | Ticket utworzony z wymaganymi polami |
-| FAQ | Odpowiedź z zatwierdzonego źródła, brak kolejnego fallbacku |
-
-### 11.2.7. Dobre praktyki
+### 11.2.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Definiuj completion event per use case.
-- Nie licz containment jako sukcesu bez outcome.
-- Dodaj repeat contact.
-- Oddziel handoff z kontekstem od handoff bez kontekstu.
-- Mierz cost per completed task.
-- Analizuj failed outcomes.
-- Ustal outcome taxonomy przed produkcją.
+- Wybierz system źródłowy dla każdego typu danych.
+- Nie powielaj logiki biznesowej w wielu miejscach.
+- Dla ticketingu określ minimalne pola wymagane.
+- Dla kalendarzy sprawdź konflikt terminów tuż przed zapisem.
+- Dla CRM minimalizuj dane wypowiadane głosem.
+- Dla helpdesku nie zbieraj haseł.
+- Dla płatności unikaj wypowiadania wrażliwych danych.
 
-### 11.2.8. Typowe błędy
+### 11.2.7. Typowe błędy
 
 Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
 | Błąd | Konsekwencja |
 |---|---|
-| Containment jako główny cel | Bot blokuje klientów |
-| Brak completion event | Nie wiadomo, co jest sukcesem |
-| Handoff traktowany jako porażka | Zniechęca do bezpiecznej eskalacji |
-| Brak repeat contact | Fałszywy sukces |
-| Brak kategorii failed integration | Problemy techniczne ukryte jako fallback |
+| Integracja ze złym systemem źródłowym | Nieaktualne dane |
+| Zbyt szeroki zakres integracji | Opóźnienia projektu |
+| Brak minimalnych pól ticketu | Zgłoszenia bezużyteczne |
+| Brak reguły konfliktu kalendarza | Podwójne rezerwacje |
+| Odczytywanie nadmiaru danych z CRM | Ryzyko prywatności |
 
-### 11.2.9. Checklista
+### 11.2.8. Checklista systemów
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy mamy definicje task completion?
-- Czy mamy outcome taxonomy?
-- Czy rozróżniono containment i automation?
-- Czy mierzony jest repeat contact?
-- Czy handoff z kontekstem ma osobną kategorię?
-- Czy failed outcomes są klasyfikowane?
-- Czy dashboard pokazuje cost per completed task?
+- Czy wiemy, który system jest źródłem prawdy?
+- Czy dane są aktualne?
+- Czy API pozwala na potrzebną akcję?
+- Czy akcja ma walidację?
+- Czy system ma sandbox?
+- Czy są limity i SLA?
+- Czy mamy właściciela systemu?
+- Czy błędy są opisane?
+- Czy dane są minimalizowane?
 
-### 11.2.10. Mini case study
+### 11.2.9. Mini case study
 
-Voicebot helpdeskowy miał containment tylko 45%, ale tworzył kompletne tickety i skracał pracę konsultanta. Po zmianie KPI z containment na "completed_by_bot + completed_with_ticket + AHT reduction" projekt okazał się wartościowy. Sama metryka containment źle oceniała automatyzację wspierającą.
+Voicebot helpdeskowy tworzył tickety, ale konsultanci musieli je przepisywać, bo brakowało kategorii, priorytetu i lokalizacji użytkownika. Po analizie ticketingu dodano wymagane sloty i mapowanie kategorii. Bot nie tylko tworzył ticket, ale tworzył ticket użyteczny.
 
-### 11.2.11. Podsumowanie
+### 11.2.10. Podsumowanie
 
-Containment jest łatwy do mierzenia, ale łatwy do nadużycia. Task completion i repeat contact lepiej pokazują, czy voicebot pomaga. Automation rate pokazuje, czy bot wykonuje proces, a nie tylko prowadzi rozmowę.
+Integracje powinny być projektowane według procesu, nie według ambicji technologicznej. Dobry voicebot korzysta z tylu systemów, ile potrzeba, aby bezpiecznie i skutecznie załatwić sprawę.
 
 ---
 
-## 11.3. Fallback, escalation, no-input, no-match i przerwania
+## 11.3. Weryfikacja użytkownika, autoryzacja i minimalizacja danych
 
-### 11.3.1. Kluczowe metryki
+### 11.3.1. Kluczowe pojęcia
 
-Metryki są użyteczne dopiero wtedy, gdy wiadomo, jaką decyzję pomagają podjąć. Poniższa tabela nie jest listą liczb do raportu, tylko mapą sygnałów: każda metryka powinna prowadzić do pytania, interpretacji i możliwej poprawki.
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
-| Metryka | Definicja | Co może oznaczać wysoki wynik |
-|---|---|---|
-| Fallback rate | Odsetek rozmów/tur z fallbackiem | Brak intencji, zły prompt, out-of-scope |
-| No-input rate | Brak wykrytej odpowiedzi | Niejasne pytanie, audio, użytkownik szuka danych |
-| No-match rate | Input nierozpoznany | NLU, ASR, zbyt otwarte pytanie |
-| Escalation rate | Przekazania do człowieka | Złożony proces, frustracja, bezpieczny handoff |
-| Abandonment after fallback | Rozlaczenia po fallbacku | Frustracja lub brak drogi wyjścia |
-| Interruption rate | Przerwania wypowiedzi bota | Za długie prompt'y, korekty, kontrola |
-| False barge-in rate | Fałszywe przerwania | Szum, backchannel, echo |
-| Missed barge-in rate | Ignorowane przerwania | Brak pełnego dupleksu, źle VAD |
+| Pojęcie | Definicja |
+|---|---|
+| Identyfikacja | Ustalenie, kim prawdopodobnie jest użytkownik |
+| Weryfikacja | Potwierdzenie tożsamości użytkownika |
+| Autoryzacja | Sprawdzenie, czy użytkownik może wykonać daną akcję |
+| MFA | Multi-factor authentication |
+| PII | Dane osobowe |
+| Sensitive data | Dane wrażliwe lub szczególnie chronione |
+| Data minimization | Zbieranie i ujawnianie tylko potrzebnych danych |
 
 ### 11.3.2. Wyjaśnienie eksperckie
 
-Wysoki fallback rate nie ma jednej przyczyny. Może oznaczać:
-
-- brakuje intencji;
-- użytkownicy mówią inaczej niż dataset;
-- prompt zadaje źle pytanie;
-- ASR źle przepisuje;
-- zakres bota jest zbyt wąski;
-- użytkownik chce człowieka;
-- proces ma za dużo wyjątków.
-
-Dlatego metryki dialogowe trzeba analizować z transkrypcjami i prompt_id.
+Identyfikacja, weryfikacja i autoryzacja to trzy różne kroki.
 
 Przykład:
 
-No-input wysoki przy pytaniu "Jaka placówka jest preferowana?" może wynikać z tego, że użytkownik nie rozumie słowa "placówka". Zmiana na "W którym mieście chce pani wizytę?" może zmniejszyć no-input bez zmiany modelu.
+- Numer telefonu wskazuje prawdopodobnego klienta: identyfikacja.
+- Kod SMS potwierdza dostęp do telefonu: weryfikacja.
+- System sprawdza, czy klient może zmienić adres zamówienia: autoryzacja.
+
+W voicebocie nie wolno zakładać, że osoba dzwoniąca z numeru klienta jest zawsze klientem. Telefon może być współdzielony, skradziony albo obsługiwany przez osobę trzecią.
 
 ### 11.3.3. Perspektywa biznesowa
 
-Fallbacki i eskalacje pokazują koszt niedojrzałości procesu. Są też źródłem pomysłów:
+Poziom weryfikacji zależy od ryzyka:
 
-- nowe intencje;
-- zmiana promptów;
-- poprawa ASR;
-- dodanie integracji;
-- zmiana zakresu;
-- szybszy handoff.
-
-Nie każda eskalacja jest zła. Eskalacja do konsultanta może być poprawną decyzją, jeśli bot trafia poza zakres lub wykrywa ryzyko.
+| Akcja | Poziom weryfikacji |
+|---|---|
+| Ogólne FAQ | Brak lub minimalny |
+| Status niskiego ryzyka | Lekka weryfikacja |
+| Zmiana danych kontaktowych | Silniejsza weryfikacja |
+| Płatności i finanse | Silna weryfikacja |
+| Dane medyczne | Wysoka ostrożność |
+| Anulowanie/zmiana umowy | Explicit confirmation + audyt |
 
 ### 11.3.4. Perspektywa użytkownika
 
-Użytkownik odczuwa metryki dialogowe jako:
+Weryfikacja jest kosztem UX. Użytkownik zaakceptuje ją, jeśli rozumie po co:
 
-- "bot mnie nie rozumie";
-- "bot pyta niejasno";
-- "bot nie słucha";
-- "bot mnie przegaduje";
-- "nie mogę dojść do człowieka".
+"Dla bezpieczeństwa wyślę kod SMS. Proszę podać kod z wiadomości."
 
-Dlatego interpretacja musi uwzględniać emocje i wysiłek.
+Nie warto prosić o dane, które nie są potrzebne. Każde dodatkowe pytanie zwiększa tarcie i ryzyko.
 
 ### 11.3.5. Perspektywa technologiczna
 
-Do analizy potrzebne:
+Wymagania:
 
-- prompt_id;
-- ASR transcript;
-- expected input;
-- detected intent;
-- confidence;
-- fallback type;
-- turn timestamp;
-- barge-in event;
-- endpointing decision;
-- handoff reason;
-- outcome.
+- metoda identyfikacji;
+- metoda weryfikacji;
+- token/session;
+- expiry;
+- liczba prób;
+- lockout;
+- audyt;
+- maskowanie danych;
+- ograniczenia wypowiadania danych;
+- fallback do konsultanta.
 
 ### 11.3.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Analizuj fallback per prompt i per intencja.
-- Oddziel no-input od no-match.
-- Patrz na abandonment po fallbacku.
-- Mierz escalation reason.
-- Analizuj przerwania w długich promptach.
-- Rozróżniaj false barge-in i true interruption.
-- Twórz backlog z top problemów.
+- Stosuj risk-based verification.
+- Nie wypowiadaj pełnych danych osobowych bez potrzeby.
+- Nie proś o hasła.
+- Kody jednorazowe traktuj ostrożnie.
+- Potwierdzaj tylko fragmenty danych, np. ostatnie 3 cyfry.
+- Loguj zdarzenia weryfikacji.
+- Po nieudanej weryfikacji nie zdradzaj, które dane były poprawne.
+- Eskaluj przy podejrzeniu nadużycia.
 
 ### 11.3.7. Typowe błędy
 
@@ -366,36 +335,38 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Jeden globalny fallback rate | Brak diagnozy |
-| Brak prompt_id | Nie wiadomo, które pytanie jest problemem |
-| Eskalacje traktowane zawsze jako porażka | Zniechęcenie do bezpiecznego handoff |
-| Brak analizy przerwań | Długie prompt'y pozostają ukrytym problemem |
-| Brak rozróżnienia no-input/no-match | Złe poprawki |
+| Numer telefonu jako jedyna weryfikacja | Ryzyko nadużyć |
+| Prośba o hasło | Poważny błąd bezpieczeństwa |
+| Odczytywanie pełnych danych | Ryzyko prywatności |
+| Ten sam poziom weryfikacji dla wszystkiego | Nadmierne tarcie lub ryzyko |
+| Brak limitu prób | Ryzyko brute force |
+| Brak audytu | Trudno wyjaśnić incydent |
 
-### 11.3.8. Checklista analizy
+### 11.3.8. Checklista weryfikacji
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy fallback jest liczony per prompt?
-- Czy no-input i no-match są osobno?
-- Czy mamy transkrypcje dla no-match?
-- Czy mamy handoff reasons?
-- Czy mierzymy abandonment po fallbacku?
-- Czy mierzymy interruption rate?
-- Czy umiemy rozróżnić false i missed barge-in?
-- Czy wyniki trafiają do backlogu?
+- Czy akcja wymaga weryfikacji?
+- Czy poziom weryfikacji odpowiada ryzyku?
+- Czy nie zbieramy nadmiaru danych?
+- Czy nie prosimy o hasło?
+- Czy kody mają limit prób?
+- Czy dane są maskowane?
+- Czy logujemy zdarzenia?
+- Czy jest procedura nieudanej weryfikacji?
+- Czy jest handoff dla sytuacji nietypowych?
 
 ### 11.3.9. Mini case study
 
-Voicebot windykacyjny miał wysoki escalation rate. Biznes uznał to za porażkę. Analiza handoff reasons pokazała, że dużo eskalacji wynika z fraz "nie zgadzam się" i "to nie moja należność". To prawidłowy handoff, bo spory wymagały człowieka. Zmieniono KPI: eskalacje sporne nie były liczone jako porażka, ale jako bezpieczna klasyfikacja.
+Voicebot bankowy rozpoznawał klienta po numerze telefonu i odczytywał saldo. Security zatrzymało projekt. Po zmianie bot po numerze telefonu tylko identyfikował rekord, ale przed informacją o saldzie wymagał dodatkowej weryfikacji. Dla ogólnych informacji o placówkach weryfikacja nie była wymagana.
 
 ### 11.3.10. Podsumowanie
 
-Metryki błędów dialogowych są mapą miejsc, gdzie rozmowa traci płynność. Ich interpretacja wymaga kontekstu: promptu, transkrypcji, intencji, stanu i wyniku rozmowy.
+Weryfikacja i autoryzacja są elementem projektowania rozmowy, nie tylko IT. Dobry voicebot chroni dane i jednocześnie nie utrudnia prostych spraw ponad potrzebę.
 
 ---
 
-## 11.4. ASR confidence, NLU confidence i jakość rozumienia
+## 11.4. Obsługa błędów integracji, retry logic, timeouty i graceful degradation
 
 ### 11.4.1. Kluczowe pojęcia
 
@@ -403,73 +374,94 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja |
 |---|---|
-| ASR confidence | Szacowana pewność transkrypcji lub fragmentu |
-| NLU confidence | Szacowana pewność klasyfikacji intencji/encji |
-| Threshold | Próg decyzji |
-| Calibration | Dopasowanie confidence do realnej poprawności |
-| Low-confidence path | Ścieżka dla niepewnych rozpoznań |
-| Critical field accuracy | Poprawność danych krytycznych |
+| Timeout | Przekroczenie czasu oczekiwania na system |
+| Retry | Ponowienie zapytania |
+| Circuit breaker | Tymczasowe odcięcie zawodnej integracji |
+| Graceful degradation | Przejście do ograniczonego, ale kontrolowanego trybu |
+| Error mapping | Mapowanie błędów technicznych na komunikaty i decyzje |
+| Fallback channel | Alternatywny kanał, np. SMS, e-mail, konsultant |
 
 ### 11.4.2. Wyjaśnienie eksperckie
 
-Confidence nie jest prawdą. Model może być pewny i się mylić albo niepewny i mieć rację. Dlatego confidence trzeba interpretować w kontekście:
+Integracje zawodzą. Pytanie nie brzmi "czy", tylko "jak bot się zachowa".
 
-- intencji;
-- kosztu błędu;
-- stanu dialogu;
-- danych krytycznych;
-- historii rozmowy;
-- poprzednich fallbacków;
-- ASR quality.
+Typy błędów:
 
-Przykład:
+- API timeout;
+- system niedostępny;
+- brak rekordu;
+- brak uprawnienia;
+- konflikt danych;
+- walidacja nie przeszła;
+- limit zapytań;
+- częściowy sukces;
+- błąd zapisu po stronie systemu;
+- niejednoznaczny wynik.
 
-Niska pewność przy FAQ może prowadzić do doprecyzowania. Niska pewność przy prośbie o konsultanta powinna raczej prowadzić do eskalacji niż blokowania użytkownika.
+Zły komunikat:
+
+"Wystąpił błąd systemu 504."
+
+Dobry:
+
+"Nie mogę teraz sprawdzić tych danych. Mogę połączyć z konsultantem albo wysłać link do samodzielnego sprawdzenia."
 
 ### 11.4.3. Perspektywa biznesowa
 
-Progi confidence powinny być risk-based:
+Błędy integracji wpływają na:
 
-| Intencja | Strategia |
-|---|---|
-| Konsultant | Niższy próg recall, eskaluj częściej |
-| Anulowanie | Wysoki próg + explicit confirmation |
-| Status | Średni próg + disambiguation |
-| Płatność | Wysoki próg + weryfikacja |
-| FAQ | Średni próg + odpowiedź ze źródłem lub odmową |
+- SLA;
+- porzucenia;
+- eskalację;
+- reputację;
+- koszt konsultantów;
+- zaufanie do automatyzacji.
+
+Trzeba uzgodnić, które błędy:
+
+- można ponowić;
+- wymagają konsultanta;
+- wymagają ticketu;
+- wymagają komunikatu o niedostępności;
+- wymagają zatrzymania całego use case'u.
 
 ### 11.4.4. Perspektywa użytkownika
 
-Użytkownik nie powinien słyszeć technicznego "niski confidence". Powinien dostać naprawę:
+Użytkownik nie musi znać przyczyny technicznej. Potrzebuje:
 
-"Czy chodzi o fakturę, czy o płatność?"
+- krótkiego wyjaśnienia;
+- opcji dalszego działania;
+- zapewnienia, że dane nie zostały utracone, jeśli to prawda;
+- potwierdzenia, czy akcja została wykonana.
 
-albo:
-
-"Nie mam pewności, czy dobrze usłyszałem numer. Proszę powtórzyć ostatnie trzy cyfry."
+Nigdy nie mów "gotowe", jeśli wynik jest niepewny.
 
 ### 11.4.5. Perspektywa technologiczna
 
-Metryki:
+Retry:
 
-- confidence distribution per intent;
-- accuracy by confidence bucket;
-- false positives above threshold;
-- false negatives below threshold;
-- entity confidence;
-- critical field accuracy;
-- low-confidence recovery success.
+- bezpieczny dla odczytu;
+- ostrożny dla zapisu;
+- dla zapisu tylko z idempotency;
+- z limitem prób;
+- z logowaniem.
+
+Timeouty:
+
+- krótsze dla prostych kroków;
+- dłuższe dla akcji, gdzie użytkownik dostaje filler;
+- ustawiane według UX, nie tylko default API.
 
 ### 11.4.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Nie używaj jednego progu dla wszystkich intencji.
-- Kalibruj confidence na realnych danych.
-- Dla intencji ryzykownych dodawaj potwierdzenia.
-- Dla meta-intencji "konsultant" preferuj recall.
-- Mierz skuteczność low-confidence path.
-- Analizuj confidence razem z ASR transcript.
+- Miej error mapping dla każdej integracji.
+- Dla operacji dłuższych niż 1-2 sekundy dawaj krótki filler.
+- Nie ponawiaj zapisu bez idempotency.
+- Loguj błędy techniczne, ale komunikuj je po ludzku.
+- Przy niepewnym wyniku eskaluj lub sprawdź status akcji.
+- Przy awarii globalnej wyłączaj dany flow lub kieruj do konsultanta.
 
 ### 11.4.7. Typowe błędy
 
@@ -477,35 +469,38 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Jeden threshold globalny | Zły balans ryzyka |
-| Wiara w confidence jako prawdę | Błędne decyzje |
-| Brak kalibracji | Progi nie mają sensu |
-| Brak low-confidence path | Bot zgaduje lub fallbackuje za szybko |
-| Brak metryk per bucket | Nie wiadomo, gdzie confidence działa |
+| Retry zapisu bez idempotency | Duplikaty |
+| Martwa cisza przy API | Użytkownik przerywa |
+| "Błąd systemu" w TTS | Brak zrozumiałego następnego kroku |
+| Brak rozróżnienia błędów | Złe decyzje dialogowe |
+| Bot potwierdza niepewny wynik | Reklamacje |
+| Brak monitoringu błędów | Awaria widoczna dopiero w skargach |
 
-### 11.4.8. Checklista confidence
+### 11.4.8. Checklista error handling
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy progi są per intencja?
-- Czy są risk-based?
-- Czy mierzona jest kalibracja?
-- Czy mamy low-confidence path?
-- Czy dane krytyczne mają osobne progi?
-- Czy confidence jest analizowany z ASR?
-- Czy false positives powyzej progu są monitorowane?
+- Czy każde API ma timeout?
+- Czy każde API ma opis błędów?
+- Czy retry jest bezpieczny?
+- Czy zapisy mają idempotency?
+- Czy mamy komunikaty dla błędów?
+- Czy mamy filler dla oczekiwania?
+- Czy wiemy, kiedy eskalować?
+- Czy błędy są logowane?
+- Czy dashboard pokazuje awarie integracji?
 
 ### 11.4.9. Mini case study
 
-Voicebot e-commerce miał próg 0,75 dla wszystkich intencji. Prośby o konsultanta z wynikiem 0,68 trafiały do fallbacku. Po obniżeniu progu dla `popros_o_konsultanta` i dodaniu potwierdzenia dla akcji krytycznych system lepiej równoważył UX i ryzyko.
+Voicebot ubezpieczeniowy tworzył zgłoszenia szkody. Gdy API ticketingu zwracało timeout, bot mówił "zgłoszenie przyjęte". Czasem ticket nie powstawał. Po poprawie bot sprawdzał status po `idempotency_key`; jeśli wynik nadal był niepewny, mówił: "Nie mam potwierdzenia zapisu. Połączę z konsultantem i przekażę zebrane informacje." Skargi spadły.
 
 ### 11.4.10. Podsumowanie
 
-Confidence jest użyteczne, ale tylko jako sygnał w systemie decyzyjnym. Dobre progi wynikają z ryzyka, danych i testów, nie z domyślnej konfiguracji platformy.
+Błędy integracji są normalne. Profesjonalny voicebot nie udaje, że wszystko zawsze działa. Ma kontrolowane komunikaty, alternatywne ścieżki, audyt i jasną granicę między sukcesem a niepewnością.
 
 ---
 
-## 11.5. AHT, FCR, CSAT, NPS, cost per contact i ROI
+## 11.5. Przekazywanie kontekstu do konsultanta
 
 ### 11.5.1. Kluczowe pojęcia
 
@@ -513,80 +508,89 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja |
 |---|---|
-| AHT | Average Handling Time |
-| FCR | First Contact Resolution |
-| CSAT | Customer Satisfaction |
-| NPS | Net Promoter Score |
-| Cost per contact | Koszt kontaktu |
-| Cost per resolved task | Koszt skutecznie rozwiązanej sprawy |
-| ROI | Zwrot z inwestycji |
+| Warm handoff | Przekazanie rozmowy z kontekstem |
+| Cold handoff | Przekazanie bez kontekstu |
+| Context package | Zestaw informacji przekazywanych konsultantowi |
+| Agent desktop | Interfejs konsultanta |
+| Handoff reason | Powód przekazania |
+| Summary | Krótkie podsumowanie dotychczasowej rozmowy |
 
 ### 11.5.2. Wyjaśnienie eksperckie
 
-Voicebot może wpływać na metryki na kilka sposobów:
+Handoff nie jest tylko transferem połączenia. To transfer odpowiedzialności za sprawę. Konsultant powinien wiedzieć:
 
-- skraca rozmowy prostych spraw;
-- przekazuje trudne sprawy z kontekstem;
-- zmniejsza kolejki;
-- zwiększa self-service;
-- zmniejsza after-call work;
-- poprawia tagowanie kontaktów;
-- może pogorszyć CSAT, jeśli blokuje handoff;
-- może zwiększyć repeat contact, jeśli odpowiedzi są niepełne.
+- kto dzwoni, jeśli zweryfikowany;
+- jaka była intencja;
+- jakie dane zebrano;
+- co bot próbował zrobić;
+- dlaczego przekazuje;
+- jakie API zwróciło wynik;
+- czy użytkownik jest sfrustrowany;
+- jaki jest następny krok.
 
-ROI po wdrożeniu powinien uwzględniać:
+Minimalny context package:
 
 ```text
-wartosc = oszczednosc rozmow automatycznych
-        + oszczednosc AHT konsultantow po handoff
-        + oszczednosc after-call work
-        + wartosc zmniejszenia abandonment
-        - koszty technologii
-        - koszty utrzymania
-        - koszty optymalizacji
-        - koszty błędów/reklamacji
+conversation_id:
+customer_verified:
+intent:
+collected_slots:
+last_bot_question:
+handoff_reason:
+api_results:
+summary:
+transcript_link:
+priority:
 ```
 
 ### 11.5.3. Perspektywa biznesowa
 
-Najważniejsze: mierz koszt skutecznie rozwiązanej sprawy, nie tylko koszt rozmowy bota. Tania rozmowa, która powoduje drugi telefon, może być droższa niż droższa rozmowa zakończona skutecznie.
+Warm handoff zmniejsza:
+
+- czas konsultanta;
+- powtarzanie danych;
+- frustrację klienta;
+- after-call work;
+- ryzyko utraty informacji.
+
+Cold handoff może zniszczyć wartość automatyzacji. Jeśli klient musi wszystko powtórzyć, bot staje się dodatkową przeszkodą.
 
 ### 11.5.4. Perspektywa użytkownika
 
-CSAT/NPS trzeba interpretować ostrożnie. Użytkownik może nisko ocenić bota, bo:
+Komunikat powinien ustawić oczekiwanie:
 
-- nie lubi automatyzacji;
-- bot rzeczywiście zawiódł;
-- sprawa była negatywna niezaleznie od bota;
-- handoff był za późny;
-- odpowiedź była poprawna, ale niekorzystna dla użytkownika.
+"Połączę z konsultantem i przekażę, że chodzi o zmianę terminu dostawy zamówienia 12345. Proszę zostać na linii."
 
-Dlatego oceny trzeba łączyć z outcome i transkrypcją.
+Po stronie konsultanta pierwsze zdanie powinno pokazywać kontekst:
+
+"Widzę, że chodzi o zmianę terminu dostawy. Bot nie mógł znaleźć wolnego terminu w piątek."
 
 ### 11.5.5. Perspektywa technologiczna
 
-Potrzebne integracje danych:
+Wymagania:
 
-- system contact center;
-- voicebot logs;
-- CRM/ticketing;
-- CSAT/NPS system;
-- billing/costing;
-- repeat contact matching;
-- release versions.
+- transfer call;
+- push context do agent desktop;
+- synchronizacja conversation_id;
+- transcript link;
+- summary generation;
+- masking PII;
+- handoff reason taxonomy;
+- queue routing;
+- priority flag;
+- fallback, gdy context push się nie uda.
 
 ### 11.5.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Porównuj do baseline.
-- Mierz per use case.
-- Oddziel rozmowy zakończone przez bota od handoff.
-- Dodaj repeat contact.
-- Licz cost per resolved task.
-- Łącz CSAT z outcome.
-- Uwzględniaj after-call work.
-- Raportuj scenariusz pesymistyczny/bazowy/optymistyczny.
+- Przekazuj tylko potrzebny kontekst.
+- Streszczenie powinno być krótkie.
+- Oznacz powód handoff.
+- Nie przekazuj niezweryfikowanych danych jako pewnych.
+- Dodaj link do transkrypcji, jeśli zgodne z polityką.
+- Konsultant powinien widzieć ostatnie pytanie bota.
+- Mierz, czy konsultant używa kontekstu.
 
 ### 11.5.7. Typowe błędy
 
@@ -594,37 +598,37 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Liczenie tylko kosztu minuty bota | Pomija skuteczność |
-| Brak repeat contact | ROI zawyzony |
-| Porównywanie innych okresów bez sezonowości | Zła interpretacja |
-| CSAT bez segmentacji | Brak diagnozy |
-| Brak kosztów utrzymania | ROI zawyzony |
+| Transfer bez kontekstu | Klient powtarza wszystko |
+| Za długie podsumowanie | Konsultant nie czyta |
+| Brak powodu handoff | Brak optymalizacji |
+| Przekazanie niepotwierdzonych danych jako faktów | Ryzyko błędów |
+| Brak fallbacku dla context push | Konsultant dostaje pustą sprawę |
 
-### 11.5.8. Checklista biznesowych metryk
+### 11.5.8. Checklista handoff context
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy mamy AHT baseline?
-- Czy mamy FCR baseline?
-- Czy mamy koszt kontaktu?
-- Czy mamy CSAT/NPS?
-- Czy mierzymy repeat contact?
-- Czy liczymy cost per resolved task?
-- Czy uwzględniamy koszty technologii?
-- Czy uwzględniamy after-call work?
-- Czy ROI jest per use case?
+- Czy przekazujemy intencje?
+- Czy przekazujemy zebrane sloty?
+- Czy oznaczamy dane potwierdzone?
+- Czy przekazujemy powód handoff?
+- Czy przekazujemy wynik API?
+- Czy jest krótkie podsumowanie?
+- Czy konsultant widzi transkrypcję?
+- Czy dane są maskowane?
+- Czy mierzymy jakość handoff?
 
 ### 11.5.9. Mini case study
 
-Voicebot w telekomie obsługiwał 40% rozmów o awarie. AHT konsultantów wzrósł, bo zostały trudniejsze sprawy. Początkowo uznano to za porażkę. Po analizie okazało się, że całkowity koszt spadł, a konsultanci dostawali lepszy kontekst. Trzeba było zmienić dashboard: osobno mierzyć sprawy proste, handoff i trudne eskalacje.
+Voicebot reklamacyjny przekazywał rozmowy do konsultanta bez powodów. Contact center widziało tylko "transfer from bot". Po wdrożeniu taxonomy handoff reason okazało się, że 38% przekazań dotyczyło braku dokumentu, który można było wysłać linkiem SMS. Dodano nowy flow i liczba transferów spadła.
 
 ### 11.5.10. Podsumowanie
 
-Metryki contact center są potrzebne, ale muszą być interpretowane w kontekście automatyzacji. Voicebot zmienia mix spraw, dlatego proste porównania średnich mogą mylić.
+Dobry handoff to kontynuacja rozmowy, nie restart. Integracja z contact center musi przenosić sens sprawy, nie tylko dźwięk połączenia.
 
 ---
 
-## 11.6. Conversion, abandonment i repeat contact
+## 11.6. Automatyczne notatki, podsumowania i aktualizacja danych po rozmowie
 
 ### 11.6.1. Kluczowe pojęcia
 
@@ -632,81 +636,87 @@ Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się i
 
 | Pojęcie | Definicja |
 |---|---|
-| Conversion rate | Odsetek rozmów zakończonych pożądaną akcją |
-| Abandonment rate | Odsetek rozmów porzuconych |
-| Drop-off | Miejsce w flow, gdzie użytkownik odpada |
-| Repeat contact | Ponowny kontakt w tej samej sprawie |
-| Cohort analysis | Analiza grup rozmów/użytkowników w czasie |
-| Time window | Okno czasu do pomiaru powtornego kontaktu |
+| Post-call automation | Automatyzacja po rozmowie |
+| Call summary | Podsumowanie rozmowy |
+| Disposition | Wynik rozmowy lub kategoria zakończenia |
+| Auto-tagging | Automatyczne tagowanie tematów |
+| After-call work reduction | Zmniejszenie pracy po rozmowie |
+| Human review | Przegląd przez człowieka przed zapisem lub decyzja |
 
 ### 11.6.2. Wyjaśnienie eksperckie
 
-Conversion w voicebocie nie musi oznaczać sprzedaży. Może oznaczać:
+Voicebot może automatyzować nie tylko samą rozmowę. Może też:
 
-- umowiona wizyta;
-- zmieniony termin;
-- utworzony ticket;
-- wysłany link;
-- zaakceptowana ankieta;
-- zebrana deklaracja;
-- kwalifikowany lead.
+- tworzyć notatkę;
+- tagować powód kontaktu;
+- aktualizować status sprawy;
+- tworzyć ticket;
+- wysyłać SMS/e-mail;
+- przygotować follow-up;
+- streszczać rozmowę konsultantowi;
+- oznaczać ryzyka i emocje;
+- zasugerować kolejny krok.
 
-Abandonment trzeba interpretować według momentu:
+Notatka dobra:
 
-- porzucenie na powitaniu: brak zaufania, za długi wstęp, zły routing;
-- po pytaniu o dane: zbyt trudne pytanie lub brak danych pod reka;
-- po fallbacku: frustracja;
-- podczas oczekiwania na API: martwa cisza;
-- po odmowie: wynik niekorzystny, ale niekoniecznie błąd.
+```text
+Klient chcial zmienic termin dostawy zamowienia 12345.
+Zweryfikowany po kodzie SMS.
+Wybrany termin: piatek 14-16.
+API delivery_slots zwrocilo slot_unavailable.
+Klient poprosil o konsultanta.
+```
 
-Repeat contact jest jedną z najważniejszych metryk jakości. Pokazuje, czy sprawa została realnie rozwiązana.
+Notatka zła:
+
+"Klient dzwonił w sprawie zamówienia. Bot pomagał. Rozmowa zakończona transferem."
 
 ### 11.6.3. Perspektywa biznesowa
 
-Repeat contact może ujawnic, że bot zmniejsza obciążenie pierwszego dnia, ale zwiększa obciążenie później. Dla business case trzeba analizować:
+Automatyczne notatki mogą oszczędzać dużo czasu konsultantów, nawet jeśli bot nie zamyka sprawy end-to-end. To często niedoceniany element ROI.
 
-- repeat contact 24h;
-- repeat contact 48h;
-- repeat contact 7 dni;
-- kanał powrotu: telefon, chat, e-mail, oddział;
-- temat powrotu.
+Metryki:
+
+- reduction in after-call work;
+- note acceptance rate;
+- correction rate;
+- ticket completeness;
+- tag accuracy;
+- time to resolution;
+- consultant satisfaction.
 
 ### 11.6.4. Perspektywa użytkownika
 
-Użytkownik wraca, gdy:
-
-- nie dostał odpowiedzi;
-- nie ufa odpowiedzi;
-- nie ma potwierdzenia;
-- bot nie rozwiązał wyjątku;
-- sprawa wymaga człowieka;
-- komunikat był niezrozumiały.
+Użytkownik zyskuje, gdy nie musi powtarzać i gdy follow-up jest poprawny. Traci, gdy notatka zawiera błąd i konsultant zaczyna od złego założenia. Dlatego dane niepewne muszą być oznaczone.
 
 ### 11.6.5. Perspektywa technologiczna
 
-Repeat contact wymaga łączenia danych:
+Podsumowania mogą być:
 
-- identyfikator klienta;
-- numer telefonu;
-- numer sprawy;
-- hash danych, jeśli prywatność wymaga;
-- temat rozmowy;
-- outcome;
-- timestamp.
+- template-based;
+- LLM-generated;
+- hybrydowe: struktura szablonowa + LLM do streszczenia swobodnej części.
 
-Trzeba zachować zgodność z RODO/GDPR i polityka retencji.
+Bezpieczny model:
+
+- pola strukturalne z flow i API;
+- LLM tylko do krótkiego streszczenia;
+- oznaczenie confidence;
+- human review dla ryzykownych spraw;
+- log wersji promptu;
+- maskowanie danych.
 
 ### 11.6.6. Dobre praktyki
 
 Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-- Mierz drop-off per krok.
-- Segmentuj abandonment według momentu.
-- Mierz repeat contact w kilku oknach.
-- Łącz repeat contact z outcome.
-- Analizuj kanał powrotu.
-- Dla konwersji mierz jakość, nie tylko liczbę.
-- Po drop-off analizuj prompt i latency.
+- Notatka powinna być krótka i operacyjna.
+- Oddziel fakty potwierdzone od niepewnych.
+- Nie wpisuj do CRM halucynacji.
+- Dla spraw ryzykownych dawaj human review.
+- Taguj powód kontaktu i wynik rozmowy.
+- Przechowuj link do transkrypcji, jeśli wolno.
+- Mierz, ile notatek konsultanci poprawiają.
 
 ### 11.6.7. Typowe błędy
 
@@ -714,526 +724,158 @@ Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie pr
 
 | Błąd | Konsekwencja |
 |---|---|
-| Abandonment jako jedna liczba | Brak diagnozy |
-| Brak repeat contact | Nie widać niezałatwionych spraw |
-| Conversion bez walidacji jakości | Liczba akcji, ale niekoniecznie dobrych |
-| Brak okien czasowych | Nie wiadomo, kiedy klient wraca |
-| Brak łączenia kanałów | Powroty ukryte w e-mail/chat |
+| Zbyt długie podsumowania | Konsultanci ich nie czytają |
+| Brak oznaczenia niepewności | Błędne założenia |
+| LLM zapisuje bez walidacji | Ryzyko nieprawdziwych danych |
+| Brak tagów wyników | Słaba analityka |
+| Brak review dla wysokiego ryzyka | Ryzyko compliance |
 
-### 11.6.8. Checklista
+### 11.6.8. Checklista post-call automation
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy mamy conversion event?
-- Czy mierzymy drop-off per step?
-- Czy abandonment ma moment w flow?
-- Czy mierzymy repeat contact 24/48h/7 dni?
-- Czy łączymy kanał powrotu?
-- Czy mamy zgodność prywatności przy laczeniu danych?
-- Czy analizujemy powody powrotu?
+- Czy notatka ma strukturę?
+- Czy zawiera cel rozmowy?
+- Czy zawiera zebrane dane?
+- Czy oznacza dane potwierdzone?
+- Czy zawiera wynik API?
+- Czy zawiera powód handoff?
+- Czy jest krótka?
+- Czy dane wrażliwe są maskowane?
+- Czy konsultant może poprawić notatkę?
+- Czy mierzymy correction rate?
 
 ### 11.6.9. Mini case study
 
-Voicebot zwrotowy miał wysokie conversion: wysyłał link do formularza. Jednak 30% klientów dzwoniło ponownie, bo link wygasał po godzinie. Metryka "link sent" wyglądała dobrze, ale repeat contact ujawnił problem. Po wydłużeniu ważności linku i jasnym komunikacie repeat contact spadł.
+Helpdesk IT wdrożył voicebota, który nie rozwiązywał wszystkich spraw, ale tworzył kompletne tickety z kategorią, opisem, systemem, priorytetem i lokalizacją. Konsultanci skrócili after-call work i szybciej kierowali zgłoszenia do właściwych zespołów. Automatyzacja częściowa dała większy efekt niż oczekiwano.
 
 ### 11.6.10. Podsumowanie
 
-Conversion, abandonment i repeat contact pokazują, co dzieje się po drodze i po rozmowie. Bez nich łatwo pomylić wykonanie kroku z rozwiązaniem sprawy.
+Automatyzacja po rozmowie jest często równie cenna jak automatyzacja rozmowy. Dobre notatki, tagi i aktualizacje systemów zmniejszają koszt operacyjny i poprawiają jakość handoff.
 
 ---
 
-## 11.7. Analiza transkrypcji, tagowanie rozmów i dashboardy
+## 11.7. Specyfikacja integracji - szablon praktyczny
 
-### 11.7.1. Czym jest dashboard voicebota
-
-Dashboard to ekran lub zestaw ekranów, które pokazują najważniejsze informacje o działaniu voicebota. Nie jest to tylko "ładna tabelka" ani raport robiony dla samego raportowania. Dobry dashboard ma pomóc szybko odpowiedzieć na pytania:
-
-- czy voicebot działa technicznie;
-- czy użytkownicy załatwiają sprawy;
-- gdzie rozmowy się psują;
-- co trzeba poprawić jako pierwsze;
-- czy ostatnia zmiana pomogła czy zaszkodziła.
-
-Można myśleć o dashboardzie jak o tablicy kontrolnej projektu. W samochodzie nie patrzymy tylko na jedną liczbę. Potrzebujemy prędkości, paliwa, kontrolek awarii i czasem nawigacji. W voicebocie jest podobnie: sama liczba rozmów nie wystarczy. Trzeba widzieć wynik rozmów, błędy, eskalacje, powroty klientów, jakość rozumienia i zachowanie po zmianach.
-
-Dashboard powinien być zrozumiały dla osoby, która nie jest analitykiem danych. Jeśli specjalista voicebotowy patrzy na ekran i nadal nie wie, czy bot działa dobrze, dashboard nie spełnia swojej funkcji.
-
-### 11.7.2. Jak powinien wyglądać dobry dashboard
-
-Dobry dashboard powinien mieć kilka prostych warstw.
-
-Pierwsza warstwa to szybki widok stanu, czyli odpowiedź na pytanie "czy jest dobrze?". Tutaj zwykle są duże liczby i proste wskaźniki:
-
-- liczba rozmów;
-- task completion;
-- handoff;
-- fallback;
-- no-input i no-match;
-- awarie integracji;
-- średni czas rozmowy;
-- CSAT lub inna ocena po rozmowie.
-
-Druga warstwa pokazuje trendy. Sama liczba "fallback 8%" niewiele mówi, jeśli nie wiemy, czy tydzień temu było 4%, 8% czy 15%. Dlatego dashboard powinien pokazywać zmiany w czasie: dzień po dniu, tydzień po tygodniu, przed i po release.
-
-Trzecia warstwa pozwala zejść głębiej. Jeśli fallback rośnie, specjalista musi zobaczyć, w którym flow, przy którym promptcie, dla jakiej intencji i na jakich przykładowych wypowiedziach. Bez tego dashboard pokazuje problem, ale nie daje drogi do naprawy.
-
-Czwarta warstwa łączy dane z decyzją. Dobry dashboard powinien prowadzić do backlogu: "skrócić prompt X", "dodać frazy treningowe do intencji Y", "sprawdzić API statusu zamówienia", "poprawić komunikat handoff".
-
-Praktycznie dashboard voicebota może wyglądać tak:
-
-1. U góry: pięć najważniejszych wskaźników za wybrany okres.
-2. Pod nimi: wykres trendu dla task completion, fallback, handoff i repeat contact.
-3. Niżej: tabela problematycznych intencji, promptów i integracji.
-4. Obok lub pod tabelą: przykładowe transkrypcje rozmów.
-5. Na końcu: lista rekomendowanych działań albo link do backlogu.
-
-### 11.7.3. Analiza transkrypcji
-
-Analizuj:
-
-- top intencje;
-- top no-match phrases;
-- powody handoff;
-- frazy frustracji;
-- przerwania;
-- powtórzenia;
-- pytania poza zakresem;
-- nowe tematy;
-- problemy z promptami;
-- błędy ASR.
-
-Transkrypcje powinny być czytane w próbkach, nie tylko agregowane. Liczby mówią "gdzie", transkrypcje mówią "dlaczego".
-
-### 11.7.4. Tagowanie rozmów
-
-Typy tagów:
-
-| Tag | Przykład |
-|---|---|
-| Contact reason | status_zamowienia |
-| Outcome | completed_by_bot |
-| Failure reason | api_timeout |
-| Emotion signal | frustration |
-| Handoff reason | user_requested_agent |
-| Compliance flag | sensitive_data |
-| Optimization tag | unclear_prompt |
-| ASR issue | digit_error |
-
-Tagowanie jest potrzebne, bo surowa transkrypcja jest trudna do analizowania w skali. Tag zamienia rozmowę w informację, którą można policzyć. Jeśli 300 rozmów ma tag `unclear_prompt`, wiadomo, że problem nie jest pojedynczym przypadkiem, tylko wzorcem do poprawy.
-
-### 11.7.5. Dashboard operacyjny
-
-Dashboard operacyjny odpowiada na pytanie: "czy system działa dzisiaj i czy coś się nie psuje?". Korzysta z niego zespół utrzymania, IT, osoba odpowiedzialna za produkcję i czasem lider contact center.
-
-To jest widok bardziej techniczny niż biznesowy. Nie chodzi w nim o pełny obraz wartości projektu, tylko o szybkie wykrywanie awarii, spadków jakości i anomalii.
-
-Dla zespołu utrzymania:
-
-- wolumen;
-- uptime;
-- latency;
-- API errors;
-- fallback/no-match;
-- handoff;
-- abandonment;
-- concurrent calls;
-- alerts;
-- release version.
-
-Przykład interpretacji:
-
-Jeśli task completion jest stabilny, ale nagle rośnie API error rate, problem prawdopodobnie leży w integracji, a nie w conversation designie. Jeśli po release rośnie latency, trzeba sprawdzić nową wersję flow, modelu lub integracji.
-
-### 11.7.6. Dashboard biznesowy
-
-Dashboard biznesowy odpowiada na pytanie: "czy voicebot daje wartość organizacji i użytkownikom?". Korzysta z niego sponsor projektu, operations, contact center, właściciel procesu i osoby decydujące o budżecie.
-
-Ten dashboard powinien mówić językiem wyniku, a nie językiem logów. Zamiast pokazywać tylko "liczbę sesji", powinien pokazać, ile spraw zostało skutecznie załatwionych, ile wróciło do konsultanta, ile kosztuje skuteczna rozmowa i czy klienci nie dzwonią ponownie.
-
-Dla sponsora i operations:
-
-- task completion;
-- automation rate;
-- containment;
-- cost per resolved task;
-- repeat contact;
-- AHT impact;
-- SLA impact;
-- CSAT;
-- top use cases;
-- ROI.
-
-Przykład interpretacji:
-
-Containment może rosnąć, ale jeśli jednocześnie rośnie repeat contact, to bot prawdopodobnie zatrzymuje klientów w automatyzacji, lecz nie rozwiązuje ich spraw. Taki dashboard powinien ostrzec przed pozornym sukcesem.
-
-### 11.7.7. Dashboard jakościowy
-
-Dashboard jakościowy odpowiada na pytanie: "dlaczego rozmowy są dobre albo złe?". Korzysta z niego conversation designer, Voicebot Specialist, QA, analityk danych, AI/NLU specialist i osoby poprawiające scenariusze.
-
-To najważniejszy dashboard do codziennej optymalizacji. Pokazuje nie tylko ile było błędów, ale gdzie one wystąpiły i jak brzmiały realne wypowiedzi użytkowników.
-
-Dla conversation design, AI i QA:
-
-- no-input/no-match per prompt;
-- confusion matrix;
-- top fallback utterances;
-- interruption rate per prompt;
-- barge-in recovery success;
-- TTS repeat requests;
-- handoff reasons;
-- sample transcripts;
-- regression failures.
-
-Przykład interpretacji:
-
-Jeśli no-input rośnie przy jednym pytaniu, użytkownicy mogą nie rozumieć, czego bot od nich chce. Jeśli interruption rate rośnie przy jednym komunikacie, bot może mówić za długo albo podawać zbyt oczywiste informacje. Jeśli top fallback utterances zawierają podobne frazy, trzeba dodać intencję, poprawić prompt lub zmienić zakres bota.
-
-### 11.7.8. Jak czytać dashboard krok po kroku
-
-Osoba pracująca z voicebotem może czytać dashboard w prostym rytmie:
-
-1. Sprawdź, czy nie ma awarii: uptime, API errors, latency, nagły spadek wolumenu.
-2. Sprawdź wynik rozmów: task completion, automation, handoff, abandonment, repeat contact.
-3. Sprawdź jakość rozmowy: fallback, no-input, no-match, przerwania, prośby o konsultanta.
-4. Zobacz trendy: czy problem pojawił się po konkretnej zmianie, kampanii, sezonie albo awarii.
-5. Zejdź do szczegółu: intencja, flow, prompt, transkrypcja, nagranie.
-6. Zapisz decyzję: co poprawiamy, kto to robi, jak zmierzymy efekt.
-
-Najważniejsza zasada: dashboard nie kończy pracy. Dashboard zaczyna rozmowę o tym, co poprawić.
-
-### 11.7.9. Perspektywa biznesowa
-
-Dashboard powinien prowadzić do decyzji:
-
-- co poprawiamy w tym tygodniu;
-- który use case rozszerzamy;
-- który flow ograniczamy;
-- która integracja wymaga naprawy;
-- gdzie potrzebna jest zmiana procesu.
-
-### 11.7.10. Perspektywa użytkownika
-
-Analiza transkrypcji ujawnia język użytkownika i miejsca frustracji. Nie powinna służyć tylko do trenowania modelu, ale też do poprawy procesu i komunikacji.
-
-Dobry dashboard powinien bronić użytkownika przed złą automatyzacją. Jeśli bot formalnie "obsłużył" rozmowę, ale klient dzwoni ponownie, przerywa, prosi o konsultanta albo porzuca połączenie, dashboard powinien to pokazać.
-
-### 11.7.11. Perspektywa technologiczna
-
-Wymagania:
-
-- pipeline danych;
-- anonimizacja;
-- tag taxonomy;
-- wersjonowanie tagów;
-- integracja z BI;
-- dostępy rolami;
-- możliwość drill-down do rozmowy;
-- eksport do backlogu.
-
-### 11.7.12. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Twórz trzy dashboardy: operacyjny, biznesowy, jakościowy.
-- Taguj outcome i failure reason.
-- Używaj próbek transkrypcji do interpretacji liczb.
-- Aktualizuj taxonomy.
-- Łącz dashboard z backlogiem.
-- Ogranicz dostęp do danych wrażliwych.
-- Raportuj przed/po release.
-
-### 11.7.13. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Jeden dashboard dla wszystkich | Nikt nie dostaje potrzebnych informacji |
-| Brak failure reason | Nie wiadomo, co poprawiać |
-| Brak transkrypcji próbkowych | Metryki bez kontekstu |
-| Brak anonimizacji | Ryzyko danych |
-| Brak tag governance | Chaos kategorii |
-| Brak powiązania z backlogiem | Raportowanie bez działania |
-
-### 11.7.14. Checklista dashboardów
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy mamy dashboard operacyjny?
-- Czy mamy dashboard biznesowy?
-- Czy mamy dashboard jakościowy?
-- Czy mamy tagi outcome?
-- Czy mamy failure reasons?
-- Czy widac wersje release?
-- Czy można zejść do próbki rozmów?
-- Czy dane są anonimizowane?
-- Czy dashboard tworzy backlog?
-
-### 11.7.15. Mini case study
-
-Dashboard biznesowy pokazywał stabilny task completion. Dashboard jakościowy pokazał jednak wzrost interruption rate przy jednym promptcie. Po odsłuchaniu rozmów okazało się, że nowy komunikat był zbyt długi i użytkownicy przerywali, bo znali odpowiedź. Skrócenie promptu zmniejszyło AHT.
-
-### 11.7.16. Podsumowanie
-
-Dashboardy powinny być narzędziami działania, nie dekoracją. Dobre dashboardy pokazują, co się stało, dlaczego mogło się stać i gdzie zacząć optymalizację. Dla Voicebot Specialist dashboard jest codziennym narzędziem pracy: pomaga zobaczyć, czy bot realnie pomaga ludziom, czy tylko generuje ładne liczby.
-
----
-
-## 11.8. Proces optymalizacji po wdrożeniu
-
-### 11.8.1. Kluczowe pojęcia
-
-Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
-
-| Pojęcie | Definicja |
-|---|---|
-| Optimization backlog | Lista usprawnień oparta na danych |
-| Release cycle | Rytm wdrażania zmian |
-| Experiment | Kontrolowana zmiana sprawdzająca hipotezę |
-| A/B test | Porównanie wariantów |
-| Regression suite | Zestaw testów chroniący przed popsuciem |
-| Hypercare | Intensywny monitoring po starcie |
-
-### 11.8.2. Cykl optymalizacji
+### 11.7.1. Szablon specyfikacji integracji
 
 ```text
-1. Monitoruj metryki.
-2. Wybierz problem.
-3. Zejdz do transkrypcji i logow.
-4. Okresl przyczyne.
-5. Zdefiniuj hipoteze.
-6. Zaprojektuj zmiane.
-7. Dodaj test regresji.
-8. Wdroż release.
-9. Porownaj przed/po.
-10. Zdecyduj: utrzymac, cofnac, iterowac.
+1. Informacje podstawowe
+- Nazwa integracji:
+- Use case:
+- System źródłowy:
+- Wlasciciel biznesowy:
+- Wlasciciel techniczny:
+- Srodowiska: dev/test/prod:
+
+2. Cel integracji
+- Po co voicebot uzywa tej integracji?
+- Czy jest to odczyt, walidacja, zapis, akcja, handoff czy post-call automation?
+
+3. Warunki uzycia
+- W jakim stanie dialogu integracja jest wywolywana?
+- Jakie sloty sa wymagane?
+- Czy wymagana jest weryfikacja użytkownika?
+- Czy wymagana jest explicit confirmation?
+
+4. Dane wejsciowe
+- Nazwa pola:
+- Typ:
+- Zrodlo:
+- Wymagane/opcjonalne:
+- Walidacja:
+- Czy zawiera dane osobowe:
+
+5. Dane wyjsciowe
+- Nazwa pola:
+- Typ:
+- Znaczenie:
+- Czy można wypowiedzieć głosem:
+- Czy trzeba maskowac:
+
+6. Bledy
+- Kod błędu:
+- Znaczenie:
+- Czy retry:
+- Komunikat dla użytkownika:
+- Handoff:
+- Logowanie:
+
+7. Timeout i retry
+- Timeout:
+- Liczba retry:
+- Backoff:
+- Czy operacja jest idempotentna:
+- Idempotency key:
+
+8. Bezpieczenstwo
+- Autoryzacja:
+- Szyfrowanie:
+- Sekrety:
+- Rate limits:
+- Audyt:
+- Retencja logow:
+
+9. Observability
+- Request ID:
+- Metryki latency:
+- Metryki sukcesu:
+- Alerty:
+- Dashboard:
+
+10. QA
+- Happy path:
+- Bledne dane:
+- Brak danych:
+- Timeout:
+- System unavailable:
+- Duplicate request:
+- Unauthorized:
+- Handoff:
+
+11. Decyzje otwarte
+- Pytanie:
+- Owner:
+- Termin:
 ```
 
-Przykład hipotezy:
+### 11.7.2. Dobre praktyki użycia szablonu
 
-"No-input przy pytaniu o lokalizację wzrósł, bo prompt jest zbyt formalny. Zmiana pytania na prostsze zmniejszy no-input o 20%."
+- Wypełniaj szablon przed implementacją.
+- Przeglądaj go z biznesem, IT, security i QA.
+- Nie akceptuj odpowiedzi "błąd ogólny" bez mapowania.
+- Dodaj przykłady request/response w dokumentacji technicznej.
+- Powiąż specyfikację z test cases.
+- Aktualizuj po zmianach API.
 
-### 11.8.3. Perspektywa biznesowa
+### 11.7.3. Mini case study
 
-Optymalizacja powinna mieć priorytety:
+W projekcie rezerwacyjnym brakowało decyzji, co robić, gdy API zwraca `slot_conflict`. Developerzy potraktowali to jak ogólny błąd. Bot przekazywał do konsultanta, mimo że mógł zaproponować kolejny termin. Po uzupełnieniu specyfikacji `slot_conflict` dostał osobną ścieżkę dialogową: "Ten termin został już zajęty. Najbliższy wolny to...".
 
-1. Błędy krytyczne i compliance.
-2. Problemy z task completion.
-3. Problemy powodujące duży wolumen handoff.
-4. Problemy UX/frustracji.
-5. Koszt i latency.
-6. Rozszerzenia zakresu.
+### 11.7.4. Podsumowanie
 
-Nie warto poprawiać rzadkiego promptu, gdy top integracja ma 15% timeoutow.
-
-### 11.8.4. Perspektywa użytkownika
-
-Optymalizacja powinna zmniejszać wysiłek:
-
-- mniej powtórzeń;
-- krótsze komunikaty;
-- mniej fallbacków;
-- lepsze potwierdzenia;
-- szybszy handoff;
-- jaśniejsze zakończenia.
-
-### 11.8.5. Perspektywa technologiczna
-
-Każda zmiana powinna mieć:
-
-- ticket/backlog item;
-- opis problemu;
-- dane potwierdzające;
-- hipotezę;
-- zakres zmiany;
-- testy;
-- ownera;
-- release version;
-- metryki przed/po.
-
-### 11.8.6. Szablon backlog item
-
-```text
-ID:
-Tytul:
-Obszar: prompt / NLU / ASR / TTS / integracja / flow / handoff / LLM / RAG
-Problem:
-Dane potwierdzające:
-Przyklad rozmowy:
-Hipoteza:
-Proponowana zmiana:
-Ryzyko:
-Testy regresji:
-Metryka sukcesu:
-Owner:
-Priorytet:
-Status:
-```
-
-### 11.8.7. Dobre praktyki
-
-Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
-
-- Priorytetyzuj według wpływu i ryzyka.
-- Nie zmieniaj zbyt wielu rzeczy naraz.
-- Mierz przed/po.
-- Dodawaj testy regresji.
-- Włącz konsultantów w interpretację.
-- Utrzymuj changelog.
-- Po dużych zmianach rób mini-hypercare.
-
-### 11.8.8. Typowe błędy
-
-Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
-
-| Błąd | Konsekwencja |
-|---|---|
-| Poprawki bez hipotezy | Nie wiadomo, co działa |
-| Zbyt wiele zmian w jednym release | Brak interpretacji efektu |
-| Brak testów regresji | Nowe błędy |
-| Backlog z opinii, nie danych | Słabe priorytety |
-| Brak ownera | Optymalizacja staje |
-| Brak metryk przed/po | Brak dowodu efektu |
-
-### 11.8.9. Checklista optymalizacji
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy problem ma dane?
-- Czy mamy przykłady rozmów?
-- Czy jest hipoteza?
-- Czy zmiana ma ownera?
-- Czy są testy regresji?
-- Czy jest metryka sukcesu?
-- Czy znamy ryzyko?
-- Czy porownamy przed/po?
-- Czy changelog jest aktualny?
-
-### 11.8.10. Mini case study
-
-Po starcie voicebota rezerwacyjnego no-match przy pytaniu o termin wynosil 28%. Analiza transkrypcji pokazala, że ludzie mowili "jak najszybciej", a bot oczekiwal konkretnej daty. Dodano obsługę intencji `najblizszy_mozliwy_termin` i zmieniono prompt: "Może pani podac datę albo powiedzieć: najblizszy termin." No-match spadl do 13%.
-
-### 11.8.11. Podsumowanie
-
-Optymalizacja voicebota jest ciąglym procesem produktowym. Najlepsze zespoly nie pytają "czy bot jest gotowy?", tylko "co pokazały rozmowy i co poprawiamy w kolejnym cyklu?".
+Specyfikacja integracji jest narzędziem zapobiegania chaosowi. Im bardziej szczegółowo opiszesz dane, błędy, timeouty i decyzje, tym mniej niespodzianek pojawi się w rozmowie z użytkownikiem.
 
 ---
 
-## 11.9. Metryki odbioru, wysiłku i zaufania
-
-Metryki operacyjne pokazują, co wydarzyło się w systemie. Metryki odbioru pokazują, jak rozmowę przeżył człowiek. To rozróżnienie jest ważne, bo voicebot może mieć dobre liczby techniczne i jednocześnie być męczący. Przykład: niski fallback rate nie oznacza jeszcze, że użytkownik rozumiał odpowiedzi. Niski handoff nie oznacza, że sprawa została załatwiona. Krótki czas rozmowy nie zawsze oznacza dobrą rozmowę; czasem oznacza szybkie rozłączenie.
-
-Dlatego dashboard dojrzalego voicebota powinien mieć warstwę "human experience". Nie musi być skomplikowana. Ważne, aby regularnie łączyć dane z systemu, transkrypcje, ankiety po rozmowie i feedback konsultantów.
-
-### 11.9.1. Trzy poziomy oceny rozmowy
-
-Pierwszy poziom to wynik zadania: czy użytkownik osiągnął cel. Drugi poziom to koszt dojścia do celu: ile było tur, powtórzeń, ciszy, korekt i eskalacji. Trzeci poziom to odbiór: czy użytkownik czuł, że rozmawia z kompetentnym, przewidywalnym systemem, czy z przeszkodą na drodze do konsultanta.
-
-Praktyczny model:
-
-| Poziom | Pytanie | Przykładowe dane |
-|---|---|---|
-| Task success | Czy sprawa została załatwiona? | outcome, integracja, potwierdzenie, repeat contact |
-| Dialogue cost | Ile wysiłku kosztowala rozmową? | liczba tur, powtórzenia, no-input, no-match, repair |
-| Perceived experience | Jak użytkownik odebrał rozmowę? | ankieta, komentarz, sygnały frustracji, prośba o człowieka |
-
-### 11.9.2. Customer effort w kanale głosowym
-
-Customer effort w voicebocie to nie tylko liczba kliknięć, bo użytkownik niczego nie klika. Wysiłek pojawia się jako konieczność pamiętania długich opcji, czekania na koniec monologu, powtarzania danych, zgadywania komendy albo tlumaczenia się systemowi. W kanale głosowym nawet mała niejasność może być meczaca, bo użytkownik nie widzi ekranu i nie może spokojnie przeskanować opcji.
-
-Sygnały wysokiego wysiłku:
-
-- użytkownik pyta "co mam powiedzieć?";
-- powtarza te same dane;
-- przerywa botowi w tych samych miejscach;
-- milczy po pytaniu;
-- prosi o konsultanta po jednym lub dwóch błędach;
-- kończy rozmowę bez rozwiązania;
-- dzwoni ponownie w tej samej sprawie.
-
-### 11.9.3. Metryki zaufania
-
-Zaufanie do voicebota powinno być skalibrowane. Użytkownik ma ufac botowi w sprawach, które bot rzeczywiście potrafi obsłużyć, ale nie powinien zakładać, że bot może podejmowac decyzję poza zakresem. W praktyce oznacza to, że bot powinien brzmieć kompetentnie, ale nie absolutnie. Powinien umieć powiedzieć "nie mam pewności", "to wymaga konsultanta" albo "mogę sprawdzić tylko status".
-
-Metryki i sygnały zaufania:
-
-| Sygnał | Interpretacja |
-|---|---|
-| Użytkownik akceptuje wynik i nie dzwoni ponownie | Prawdopodobne zaufanie do rozwiązania |
-| Użytkownik prosi o potwierdzenie wiele razy | Niska pewność lub niejasny komunikat |
-| Użytkownik pyta "czy rozmawiam z człowiekiem?" | Brak transparentności lub zbyt ludzka persona |
-| Użytkownik przekazuje dane wrażliwe bez pytania | Ryzyko overtrust i potrzeba lepszych granic |
-| Użytkownik szybko wybiera konsultanta | Możliwy undertrust, zły onboarding lub źle doświadczenia |
-
-### 11.9.4. Prosta ankieta po rozmowie
-
-Ankieta po rozmowie powinna być krótka. Jeśli jest za długa, zniecheci użytkownika i da mało odpowiedzi. Dobrze sprawdza się zestaw 3-5 pytań, rotowany w czasie.
-
-Przykład:
-
-```text
-1. Czy udalo sie zalatwic sprawe? Tak/Nie
-2. Jak latwa byla rozmową? 1-5
-3. Czy pytania bota byly zrozumiałe? 1-5
-4. Czy mial(a) Pan/Pani poczucie kontroli nad rozmową? 1-5
-5. Co mozemy poprawic? [opcjonalnie]
-```
-
-Dla procesów wysokiego ryzyka warto dodac pytanie: "Czy było jasne, kiedy bot może pomóc, a kiedy potrzebny jest konsultant?". To pozwala wykrywać niebezpieczne nadmierne zaufanie.
-
-### 11.9.5. Jak interpretować metryki odbioru
-
-Metryki odbioru nie powinny być traktowane jak plebiscyt popularności. Niska ocena może wynikać z problemu poza botem, np. klient jest zły na decyzję firmy. Dlatego ankietę trzeba łączyć z outcome, transkrypcją i powodem kontaktu. Jeśli użytkownicy nisko oceniają rozmowy z odmową reklamacji, problemem może być polityka biznesowa, ale bot nadal powinien być oceniony pod kątem jasności, tonu i handoffu.
-
-Najlepsza praktyka to analizować metryki w segmentach:
-
-- per use case;
-- per prompt lub krok dialogu;
-- per powod handoff;
-- per kanał i godzina;
-- per nowy/stały użytkownik;
-- per wersja scenariusza.
-
-### 11.9.6. Checklista metryk odbioru
-
-Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
-
-- Czy mierzymy task success i wysiłek, nie tylko containment?
-- Czy mamy pytanie o zrozumiałość?
-- Czy mamy pytanie o poczucie kontroli?
-- Czy monitorujemy sygnały frustracji?
-- Czy repeat contact jest laczony z pierwotna rozmową?
-- Czy analizujemy prośby o konsultanta jako sygnał odbioru?
-- Czy wiemy, w którym kroku użytkownicy traca zaufanie?
-- Czy rozdzielamy problem bota od problemu polityki biznesowej?
-
-### 11.9.7. Podsumowanie
-
-Voicebot jest oceniany przez użytkownika nie tylko po tym, czy "technicznie zadziałał". Liczy się także wysiłek, przewidywalność, możliwość poprawy, jasna droga do człowieka i poczucie, że system nie ukrywa swoich ograniczeń. Metryki odbioru są potrzebne, bo bez nich zespół może optymalizować liczby, które nie przekładają się na dobrą rozmowę.
-
----
-
-## 11.10. Zbiorcza checklista po Części X
+## 11.8. Zbiorcza checklista rozdziału
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
-- Czy metryki są zdefiniowane przed produkcją?
-- Czy masz baseline?
-- Czy mierzysz task completion, nie tylko containment?
-- Czy masz outcome taxonomy?
-- Czy mierzysz repeat contact?
-- Czy mierzysz no-input i no-match osobno?
-- Czy fallback jest analizowany per prompt?
-- Czy handoff ma powody?
-- Czy mierzysz ASR/NLU confidence z kalibracja?
-- Czy mierzysz cost per resolved task?
-- Czy abandonment jest analizowany per krok?
-- Czy dashboardy są operacyjne, biznesowe i jakościowe?
-- Czy transkrypcje są analizowane w probkach?
-- Czy dashboard prowadzi do backlogu?
-- Czy każda zmiana ma hipoteze i test regresji?
-- Czy mierzysz odbiór, wysiłek i poczucie kontroli?
-- Czy zaufanie użytkownika jest skalibrowane do realnych możliwości bota?
+- Czy voicebot ma integracje potrzebne do realnego wykonania sprawy?
+- Czy odróżniono odczyt, walidację, zapis i akcje?
+- Czy każda integracja ma właściciela?
+- Czy znamy system źródłowy dla danych?
+- Czy mamy sandbox?
+- Czy znamy timeouty i błędy?
+- Czy zapisy są idempotentne?
+- Czy retry jest bezpieczny?
+- Czy komunikaty awarii są zrozumiałe?
+- Czy weryfikacja odpowiada ryzyku akcji?
+- Czy dane osobowe są minimalizowane?
+- Czy handoff przekazuje kontekst?
+- Czy konsultant widzi podsumowanie?
+- Czy automatyczne notatki odróżniają fakty od niepewności?
+- Czy integracje mają dashboard i alerty?
 
 ---

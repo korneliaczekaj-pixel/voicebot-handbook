@@ -1025,7 +1025,7 @@ Kompletny scenariusz łączy treść rozmowy z logiką biznesową, integracjami,
 
 ---
 
-## 6.8. Zbiorcza checklista po Części V
+## 6.8. Zbiorcza checklista rozdziału
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 

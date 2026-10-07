@@ -2,6 +2,8 @@
 
 Data audytu: 2026-07-29
 
+Uwaga z 2026-10-07: po audycie usunięto rozdziały o certyfikacji i o pracy Voicebot Specialist zmieniono kolejność pozostałych, a dawny rozdział 1 podzielono. Nazwy plików w tym dokumencie odnoszą się do dawnej numeracji: dawny `czesc_7` to dziś `czesc_9`, `czesc_8` to `czesc_10`, `czesc_9` to `czesc_11`, a część dawnego `czesc_1` o barge-in i turn-takingu to dziś `czesc_4`.
+
 ## 1. Zakres audytu
 
 Sprawdzono komplet plików `Voicebot_Specialist_Handbook_*`, ze szczególnym naciskiem na:

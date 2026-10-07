@@ -45,10 +45,10 @@ Zasady nadrzędne:
   `turn-taking prediction`, `barge-in`, `speech-to-speech model`, `voice agent evaluation`,
   `spoken dialogue benchmark` — nowe prace od ostatniego przebiegu.
 - ACL Anthology — nowe proceedings (SIGDIAL, Interspeech, ACL/EMNLP — sesje speech/dialogue).
-- Miara istotności: praca wnosi coś do części 1 (barge-in/turn-taking), 7 (dane i NLU),
-  8 (LLM/RAG), 10 (QA/ewaluacja), 11 (metryki) lub 19 (psychologia rozmowy).
+- Miara istotności: praca wnosi coś do części 3 (psychologia rozmowy), 4 (barge-in/turn-taking),
+  9 (dane i NLU), 10 (LLM/RAG), 13 (QA/ewaluacja) lub 15 (metryki).
 
-## 3. Prawo i compliance (część 13)
+## 3. Prawo i compliance (część 12)
 
 - EU AI Act — harmonogram stosowania, wytyczne KE, akty wykonawcze
   (transparentność art. 50 dotyczy botów głosowych): https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai

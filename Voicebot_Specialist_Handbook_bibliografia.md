@@ -40,11 +40,11 @@ Checklisty, matryce i szablony są w dużej części autorską syntezą eksperck
 
 Najmocniej wspierane części:
 
-- Część 1: mapa wiedzy i barge-in.
-- Część 4: conversation design i turn-taking.
-- Część 10: QA barge-in/turn-taking.
-- Część 14: etyka i dostępność.
-- Część 19: psychologia rozmowy.
+- Część 4: barge-in i turn-taking.
+- Część 3: psychologia rozmowy.
+- Część 5: conversation design i turn-taking.
+- Część 7: etyka i dostępność.
+- Część 13: QA barge-in/turn-taking.
 
 ## Odbiór użytkownika, UX, zaufanie i ocena systemów mowy
 
@@ -66,10 +66,10 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 10: testy z użytkownikami i badanie odbioru.
-- Część 11: metryki odbioru, wysiłku, zaufania i satysfakcji.
-- Część 14: transparentność, etyka i dostępność.
-- Część 19: psychologia rozmowy z voicebotem.
+- Część 3: psychologia rozmowy z voicebotem.
+- Część 7: transparentność, etyka i dostępność.
+- Część 13: testy z użytkownikami i badanie odbioru.
+- Część 15: metryki odbioru, wysiłku, zaufania i satysfakcji.
 
 ---
 
@@ -93,10 +93,10 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in.
-- Część 4: przerwania w dialogu.
-- Część 10: QA barge-in.
-- Część 11: metryki przerwań.
+- Część 4: barge-in.
+- Część 5: przerwania w dialogu.
+- Część 13: QA barge-in.
+- Część 15: metryki przerwań.
 
 ---
 
@@ -116,11 +116,11 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in i turn-taking.
-- Część 3: architektura voicebota.
-- Część 8: LLM/RAG/realtime voice.
-- Część 10: QA realtime i barge-in.
-- Część 11: metryki techniczne.
+- Część 4: barge-in i turn-taking.
+- Część 8: architektura voicebota.
+- Część 10: LLM/RAG/realtime voice.
+- Część 13: QA realtime i barge-in.
+- Część 15: metryki techniczne.
 
 ---
 
@@ -146,12 +146,12 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 2: fundamenty i historia IVR/VoiceXML.
-- Część 3: architektura.
-- Część 4: conversation design.
-- Część 9: integracje.
-- Część 10: QA.
-- Część 12: wdrożenie w organizacji.
+- Część 1: czym jest voicebot, historia IVR/VoiceXML.
+- Część 5: conversation design.
+- Część 8: architektura.
+- Część 11: integracje.
+- Część 13: QA.
+- Część 14: wdrożenie w organizacji.
 
 ---
 
@@ -166,9 +166,9 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in.
-- Część 7: dane i jakość rozumienia.
-- Część 10: QA przerwań.
+- Część 4: barge-in.
+- Część 9: dane i jakość rozumienia.
+- Część 13: QA przerwań.
 
 ---
 
@@ -193,9 +193,8 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 13: Bezpieczeństwo, prywatność, prawo i compliance.
-- Część 14: Etyka, dostępność i odpowiedzialne projektowanie.
-- Część 18: Certyfikacja.
+- Część 7: Etyka, dostępność i odpowiedzialne projektowanie.
+- Część 12: Bezpieczeństwo, prywatność, prawo i compliance.
 
 ---
 
@@ -203,25 +202,23 @@ Najmocniej wspierane części:
 
 | Plik | Część | Główne źródła |
 |---|---|---|
-| czesc_1 | Mapa wiedzy, spis treści, barge-in | Źródła A, B, C, D, E |
-| czesc_2 | Fundamenty | VoiceXML, platformy enterprise, LiveKit/OpenAI |
-| czesc_3 | Architektura | LiveKit, OpenAI Realtime, Dialogflow, AWS, Lex, VoiceXML |
-| czesc_4 | Conversation design | Skantze, VoiceXML, LiveKit, platformy enterprise |
-| czesc_5 | Analiza biznesowa/use case | Synteza ekspercka + dokumentacje enterprise |
+| czesc_1 | Czym jest voicebot | VoiceXML, platformy enterprise, LiveKit/OpenAI |
+| czesc_2 | Analiza biznesowa/use case | Synteza ekspercka + dokumentacje enterprise |
+| czesc_3 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
+| czesc_4 | Przerywanie i przejmowanie tury | Źródła A, B, C, D, E |
+| czesc_5 | Conversation design | Skantze, VoiceXML, LiveKit, platformy enterprise |
 | czesc_6 | Dialogi i scenariusze | VoiceXML, Dialogflow, Lex, synteza ekspercka |
-| czesc_7 | Dane/trening/jakość | Dialogflow/Lex, ASR/NLU praktyki, synteza ekspercka |
-| czesc_8 | LLM/RAG | OpenAI Realtime, LiveKit, synteza ekspercka LLM/RAG |
-| czesc_9 | Integracje | AWS/Google/OpenAI, synteza enterprise API |
-| czesc_10 | QA | VoiceXML, LiveKit, OpenAI, platformy enterprise, źródła barge-in |
-| czesc_11 | Metryki/analityka | Dokumentacje zdarzeń + synteza ekspercka contact center |
-| czesc_12 | Wdrożenie | Synteza ekspercka enterprise delivery |
-| czesc_13 | Prawo/compliance | GDPR, EDPB, AI Act, synteza privacy/security |
-| czesc_14 | Etyka/dostępność | EDPB, AI Act, badania interakcji, synteza UX |
-| czesc_15 | Rola zawodowa | Synteza ekspercka |
+| czesc_7 | Etyka/dostępność | EDPB, AI Act, badania interakcji, synteza UX |
+| czesc_8 | Architektura | LiveKit, OpenAI Realtime, Dialogflow, AWS, Lex, VoiceXML |
+| czesc_9 | Dane/trening/jakość | Dialogflow/Lex, ASR/NLU praktyki, synteza ekspercka |
+| czesc_10 | LLM/RAG | OpenAI Realtime, LiveKit, synteza ekspercka LLM/RAG |
+| czesc_11 | Integracje | AWS/Google/OpenAI, synteza enterprise API |
+| czesc_12 | Prawo/compliance | GDPR, EDPB, AI Act, synteza privacy/security |
+| czesc_13 | QA | VoiceXML, LiveKit, OpenAI, platformy enterprise, źródła barge-in |
+| czesc_14 | Wdrożenie | Synteza ekspercka enterprise delivery |
+| czesc_15 | Metryki/analityka | Dokumentacje zdarzeń + synteza ekspercka contact center |
 | czesc_16 | Szablony | Synteza ekspercka |
 | czesc_17 | Case studies | Synteza ekspercka + wnioski z poprzednich części |
-| czesc_18 | Certyfikacja | Synteza ekspercka programu kompetencji |
-| czesc_19 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
 
 ---
 
@@ -229,7 +226,7 @@ Najmocniej wspierane części:
 
 Przed traktowaniem podręcznika jako finalnego materiału akademickiego lub certyfikacyjnego warto wykonać:
 
-1. Review prawne części XII-XIII przez prawnika/DPO.
+1. Review prawne rozdziałów 7 (etyka i dostępność) i 12 (prawo i compliance) przez prawnika/DPO.
 2. Review techniczne części architektonicznych przez solution architecta voice/contact center.
 3. Review ASR/NLU/LLM przez AI engineer lub ML specialist.
 4. Review accessibility przez eksperta dostępności.
