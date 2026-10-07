@@ -1774,7 +1774,142 @@ Voicebot detects handoff condition
 
 ---
 
-## 3.14. Zbiorcza checklista po Części II
+## 3.14. Przykład z wdrożenia: jak działa voicebot i panel
+
+**Z praktyki.** Ta sekcja opisuje działające wdrożenie voicebota na infoliniach sklepów internetowych, a nie wzorzec z dokumentacji. Stan na październik 2026. Schemat jest uproszczony: pokazuje, co się dzieje od telefonu klienta do raportu w panelu, i pomija szczegóły techniczne poszczególnych warstw.
+
+Poprzednie sekcje rozbierały architekturę na części. Tutaj te same części widać złożone w jeden system: z konkretną centralą telefoniczną, konkretnymi dostawcami i panelem, w którym zespół ogląda rozmowy i zmienia ustawienia botów. Numery od 1 do 8 wyznaczają kolejność czytania: od telefonu klienta, przez rozmowę z botem, po raport i zmiany w panelu.
+
+### 3.14.1. Schemat
+
+```text
+(1) Klient dzwoni na infolinię danego sklepu
+      <-> Centrala 3CX
+            -> przełączenie -> Konsultant (BOK)
+
+(2) Centrala 3CX <-> VOICEBOT (platforma LiveKit)
+      (3) SŁUCH (STT)  mowa klienta -> tekst
+      (4) MÓZG (LLM)   rozumie, o co chodzi, i układa odpowiedź
+            korzysta z:
+              - instrukcji (promptu)
+              - bazy wiedzy
+              - gotowych wypowiedzi
+              - narzędzi <-> System zamówień Militaria
+      (5) GŁOS (TTS)   odpowiedź -> mowa
+
+Koniec rozmowy:
+
+(6) PO ROZMOWIE zapisuje się:
+      - rozmowa, transkrypcja i ocena AI -> baza danych panelu
+      - nagranie rozmowy                 -> magazyn nagrań
+      - szczegółowy log rozmowy          -> plik na serwerze
+
+(7) PANEL ANALITYCZNY pokazuje zapisane dane
+      historia rozmów | analiza i raporty | ustawienia botów | testy
+
+(8) Zmiany z panelu -> VOICEBOT
+
+Poza zwykłą rozmową:
+      Awaryjnie:  bot nie działa -> 3CX łączy klienta od razu z konsultantem
+      Monitoring: co kilka minut sprawdza boty -> alert e-mailem i na Teams
+```
+
+Znak `<->` oznacza przepływ w obie strony.
+
+### 3.14.2. Droga jednej rozmowy
+
+Klient dzwoni na infolinię danego sklepu (1). Połączenie odbiera centrala 3CX i przekazuje je botowi. Od tej chwili rozmowa płynie w obie strony między centralą a voicebotem (2): głos klienta idzie do bota, a głos bota wraca do klienta.
+
+Voicebot działa na platformie LiveKit. Każdy rynek i każdy sklep ma osobnego bota; razem to 30 botów na jednym serwerze.
+
+W środku bota każda wypowiedź klienta przechodzi przez trzy etapy, które na schemacie nazywają się słuch, mózg i głos.
+
+| Etap | Co robi | Dostawcy |
+|---|---|---|
+| 3. Słuch (STT) | Zamienia mowę klienta na tekst | Azure / OpenAI |
+| 4. Mózg (LLM) | Rozumie, o co chodzi, i układa odpowiedź | OpenAI + modele zapasowe |
+| 5. Głos (TTS) | Zamienia odpowiedź na mowę | ElevenLabs / Azure |
+
+**Wniosek.** W ogólnym przepływie z sekcji 3.1 między rozpoznaniem mowy a odpowiedzią stoją osobno NLU i menedżer dialogu. Na tym schemacie obie role mieszczą się w jednym pudełku: LLM rozumie wypowiedź i od razu układa odpowiedź. Dlatego o zachowaniu bota decyduje przede wszystkim to, z czego mózg korzysta.
+
+### 3.14.3. Z czego korzysta mózg
+
+Model językowy sam z siebie nie wie nic o sklepie ani o zamówieniu klienta. Na schemacie ma cztery źródła.
+
+| Źródło | Co zawiera |
+|---|---|
+| Instrukcja (prompt) | Jak bot ma się zachowywać i co może obiecać |
+| Baza wiedzy | Odpowiedzi na typowe pytania: dostawa, zwroty, płatności |
+| Gotowe wypowiedzi | Stałe zdania, np. powitanie, prośba o numer zamówienia |
+| Narzędzia | Sprawdzenie zamówienia i zwrotu, klawiatura telefonu, godziny pracy, łączenie z konsultantem |
+
+Przez narzędzia bot sięga poza samą rozmowę. Kiedy trzeba sprawdzić status, pyta o niego system zamówień Militaria. W tym systemie są statusy zamówień, zwrotów i reklamacji, a zamówienia można wyszukać po numerze telefonu klienta.
+
+Łączenie z konsultantem też jest narzędziem. Gdy bot nie może pomóc, prosi o przełączenie centralę, a 3CX łączy klienta z konsultantem Biura Obsługi Klienta (BOK), który przejmuje rozmowę.
+
+### 3.14.4. Co zostaje po rozmowie
+
+Koniec rozmowy uruchamia zapis (6). Zapisują się trzy rzeczy i każda trafia w inne miejsce.
+
+| Co się zapisuje | Gdzie trafia | Co z tego widać |
+|---|---|---|
+| Rozmowa, transkrypcja i ocena AI: sukces lub porażka, tagi, podsumowanie | Baza danych panelu | Transkrypcje i oceny AI w historii rozmów |
+| Nagranie rozmowy | Magazyn nagrań | Odsłuch w panelu |
+| Szczegółowy log rozmowy | Plik na serwerze | Np. raport „Problemy z klawiaturą” |
+
+Zapisane dane pokazuje panel analityczny (7). To strona w przeglądarce, a jej dane leżą w bazie PostgreSQL. Panel ma cztery obszary.
+
+| Obszar panelu | Co w nim jest |
+|---|---|
+| Historia rozmów | Transkrypcje, odsłuch nagrań, oceny AI |
+| Analiza i raporty | Statystyki, transfery, problemy (np. klawiatura) |
+| Ustawienia botów | Prompt, baza wiedzy, wypowiedzi, godziny pracy |
+| Testy | Czat testowy i tester AI, czyli sprawdzenie przed zmianą |
+
+**Wniosek.** W jednym miejscu leżą dane, które pokazują, gdzie rozmowy się nie udają, ustawienia, którymi można to poprawić, i testy, którymi poprawkę da się sprawdzić, zanim usłyszy ją klient. Tak wygląda w praktyce połączenie observability z sekcji 3.10 z procesem optymalizacji z sekcji 11.8.
+
+### 3.14.5. Jak zmiana z panelu trafia do bota
+
+Ustawienia zmienione w panelu trafiają do bota (8), ale nie wszystkie w tym samym momencie.
+
+| Co się zmienia | Od kiedy działa |
+|---|---|
+| Prompt, baza wiedzy, godziny pracy | Od następnej rozmowy |
+| Wypowiedzi bota | Po restarcie bota |
+
+**Wniosek.** Ta różnica ma znaczenie przy planowaniu poprawek. Zmiana promptu zadziała już przy najbliższym połączeniu, więc warto ją wcześniej sprawdzić w czacie testowym albo testerem AI. Zmiana gotowej wypowiedzi nie będzie słyszalna, dopóki bot nie zostanie zrestartowany. Jeśli po edycji klient nadal słyszy stare zdanie, restart jest pierwszą rzeczą do sprawdzenia.
+
+### 3.14.6. Gdy bot nie działa
+
+Dwa elementy schematu nie biorą udziału w zwykłej rozmowie. Istnieją na wypadek awarii.
+
+Pierwszy to tryb awaryjny w centrali: gdy bot nie działa, 3CX łączy klienta od razu z konsultantem. Drugi to automatyczny monitoring, który co kilka minut sprawdza działanie botów, a przy problemie wysyła alert e-mailem i na Teams.
+
+**Wniosek.** To konkretna odpowiedź na pytanie z sekcji 3.1.8: czy mamy plan awarii dla komponentów krytycznych. Tryb awaryjny dba o klienta, a monitoring o to, żeby o problemie dowiedział się zespół.
+
+### 3.14.7. Gdzie szukać dalej
+
+Każdy element schematu ma w podręczniku sekcję, która omawia go szerzej.
+
+| Element schematu | Sekcje podręcznika |
+|---|---|
+| Centrala 3CX i połączenie z botem | 3.2 |
+| Słuch (STT) | 3.4, 7.5 |
+| Mózg (LLM) | 8.1, 8.2 |
+| Instrukcja (prompt) | 8.3 |
+| Baza wiedzy | 3.8, 8.4 |
+| Gotowe wypowiedzi | 4.5 |
+| Narzędzia i system zamówień | 3.7, 8.6, rozdział 9 |
+| Głos (TTS) | 3.9 |
+| Przełączenie do konsultanta | 3.11, 9.5 |
+| Zapis po rozmowie | 9.6, 13.2, 13.3 |
+| Panel: historia rozmów, analiza i raporty | 3.10, 11.7 |
+| Panel: testy | rozdział 10 |
+| Tryb awaryjny i monitoring | 3.10, 9.4 |
+
+---
+
+## 3.15. Zbiorcza checklista po Części II
 
 Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
 
