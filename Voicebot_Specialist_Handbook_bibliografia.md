@@ -40,8 +40,8 @@ Checklisty, matryce i szablony są w dużej części autorską syntezą eksperck
 
 Najmocniej wspierane części:
 
-- Część 1: mapa wiedzy i barge-in.
-- Część 4: psychologia rozmowy.
+- Część 4: barge-in i turn-taking.
+- Część 3: psychologia rozmowy.
 - Część 5: conversation design i turn-taking.
 - Część 7: etyka i dostępność.
 - Część 13: QA barge-in/turn-taking.
@@ -66,7 +66,7 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 4: psychologia rozmowy z voicebotem.
+- Część 3: psychologia rozmowy z voicebotem.
 - Część 7: transparentność, etyka i dostępność.
 - Część 13: testy z użytkownikami i badanie odbioru.
 - Część 15: metryki odbioru, wysiłku, zaufania i satysfakcji.
@@ -93,7 +93,7 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in.
+- Część 4: barge-in.
 - Część 5: przerwania w dialogu.
 - Część 13: QA barge-in.
 - Część 15: metryki przerwań.
@@ -116,7 +116,7 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in i turn-taking.
+- Część 4: barge-in i turn-taking.
 - Część 8: architektura voicebota.
 - Część 10: LLM/RAG/realtime voice.
 - Część 13: QA realtime i barge-in.
@@ -146,7 +146,7 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 2: fundamenty i historia IVR/VoiceXML.
+- Część 1: czym jest voicebot, historia IVR/VoiceXML.
 - Część 5: conversation design.
 - Część 8: architektura.
 - Część 11: integracje.
@@ -166,7 +166,7 @@ Charakter:
 
 Najmocniej wspierane części:
 
-- Część 1: barge-in.
+- Część 4: barge-in.
 - Część 9: dane i jakość rozumienia.
 - Część 13: QA przerwań.
 
@@ -202,10 +202,10 @@ Najmocniej wspierane części:
 
 | Plik | Część | Główne źródła |
 |---|---|---|
-| czesc_1 | Podstawy, barge-in | Źródła A, B, C, D, E |
-| czesc_2 | Fundamenty | VoiceXML, platformy enterprise, LiveKit/OpenAI |
-| czesc_3 | Analiza biznesowa/use case | Synteza ekspercka + dokumentacje enterprise |
-| czesc_4 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
+| czesc_1 | Czym jest voicebot | VoiceXML, platformy enterprise, LiveKit/OpenAI |
+| czesc_2 | Analiza biznesowa/use case | Synteza ekspercka + dokumentacje enterprise |
+| czesc_3 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
+| czesc_4 | Przerywanie i przejmowanie tury | Źródła A, B, C, D, E |
 | czesc_5 | Conversation design | Skantze, VoiceXML, LiveKit, platformy enterprise |
 | czesc_6 | Dialogi i scenariusze | VoiceXML, Dialogflow, Lex, synteza ekspercka |
 | czesc_7 | Etyka/dostępność | EDPB, AI Act, badania interakcji, synteza UX |

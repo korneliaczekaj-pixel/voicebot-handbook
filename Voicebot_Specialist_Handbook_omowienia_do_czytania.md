@@ -6,21 +6,13 @@ Ten plik uzupelnia części podręcznika o ciągly tekst opisowy. Jego celem jes
 
 ---
 
-# Część 1. Podstawy voicebotów i zarządzanie turami
+# Część 1. Czym jest voicebot
 
 Osoba, która zaczyna pracować z voicebotami, zwykle zaczyna od jednego pytania: od czego mam się uczyć. Odpowiedź nie jest oczywista, bo w tej roli nie ma jednej podstawowej dziedziny. Ktoś przychodzi z contact center i widzi w voicebocie ulepszony skrypt konsultanta. Ktoś inny przychodzi z IT i widzi kolejną integrację. Ktoś z zespołu produktowego widzi kanał obsługi klienta. Wszyscy mają trochę racji, ale żadna z tych perspektyw nie wystarczy sama. Voicebot to praca na styku kilku porządków — technologii głosu, projektowania rozmowy, procesu biznesowego, danych, prawa i codziennej operacji contact center — i każdy z nich potrafi zawalić projekt, jeśli specjalista nie potrafi się w nim poruszać.
 
 Najprościej trzymać w głowie mapę siedmiu warstw, przez które przechodzi każda rozmowa i każda decyzja projektowa: głos → język → intencje → dialog → dane → proces → operacja. Głos to warstwa akustyczna i telefonia. Język to rozpoznawanie mowy i synteza — komponenty zamieniające dźwięk na tekst i z powrotem. Intencje to rozumienie, o co pyta klient. Dialog to prowadzenie rozmowy w czasie. Dane to wiedza, którą bot musi mieć pod ręką, żeby cokolwiek załatwić. Proces to reguły biznesowe i integracje z systemami firmy. Operacja to wszystko, co dzieje się po starcie: dyżury, aktualizacje, transkrypcje, konsultanci, incydenty. Każdą z tych warstw obsługują inne osoby, inne narzędzia i inne dyscypliny wiedzy. Specjalista nie musi być ekspertem w każdej z nich, ale musi wiedzieć, że wszystkie istnieją, i po której szukać, gdy rozmowa się rozjeżdża.
 
 Największe nieporozumienia biorą się z traktowania tej roli jako obsługi platformy. Kursy vendorowe uczą klikać w edytorze scenariuszy i to sprawia wrażenie kompletnej wiedzy — dopóki nie pojawia się pierwszy realny problem, którego edytor nie pokrywa. Klient traci cierpliwość po trzeciej sekundzie ciszy: to nie jest problem edytora, to problem turn-takingu. Klient dzwoni z ulicy i bot go nie słyszy: to nie prompt, to warstwa akustyczna. Klient prosi o coś, o czym bot nie ma pojęcia: to nie model, to baza wiedzy i governance. Bez umiejętności rozróżniania tych warstw praca sprowadza się do zgadywania i przepisywania promptów w nadziei, że coś się poprawi.
-
-Osobnej uwagi wymaga turn-taking, czyli rytm brania i oddawania głosu w rozmowie. To wygląda niewinnie — kto powie coś, i kiedy — ale w praktyce jest jednym z najtrudniejszych elementów całego systemu. Voicebot musi rozpoznać, czy klient skończył wypowiedź, czy tylko robi pauzę, żeby zebrać myśli. Musi zdecydować, czy dłuższa cisza to sygnał do wznowienia mówienia, czy do zadania nowego pytania. Musi wiedzieć, co zrobić, gdy klient przerywa w połowie zdania — czy powtórzyć, czy iść dalej, czy zapisać nową intencję. Rozmowy między ludźmi opierają się na sygnałach akustycznych i pragmatycznych, które człowiek odczytuje bez wysiłku, a maszyna musi mieć jawnie zaprojektowane.
-
-Z turn-takingu wynika też właściwe rozumienie barge-in, czyli sytuacji, w której klient przerywa mówiącego bota. Wiele osób traktuje to jako flagę do włączenia w platformie: albo można przerywać, albo nie. W rzeczywistości barge-in jest zdarzeniem interakcyjnym, w którym trzeba podjąć kilka decyzji naraz. Czy zatrzymać mówienie, czy pozwolić dokończyć zdanie. Czy uznać nową wypowiedź za odpowiedź na poprzednie pytanie, czy za nową sprawę. Czy poprzedni komunikat został usłyszany, czy trzeba go powtórzyć — zwłaszcza wtedy, gdy zawierał dane krytyczne, jak numer zamówienia, warunki umowy albo koszty. Barge-in zaprojektowany bez tej refleksji potrafi pogorszyć rozmowę bardziej niż jego brak.
-
----
-
-# Część 2. Fundamenty Conversational AI i voicebotów
 
 Rozmowa z automatem w telefonie może wyglądać z zewnątrz jednakowo — ktoś dzwoni, coś słyszy, coś odpowiada — ale w środku różni się fundamentalnie. W jednym przypadku system prowadzi klienta przez wąskie menu: „naciśnij jeden, żeby sprawdzić stan konta, naciśnij dwa, żeby zgłosić awarię". W drugim klient mówi swoim językiem, system rozumie sens i sam decyduje, co zrobić dalej. W trzecim klient rozmawia z asystentem, który zna kontekst wcześniejszych rozmów, wie, kim jest, i potrafi załatwić sprawę na skróty. To są zupełnie różne technologie i zupełnie różne obietnice — a organizacje mylą je regularnie, także w ofertach i briefach, w których pojawia się „chcemy voicebota" bez sprecyzowania, o którym z tych światów mowa.
 
@@ -34,11 +26,11 @@ Druga trudna warstwa to ocena, co w ogóle nadaje się do automatyzacji. Nie ka�
 
 Trzecia warstwa, o której łatwo zapomnieć w euforii wdrożeniowej, to dyscyplina wartości. Voicebot ma sens tylko wtedy, gdy poprawia doświadczenie klienta i porządkuje proces organizacji: skraca oczekiwanie, przejmuje sprawy powtarzalne, poprawia routing, odciąża konsultantów w szczycie, zapewnia dostępność poza godzinami pracy. Jeśli jedynym uzasadnieniem projektu jest „obciąć koszty konsultantów", system łatwo zamienia się w barierę. Klient dzwoni, żeby załatwić sprawę, a natrafia na maszynę, której głównym zadaniem jest go zniechęcić. To najgorszy scenariusz, bo kosztuje reputację marki i traci w oczach klientów więcej, niż zaoszczędzi na wynagrodzeniach.
 
-I ostatnia rzecz, którą warto zapamiętać już z fundamentów: voicebot nie zaczyna działać w chwili uruchomienia — zaczyna wtedy dopiero się uczyć. Pierwsze tygodnie na produkcji to nie ceremonia zamknięcia projektu, tylko początek najważniejszej pracy. Prawdziwi klienci mówią inaczej niż zespół testujący. Pojawiają się frazy, których nikt nie przewidział. Wychodzą na jaw luki w bazie wiedzy, granice modelu i miejsca, w których proces po stronie firmy nie jest tak jasny, jak wyglądał w prezentacji. Fundamenty tej dziedziny mówią wprost: system głosowy, którego nie utrzymuje się aktywnie, w kolejnych miesiącach traci jakość szybciej, niż zdąży zwrócić koszt wdrożenia. Ta świadomość powinna wchodzić do projektu od pierwszego dnia, nie po pierwszej reklamacji.
+I ostatnia rzecz, którą warto zapamiętać od początku: voicebot nie zaczyna działać w chwili uruchomienia — zaczyna wtedy dopiero się uczyć. Pierwsze tygodnie na produkcji to nie ceremonia zamknięcia projektu, tylko początek najważniejszej pracy. Prawdziwi klienci mówią inaczej niż zespół testujący. Pojawiają się frazy, których nikt nie przewidział. Wychodzą na jaw luki w bazie wiedzy, granice modelu i miejsca, w których proces po stronie firmy nie jest tak jasny, jak wyglądał w prezentacji. Fundamenty tej dziedziny mówią wprost: system głosowy, którego nie utrzymuje się aktywnie, w kolejnych miesiącach traci jakość szybciej, niż zdąży zwrócić koszt wdrożenia. Ta świadomość powinna wchodzić do projektu od pierwszego dnia, nie po pierwszej reklamacji.
 
 ---
 
-# Część 3. Analiza biznesowa i wybór use case
+# Część 2. Analiza biznesowa i wybór use case
 
 Na spotkaniu zarządu ktoś rzuca zdanie: „potrzebujemy voicebota do reklamacji". Wszyscy kiwają głowami, bo reklamacje to jeden z bardziej obciążających procesów w firmie, a idea „bot to załatwi" brzmi jak natychmiastowa ulga. Problem w tym, że reklamacje są zwykle najgorszym możliwym pierwszym use case'em: mieszają emocje, dane wrażliwe, ocenę wyjątku, decyzję finansową i negocjację. Sześć miesięcy później projekt zostaje nazwany porażką, choć zawiódł już w tej pierwszej minucie — nie na etapie technologii, tylko wyboru sprawy do automatyzacji.
 
@@ -56,7 +48,7 @@ Warto też pamiętać, że analiza biznesowa nie kończy się w momencie decyzji
 
 ---
 
-# Część 4. Psychologia rozmowy z voicebotem
+# Część 3. Psychologia rozmowy z voicebotem
 
 W momencie, w którym w słuchawce odzywa się głos, w głowie rozmówcy uruchamia się reakcja, której nauczył się przez całe życie: to jest ktoś. Nawet gdy wie, że po drugiej stronie jest maszyna, jego mózg zaczyna oceniać tempo, pauzy, ton, uprzejmość, kompetencję, pewność siebie, ciepło. Rozmówca zadaje pytania krócej albo dłużej w zależności od tego, jak brzmi głos. Poprawia się, przeprasza, mówi „dziękuję" — te wszystkie odruchy społeczne odpalają się bez decyzji. To dlatego voicebot nie może być projektowany tak samo jak chatbot. Dobrze zaprojektowany chatbot jest interfejsem. Dobrze zaprojektowany voicebot jest rozmówcą — czy chcemy tego, czy nie.
 
@@ -73,6 +65,14 @@ Trzecia warstwa to emocje. Bardzo duża część rozmów z voicebotem nie zaczyn
 Czwarta warstwa to poczucie kontroli. Rozmówca powinien wiedzieć, co bot właśnie robi, dlaczego pyta o daną informację, jak może się cofnąć, jak może przejść do człowieka. Kiedy tego nie wie, zaczyna walczyć z systemem: powtarza „chcę do konsultanta", mówi głośniej, próbuje słowami kluczami sprowokować przekierowanie. Ta walka zawsze kończy się źle dla obu stron — bot generuje pętlę, rozmówca traci nerwy. Rozwiązanie nie polega na tym, żeby dawać rozmówcy pełną kontrolę nad flow (to niepraktyczne), tylko na tym, żeby pokazywać mu punkty decyzyjne: „mogę sprawdzić status albo połączyć z konsultantem", „mogę powtórzyć albo przejść dalej", „w każdej chwili możesz powiedzieć: konsultant". Kilka takich wskazówek zmienia rozmowę z walki we współpracę.
 
 Psychologia rozmowy z voicebotem nie jest miękkim dodatkiem do technologii. Jest warstwą, która decyduje o tym, czy ta sama funkcjonalnie technologia zostanie odebrana jako pomoc, jako irytacja, czy jako zagrożenie. Dwa boty, które robią dokładnie to samo pod maską, mogą mieć zupełnie różne wyniki — nie dlatego, że jeden „działa lepiej", ale dlatego, że jeden lepiej rozumie, kim jest rozmówca w chwili, w której podnosi słuchawkę. Dobry Voicebot Specialist nie projektuje tylko decyzji technicznych. Projektuje odczucie tej rozmowy, wiedząc, że po drugiej stronie zawsze jest ktoś, kto reaguje jak człowiek — bo nikt inny tam nie może być.
+
+---
+
+# Część 4. Przerywanie i przejmowanie tury
+
+Osobnej uwagi wymaga turn-taking, czyli rytm brania i oddawania głosu w rozmowie. To wygląda niewinnie — kto powie coś, i kiedy — ale w praktyce jest jednym z najtrudniejszych elementów całego systemu. Voicebot musi rozpoznać, czy klient skończył wypowiedź, czy tylko robi pauzę, żeby zebrać myśli. Musi zdecydować, czy dłuższa cisza to sygnał do wznowienia mówienia, czy do zadania nowego pytania. Musi wiedzieć, co zrobić, gdy klient przerywa w połowie zdania — czy powtórzyć, czy iść dalej, czy zapisać nową intencję. Rozmowy między ludźmi opierają się na sygnałach akustycznych i pragmatycznych, które człowiek odczytuje bez wysiłku, a maszyna musi mieć jawnie zaprojektowane.
+
+Z turn-takingu wynika też właściwe rozumienie barge-in, czyli sytuacji, w której klient przerywa mówiącego bota. Wiele osób traktuje to jako flagę do włączenia w platformie: albo można przerywać, albo nie. W rzeczywistości barge-in jest zdarzeniem interakcyjnym, w którym trzeba podjąć kilka decyzji naraz. Czy zatrzymać mówienie, czy pozwolić dokończyć zdanie. Czy uznać nową wypowiedź za odpowiedź na poprzednie pytanie, czy za nową sprawę. Czy poprzedni komunikat został usłyszany, czy trzeba go powtórzyć — zwłaszcza wtedy, gdy zawierał dane krytyczne, jak numer zamówienia, warunki umowy albo koszty. Barge-in zaprojektowany bez tej refleksji potrafi pogorszyć rozmowę bardziej niż jego brak.
 
 ---
 

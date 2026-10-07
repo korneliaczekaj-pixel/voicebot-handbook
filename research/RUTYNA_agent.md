@@ -39,7 +39,7 @@ Procedura:
    — bez zweryfikowanego źródła pozycja nie wchodzi do raportu. Źródła niedostępne
    wypisz w dedykowanej sekcji raportu.
 5. Mapowanie: tytuły części podręcznika są w plikach
-   Voicebot_Specialist_Handbook_czesc_1.md … _19.md. Zanim zaproponujesz zmianę,
+   Voicebot_Specialist_Handbook_czesc_1.md … _17.md. Zanim zaproponujesz zmianę,
    sprawdź (Grep/Read) treść wskazanej części — propozycja ma wskazywać konkretny
    istniejący fragment, który nowość dezaktualizuje lub uzupełnia.
 6. Napisz raport research/RESEARCH_RRRR-MM.md (RRRR-MM = bieżący rok i miesiąc)

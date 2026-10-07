@@ -5,8 +5,8 @@ z podlinkowanym spisem tresci, wyszukiwarka i omowieniami do czytania na poczatk
 
 ## Uklad tresci
 
-- Wstep: rozdzialy 1-3 (podstawy, fundamenty, wybor zastosowan)
-- Konstrukcja, czesc konwersacyjna: rozdzialy 4-7 (psychologia rozmowy, conversation design, dialogi, etyka i dostepnosc)
+- Wstep: rozdzialy 1-2 (czym jest voicebot, wybor zastosowan)
+- Konstrukcja, czesc konwersacyjna: rozdzialy 3-7 (psychologia rozmowy, przerywanie i przejmowanie tury, conversation design, dialogi, etyka i dostepnosc)
 - Konstrukcja, czesc techniczna: rozdzialy 8-12 (architektura, dane, LLM i RAG, integracje, bezpieczenstwo i prawo)
 - Testy i utrzymanie: rozdzialy 13-15 (testowanie, wdrozenie, metryki)
 - Dodatki: rozdzialy 16-17 (szablony, case studies)

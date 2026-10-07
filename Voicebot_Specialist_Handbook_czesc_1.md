@@ -1,6 +1,6 @@
-# Rozdział 1. Podstawy voicebotów i zarządzanie turami
+# Rozdział 1. Czym jest voicebot
 
-## 1.1. Czym jest voicebot
+Ktoś dzwoni, ponieważ chce załatwić konkretną sprawę: sprawdzić przesyłkę, przełożyć wizytę, zgłosić awarię albo porozmawiać z konsultantem. Voicebot ma rozpoznać ten cel, zebrać tylko potrzebne informacje, wykonać dozwoloną operację i zakończyć rozmowę jednoznacznym wynikiem. Jeżeli nie może zrobić tego poprawnie lub bezpiecznie, powinien przekazać rozmowę człowiekowi wraz z zebranym kontekstem.
 
 Voicebot to system konwersacyjny, który prowadzi z użytkownikiem rozmowę głosową i pomaga zrealizować określony cel. Może udzielić informacji, zebrać dane, wykonać operację w systemie organizacji albo przekazać rozmowę konsultantowi wraz z potrzebnym kontekstem. Nie jest pojedynczym modelem ani zbiorem nagranych komunikatów. Łączy kanał telefoniczny lub dźwiękowy, rozpoznawanie mowy, interpretację znaczenia, zarządzanie dialogiem, reguły procesu, integracje oraz syntezę głosu.
 
@@ -8,458 +8,1017 @@ Przed wdrożeniem trzeba określić cztery granice działania voicebota: jakie s
 
 Projekt voicebota wymaga rozstrzygnięcia czterech podstawowych kwestii: czy proces nadaje się do automatyzacji głosowej, jak powinna przebiegać rozmowa, jakie dane i integracje są potrzebne oraz w jaki sposób będzie mierzony wynik po uruchomieniu. Odpowiedzi muszą uwzględniać jednocześnie potrzeby klienta, ograniczenia technologii, realia procesu i odpowiedzialność organizacji.
 
+Technologia jest środkiem, nie celem. Wybór między IVR, NLU, LLM, RAG i integracjami powinien wynikać z zadania użytkownika, granic automatyzacji oraz ryzyka procesu.
+
 ---
 
-## 1.2. Barge-in, interruption handling i turn-taking w voicebotach
+## 1.1. Conversational AI: czym jest i czym nie jest
 
-W rozmowie telefonicznej użytkownik nie zawsze czeka, aż druga strona skończy mówić. Może znać odpowiedź, chcieć poprawić błędną informację, zmienić temat albo przerwać zbyt długi komunikat. Voicebot musi więc nie tylko wykryć głos podczas odtwarzania TTS, lecz także rozpoznać znaczenie przerwania i bez utraty kontekstu zdecydować, co zrobić dalej.
-
-Barge-in jest techniczną możliwością przyjęcia wypowiedzi użytkownika w czasie, gdy bot mówi, i zatrzymania odtwarzanego komunikatu. Pełna obsługa przerwania obejmuje więcej: rozpoznanie, czy użytkownik poprawia dane, przyspiesza rozmowę, zmienia cel, sygnalizuje frustrację albo prosi o konsultanta, a następnie odpowiednią aktualizację stanu dialogu. Zarządzanie turami obejmuje natomiast wszystkie decyzje o tym, kiedy bot ma mówić, słuchać, czekać i oddać głos.
-
-Te trzy pojęcia opisują więc różne warstwy tego samego zjawiska. Turn-taking organizuje przebieg całej rozmowy, barge-in umożliwia techniczne przerwanie wypowiedzi bota, a interruption handling decyduje, jak system zinterpretuje przerwanie i poprowadzi rozmowę dalej.
-
-### 1.2.1. Kluczowe pojęcia
+### 1.1.1. Kluczowe pojęcia
 
 Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
 | Pojęcie | Definicja praktyczna | Typowe nieporozumienie |
 |---|---|---|
-| Turn-taking | Mechanizm organizowania, kto mówi, kiedy kończy i kiedy druga strona może zacząć | Błędne założenie, że wystarczy wykryć ciszę |
-| Turn | Wypowiedź lub sekwencja wypowiedzi jednej strony w danym momencie rozmowy | Traktowanie każdego zdania jako osobnej tury |
-| TCU | Turn-constructional unit, czyli jednostka wypowiedzi, po której może nastąpić zmiana mówcy | Zakładanie, że TCU zawsze kończy się kropką lub ciszą |
-| TRP | Transition-relevant place, miejsce potencjalnego przejęcia tury | Myślenie, że TRP da się wykryć tylko czasem pauzy |
-| Overlap | Nakładanie się wypowiedzi dwóch osób | Nie każdy overlap jest konfliktem lub przerwaniem |
-| Interruption | Próba przejęcia tury, zwykle powodująca overlap albo zmianę przebiegu rozmowy | Mylenie z każdym dźwiękiem w tle |
-| Barge-in | Funkcja pozwalająca użytkownikowi mówić w trakcie wypowiedzi bota i przerwać odtwarzanie | Traktowanie jako checkbox w platformie |
-| Interruption handling | Cała strategia obsługi przerwania: wykrycie, klasyfikacja, zatrzymanie, interpretacja, recovery | Sprowadzanie do zatrzymania TTS |
-| Backchannel | Krótki sygnał słuchania: "mhm", "okej", "jasne", który zwykle nie przejmuje tury | Błędne zatrzymywanie bota po każdym "mhm" |
-| Endpointing | Decyzja, czy użytkownik skończył mówić | Mylenie z VAD |
-| VAD | Voice Activity Detection: wykrywanie, czy w sygnale jest mowa | Zakładanie, że VAD rozumie intencje |
-| AEC | Acoustic Echo Cancellation: usuwanie z mikrofonu głosu bota odtwarzanego przez głośnik | Pomijanie AEC przy pełnym dupleksie |
-| Latency to stop TTS | Czas od początku realnego przerwania do zatrzymania wypowiedzi bota | Mierzenie tylko latency odpowiedzi, bez latency zatrzymania |
+| Conversational AI | System AI, który interpretuje wypowiedzi użytkownika i prowadzi dialog w celu wykonania zadania, udzielenia informacji lub wsparcia decyzji | "Każdy bot z tekstem lub głosem to Conversational AI" |
+| Interfejs konwersacyjny | Sposób obsługi systemu przez rozmowę, tekstowa lub głosowa | "Rozmowa jest zawsze wygodniejsza niż formularz" |
+| Automatyzacja kontaktu | Przejęcie części rozmów lub zadań przez system | "Automatyzacja oznacza brak ludzi" |
+| Dialog task-oriented | Rozmowa nastawiona na wykonanie konkretnego zadania | "Dobry bot musi rozmawiać o wszystkim" |
+| Open-domain conversation | Rozmowa bez waskiego celu domenowego | "Voicebot contact center powinien być open-domain" |
+| Mixed initiative | Sytuacja, w której inicjatywa przechodzi między systemem i użytkownikiem | "Bot zawsze powinien prowadzić użytkownika krok po kroku" |
 
-### 1.2.2. Wyjaśnienie eksperckie
+### 1.1.2. Wyjaśnienie eksperckie
 
-#### Czym jest barge-in
+Conversational AI to nie jest "bot, który odpowiada naturalnym językiem". To system zaprojektowany do obsługi dialogu, czyli sekwencji tur, w których użytkownik i system wymieniają informacje, doprecyzowują intencje, naprawiają błędy, potwierdzają dane i dochodzą do rezultatu.
 
-Barge-in to zdolność systemu głosowego do przyjmowania mowy użytkownika w czasie, gdy bot sam mówi. W praktyce oznacza to, że voicebot nie działa jak walkie-talkie w trybie "najpierw ja, potem ty", lecz jak uczestnik rozmowy w pełnym dupleksie: mówi i jednocześnie monitoruje, czy użytkownik próbuje przejąć turę.
+Najprostszy model:
 
-Wynika ze źródeł: dokumentacja Google Dialogflow CX opisuje barge-in jako możliwość przerwania audio odpowiedzi przez użytkownika, po czym system zatrzymuje wysyłanie audio i przetwarza kolejny input. Amazon Lex opisuje podobną funkcję w strumieniu dwukierunkowym: bot może słuchać, gdy odtwarza prompt, a przerwanie generuje zdarzenie playback interruption. LiveKit idzie dalej i odróżnia prawdziwe przerwania od backchannelingu.
+1. Użytkownik ma cel.
+2. System musi rozpoznać cel lub dopytać.
+3. System prowadzi użytkownika przez proces.
+4. System korzysta z danych, integracji lub bazy wiedzy.
+5. System odpowiada lub wykonuje akcję.
+6. System umie naprawiać sytuację, gdy rozmowa nie idzie zgodnie z planem.
 
-Uzupełnienie eksperckie: w projekcie enterprise barge-in trzeba traktować jako wymaganie systemowe, a nie jako opcję promptu. Jeśli voicebot ma być naturalny, musi umieć:
+Conversational AI ma sens wtedy, gdy rozmowa jest naturalnym lub wygodnym sposobem wykonania zadania. Nie każdy proces powinien być konwersacyjny. Jeśli użytkownik musi porównać 20 ofert, przeczytać regulamin, wypełnić złożony formularz albo analizować dane wizualne, rozmowa głosowa może być gorsza niż ekran.
 
-1. Słuchać podczas mówienia.
-2. Nie mylić własnego TTS z głosem użytkownika.
-3. Odrzucać szum, kaszlnięcia, echo i backchannele.
-4. Rozpoznać, czy użytkownik chce poprawić, przyspieszyć, zmienić temat, eskalować czy wyrazić frustrację.
-5. Zatrzymać TTS szybko.
-6. Zachować stan rozmowy.
-7. Odpowiedzieć w sposób, który pokazuje, że przerwanie zostało zrozumiane.
+Uwaga praktyczna:
 
-#### Barge-in a interruption handling
+Największy błąd strategiczny polega na traktowaniu Conversational AI jako "kanału odpowiedzi", a nie jako "systemu decyzyjno-procesowego". Voicebot, który tylko gada, ale nie ma dostępu do statusu sprawy, CRM, historii klienta ani reguły eskalacji, szybko staje się głosowym FAQ.
 
-Barge-in jest warunkiem technicznym: użytkownik może wejść w wypowiedź bota. Interruption handling jest zachowaniem konwersacyjnym: system rozumie, co z tym przerwaniem zrobić.
+### 1.1.3. Perspektywa biznesowa
+
+Dla firmy Conversational AI jest narzędziem do:
+
+- redukcji kosztu kontaktu;
+- zwiększenia dostępności obsługi;
+- odciążenia konsultantów z powtarzalnych spraw;
+- skrócenia czasu obsługi;
+- ujednolicenia jakości odpowiedzi;
+- zbierania danych o powodach kontaktu;
+- skalowania obsługi w szczytach wolumenu;
+- poprawy self-service.
+
+Ale Conversational AI może też wygenerować koszt:
+
+- wzrost eskalacji, jeśli bot źle rozpoznaje intencje;
+- spadek CSAT, jeśli użytkownicy czują się zablokowani;
+- ryzyko compliance, jeśli bot odpowiada poza zakresem;
+- koszt utrzymania danych, treningu, promptów i integracji;
+- koszt reputacyjny, jeśli system brzmi jak tania automatyzacja zamiast kompetentnej pomocy.
+
+Jak myśli ekspert:
+
+Ekspert nie pyta: "Ile rozmów zautomatyzujemy?". Pyta: "Które rozmowy możemy zautomatyzować bez pogorszenia wyniku sprawy, bez ukrytego wzrostu repeat contact i bez przerzucania frustracji na konsultantów?".
+
+### 1.1.4. Perspektywa użytkownika
+
+Użytkownik nie chce "porozmawiac z AI". Użytkownik chce:
+
+- szybko załatwić sprawę;
+- nie powtarzać danych;
+- być zrozumiany mimo normalnego sposobu mówienia;
+- mieć kontrolę nad rozmową;
+- móc poprawić błąd;
+- móc przejść do człowieka, gdy bot nie pomaga;
+- wiedzieć, z kim rozmawia i co system może zrobić.
+
+Zaufanie użytkownika powstaje w pierwszych sekundach. Bot, który jasno mówi, co potrafi, zadaje jednoznaczne pytanie i szybko reaguje, buduje poczucie kompetencji. Bot, który zaczyna od długiego monologu, udaje człowieka albo nie reaguje na przerwania, buduje opór.
+
+### 1.1.5. Perspektywa technologiczna
+
+Conversational AI może być zbudowane z różnych komponentów:
+
+- ASR: rozpoznawanie mowy;
+- NLU: rozpoznanie intencji i encji;
+- dialog manager: logika rozmowy;
+- LLM: generowanie, rozumienie, klasyfikacja, podsumowania, RAG;
+- TTS: synteza mowy;
+- integracje: CRM, ERP, ticketing, kalendarze, płatności;
+- observability: logi, transkrypcje, metryki, tracing;
+- guardrails: ograniczenia, polityki, reguły bezpieczeństwa;
+- human handoff: przekazanie do człowieka.
+
+Im więcej swobody językowej ma bot, tym silniejsze muszą być mechanizmy kontroli: zakres domeny, walidacja odpowiedzi, narzędzia, monitorowanie, testy regresji i polityki eskalacji.
+
+### 1.1.6. Dobre praktyki
+
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
+- Definiuj Conversational AI przez zadania, nie przez technologie.
+- Zaczynaj od problemu użytkownika i procesu biznesowego.
+- Oddziel "rozumienie wypowiedzi" od "wykonania sprawy".
+- Projektuj boty domenowe, nie "wszechwiedzace".
+- Od początku planuj fallback, handoff i monitoring.
+- Nie obiecuj naturalności, jeśli architektura ma wysokie opóźnienia.
+- Nie używaj LLM bez jasnego zakresu, guardrails i obserwowalnosci.
+
+### 1.1.7. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
+| Błąd | Konsekwencja |
+|---|---|
+| "Zrobmy bota do wszystkiego" | Rozmyty zakres, slabe dane, dużo fallbackow |
+| Brak integracji z systemami | Bot nie załatwia spraw, tylko informuje |
+| Brak human handoff | Użytkownik czuje się uwieziony |
+| Za długie wypowiedzi | Wzrost przerwań i frustracji |
+| Brak jasnej informacji, że to AI | Ryzyko utraty zaufania i compliance |
+| Mierzenie tylko containment | Firma cieszy się automatyzacja, a użytkownicy wracają innym kanałem |
+
+### 1.1.8. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
+- Czy wiemy, jakie zadanie ma wykonać system?
+- Czy zadanie faktycznie nadaje się do rozmowy?
+- Czy bot ma dostęp do danych potrzebnych do załatwienia sprawy?
+- Czy zakres bota jest jasno ograniczony?
+- Czy użytkownik wie, że rozmawia z automatycznym systemem?
+- Czy bot może przekazać rozmowę do człowieka?
+- Czy mamy metryki sukcesu inne niż liczba rozmów?
+- Czy mamy plan utrzymania i optymalizacji po wdrożeniu?
+
+### 1.1.9. Mini case study
+
+Firma e-commerce chce "voicebota do obsługi klienta". Po analizie okazuje się, że 62% telefonów dotyczy statusu zamówienia, zmiany adresu, zwrotu i anulowania. Zamiast budowac bota do wszystkiego, zespół wybiera trzy procesy:
+
+1. Status zamówienia.
+2. Zmiana adresu przed wysyłka.
+3. Informacja o zwrocie.
+
+Bot ma integracje z systemem zamówień, rozpoznaje numer telefonu, potwierdza klienta i przekazuje do konsultanta, gdy zamówienie jest w statusie spornym. To nie jest "bot ogólny"; to system do kilku wysokowolumenowych zadań. Dzięki temu łatwiej go zaprojektować, testować i mierzyć.
+
+### 1.1.10. Podsumowanie
+
+Conversational AI nie polega na tym, że system "mówi jak człowiek". Polega na tym, że system potrafi prowadzić dialog w granicach zadania, rozumieć wypowiedzi, podejmować decyzje procesowe, naprawiać błędy, korzystać z danych i oddawać sprawę człowiekowi, gdy automatyzacja przestaje być dobrą drogą.
+
+---
+
+## 1.2. Voicebot, chatbot, IVR, voice assistant, virtual agent i AI agent
+
+### 1.2.1. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
+| Termin | Krótka definicja |
+|---|---|
+| IVR | Automatyczne menu telefoniczne, zwykle oparte na DTMF lub prostym rozpoznawaniu mowy |
+| Voicebot | System głosowy prowadzący rozmowę i wykonujący zadania w kanale audio |
+| Chatbot | System tekstowy prowadzący rozmowę w kanale pisanym |
+| Voice assistant | Asystent głosowy, często ogólniejszy, np. na urządzeniu lub w aplikacji |
+| Virtual agent | Cyfrowy agent obsługi klienta, tekstowy lub głosowy, często z integracjami |
+| AI agent | System AI zdolny do realizacji celu przez planowanie, narzędzia i wieloetapowe działania |
+| Automatyczna sekretarka | System nagrywania lub przekierowania wiadomości, bez prawdziwego dialogu |
+
+### 1.2.2. Tabela porównawcza
+
+| Kryterium | IVR | Chatbot | Voicebot | Voice assistant | AI agent |
+|---|---|---|---|---|---|
+| Kanał | Telefon | Tekst | Głos/telefon/WebRTC | Głos, urządzenia, aplikacje | Dowolny |
+| Interakcja | Menu, wybór | Pisanie | Rozmowa głosowa | Komendy i dialog | Cel + narzędzia |
+| Input | DTMF, proste frazy | Tekst | Mowa | Mowa | Tekst/głos/dane/narzędzia |
+| Czas reakcji | Mniej naturalny | Może być wolniejszy | Bardzo wrażliwy | Bardzo wrażliwy | Zależy od zadania |
+| Pamięć kontekstu | Ograniczona | Średnia/wysoka | Krytyczna | Średnia/wysoka | Wysoka |
+| Typowe ryzyko | Frustracja menu | Nieprecyzyjne odpowiedzi | ASR, timing, przerwania | Prywatność, aktywacja | Autonomia, compliance |
+| Najlepsze użycie | Routing i proste self-service | FAQ, wsparcie tekstowe | Contact center, transakcje głosowe | Asystencja codzienna | Procesy wielokrokowe |
+
+### 1.2.3. Wyjaśnienie eksperckie
+
+IVR jest zwykle systemem nawigacji. Użytkownik wybiera opcję, a system kieruje go dalej lub zbiera proste dane. Voicebot jest systemem dialogowym: powinien rozpoznawać intencje, zbierać parametry, obsługiwać korekty, reagować na przerwania, integrować się z backendem i prowadzić użytkownika do wyniku.
+
+Chatbot i voicebot nie są tym samym systemem w innym kanale. Różnica kanałowa zmienia projekt:
+
+- W tekście użytkownik widzi historię rozmowy; w głosie musi pamiętać.
+- W tekście można pokazać listę; w głosie lista szybko przeciąża pamięć.
+- W tekście opóźnienie 2-3 sekundy bywa akceptowalne; w głosie może brzmieć jak awaria.
+- W tekście użytkownik może edytować input; w głosie mówi spontanicznie.
+- W tekście łatwiej podać link, tabelę, regulamin; w głosie trzeba streszczać i dawkować.
+
+Virtual agent to szersze pojęcie produktowe. Może być tekstowy, głosowy lub omnichannel. AI agent natomiast sugeruje większą autonomiczność: system może korzystać z narzędzi, planować kroki i wykonywać akcje. W contact center trzeba ostrożnie używać tego terminu, bo autonomia bez kontroli może być ryzykowna.
+
+### 1.2.4. Perspektywa biznesowa
+
+Dla firmy źle nazwanie rozwiązania prowadzi do złego briefu.
 
 Przykład:
 
-Bot: "Podam teraz szczegóły zamówienia. Pierwsza pozycja to..."  
-Użytkownik: "Nie, ja chcę zmienić adres."  
+Jeśli biznes prosi o "voicebota", ale w praktyce chce tylko kierować połączenia do odpowiednich kolejek, może wystarczyć nowoczesny IVR. Jeśli chce automatycznie zmieniać terminy wizyt, potrzebny jest voicebot z integracją kalendarza. Jeśli chce, aby system sam rozstrzygał reklamację, pojawia się zupełnie inna klasa ryzyka, wymagająca zasad decyzyjnych, audytu i eskalacji.
 
-Samo barge-in: bot przestaje mówić.  
-Dobre interruption handling: bot rozpoznaje korektę intencji, zatrzymuje poprzedni plan, przechodzi do zmiany adresu, zachowuje koszyk i mówi: "Jasne, zmieńmy adres dostawy. Jaki ma być nowy adres?"
+### 1.2.5. Perspektywa użytkownika
 
-Zły system może zatrzymać TTS, ale potem zapytać od początku: "W czym mogę pomóc?", tracąc kontekst. Technicznie wykonał barge-in, ale konwersacyjnie nie obsłużył przerwania.
+Użytkownik nie myśli kategoriami IVR, NLU lub LLM. Użytkownik rozpoznaje:
 
-#### Interruption a normalne turn-taking
+- czy system go rozumie;
+- czy może mówić naturalnie;
+- czy musi słuchać menu;
+- czy może przerwać;
+- czy system pamięta, co już powiedział;
+- czy może przejść do człowieka;
+- czy sprawa została załatwiona.
 
-Normalne turn-taking to płynna zmiana mówcy w miejscu, które rozmowcy rozpoznają jako potencjalny koniec tury. Interruption występuje wtedy, gdy druga strona próbuje przejąć turę, zanim pierwsza skończyła albo zanim system uznał, że nastąpił koniec tury.
+Dla użytkownika różnica między IVR a voicebotem jest prosta: IVR każe dopasować się do struktury systemu; dobry voicebot dopasowuje strukturę rozmowy do celu użytkownika.
 
-Wynika ze źródeł: przegląd Skantze pokazuje, że ludzie osiągają bardzo krótkie przerwy i niewielki overlap dzięki przewidywaniu końca tury, a nie samemu czekaniu. Badanie Majlesi et al. pokazuje, że gdy robot kontynuuje mówienie mimo prób przejęcia tury przez człowieka, uczestnicy traktują to jako problem interakcyjny.
+### 1.2.6. Perspektywa technologiczna
 
-Uzupełnienie eksperckie: w voicebotach trzeba projektować oba mechanizmy:
+IVR może działać na drzewie decyzyjnym i DTMF. Voicebot potrzebuje co najmniej:
 
-- Turn-taking: kiedy bot ma zacząć mówić po użytkowniku.
-- Interruption handling: kiedy bot ma przestać mówić, bo użytkownik zaczął.
+- rozpoznawania mowy;
+- interpretacji wypowiedzi;
+- zarządzania dialogiem;
+- integracji lub bazy wiedzy;
+- syntezy mowy;
+- mechanizmów no-input/no-match;
+- przekazania do konsultanta;
+- logowania i analityki.
 
-To są różne decyzje, choć korzystają z podobnych sygnałów.
+LLM voicebot może dodatkowo potrzebować:
 
-### 1.2.3. Jak ludzie naturalnie przejmują turę
+- promptu systemowego;
+- narzędzi/function calling;
+- RAG;
+- guardrails;
+- polityk odpowiedzi;
+- testów halucynacji;
+- obserwowalności kosztów i latency.
 
-Ludzie przewidują koniec tury na podstawie wielu sygnałów:
+### 1.2.7. Dobre praktyki
 
-1. Składnia: zdanie zbliża się do kompletnej formy.
-2. Semantyka: myśl została zakończona.
-3. Prosodia: intonacja, obniżenie tonu, wydłużenie sylaby, spadek energii.
-4. Tempo: spowolnienie lub przyspieszenie przed końcem.
-5. Pauza: cisza, ale zwykle krótka, niekoniecznie długa.
-6. Kontekst: pytanie wymaga odpowiedzi, lista ma kolejne elementy, potwierdzenie oczekuje "tak/nie".
-7. Relacja celu: rozmowca wie, czego oczekuje dana sekwencja.
-8. Sygnały cielesne w rozmowie twarzą w twarz: wzrok, gest, oddech, postawa.
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-W telefonicznym voicebocie część sygnałów odpada: bot nie widzi wzroku i gestów, a użytkownik nie widzi ciała bota. Dlatego kanały audio i semantyczne stają się krytyczne.
+- Ustal terminologię na początku projektu.
+- Oddziel routing od automatyzacji spraw.
+- Nie obiecuj "agenta AI", jeśli system ma tylko FAQ.
+- Nie migruj scenariusza chatbota do voicebota bez przeprojektowania.
+- Projektuj voicebota wokół rozmowy, nie wokół menu.
+- Zachowaj opcję DTMF tam, gdzie głos jest niepewny lub użytkownik woli klawiaturę.
 
-Uwaga praktyczna:
+### 1.2.8. Typowe błędy
 
-Voicebot, który czeka 1000 ms ciszy po każdej wypowiedzi użytkownika, będzie czuł się ociężale. Voicebot, który odpowiada po 150 ms po każdym chwilowym spadku energii, będzie ucinał ludziom zdania. Naturalność powstaje z dobrania polityki turn-taking do typu inputu.
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
-### 1.2.4. Pauzy, overlap i sygnały końca tury
+| Błąd | Konsekwencja |
+|---|---|
+| Nazywanie IVR voicebotem | Rozczarowanie użytkowników i sponsorów |
+| Kopiowanie tekstów chatbota do TTS | Za długie i nienaturalne wypowiedzi |
+| Budowanie voicebota bez integracji | Brak realnego self-service |
+| Zakładanie, że LLM zastąpi dialog design | Nieprzewidywalne odpowiedzi i problemy compliance |
+| Rezygnacja z DTMF wszędzie | Gorsza obsługa kodów, numerów i użytkowników w hałasie |
 
-Nie każda pauza oznacza koniec. Użytkownik może pauzować, bo:
-
-- dyktuje numer konta partiami;
-- szuka dokumentu;
-- zastanawia się;
-- czyta kod SMS;
-- przeżywa emocje;
-- nie zrozumiał pytania;
-- jest w hałaśliwym otoczeniu;
-- mówi w drugim języku;
-- ma wadę wymowy lub wolniejsze tempo mówienia.
-
-Nie każdy overlap oznacza przerwanie. Overlap może oznaczać:
-
-- backchannel: "mhm", "jasne";
-- wspólne domknięcie oczywistej frazy;
-- potwierdzenie przed końcem pytania;
-- spontaniczną korektę;
-- frustrację;
-- próbę eskalacji;
-- osobę trzecią w tle;
-- przypadkowy dźwięk.
-
-Błąd, który często kosztuje projekt:
-
-Ustawienie jednego globalnego progu ciszy dla wszystkich etapów rozmowy. Ten sam próg nie pasuje do "Czy potwierdza pan zamówienie?", "Proszę podać szesnastocyfrowy numer karty", "Proszę opisać problem" i "Czy chce pan rozmawiać z konsultantem?".
-
-### 1.2.5. Dlaczego zła obsługa przerwań brzmi nienaturalnie
-
-Voicebot źle obsługujący przerwania ujawnia swoją sztuczność w kilku sekundach:
-
-1. Mówi, mimo że użytkownik zaczął mówić.
-2. Zatrzymuje się po "mhm", choć użytkownik tylko słuchał.
-3. Ignoruje korektę i kontynuuje poprzedni flow.
-4. Przeprasza, ale nie naprawia błędu.
-5. Restartuje rozmowę po każdym przerwaniu.
-6. Nie rozpoznaje frustracji.
-7. Nie pozwala przejść do człowieka.
-
-Perspektywa psychologiczna: gdy człowiek przerywa, często walczy o kontrolę nad rozmową. Jeśli system go ignoruje, rośnie poczucie bezradności i oporu. Źródło AISel dotyczące przerwań w spotkaniu usługowym wskazuje, że zakłócenia wywołane błędami chatbota mogą zwiększać gniew i negatywne oceny kompetencji systemu; w kanale głosowym efekt może być silniejszy, bo użytkownik dosłownie słyszy, że system go przegaduje.
-
-### 1.2.6. Typy przerwań
-
-| Typ przerwania | Przykład wypowiedzi użytkownika | Intencja użytkownika | Zalecana reakcja voicebota |
-|---|---|---|---|
-| Poprawienie bota | "Nie, nie Kraków, tylko Katowice" | Korekta danych | Zatrzymaj TTS, potwierdź poprawioną wartość, nie restartuj flow |
-| Odpowiedź przed końcem pytania | "Tak" w trakcie pytania | Przyspieszenie | Przyjmij odpowiedź, jeśli kontekst jest jednoznaczny |
-| Przyspieszenie rozmowy | "Dalej", "wiem", "pomiń" | Skracanie | Przejdź do kolejnego kroku lub daj szybką opcję |
-| Zmiana tematu | "A jeszcze chcę zapytać o fakturę" | Nowa intencja | Zapamiętaj aktualny stan, przejdź do nowej intencji albo potwierdź priorytet |
-| Frustracja | "No przecież już mówiłem" | Naprawa i emocja | Skróć, przeproś, nie powtarzaj tego samego, rozważ eskalację |
-| Przerwanie z powodu błędu | "To nie jest mój numer" | Krytyczna korekta | Natychmiast zatrzymaj, potwierdź błąd, wróć do punktu korekty |
-| Wymuszenie człowieka | "Połącz mnie z konsultantem" | Handoff | Nie walcz. Jeśli polityka pozwala, eskaluj lub poinformuj o warunkach |
-| Backchannel | "mhm", "okej" | Słuchanie | Kontynuuj, chyba że kontekst wymaga odpowiedzi |
-| Osoba trzecia | "Powiedz mu, żeby zapytał o raty" | Wpływ innej osoby | Ostrożnie. Ustal, czy mówi główny użytkownik i czy można użyć informacji |
-
-### 1.2.7. Jak działa technicznie wykrywanie przerwań
-
-#### Pełny dupleks
-
-System musi słuchać, gdy mówi. Bez tego nie ma prawdziwego barge-in. W half-duplex bot najpierw odtwarza całą wypowiedź, dopiero potem słucha. To może wystarczyć w prostym IVR, ale nie w naturalnym voicebocie.
-
-#### Acoustic Echo Cancellation
-
-Gdy bot mówi przez głośnik telefonu lub urządzenia, mikrofon może "słyszeć" jego własną syntezę. AEC odejmuje znany sygnał odtwarzany przez system od sygnału z mikrofonu. Najtrudniejszy przypadek to double-talk: bot i użytkownik mówią jednocześnie.
-
-Uzupełnienie eksperckie: w call center przez telefon klasyczny problem echa może być mniejszy niż w smart speakerze, ale nadal istnieją inne źródła fałszywego inputu: hałas, drugi rozmówca, radio, głos konsultanta obok, odtworzone audio, opóźnienia sieciowe.
-
-#### VAD
-
-VAD odpowiada na pytanie: "czy w sygnale jest mowa?". Nie odpowiada na pytanie: "czy użytkownik chce przejąć turę?". Dlatego VAD jest bramką, nie decyzją konwersacyjną.
-
-#### Endpointing
-
-Endpointing decyduje, czy użytkownik skończył mówić. Może korzystać z ciszy, interpunkcji ASR, sygnałów modelu STT, semantycznej kompletności lub turn detectora. Google Dialogflow CX opisuje end-of-speech sensitivity i smart endpointing, który może czekać, gdy partial input wygląda na niedokończony. AWS Connect opisuje end-of-turn confidence threshold i silence timeout jako dwa mechanizmy końca tury.
-
-#### ASR partials
-
-Streaming ASR dostarcza częściowe hipotezy. Są one cenne, bo można szybciej wykryć "stop", "nie", "konsultant", "czekaj", "zmień". Są też ryzykowne, bo partial może się zmienić.
-
-Praktyczna zasada:
-
-- Dla komend krytycznych typu "stop", "anuluj", "konsultant" można reagować szybciej.
-- Dla danych transakcyjnych trzeba poczekać na stabilizację, bo błąd może kosztować więcej niż 300 ms opóźnienia.
-
-#### Model-based turn detection
-
-Model-based turn detection próbuje ocenić, czy wypowiedź jest kompletną i czy rozmowca oddaje lub przejmuje turę. LiveKit opisuje różnice między VAD, endpointing i model-based detection oraz adaptive interruption handling, które analizuje sygnały akustyczne, aby odróżnić prawdziwe przerwania od backchannelingu.
-
-#### Klasyfikacja intencji przerwania
-
-Po wykryciu przerwania system musi sklasyfikować jego typ. Minimalny model decyzyjny:
-
-1. Czy to mowa użytkownika?
-2. Czy to prawdziwe przejęcie tury?
-3. Czy wypowiedź jest backchannelem?
-4. Czy to korekta danych?
-5. Czy to nowa intencja?
-6. Czy to eskalacja?
-7. Czy to frustracja?
-8. Czy to informacja bezpieczna do użycia?
-
-#### Anulowanie TTS i generacji
-
-Dobre barge-in zatrzymuje nie tylko dźwięk. Jeśli system generuje wypowiedź token po tokenie i wysyła ją do TTS, trzeba zatrzymać:
-
-1. Odtwarzanie audio.
-2. Bufor TTS.
-3. Trwającą generację LLM.
-4. Plan odpowiedzi, który stał się nieaktualny.
-
-OpenAI Realtime docs wskazują, że przy WebRTC i SIP serwer zarządza buforem audio i może automatycznie ucinać nieodtworzone audio przy przerwaniu, natomiast przy WebSocket klient musi sam zatrzymać playback i obsłużyć truncation. To jest praktycznie ważne: architektura połączenia zmienia odpowiedzialność za przerwanie.
-
-### 1.2.8. Projektowanie barge-in dla różnych typów wypowiedzi
-
-| Typ wypowiedzi bota | Polityka barge-in | Uzasadnienie |
-|---|---|---|
-| Informacyjna | Włączony, z filtrem backchannel | Użytkownik może znać odpowiedź lub chcieć skrócić |
-| Transakcyjna | Włączony, ale zależne od kroku | Korekty są częste i cenne; przy finalnym potwierdzeniu ostrożniej |
-| Sprzedażowa | Włączony | Brak możliwości przerwania brzmi jak presja |
-| Windykacyjna | Włączony plus szybka eskalacja w emocjach | Wysokie ryzyko frustracji, sporu i compliance |
-| Reklamacyjna | Włączony | Użytkownik często chce doprecyzować lub skorygować |
-| Medyczna | Włączony ostrożnie, z priorytetem bezpieczeństwa | Przerwania mogą sygnalizować pilność lub błąd |
-| Awaryjna | Włączony dla krytycznych słów; krótkie tury | System nie może monologować |
-| Disclaimer prawny | Ograniczony lub wyłączony, zależne od wymogu | Czasem pełny komunikat musi być odtworzony, ale warto projektować go krótko |
-| Płatność/autoryzacja | Selektywny | Trzeba unikać fałszywych przerwań i utraty danych |
-
-### 1.2.9. Kiedy barge-in włączyć, ograniczyć lub wyłączyć
-
-#### Włącz, gdy:
-
-- użytkownik może znać odpowiedź przed końcem pytania;
-- bot odczytuje dłuższą informację;
-- użytkownik może poprawić dane;
-- rozmowa dotyczy reklamacji, wsparcia, rezerwacji, statusu sprawy;
-- użytkownik może poprosić o człowieka;
-- komunikat ma charakter operacyjny, a nie prawnie wymagany.
-
-#### Ogranicz, gdy:
-
-- zbierasz długie numery lub kody;
-- etap wymaga wysokiej dokładności;
-- mówią osoby trzecie w tle;
-- user input może być przypadkowym dźwiękiem;
-- użytkownik jest w hałaśliwym otoczeniu;
-- wypowiedź bota zawiera krytyczne ostrzeżenie, ale nie musi być formalnie odtworzone w całości.
-
-#### Wyłącz albo zaprojektuj jako nieprzerywalne, gdy:
-
-- przepis wymaga odtworzenia całego disclaimeru;
-- trwa finalne odczytanie regulaminowo wymaganej informacji;
-- system musi przekazać ostrzeżenie bezpieczeństwa;
-- wyłączenie jest uzasadnione i udokumentowane.
-
-Uwaga praktyczna:
-
-Nie wyłączaj barge-in globalnie, żeby ukryć problemy VAD. To poprawia demo, ale pogarsza prawdziwe rozmowy. AWS Connect wprost wskazuje jako błąd globalne wyłączanie barge-in, zamiast ograniczania go tylko w konkretnych promptach.
-
-### 1.2.10. Projektowanie komunikatów odpornych na przerwania
-
-Komunikat odporny na przerwania:
-
-1. Ma najważniejszą informację na początku.
-2. Jest krótki.
-3. Zawiera jedno pytanie naraz.
-4. Nie łączy instrukcji, informacji i pytania w jednym długim bloku.
-5. Pozwala użytkownikowi odpowiedzieć wcześnie.
-6. Ma sens, nawet jeśli zostanie przerwany po pierwszej frazie.
-7. Nie wymaga od użytkownika zapamiętania listy pięciu opcji.
-
-Zły komunikat:
-
-"Za chwilę przedstawię dostępne możliwości dotyczące pana zamówienia, w tym zmianę terminu, zmianę adresu, anulowanie, kontakt z kurierem albo rozmowę z konsultantem, dlatego proszę wysłuchać wszystkich opcji i powiedzieć, która z nich pana interesuje."
-
-Lepszy komunikat:
-
-"Mogę pomóc ze zmianą terminu, adresem albo anulowaniem. Co chce pan zrobić?"
-
-### 1.2.11. Jak zmniejszać potrzebę przerywania
-
-Użytkownicy przerywają często dlatego, że system:
-
-- mówi za długo;
-- pyta o rzecz, którą użytkownik już podał;
-- idzie nie tą ścieżką;
-- nie daje opcji "człowiek";
-- brzmi jak IVR;
-- nie potwierdza zrozumienia;
-- ukrywa ograniczenia;
-- zmusza do wysłuchania listy.
-
-Żeby użytkownicy rzadziej przerywali botowi, nie wystarczy lepiej wykrywać przerwania — przede wszystkim trzeba tak zaprojektować rozmowę, żeby klient nie miał powodu przerywać.
-
-### 1.2.12. Metryki barge-in i turn-taking
-
-| Metryka | Definicja | Jak interpretować |
-|---|---|---|
-| Interruption rate | Odsetek tur bota przerwanych przez użytkownika | Wysoki wynik może oznaczać skuteczną kontrolę albo zbyt długie prompt'y |
-| False barge-in rate | Przerwania wywołane szumem/backchannel/echo | Wysoki wynik sugeruje problem VAD/AEC/adaptive handling |
-| Missed barge-in rate | Realne przerwania, których bot nie obsłużył | Wysoki wynik niszczy zaufanie i zwiększa eskalację |
-| Barge-in recovery success | Odsetek przerwań zakończonych poprawną kontynuacją | Najważniejsza metryka konwersacyjna |
-| Latency to stop TTS | Czas od startu przerwania do zatrzymania audio | Powyżej kilkuset ms system zaczyna brzmieć jak ignorujący |
-| Turn detection accuracy | Jak często system poprawnie rozpoznaje koniec tury | Wpływa na ucinanie i martwą ciszę |
-| User repeat rate | Jak często użytkownik powtarza po przerwaniu | Wysoki wynik oznacza utratę inputu albo brak potwierdzenia |
-| Frustration escalation rate | Eskalacje po przerwaniach lub no-match | Wskazuje, czy przerwania są problemem UX |
-| Backchannel suppression accuracy | Jak dobrze system ignoruje "mhm", "okej" | Ważne w dłuższych odpowiedziach |
-| Context preservation after interruption | Czy system zachował stan po przerwaniu | Kluczowe w procesach transakcyjnych |
-
-### 1.2.13. Checklista projektowa barge-in
+### 1.2.9. Checklista
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy wiemy, w których promptach barge-in jest włączony, ograniczony lub wyłączony?
-- Czy każdy długi komunikat został skrócony albo podzielony?
-- Czy komunikat ma najważniejszą informację na początku?
-- Czy system umie obsłużyć "nie", "czekaj", "stop", "konsultant", "zmień", "to nie tak"?
-- Czy backchannele nie zatrzymują bota bez potrzeby?
-- Czy przerwanie korekcyjne wraca do konkretnego slotu, a nie do początku flow?
-- Czy przerwanie emocjonalne może uruchomić skrócenie rozmowy lub eskalację?
-- Czy prompt prawny ma uzasadnioną politykę nieprzerywalności?
-- Czy przerwania są opisane w scenariuszu dialogowym?
-- Czy handoff przekazuje informacje, że użytkownik próbował przerwać lub eskalować?
+- Czy projekt dotyczy routingu, informacji, transakcji czy autonomicznego procesu?
+- Czy kanał głosowy jest wymagany, czy tylko atrakcyjny?
+- Czy użytkownik będzie musiał podawać długie dane?
+- Czy mamy integracje potrzebne do załatwienia sprawy?
+- Czy voicebot ma umieć przejmować wiele intencji w jednej rozmowie?
+- Czy potrzebujemy LLM, czy wystarczy flow plus NLU?
+- Czy IVR nadal ma sens jako warstwa awaryjna?
 
-### 1.2.14. Checklista techniczna
+### 1.2.10. Mini case study
+
+Bank chce "AI agenta do obsługi kart". Po warsztacie zakres zostaje rozbity:
+
+- IVR: szybki wybór typu sprawy i identyfikacja klienta.
+- Voicebot: blokada karty, status nowej karty, zmiana limitu w prostych przypadkach.
+- Konsultant: sporne transakcje, reklamacje, sytuacje podejrzenia oszustwa.
+- AI agent wspierający konsultanta: podsumowanie rozmowy i sugestie procedur.
+
+Zamiast jednego ryzykownego "agenta do wszystkiego" powstaje architektura z jasnym podziałem odpowiedzialności.
+
+### 1.2.11. Podsumowanie
+
+Voicebot nie jest "chatbotem z głosem" ani "ładniejszym IVR". Jest systemem rozmowy głosowej, w którym technologia, timing, UX, proces i integracje muszą działać razem. Precyzyjne nazwanie typu systemu chroni projekt przed złym zakresem i złymi oczekiwaniami.
+
+---
+
+## 1.3. Dlaczego kanał głosowy jest trudniejszy niż tekstowy
+
+### 1.3.1. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
+| Pojęcie | Definicja |
+|---|---|
+| Ephemeral interface | Interfejs, w którym informacja znika po usłyszeniu |
+| Cognitive load | Obciążenie poznawcze, czyli wysiłek potrzebny do zrozumienia i zapamiętania informacji |
+| Latency | Opóźnienie między wypowiedzią jednej strony a reakcja drugiej |
+| No-input | Brak odpowiedzi użytkownika |
+| No-match | Odpowiedź, której system nie rozpoznal |
+| Repair | Naprawa rozmowy po niezrozumieniu, błędzie lub nieporozumieniu |
+| Barge-in | Możliwość przerwania bota przez użytkownika |
+
+### 1.3.2. Wyjaśnienie eksperckie
+
+Głos jest szybki, naturalny i dostępny bez ekranu. Jednocześnie jest nietrwały: użytkownik nie może łatwo przewinąć wypowiedzi bota, zaznaczyć fragmentu ani porównać wielu opcji obok siebie. Dlatego voicebot musi projektować informacje inaczej niż chatbot.
+
+W tekście można napisać:
+
+"Wybierz jedna z opcji: zmiana terminu dostawy, zmiana adresu, anulowanie, kontakt z kurierem, reklamacja, faktura, płatność, zwrot."
+
+W głosie taka lista jest zła. Użytkownik zapamięta początek albo koniec, ale środek zgubi. Lepszy voicebot pyta najpierw o ogólny cel:
+
+"Co chcesz zrobić z zamówieniem?"
+
+Jeśli użytkownik milczy:
+
+"Możesz powiedzieć na przykład: zmienić adres, sprawdzić dostawe albo anulowac."
+
+Kanał głosowy ma też inny rytm. W rozmowie tekstowej pauza jest neutralna. W rozmowie telefonicznej cisza może oznaczać awarie, zastanowienie, brak zrozumienia, problem techniczny albo oczekiwanie na system. Bot musi zarzadzac cisza.
+
+### 1.3.3. Perspektywa biznesowa
+
+Głos jest szczególnie wartosciowy, gdy:
+
+- sprawa jest pilna;
+- użytkownik nie może patrzec w ekran;
+- proces jest powtarzalny;
+- firma ma duzy wolumen połączeń;
+- kontakt telefoniczny jest już naturalnym kanałem;
+- użytkownicy preferuja rozmowę;
+- trzeba obsługiwać klientów o nizszych kompetencjach cyfrowych.
+
+Głos jest ryzykowny, gdy:
+
+- użytkownik musi analizować wiele danych;
+- trzeba pokazać dokumenty, cenniki, tabelę lub wykresy;
+- proces wymaga długich zgód i regulaminow;
+- dane są trudne do podyktowania;
+- otoczenie użytkownika jest hałaśliwe;
+- pomylka ma wysoki koszt.
+
+### 1.3.4. Perspektywa użytkownika
+
+Użytkownik w kanale głosowym jest często:
+
+- w pospiechu;
+- w ruchu;
+- w emocjach;
+- w hałasie;
+- bez przygotowanych dokumentów;
+- mniej cierpliwy niż w kanale tekstowym;
+- bardziej wrażliwy na ton systemu.
+
+To oznacza, że voicebot powinien:
+
+- mówić krótko;
+- dawać kontrolę;
+- szybko potwierdzać zrozumienie;
+- nie wymagać pamiętania wielu opcji;
+- przewidywać korekty;
+- reagowac na przerwania;
+- eskalować bez walki, gdy rozmową się psuje.
+
+### 1.3.5. Perspektywa technologiczna
+
+Głos doklada warstwy, których nie ma w tekscie:
+
+1. Jakość audio.
+2. Telefonia i kodeki.
+3. Streaming.
+4. VAD.
+5. Endpointing.
+6. ASR.
+7. Błędy transkrypcji.
+8. TTS.
+9. Latency generowania i syntezy.
+10. Barge-in.
+11. Echo, hałas, osoby trzecie.
+
+W voicebocie błąd może wejść na każdej warstwie. Użytkownik powiedział poprawnie, ale ASR źle przepisal. ASR przepisal dobrze, ale NLU źle sklasyfikowalo. NLU rozpoznalo dobrze, ale integracja zwrocila błąd. Integracja działa, ale TTS odczytal numer w nieczytelny sposób. TTS działa, ale bot nie pozwolil przerwać.
+
+### 1.3.6. Dobre praktyki
+
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
+- Jedna myśl na jedna wypowiedź.
+- Jedno pytanie na raz.
+- Najwazniejsza informacja najpierw.
+- Maksymalnie 2-3 opcję w komunikacie głosowym.
+- Krótkie potwierdzenia.
+- Naturalne reprompt'y, nie powtarzanie identycznego zdania.
+- Osobne strategie dla ciszy, niezrozumienia i przerwania.
+- Testy w hałasie, z akcentami, przez telefon, na realnych urzadzeniach.
+
+### 1.3.7. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
+| Błąd | Skutek |
+|---|---|
+| Długie listy opcji | Użytkownik zapomina, co może powiedzieć |
+| Odczytywanie tekstów regulaminowych bez projektowania audio | Frustracja i przerwania |
+| Za szybkie endpointing | Ucinanie wypowiedzi |
+| Za wolne endpointing | Martwa cisza |
+| Brak barge-in | Poczucie braku kontroli |
+| Zbyt "ludzka" persona | Rozczarowanie, gdy bot zawodzi |
+| Brak powtórzenia kluczowych danych | Ryzyko błędnej transakcji |
+
+### 1.3.8. Checklista
 
 Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
 
-- Czy kanał wspiera pełny dupleks?
-- Czy mikrofon/słuchawka/telefonia nie generują fałszywego echa?
-- Czy jest AEC lub równoważny mechanizm dla danego kanału?
-- Czy VAD jest strojony na realne warunki akustyczne?
-- Czy ASR dostarcza partials i timestampy?
-- Czy system ma endpointing zależny od kontekstu?
-- Czy turn detector rozróżnia krótkie odpowiedzi, długie dyktowanie i otwarte opisy?
-- Czy TTS można zatrzymać natychmiast?
-- Czy generację LLM można anulować?
-- Czy stan dialogu jest stabilny po anulowaniu odpowiedzi?
-- Czy logujemy moment startu przerwania, moment zatrzymania TTS i wynik recovery?
-- Czy mamy oznaczenia true interruption, false interruption, backchannel, noise, third-party speech?
+- Czy komunikaty są krotsze niż w wersji tekstowej?
+- Czy każde pytanie dotyczy jednej informacji?
+- Czy lista opcji ma maksymalnie 3 elementy?
+- Czy bot potrafi obsłużyć ciszę?
+- Czy bot potrafi obsłużyć "nie rozumiem"?
+- Czy bot potrafi obsłużyć przerwanie?
+- Czy testujemy przez prawdziwy kanał telefoniczny?
+- Czy TTS poprawnie czyta liczby, daty, kwoty, skróty i nazwy?
 
-### 1.2.15. Checklista testowa
+### 1.3.9. Mini case study
 
-Testy muszą obejmować:
+Przychodnia wdraza voicebota do umawiania wizyt. Pierwsza wersja czyta wszystkie specjalizacje w jednej dlugiej liscie. Użytkownicy przerywają, milcza albo proszą o konsultanta. Druga wersja pyta: "Do jakiego lekarza chce się pani umowic?" i dopiero gdy użytkownik milczy, podaje trzy przykłady: "Może pani powiedzieć: internista, kardiolog albo dermatolog." Liczba no-input spada, bo bot nie zmusza do zapamiętania listy.
 
-- Użytkownik odpowiada "tak" przed końcem pytania.
-- Użytkownik mówi "nie, inaczej" w trakcie podsumowania.
-- Użytkownik mówi "konsultant" w trakcie monologu.
-- Użytkownik mówi "mhm" w trakcie informacji.
-- Użytkownik kaszle w trakcie TTS.
-- W tle słychać drugą osobę.
-- Użytkownik dyktuje numer z pauzami.
-- Użytkownik poprawia jedną cyfrę.
-- Użytkownik zmienia temat.
-- Użytkownik reaguje złością.
-- Użytkownik przerywa disclaimer.
-- Użytkownik przerywa finalne potwierdzenie płatności.
-- Użytkownik przerywa po polsku z akcentem/regionalizmem.
-- Użytkownik mówi bardzo cicho.
-- Użytkownik mówi w hałasie.
+### 1.3.10. Podsumowanie
 
-### 1.2.16. Przykłady dialogów
+Kanał głosowy jest trudniejszy, bo wymaga projektowania czasu, pamięci, emocji, audio, rozpoznawania mowy i naprawy rozmowy. Dobry voicebot nie jest tekstowym botem odczytanym przez TTS. Jest osobno zaprojektowanym doświadczeniem audio.
 
-#### Źle obsłużone przerwanie
+---
 
-Bot: "Podsumuję zamówienie. Wybrał pan dostawę na piątek, adres ulica Leśna 14, płatność kartą..."  
-Użytkownik: "Nie, adres jest inny."  
-Bot: "...oraz dostawę między 12:00 a 14:00. Czy potwierdza pan zamówienie?"  
-Użytkownik: "Nie, mówię, że adres jest inny!"  
+## 1.4. Krótka historia voicebotów i automatyzacji rozmów
 
-Analiza: bot ignoruje korektę, kontynuuje TTS i doprowadza do frustracji. Problem może być techniczny (brak barge-in), projektowy (długi prompt), albo dialogowy (brak recovery).
+### 1.4.1. Kluczowe pojęcia
 
-#### Dobrze obsłużone przerwanie
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
 
-Bot: "Podsumuję zamówienie. Dostawa na piątek, adres ulica Leśna..."  
-Użytkownik: "Nie, adres jest inny."  
-Bot: "Dobrze, poprawmy adres. Jaki adres mam wpisać?"  
-Użytkownik: "Kwiatowa 8 mieszkania 12."  
-Bot: "Zmieniam na Kwiatowa 8 mieszkania 12. Czy się zgadza?"  
+| Pojęcie | Znaczenie |
+|---|---|
+| IVR | Interactive Voice Response, klasyczna automatyzacja telefoniczna |
+| DTMF | Wybieranie tonowe, np. "wybierz 1" |
+| Speech grammar | Ograniczony zestaw rozpoznawanych fraz |
+| VoiceXML | Standard opisu aplikacji dialogowych audio |
+| Intent-based bot | Bot rozpoznajacy intencje i encje |
+| Neural ASR/TTS | Nowoczesne modele rozpoznawania i syntezy mowy |
+| LLM voice agent | Agent głosowy wykorzystujacy model językowy, często w czasie rzeczywistym |
 
-Analiza: bot zatrzymał wypowiedź, rozpoznał korektę, zachował kontekst zamówienia i wrócił do konkretnego slotu.
+### 1.4.2. Wyjaśnienie eksperckie
 
-#### Backchannel, który nie powinien zatrzymać bota
+Historia voicebotów nie zaczyna się od LLM. Firmy automatyzowaly rozmowy telefoniczne od dekad. Najpierw dominowaly systemy IVR, w których użytkownik wybieral opcję z menu. Potem pojawily się aplikacje oparte na gramatykach mowy, gdzie system rozpoznawal ograniczony zestaw fraz. VoiceXML uporzadkowal świat dialogów audio: formularze, pola, menu, gramatyki, prompt'y, zdarzenia, no-input, no-match i logikę przeplywu.
 
-Bot: "Reklamację można złożyć telefonicznie albo przez formularz..."  
-Użytkownik: "Mhm."  
-Bot: "...telefonicznie przyjmę ją teraz, a formularz wyślemy SMS-em. Którą opcję pan wybiera?"  
+Kolejna fala to voiceboty intent-based: system rozpoznawal, że użytkownik chce sprawdzić status, zmienić termin, złożyć reklamację. Intencje i encje dawaly większa elastycznosc niż sztywne menu, ale nadal wymagaly projektowania danych treningowych, flow i fallbackow.
 
-Analiza: "mhm" nie przejmuje tury. Dobre adaptive interruption handling powinno pozwolić botowi kontynuować.
+Obecna fala to voiceboty hybrydowe i generatywne:
 
-#### Przerwanie eskalacyjne
+- ASR jest bardziej naturalny i streamingowy.
+- TTS brzmi płynniej.
+- LLM potrafi parafrazować, klasyfikować, streszczać i korzystać z narzędzi.
+- Realtime APIs pozwalają tworzyć niskolatencyjne rozmowy głosowe.
+- RAG pozwala odpowiadać z firmowej bazy wiedzy.
 
-Bot: "Mogę pomóc sprawdzić status sprawy albo przyjąć dodatkowe informacje..."  
-Użytkownik: "Chcę rozmawiać z człowiekiem."  
-Bot: "Rozumiem. Połączę z konsultantem i przekażę, że chodzi o status sprawy. Proszę zostać na linii."  
+Jednocześnie stare problemy nie zniknely. Nadal trzeba projektować:
 
-Analiza: w sytuacji jasnej eskalacji bot nie powinien próbować na siłę zatrzymać użytkownika w automatyzacji.
+- kiedy bot słucha;
+- kiedy odpowiada;
+- jak obsługuje ciszę;
+- jak rozpoznaje koniec tury;
+- jak naprawia błąd;
+- jak ogranicza zakres;
+- jak przekazuje do człowieka.
 
-### 1.2.17. Mini case studies
+### 1.4.3. Perspektywa biznesowa
 
-#### Case 1: E-commerce, zmiana adresu
+Każda fala technologii obiecywala "naturalniejsza obsługę". W praktyce sukces zalezaly mniej od samego silnika, a bardziej od dopasowania do procesu. Stary IVR mógł działać dobrze dla prostego routingu. Nowoczesny LLM może działać źle, jeśli nie ma danych, integracji i zasad.
 
-Problem: użytkownicy przerywają podsumowanie zamówienia, bo chcą poprawić adres.  
-Błąd: system nie zachowuje stanu po przerwaniu i wraca do początku.  
-Rozwiązanie: barge-in włączony dla podsumowania, klasyfikacja "correction", recovery do slotu "delivery_address".  
-Metryki: interruption rate w podsumowaniu, recovery success, repeat rate, completion rate.
+Dojrzala organizacja nie pyta: "Czy użyjemy najnowszej technologii?". Pyta: "Jaki poziom elastyczności, kontroli i ryzyka jest potrzebny dla tego procesu?".
 
-#### Case 2: Bank, dyktowanie numeru
+### 1.4.4. Perspektywa użytkownika
 
-Problem: bot ucina użytkownika podczas podawania numeru klienta partiami.  
-Błąd: zbyt agresywny endpointing i za niski próg końca tury.  
-Rozwiązanie: konserwatywne end-of-turn dla slotu numeru, potwierdzanie grupami, możliwość korekty ostatniej grupy.  
-Metryki: digit correction rate, ASR confidence, failed verification rate.
+Użytkownicy niosa pamięć poprzednich doświadczeń. Jeśli przez lata trafiali na frustrujące IVR, mogą być nieufni wobec każdego systemu głosowego. Dlatego nowoczesny voicebot musi szybko pokazać różnice:
 
-#### Case 3: Reklamacja, frustracja
+- pozwala mówić naturalniej;
+- nie wymaga słuchania dlugiego menu;
+- potwierdza zrozumienie;
+- pozwala poprawić błąd;
+- pozwala przerwać;
+- może realnie wykonać akcję.
 
-Problem: użytkownik mówi "już to podawałem", bot powtarza to samo pytanie.  
-Błąd: fallback bez pamięci i bez reakcji emocjonalnej.  
-Rozwiązanie: wykrywanie przerwania frustracyjnego, skrócona naprawa, eskalacja po drugim nieudanym kroku.  
-Metryki: frustration escalation rate, no-match after interruption, CSAT after handoff.
+### 1.4.5. Perspektywa technologiczna
 
-### 1.2.18. Jak myśli ekspert projektujący barge-in
+Ewolucja technologiczna:
 
-Ekspert nie pyta najpierw: "Czy platforma ma barge-in?". Pyta:
+1. IVR/DTMF: stabilne, ograniczone, przewidywalne.
+2. Speech grammar: troche bardziej naturalne, ale nadal waskie.
+3. Intent-based NLU: większa elastycznosc, potrzeba danych treningowych.
+4. Neural ASR/TTS: lepsza jakość głosu i rozpoznawania.
+5. LLM/RAG: lepsza elastycznosc językowa, nowe ryzyka.
+6. Realtime multimodal agents: nizsza latency, bardziej naturalne tury, większa zlozonosc.
 
-1. W których momentach użytkownik będzie chciał przerwać?
-2. Czy przerwanie oznacza korektę, przyspieszenie, sprzeciw, frustrację, zmianę celu czy eskalację?
-3. Czy prompt jest tak długi, że sam prowokuje przerwania?
-4. Czy system ma techniczną możliwość zatrzymania TTS i generacji?
-5. Czy po przerwaniu zachowujemy stan procesu?
-6. Czy umiemy odróżnić "mhm" od "nie"?
-7. Czy w danym kroku bardziej ryzykujemy fałszywe przerwanie, czy ignorowanie użytkownika?
-8. Czy mamy metryki pokazujące, jak działają przerwania w produkcji?
-9. Czy konsultant po handoff widzi, co użytkownik próbował zrobić?
-10. Czy barge-in poprawia poczucie kontroli, czy tylko dodaje losowość?
+### 1.4.6. Dobre praktyki
 
-### 1.2.19. Źródła wspierające rozdział
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
 
-Najmocniejsze źródła naukowe:
+- Ucz się z IVR: prostota i przewidywalność nadal są wartością.
+- Ucz się z VoiceXML: no-input, no-match, prompt queueing i event handling są nadal aktualne.
+- Ucz się z NLU: dane treningowe i testy intencji nadal mają znaczenie.
+- Ucz się z LLM: elastycznosc wymaga guardrails.
+- Nie wyrzucaj klasycznych mechanizmow tylko dlatego, że technologia jest nowsza.
 
-- Gabriel Skantze, "Turn-taking in Conversational Systems and Human-Robot Interaction: A Review", Computer Speech & Language, 2021: https://www.sciencedirect.com/science/article/pii/S088523082030111X
-- Majlesi et al., "Managing Turn-Taking in Human-Robot Interactions", Social Interaction, 2023: https://tidsskrift.dk/socialinteraction/article/view/137380
-- Gervits & Scheutz, "Pardon the Interruption", SIGDIAL 2018: https://aclanthology.org/W18-5011/
-- Crook et al., "Handling User Interruptions in an Embodied Conversational Agent", 2010: https://www.cs.ox.ac.uk/publications/publication3549-abstract.html
-- Edwards et al., "Eliciting Spoken Interruptions to Inform Proactive Speech Agent Design", CUI 2021: https://dspace.library.uu.nl/handle/1874/415058
-- Reicherts et al., "May I Interrupt? Diverging Opinions on Proactive Smart Speakers", CUI 2021: https://discovery.ucl.ac.uk/id/eprint/10152524/
-- Imperial College London, dataset i klasyfikacja true/false interruptions, 2024: https://www.imperial.ac.uk/news/257034/analysing-speech-interruptions-help-create-more/
-- TPI-VA, "Still Between Us?", ACL 2026: https://tpi-va.github.io/
+### 1.4.7. Typowe błędy
 
-Najważniejsze źródła techniczne i dokumentacyjne:
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
 
-- LiveKit adaptive interruption handling: https://docs.livekit.io/agents/logic/turns/adaptive-interruption-handling/
-- LiveKit turn detection and interruption configuration: https://livekit.com/blog/turn-detection-and-interruption-handling
-- LiveKit VAD, endpointing and model-based turn detection: https://livekit.com/blog/turn-detection-voice-agents-vad-endpointing-model-based-detection
-- OpenAI Realtime conversations: https://platform.openai.com/docs/guides/realtime-conversations
-- Google Dialogflow CX advanced speech settings: https://docs.cloud.google.com/dialogflow/cx/docs/concept/advanced-speech
-- AWS Connect agentic voice best practices: https://docs.aws.amazon.com/connect/latest/adminguide/agentic-voice-best-practices.html
-- Amazon Lex V2 interruption docs: https://docs.aws.amazon.com/lexv2/latest/dg/interrupt-bot.html
-- W3C VoiceXML 2.0: https://www.w3.org/TR/voicexml20/
+| Błąd | Konsekwencja |
+|---|---|
+| Pogarda dla IVR | Utrata prostych, stabilnych mechanizmow |
+| Zachwyt LLM bez kontroli | Ryzyko halucynacji i compliance |
+| Brak projektowania dialogu, bo "model sobie poradzi" | Chaos konwersacyjny |
+| Brak testów telefonii | Demo działa, produkcja nie |
+| Ignorowanie historii frustracji użytkowników | Niski poziom zaufania od pierwszych sekund |
+
+### 1.4.8. Checklista
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
+- Czy wiemy, które elementy procesu wymagają deterministycznej kontroli?
+- Czy wiemy, gdzie LLM daje realną wartość?
+- Czy zachowujemy DTMF tam, gdzie jest praktyczny?
+- Czy projektujemy no-input i no-match?
+- Czy mamy jasne eventy eskalacji?
+- Czy system jest testowany w prawdziwym kanale?
+
+### 1.4.9. Mini case study
+
+Operator telekomunikacyjny chce zastapic IVR generatywnym voicebotem. Po analizie okazuje się, że część IVR działa dobrze: identyfikacja klienta i routing techniczny. Problemem są rozmowy o awariach, gdzie klienci opisuja problem naturalnym językiem. Zespół zostawia IVR jako szybka warstwę wejścia, a voicebota dodaje do diagnostyki awarii i statusu zgloszen. LLM wspiera klasyfikacje opisu problemu i generuje podsumowanie dla konsultanta, ale decyzję techniczne pozostają w kontrolowanym flow.
+
+### 1.4.10. Podsumowanie
+
+Nowoczesne voiceboty stoja na barkach starszych systemów. LLM zmienia możliwości, ale nie uniewaznia podstaw: jasnego procesu, zarzadzania tura, naprawy błędów, testów i kontroli. Dobry specjalista łączy nowe narzędzia że starymi lekcjami.
+
+---
+
+## 1.5. Typowe zastosowania voicebotów w firmach
+
+### 1.5.1. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
+| Pojęcie | Definicja |
+|---|---|
+| Use case | Konkretny przypadek użycia voicebota w procesie |
+| Automatyzowalnosc | Stopien, w jakim proces można obsłużyć regułami, danymi i rozmową |
+| Wolumen | Liczba kontaktów danego typu |
+| Powtarzalnosc | Podobienstwo spraw i ścieżek rozmowy |
+| Ryzyko | Koszt błędu biznesowego, prawnego, emocjonalnego lub operacyjnego |
+| Handoff | Przekazanie rozmowy do konsultanta |
+
+### 1.5.2. Wyjaśnienie eksperckie
+
+Najlepsze pierwsze use case'y mają zwykle cztery cechy:
+
+1. Wysoki wolumen.
+2. Powtarzalny przebieg.
+3. Dostępne dane/integracje.
+4. Niski lub kontrolowalny koszt błędu.
+
+Przykłady dobrych kandydatow:
+
+- status zamówienia;
+- status zgłoszenia;
+- umawianie i przekladanie wizyt;
+- potwierdzenie terminu;
+- proste FAQ po identyfikacji intencji;
+- przypomnienia i powiadomienia outbound;
+- ankiety po rozmowie;
+- przyjęcie zgłoszenia technicznego;
+- reset hasła z kontrolowana weryfikacja;
+- kwalifikacja leadow;
+- informacja o płatności lub saldzie, jeśli compliance pozwala.
+
+Przykłady ryzykowne:
+
+- złożone reklamację wymagające oceny;
+- porady medyczne;
+- decyzję kredytowe;
+- negocjacje windykacyjne bez jasnych zasad;
+- rozmowy z wysokim ladunkiem emocjonalnym;
+- procesy z wieloma wyjatkami;
+- obsługa danych wrażliwych bez dojrzalego governance.
+
+### 1.5.3. Perspektywa biznesowa
+
+Voicebot ma sens, gdy poprawia przynajmniej jeden z wymiarow:
+
+- koszt;
+- dostępność;
+- czas;
+- jakość;
+- skalowalnosc;
+- kompletność danych;
+- doświadczenie użytkownika;
+- odciazenie konsultantów.
+
+Ale use case nie powinien być oceniany tylko przez potencjalna redukcje kosztów. Trzeba mierzyć:
+
+- czy sprawa została rozwiązana;
+- czy klient nie dzwoni ponownie;
+- czy bot nie zwiększa eskalacji w trudniejszych kolejkach;
+- czy konsultanci dostają lepszy kontekst;
+- czy proces nie generuje ryzyka prawnego.
+
+### 1.5.4. Perspektywa użytkownika
+
+Dobre zastosowanie voicebota to takie, w którym użytkownik ma poczucie:
+
+- "system wie, po co dzwonie";
+- "nie musze słuchać dlugiego menu";
+- "mogę powiedzieć normalnie";
+- "mogę poprawić";
+- "sprawa idzie do przodu";
+- "gdy bot nie da rady, dostane człowieka".
+
+Źle zastosowanie to takie, w którym firma automatyzuje własny koszt, ale użytkownik dostaje więcej wysiłku.
+
+### 1.5.5. Perspektywa technologiczna
+
+Każdy use case trzeba przelozyc na wymagania:
+
+| Use case | Wymagania techniczne |
+|---|---|
+| Status zamówienia | Identyfikacja klienta, integracja z order management, TTS dla dat/statusow |
+| Rezerwacja wizyty | Kalendarz, reguły dostępności, potwierdzenia, SMS/e-mail |
+| Reklamacja | Klasyfikacja problemu, ticketing, załączniki poza kanałem, handoff |
+| Windykacja | Scisle reguły, compliance, nagrywanie, eskalację emocji |
+| Helpdesk IT | CMDB/ticketing, kategorie awarii, priorytet, instrukcje krokowe |
+| Ankieta | Outbound, zgody, skale odpowiedzi, analiza wynikow |
+
+### 1.5.6. Dobre praktyki
+
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
+- Zacznij od 1-3 use case'ow, nie od całego contact center.
+- Wybieraj procesy z realnymi danymi historycznymi.
+- Sprawdź, czy konsultanci potrafia opisać typowe ścieżki i wyjatki.
+- Oceniaj nie tylko wolumen, ale też ryzyko i integracje.
+- Projektuj handoff jako część use case'u, nie jako porażkę.
+- Mierz repeat contact, nie tylko containment.
+
+### 1.5.7. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
+| Błąd | Skutek |
+|---|---|
+| Wybór procesu na podstawie intuicji sponsora | Automatyzacja niewłaściwego problemu |
+| Pomijanie wyjątków | Bot działa tylko w demo |
+| Brak integracji | Sprawa nie jest zalatwiana |
+| Automatyzacja procesu z wysokim ladunkiem emocjonalnym jako pierwszy projekt | Niski CSAT i opor organizacji |
+| Brak danych historycznych | Brak podstaw do trenowania i testów |
+
+### 1.5.8. Matryca oceny use case'u
+
+Skala: 1 niski / 5 wysoki.
+
+| Kryterium | Pytanie | Idealny wynik dla pierwszego wdrożenia |
+|---|---|---|
+| Wolumen | Czy sprawa występuje często? | 4-5 |
+| Powtarzalnosc | Czy rozmowy mają podobny przebieg? | 4-5 |
+| Dostępność danych | Czy mamy transkrypcje, tagi, raporty? | 3-5 |
+| Integracje | Czy potrzebne systemy mają API? | 3-5 |
+| Ryzyko błędu | Czy błąd ma powazne skutki? | 1-3 |
+| Ladunek emocjonalny | Czy użytkownik jest zwykle zdenerwowany? | 1-3 |
+| Zlozonosc językowa | Czy użytkownicy mówią bardzo różnie? | 1-3 na start |
+| Wartość biznesowa | Czy automatyzacja daje mierzalny efekt? | 4-5 |
+| Latwosc handoff | Czy można łatwo przekazać do człowieka? | 4-5 |
+
+Interpretacja:
+
+- 34-45 punktow: dobry kandydat na MVP.
+- 24-33 punkty: kandydat po doprecyzowaniu zakresu.
+- 15-23 punkty: raczej pilot badawczy lub późniejszy etap.
+- Ponizej 15: nie zaczynać od tego use case'u.
+
+### 1.5.9. Mini case study
+
+Firma energetyczna ma trzy potencjalne use case'y: odczyt licznika, reklamację faktury, awarie. Odczyt licznika ma wysoki wolumen, powtarzalnosc i jasna integracje. Reklamację faktury mają wysoki ladunek emocjonalny i wiele wyjątków. Awarie są ważne, ale wymagają ostroznej klasyfikacji i priorytetyzacji. Zespół zaczyna od odczytu licznika i statusu zgłoszenia awarii, a reklamację zostawia jako proces wspierany przez konsultanta z automatycznym podsumowaniem.
+
+### 1.5.10. Podsumowanie
+
+Dobre zastosowanie voicebota łączy wysoki wolumen, powtarzalnosc, dostępne dane, integracje i kontrolowalne ryzyko. Pierwszy projekt powinien budowac zaufanie organizacji, a nie udowadniac, że bot może teoretycznie rozmawiać o wszystkim.
+
+---
+
+## 1.6. Ograniczenia, ryzyka i mity
+
+### 1.6.1. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
+| Pojęcie | Definicja |
+|---|---|
+| Hallucination | Odpowiedź generatywna niezgodna z faktami lub zakresem |
+| False positive | System rozpoznaje cos, czego nie było |
+| False negative | System nie rozpoznaje czegos, co było |
+| Automation bias | Nadmierne zaufanie do automatycznej decyzji |
+| Containment trap | Pulapka mierzenia sukcesu przez zatrzymanie użytkownika w bocie |
+| Graceful degradation | Kontrolowane przejście do prostszego trybu lub człowieka, gdy system nie daje rady |
+
+### 1.6.2. Wyjaśnienie eksperckie
+
+Voiceboty mają realną wartość, ale nie są magicznym zamiennikiem contact center. Ich ograniczenia wynikaja z kilku warstw:
+
+1. Audio: hałas, slaba jakość połączenia, akcent, wada wymowy.
+2. ASR: błędna transkrypcją.
+3. NLU/LLM: błędna interpretacja.
+4. Dialog: źle pytanie, zły fallback, za długi prompt.
+5. Integracje: brak danych, timeout, niespojne systemy.
+6. Organizacja: brak właściciela, brak procesu optymalizacji.
+7. Prawo: zgody, retencja, dane wrażliwe, odpowiedzialność.
+8. Psychologia: frustracja, brak kontroli, nieufnosc.
+
+Najzdrowsza postawa projektowa brzmi: bot będzie się mylil. Zadaniem specjalisty nie jest udawać, że system będzie bezbledny. Zadaniem jest zaprojektować granice, naprawe, eskalację i monitoring.
+
+### 1.6.3. Mity
+
+| Mit | Rzeczywistosc |
+|---|---|
+| "LLM rozwiązuje conversation design" | LLM zwiększa elastycznosc, ale nie zastepuje celow, flow, polityk i testów |
+| "Voicebot powinien brzmieć jak człowiek" | Powinien brzmieć kompetentnie i naturalnie, ale transparentnie jako AI |
+| "Containment to sukces" | Tylko jeśli sprawa została rozwiązana i klient nie wraca innym kanałem |
+| "Wystarczy podlaczyc bazę wiedzy" | Baza musi być przygotowana, aktualna, chunkowana, testowana i ograniczona politykami |
+| "Barge-in to checkbox" | To mechanizm techniczny, UX i dialogowy |
+| "Bot obnizy koszty od razu" | Najpierw wymaga wdrożenia, monitoringu, treningu i optymalizacji |
+| "Nieudane rozmowy to wina użytkowników" | Często to wina promptów, endpointing, danych lub złego use case'u |
+
+### 1.6.4. Perspektywa biznesowa
+
+Największe ryzyka biznesowe:
+
+- automatyzacja złego procesu;
+- ukryty wzrost kontaktów powtornych;
+- spadek satysfakcji;
+- przeniesienie trudniejszych spraw na konsultantów bez kontekstu;
+- brak mierzalnego ROI;
+- uzaleznienie od dostawcy bez kontroli danych;
+- niejasny właściciel utrzymania.
+
+Koszt złego podejscia:
+
+Voicebot może zmniejszyć liczbę rozmów obsługiwanych przez ludzi, ale zwiększyć całkowity wysiłek klienta. To klasyczna pozorna oszczędność: dashboard pokazuje containment, a organizacja traci lojalność i generuje kontakty w innych kanalach.
+
+### 1.6.5. Perspektywa użytkownika
+
+Użytkownik nie ocenia modelu. Ocenia sytuację:
+
+- czy został zrozumiany;
+- czy jego czas był szanowany;
+- czy mógł naprawic błąd;
+- czy system był uczciwy co do swoich możliwości;
+- czy mógł wyjść z automatyzacji.
+
+Najbardziej frustrujące są nie same błędy, ale brak naprawy. Użytkownik zaakceptuje pojedyncze "nie zrozumiałem", jeśli bot potem pomaga. Nie zaakceptuje trzech identycznych powtórzeń i braku konsultanta.
+
+### 1.6.6. Perspektywa technologiczna
+
+Ryzyka technologiczne:
+
+- zbyt wolne odpowiedzi;
+- slabe endpointing;
+- brak adaptive interruption handling;
+- halucynacje LLM;
+- prompt injection;
+- brak audytu odpowiedzi;
+- brak wersjonowania promptów i flow;
+- niedostepnosc integracji;
+- brak testów regresji po zmianach;
+- brak oddzielenia danych treningowych od produkcyjnych.
+
+### 1.6.7. Dobre praktyki
+
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
+- Zakladaj błędy i projektuj recovery.
+- Mierz task completion, repeat contact i CSAT, nie tylko containment.
+- Używaj LLM tam, gdzie daje przewage, a nie wszedzie.
+- Ogranicz zakres odpowiedzi bota.
+- Testuj z realnym audio, nie tylko tekstem.
+- Dokumentuj decyzję compliance.
+- Projektuj natychmiastowa eskalację dla sytuacji krytycznych.
+- Wersjonuj prompt systemowy, scenariusze i polityki.
+
+### 1.6.8. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
+| Błąd | Konsekwencja |
+|---|---|
+| Brak mapy ryzyk | Ryzyka wychodza dopiero na produkcji |
+| Brak procesu optymalizacji | Bot pogarsza się wraz że zmianami biznesu |
+| Zbyt szeroki zakres LLM | Odpowiedzi poza domena |
+| Brak logowania decyzji | Trudno audytowac i poprawiać |
+| Brak kontroli nad baza wiedzy | Bot cytuje nieaktualne informacje |
+| Brak scenariuszy trudnych emocji | Eskalację pojawiają się za późno |
+
+### 1.6.9. Checklista ryzyk
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
+- Czy znamy koszt błędnej odpowiedzi?
+- Czy wiemy, które dane są osobowe lub wrażliwe?
+- Czy mamy politykę retencji transkrypcji?
+- Czy bot informuje, że jest automatycznym systemem?
+- Czy każda odpowiedź LLM ma zakres domenowy?
+- Czy mamy handoff w sytuacjach krytycznych?
+- Czy monitorujemy halucynacje lub odpowiedzi poza polityka?
+- Czy mamy proces aktualizacji bazy wiedzy?
+- Czy mamy testy regresji po zmianach?
+- Czy dashboard pokazuje jakość, a nie tylko wolumen?
+
+### 1.6.10. Mini case study
+
+Ubezpieczyciel wdraza voicebota do informacji o polisach. Bot generatywny odpowiada na pytania o zakres ubezpieczenia z bazy wiedzy. W pilocie okazuje się, że użytkownicy pytają: "Czy w mojej sytuacji dostane odszkodowanie?". To nie jest zwykła informacja; to potencjalna interpretacja umowy. Zespół wprowadza politykę: bot może wyjaśnić ogólne warunki, ale nie podejmuje decyzji. Dla indywidualnej oceny tworzy zgłoszenie lub łączy z konsultantem.
+
+### 1.6.11. Podsumowanie
+
+Dojrzale projektowanie voicebotów polega na rozumieniu ograniczeń. Dobry specjalista nie sprzedaje iluzji bezblednej automatyzacji. Buduje system, który działa w wybranym zakresie, wykrywa swoje granice, naprawia rozmowę i oddaje sprawę człowiekowi, gdy to najlepsze rozwiązanie.
+
+---
+
+## 1.7. Obecne trendy i wpływ LLM na rynek voicebotów
+
+### 1.7.1. Kluczowe pojęcia
+
+Poniższe pojęcia są podstawą rozumienia rozdziału. Nie trzeba uczyć się ich jak słownika na pamięć; ważniejsze jest zobaczenie, do czego służą w projekcie voicebota i jakie nieporozumienia najczęściej powodują.
+
+| Pojęcie | Definicja |
+|---|---|
+| LLM | Duzy model językowy rozumiejacy i generujacy tekst |
+| Realtime voice agent | Agent prowadzący rozmowę głosowa z niskim opoznieniem |
+| RAG | Retrieval-Augmented Generation, generowanie odpowiedzi na podstawie pobranych źródeł |
+| Function calling | Wywolywanie narzędzi/API przez model wedlug schematu |
+| Guardrails | Reguly i mechanizmy ograniczajace zachowanie modelu |
+| Observability | Widocznosc działania systemu: logi, trace, metryki, koszty, błędy |
+| Hybrid AI | Połączenie deterministycznego flow i generatywnej AI |
+
+### 1.7.2. Wyjaśnienie eksperckie
+
+LLM zmienia voiceboty w czterech obszarach:
+
+1. Rozumienie języka: model lepiej radzi sobie z parafrazami, chaotycznymi wypowiedziami, wieloma intencjami i streszczeniem.
+2. Generowanie odpowiedzi: bot może odpowiadać bardziej naturalnie, ale wymaga kontroli.
+3. Wiedza: RAG pozwala odpowiadać na pytania z dokumentów, baz wiedzy i procedur.
+4. Automatyzacja pracy po rozmowie: podsumowania, tagowanie, notatki, propozycje follow-up.
+
+LLM nie usuwa potrzeby:
+
+- wyboru use case'u;
+- projektowania conversation flow;
+- testów;
+- integracji;
+- compliance;
+- metryk;
+- handoff;
+- monitoringu.
+
+Najbardziej praktyczny kierunek to hybrid AI:
+
+- Flow kontroluje proces, decyzję krytyczne, sloty, zgody, eskalację i integracje.
+- LLM wspiera rozumienie, parafraze, klasyfikacje, odpowiedzi z bazy wiedzy, streszczenia i naturalne mikrocopy.
+
+### 1.7.3. Perspektywa biznesowa
+
+LLM może zwiększyć zakres spraw, które bot potrafi obsłużyć, ale podnosi też koszt i ryzyko:
+
+- koszt tokenow i realtime audio;
+- większa zlozonosc testów;
+- potrzeba guardrails;
+- ryzyko odpowiedzi poza polityka;
+- trudniejsza przewidywalność;
+- konieczność monitorowania halucynacji.
+
+Najlepsze biznesowo wdrożenia LLM nie zaczynają od pytania "gdzie wrzucic model?". Zaczynają od pytania:
+
+"Które fragmenty rozmowy wymagają elastyczności językowej, a które muszą pozostać deterministyczne?".
+
+### 1.7.4. Perspektywa użytkownika
+
+LLM może poprawić doświadczenie, bo bot:
+
+- lepiej rozumie naturalne wypowiedzi;
+- nie wymaga idealnej frazy;
+- potrafi strescic i wyjaśnić;
+- może utrzymać bardziej płynny dialog.
+
+Może też pogorszyć doświadczenie, jeśli:
+
+- odpowiada za długo;
+- brzmi pewnie, ale mówi nieprawde;
+- nie potrafi wykonać akcji;
+- generuje niepotrzebne uprzejmosci;
+- nie wie, kiedy skończyć;
+- nie przekazuje do człowieka.
+
+### 1.7.5. Perspektywa technologiczna
+
+Nowoczesny LLM voicebot może mieć dwie główne architektury:
+
+#### Architektura pipeline
+
+Audio -> ASR -> tekst -> LLM/dialog manager -> tekst -> TTS -> audio
+
+Zalety:
+
+- łatwiej kontrolować komponenty;
+- łatwiej logowac tekst;
+- łatwiej wymieniać ASR/TTS;
+- dojrzaly wzorzec enterprise.
+
+Wady:
+
+- latency sumuje się na każdym kroku;
+- barge-in wymaga koordynacji komponentów;
+- utrata części sygnałów audio/prozodycznych.
+
+#### Architektura realtime/multimodalna
+
+Audio <-> model realtime <-> narzędzia/API
+
+Zalety:
+
+- nizsze opóźnienia;
+- bardziej płynne tury;
+- potencjalnie lepsze wykorzystanie sygnałów audio.
+
+Wady:
+
+- trudniejsza kontrola;
+- zaleznosc od platformy;
+- inna obserwowalnosc;
+- konieczność bardzo dokladnych testów i polityk.
+
+### 1.7.6. Dobre praktyki
+
+Dobre praktyki warto czytać jako zasady projektowe, a nie sztywną listę zakazów i nakazów. Ich celem jest zmniejszenie ryzyka, że bot będzie działał poprawnie technicznie, ale źle dla użytkownika albo operacji.
+
+- Stosuj LLM tam, gdzie potrzebujesz elastyczności językowej.
+- Krytyczne decyzję trzymaj w regułach, narzedziach lub workflow.
+- Projektuj prompt systemowy jak dokument operacyjny, nie tekst kreatywny.
+- Ograniczaj długość odpowiedzi głosowych.
+- Testuj halucynacje i prompt injection.
+- Monitoruj latency, koszt, fallbacki i eskalację.
+- Wersjonuj prompty i bazy wiedzy.
+- Używaj RAG tylko z dobrze przygotowanymi źródłami.
+
+### 1.7.7. Typowe błędy
+
+Ta sekcja pokazuje błędy, które często nie wyglądają groźnie na etapie projektu, ale później psują rozmowy, metryki albo zaufanie do automatyzacji. Przy każdym błędzie warto pytać: jak użytkownik to odczuje i jak wcześnie możemy to wykryć.
+
+| Błąd | Konsekwencja |
+|---|---|
+| LLM jako jedyny dialog manager | Brak kontroli procesu |
+| Brak ograniczeń odpowiedzi | Ryzyko halucynacji |
+| Za długie odpowiedzi generatywne | Użytkownik przerywa lub traci wątek |
+| Brak testów prompt injection | Możliwość obejscia polityk |
+| Brak tracingu narzędzi | Nie wiadomo, skad wziela się odpowiedź |
+| Brak procedury aktualizacji RAG | Nieaktualne odpowiedzi |
+
+### 1.7.8. Checklista LLM dla voicebota
+
+Checklista służy do praktycznego sprawdzenia gotowości. Nie zastępuje myślenia projektowego; pomaga upewnić się, że najważniejsze decyzje, ryzyka i zależności nie zostały pominięte.
+
+- Czy wiemy, po co uzywamy LLM?
+- Czy mamy zakres domeny?
+- Czy odpowiedzi mają limit długości pod kanał głosowy?
+- Czy model może powiedzieć "nie wiem"?
+- Czy model wie, kiedy eskalować?
+- Czy narzędzia/API mają walidacje?
+- Czy RAG korzysta z aktualnych źródeł?
+- Czy prompt systemowy jest wersjonowany?
+- Czy testujemy halucynacje?
+- Czy monitorujemy koszt i latency?
+- Czy mamy fallback, gdy LLM lub RAG jest niedostepny?
+
+### 1.7.9. Mini case study
+
+Helpdesk IT chce voicebota do problemow z VPN. Klasyczny flow dobrze zbiera login, system, lokalizacje i typ błędu. LLM zostaje użyty do:
+
+- klasyfikacji swobodnego opisu problemu;
+- dopasowania instrukcji z bazy wiedzy;
+- streszczenia sprawy dla konsultanta;
+- wygenerowania krótkiej notatki do ticketu.
+
+Bot nie pozwala LLM samodzielnie resetowac dostepow ani zmieniac uprawnień. Te akcję są narzędziami z walidacja i autoryzacja. To hybryda: elastyczne rozumienie, kontrolowane działanie.
+
+### 1.7.10. Podsumowanie
+
+LLM jest ważna zmiana, ale nie magicznym skrotem. Najlepsze voiceboty łączą deterministyczna kontrolę procesu z elastycznoscia generatywnej AI. Specjalista musi wiedzieć, która część rozmowy wymaga swobody, a która wymaga dyscypliny.
+
+---
+
+## 1.8. Zbiorcza checklista rozdziału
+
+Ta checklista zbiera najważniejsze pytania po całej części. Najlepiej przejść ją po zakończeniu projektu rozdziałów i zaznaczyć miejsca, które wymagają decyzji, doprecyzowania albo testów.
+
+- Czy potrafisz wyjaśnić Conversational AI bez uzywania słowa "magia" lub "przyszłość"?
+- Czy rozrozniasz IVR, voicebota, chatbota, virtual agenta i AI agenta?
+- Czy umiesz wskazac, dlaczego głos wymaga krótszych komunikatów?
+- Czy potrafisz opisać role ASR, NLU, dialog managera, LLM, RAG i TTS?
+- Czy wiesz, kiedy voicebot jest złym wyborem?
+- Czy umiesz wskazac pierwsze dobre use case'y?
+- Czy potrafisz nazwac mity i ryzyka?
+- Czy rozumiesz, że LLM wzmacnia voicebota tylko wtedy, gdy ma zakres, guardrails i monitoring?
 
 ---

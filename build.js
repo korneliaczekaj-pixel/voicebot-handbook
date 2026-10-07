@@ -15,14 +15,12 @@ FILES.push({ file: 'Voicebot_Specialist_Handbook_audyt_poprawnosci.md', num: 'A'
 
 const OMOW_FILE = 'Voicebot_Specialist_Handbook_omowienia_do_czytania.md';
 
-const NAV_TITLE_OVERRIDES = {
-  '1': 'Podstawy voicebotów i zarządzanie turami',
-};
+const NAV_TITLE_OVERRIDES = {};
 
 // Uklad tresci: etykieta grupy pojawia sie przed pierwszym rozdzialem grupy (w spisie i na stronie startowej).
 const GROUPS = {
   '1': 'Wstęp',
-  '4': 'Konstrukcja: część konwersacyjna',
+  '3': 'Konstrukcja: część konwersacyjna',
   '8': 'Konstrukcja: część techniczna',
   '13': 'Testy i utrzymanie',
   '16': 'Dodatki',
