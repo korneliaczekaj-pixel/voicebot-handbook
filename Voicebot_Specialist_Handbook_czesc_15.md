@@ -1,180 +1,322 @@
-# Rozdział 15. Praca Voicebot Specialist
+# Rozdział 15. Szablony, narzędzia i dokumenty projektowe
 
-Voicebot Specialist łączy conversation design, analizę biznesową, AI/NLP, podstawy architektury, QA, analizę danych, metryki, compliance i pracę z interesariuszami. Nie jest wyłącznie autorem komunikatów ani osobą konfigurującą intencje. Odpowiada za przełożenie rzeczywistych rozmów i procesów telefonicznych na bezpieczną, mierzalną i użyteczną automatyzację oraz za jej późniejszą optymalizację.
+Dokumentacja projektu voicebota łączy decyzje biznesowe, konwersacyjne i techniczne w zestaw artefaktów, które można zweryfikować i utrzymywać. Powinna wskazywać właścicieli decyzji, obsługiwane procesy, dane i integracje, przebieg dialogu, warunki eskalacji, ryzyka, testy oraz metryki. Zakres każdego dokumentu trzeba dopasować do organizacji, branży, procesu i używanej platformy.
 
 ---
 
-## 15.1. Czym zajmuje się Voicebot Specialist
+## 15.1. Brief projektu voicebota
 
-### Zakres roli
+```text
+Nazwa projektu:
+Sponsor biznesowy:
+Product owner:
+Contact center owner:
+IT owner:
+Legal/compliance:
+Data/analytics owner:
 
-Voicebot Specialist:
+Problem biznesowy:
+Dlaczego teraz:
+Zakres:
+Poza zakresem:
+Użytkownicy:
+Kanały:
+Języki:
+Wolumen:
+AHT:
+FCR:
+Repeat contact:
+CSAT/NPS:
 
-- analizuje procesy contact center;
-- wybiera i ocenia use case'y;
-- projektuje intencje, encje, sloty i flow;
-- tworzy scenariusze dialogowe;
-- definiuje fallbacki, handoff i recovery;
-- współpracuje z AI/NLP/LLM specialistami;
-- współpracuje z developerami i architektami;
-- przygotowuje test cases;
-- analizuje transkrypcje i metryki;
-- prowadzi optymalizację po wdrożeniu;
-- dba o UX, etykę, dostępność i compliance.
+Systemy:
+Integracje:
+Nagrania/transkrypcje:
+Ryzyka:
+Kryteria sukcesu:
+Termin MVP:
+```
 
-### Czego ta rola nie oznacza
+## 15.2. Karta use case'u
 
-Nie musi być:
+```text
+Nazwa use case'u:
+Cel użytkownika:
+Cel biznesowy:
+Powód kontaktu:
+Wolumen:
+Powtarzalność:
+Ryzyko:
+Dane wymagane:
+Integracje:
+Handoff:
+Metryki sukcesu:
+Out of scope:
+Rekomendacja: MVP / później / nie wdrażać
+```
 
-- ekspertem od wszystkich modeli ASR;
-- backend developerem;
-- prawnikiem;
-- konsultantem contact center;
-- jedynym właścicielem decyzji biznesowych.
+## 15.3. Matryca oceny automatyzacji
 
-Ale musi umieć rozmawiać z każdą z tych ról.
+| Kryterium | Ocena 1-5 | Waga | Wynik | Komentarz |
+|---|---:|---:|---:|---|
+| Wolumen |  | 3 |  |  |
+| Powtarzalność |  | 3 |  |  |
+| Jasność celu |  | 2 |  |  |
+| Dostępność danych |  | 2 |  |  |
+| Dostępność API |  | 3 |  |  |
+| Koszt błędu |  | 3 |  |  |
+| Emocje |  | 2 |  |  |
+| Compliance |  | 3 |  |  |
+| Łatwość handoff |  | 3 |  |  |
+| Pomiar sukcesu |  | 2 |  |  |
 
-## 15.2. Kompetencje
+## 15.4. Mapa procesu rozmowy
 
-| Obszar | Kompetencje |
-|---|---|
-| Conversation design | dialogi, prompt'y, ton, fallbacki, barge-in |
-| Biznes | use case, ROI, contact center, procesy |
-| Technologia | ASR, NLU, LLM, RAG, TTS, integracje, telefonia |
-| Dane | transkrypcje, labeling, test set, confusion matrix |
-| QA | test cases, UAT, regresja, edge cases |
-| Compliance | prywatność, zgody, retencja, granice odpowiedzi |
-| Analityka | metryki, dashboardy, optymalizacja |
-| Komunikacja | warsztaty, wymagania, dokumentacja, RACI |
+```text
+Start:
+Warunki wejścia:
+Krok 1:
+Krok 2:
+Krok 3:
+Decyzje:
+Wyjątki:
+Integracje:
+Handoff:
+Zakończenie:
+Metryki:
+```
 
-## 15.3. Typowy dzień pracy
+## 15.5. Szablon scenariusza dialogowego
 
-Przykładowy dzień:
+| Step ID | Stan | Prompt bota | Expected input | Intent/slot | Walidacja | Next step | No-input | No-match | Barge-in | Handoff |
+|---|---|---|---|---|---|---|---|---|---|---|
 
-1. Przegląd dashboardu: fallbacki, handoff, no-match, task completion.
-2. Analiza 20 transkrypcji z najgorszego promptu.
-3. Spotkanie z contact center o nowych powodach kontaktu.
-4. Aktualizacja scenariusza i test cases.
-5. Przegląd z developerem mapowania błędów API.
-6. Review promptu systemowego z compliance.
-7. Przygotowanie backlogu optymalizacji.
+## 15.6. Szablon intencji
 
-## 15.4. Dokumentacja w pracy Voicebot Specialist
+```text
+Intent ID:
+Nazwa biznesowa:
+Definicja:
+Zakres:
+Poza zakresem:
+Przykłady pozytywne:
+Przykłady negatywne:
+Wymagane sloty:
+Encje:
+Confidence threshold:
+Disambiguation:
+Fallback:
+Handoff:
+Metryki:
+```
 
-Najważniejsze dokumenty:
+## 15.7. Szablon encji
 
-- brief projektu;
-- karta use case'u;
-- matryca automatyzacji;
-- scenariusz dialogowy;
-- model intencji i encji;
-- dokument persony;
-- prompt systemowy;
-- specyfikacja integracji;
-- plan testów;
-- raport pilota;
-- dashboard metryk;
-- backlog optymalizacji;
-- dokument handoff;
-- dokumentacja utrzymaniowa.
-
-## 15.5. Ścieżka junior-mid-senior
-
-| Poziom | Charakterystyka |
-|---|---|
-| Junior | Tworzy proste dialogi, analizuje transkrypcje, przygotowuje frazy, wspiera QA |
-| Mid | Samodzielnie projektuje flow, prowadzi warsztaty, interpretuje metryki, współpracuje z IT |
-| Senior | Projektuje strategie voicebotów, architekturę konwersacyjną, governance, roadmapy i standardy |
-
-### Junior powinien umieć
-
-- pisać krótkie prompt'y;
-- rozpoznawać intencje;
-- tworzyć test cases;
-- analizować no-match;
-- dokumentować flow.
-
-### Mid powinien umieć
-
-- prowadzić discovery;
-- projektować MVP;
-- definiować metryki;
-- projektować handoff;
-- współpracować z legal/security;
-- prowadzić optymalizację.
-
-### Senior powinien umieć
-
-- tworzyć standardy organizacyjne;
-- oceniać architektury hybrydowe;
-- projektować governance LLM/RAG;
-- zarządzać ryzykiem;
-- budować program certyfikacji lub akademię.
-
-## 15.6. Portfolio
-
-Dobre portfolio powinno zawierać:
-
-- opis use case'u;
-- mapę procesu;
-- matrycę automatyzacji;
-- scenariusz dialogowy;
-- intencje i sloty;
-- fallbacki i handoff;
-- plan QA;
-- metryki sukcesu;
-- analiza po wdrożeniu lub symulacja;
-- refleksja: co było ryzykiem i jak je ograniczono.
-
-Nie pokazuj danych klientów ani poufnych transkrypcji. Używaj anonimizacji lub projektów syntetycznych.
-
-## 15.7. Zadania rekrutacyjne
-
+```text
+Entity ID:
+Typ:
+Opis:
+Wartości kanoniczne:
+Synonimy:
 Przykłady:
+Walidacja:
+Źródło prawdy:
+Owner:
+Aktualizacja:
+```
 
-1. Zaprojektuj voicebota do zmiany terminu wizyty.
-2. Przeanalizuj 20 wypowiedzi i zaproponuj intencje.
-3. Napisz fallbacki dla procesu statusu zamówienia.
-4. Zaprojektuj handoff z kontekstem.
-5. Zinterpretuj metryki: wysoki no-input, niski task completion.
-6. Zaproponuj prompt systemowy dla bota FAQ z RAG.
-7. Przygotuj matrycę use case'u.
+## 15.8. Tabela fraz treningowych
 
-## 15.8. Pytania na rozmowę kwalifikacyjną
+| ID | Fraza | Intencja | Encje | Źródło | Real/synthetic | Uwagi | Wersja |
+|---|---|---|---|---|---|---|---|
 
-- Czym voicebot różni się od IVR?
-- Jak projektujesz fallback?
-- Jak oceniasz dobry use case?
-- Co to jest task completion?
-- Jak testujesz barge-in?
-- Kiedy nie używać LLM?
-- Jak ograniczasz halucynacje?
-- Jakie metryki analizujesz po wdrożeniu?
-- Jak projektujesz handoff?
-- Jak pracujesz z compliance?
+## 15.9. Dokument persony voicebota
 
-## 15.9. Jak rozwijać się w tej roli
+```text
+Rola bota:
+Zakres pomocy:
+Czego bot nie robi:
+Ton:
+Formalność:
+Tempo:
+Zwroty preferowane:
+Zwroty zakazane:
+Zasady przepraszania:
+Zasady odmowy:
+Zasady eskalacji:
+Transparentność:
+```
 
-Plan rozwoju:
+## 15.10. Dokument promptu systemowego
 
-1. Naucz się contact center i procesów.
-2. Naucz się conversation design.
-3. Poznaj ASR, NLU, TTS, LLM, RAG na poziomie praktycznym.
-4. Pracuj z transkrypcjami.
-5. Ucz się metryk.
-6. Ucz się QA.
-7. Poznaj podstawy privacy i compliance.
-8. Buduj portfolio projektów.
-9. Słuchaj prawdziwych rozmów.
-10. Analizuj porażki botów, nie tylko sukcesy.
+```text
+Prompt ID:
+Wersja:
+Model:
+Zakres:
+Poza zakresem:
+Styl głosowy:
+Zasady odpowiedzi:
+Zasady narzędzi:
+Zasady RAG:
+Zasady danych:
+Zasady odmowy:
+Zasady eskalacji:
+Testy regresji:
+Owner:
+```
 
-## 15.10. Zbiorcza checklista
+## 15.11. Specyfikacja integracji
 
-- Czy rozumiesz pełny cykl życia voicebota?
-- Czy umiesz rozmawiać z biznesem i IT?
-- Czy potrafisz projektować dialogi?
-- Czy potrafisz testować i analizować metryki?
-- Czy znasz podstawy LLM/RAG i compliance?
-- Czy masz portfolio z dokumentacją?
+```text
+Nazwa integracji:
+System:
+Owner:
+Cel:
+Typ: odczyt / zapis / walidacja / akcja / handoff
+Endpoint:
+Dane wejściowe:
+Dane wyjściowe:
+Autoryzacja:
+Timeout:
+Retry:
+Idempotency:
+Błędy:
+Komunikaty użytkownika:
+Logi:
+Security:
+Test cases:
+```
+
+## 15.12. Plan testów
+
+```text
+Zakres:
+Środowisko:
+Dane testowe:
+Kategorie testów:
+Test cases:
+Kryteria akceptacji:
+Defect severity:
+Go/no-go:
+Raport:
+```
+
+## 15.13. Checklista QA
+
+- Happy path.
+- Unhappy paths.
+- No-input.
+- No-match.
+- Fallback.
+- Handoff.
+- ASR.
+- NLU.
+- LLM/RAG.
+- TTS.
+- Integracje.
+- Telefonia.
+- Barge-in.
+- Security.
+- Compliance.
+- Dashboard.
+
+## 15.14. Checklista przedwdrożeniowa
+
+- Zakres zatwierdzony.
+- Legal/compliance zatwierdzone.
+- Security zatwierdzone.
+- Handoff przetestowany.
+- Dashboard działa.
+- Alerty działają.
+- Runbook gotowy.
+- Rollback gotowy.
+- Hypercare zaplanowany.
+
+## 15.15. Raport z pilotażu
+
+```text
+Zakres pilota:
+Okres:
+Wolumen:
+Task completion:
+Containment:
+Handoff:
+Fallback:
+No-input/no-match:
+API errors:
+CSAT:
+Repeat contact:
+Incydenty:
+Wnioski:
+Rekomendacja:
+Backlog:
+```
+
+## 15.16. Dashboard metryk
+
+| Metryka | Definicja | Źródło | Częstotliwość | Owner | Prog alarmowy |
+|---|---|---|---|---|---|
+
+## 15.17. Raport z analizy rozmów
+
+```text
+Próbka:
+Okres:
+Top intencje:
+Top fallbacki:
+Top no-match:
+Frazy frustracji:
+Problemy ASR:
+Problemy promptów:
+Nowe use case'y:
+Rekomendacje:
+```
+
+## 15.18. Backlog optymalizacji
+
+| ID | Problem | Dane | Hipoteza | Zmiana | Ryzyko | Test regresji | Metryka sukcesu | Priorytet |
+|---|---|---|---|---|---|---|---|---|
+
+## 15.19. Dokument handoff do konsultanta
+
+```text
+Handoff reason taxonomy:
+Kolejki:
+Context package:
+Podsumowanie:
+Sloty:
+Dane potwierdzone:
+Dane niepewne:
+API results:
+Transcript link:
+Fallback, gdy context push fail:
+```
+
+## 15.20. Dokumentacja utrzymaniowa
+
+```text
+Ownerzy:
+Rytm review:
+Dashboardy:
+Incident process:
+Release process:
+Regression tests:
+Knowledge base update:
+Prompt update:
+Dataset update:
+Roadmap:
+Kontakt awaryjny:
+```
+
+---
+
+## 15.21. Zbiorcza checklista dokumentacji
+
+- Czy każdy dokument ma ownera?
+- Czy jest wersjonowany?
+- Czy jest powiązany z testami?
+- Czy zawiera out of scope?
+- Czy zawiera ryzyka?
+- Czy jest użyteczny dla biznesu, IT, QA i compliance?
 
 ---

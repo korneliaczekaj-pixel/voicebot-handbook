@@ -6,7 +6,7 @@ Ten plik uzupelnia części podręcznika o ciągly tekst opisowy. Jego celem jes
 
 ---
 
-# Część 1. Mapa wiedzy, program nauki i turn-taking
+# Część 1. Podstawy voicebotów i zarządzanie turami
 
 Osoba, która zaczyna pracować z voicebotami, zwykle zaczyna od jednego pytania: od czego mam się uczyć. Odpowiedź nie jest oczywista, bo w tej roli nie ma jednej podstawowej dziedziny. Ktoś przychodzi z contact center i widzi w voicebocie ulepszony skrypt konsultanta. Ktoś inny przychodzi z IT i widzi kolejną integrację. Ktoś z zespołu produktowego widzi kanał obsługi klienta. Wszyscy mają trochę racji, ale żadna z tych perspektyw nie wystarczy sama. Voicebot to praca na styku kilku porządków — technologii głosu, projektowania rozmowy, procesu biznesowego, danych, prawa i codziennej operacji contact center — i każdy z nich potrafi zawalić projekt, jeśli specjalista nie potrafi się w nim poruszać.
 
@@ -17,10 +17,6 @@ Największe nieporozumienia biorą się z traktowania tej roli jako obsługi pla
 Osobnej uwagi wymaga turn-taking, czyli rytm brania i oddawania głosu w rozmowie. To wygląda niewinnie — kto powie coś, i kiedy — ale w praktyce jest jednym z najtrudniejszych elementów całego systemu. Voicebot musi rozpoznać, czy klient skończył wypowiedź, czy tylko robi pauzę, żeby zebrać myśli. Musi zdecydować, czy dłuższa cisza to sygnał do wznowienia mówienia, czy do zadania nowego pytania. Musi wiedzieć, co zrobić, gdy klient przerywa w połowie zdania — czy powtórzyć, czy iść dalej, czy zapisać nową intencję. Rozmowy między ludźmi opierają się na sygnałach akustycznych i pragmatycznych, które człowiek odczytuje bez wysiłku, a maszyna musi mieć jawnie zaprojektowane.
 
 Z turn-takingu wynika też właściwe rozumienie barge-in, czyli sytuacji, w której klient przerywa mówiącego bota. Wiele osób traktuje to jako flagę do włączenia w platformie: albo można przerywać, albo nie. W rzeczywistości barge-in jest zdarzeniem interakcyjnym, w którym trzeba podjąć kilka decyzji naraz. Czy zatrzymać mówienie, czy pozwolić dokończyć zdanie. Czy uznać nową wypowiedź za odpowiedź na poprzednie pytanie, czy za nową sprawę. Czy poprzedni komunikat został usłyszany, czy trzeba go powtórzyć — zwłaszcza wtedy, gdy zawierał dane krytyczne, jak numer zamówienia, warunki umowy albo koszty. Barge-in zaprojektowany bez tej refleksji potrafi pogorszyć rozmowę bardziej niż jego brak.
-
-Program nauki dla tej roli powinien iść od podstaw do złożonych decyzji, a nie od narzędzia do teorii. Najpierw pojęcia — czym są warstwy głosowej rozmowy i jak przepływa przez nie sygnał. Potem architektura — kto co robi w tym łańcuchu i gdzie systemy się stykają. Potem projektowanie dialogu — jak rozmawiać w kanale, w którym klient słyszy komunikat tylko raz. Potem dane i testy, bo bez nich prompt jest tylko przypuszczeniem. Na koniec metryki, governance i etyka, bo bez nich nie da się utrzymać systemu przez dłuższy czas. Taka kolejność chroni przed pułapką, w którą wpada wiele projektów: zaczynania od pisania promptu, zanim ktokolwiek zrozumiał proces.
-
-I jeszcze jedno, o czym najłatwiej zapomnieć na etapie nauki: mapa wiedzy nie służy do tego, żeby zdać egzamin i o niej zapomnieć. Służy do tego, żeby po kilku miesiącach pracy specjalista dalej potrafił wskazać palcem, w której warstwie coś się psuje, i nie sprowadzał każdej awarii do jednej dyżurnej diagnozy. Rola Voicebot Specialist rośnie razem z systemem: im więcej godzin odsłuchu, transkrypcji i realnych incydentów, tym łatwiej rozróżniać sygnały od szumu. Wiedza w tej dziedzinie starzeje się szybko — modele, platformy i procedury zmieniają się z kwartału na kwartał. Metoda, czyli myślenie warstwami, zostaje.
 
 ---
 
@@ -272,27 +268,7 @@ Ostatnia obserwacja jest praktyczna. Etyka nie stoi w opozycji do biznesu. Bot u
 
 ---
 
-# Część 15. Praca Voicebot Specialist
-
-Poniedziałek rano, ta sama osoba siedzi kolejno na trzech spotkaniach. Pierwsze: dział zwrotów pyta, dlaczego bot odsyła klientów na e-mail w środy o czternastej — okazuje się, że wtedy jest przerwa w BOK, o której prompt nie wie. Drugie: developer prosi o decyzję, czy integracja z systemem magazynowym ma retry pięć razy, czy dwa, bo API bywa niestabilne. Trzecie: menedżer sprzedaży chce, żeby bot proponował produkt komplementarny na końcu każdej rozmowy. Cztery godziny, trzy zespoły, jeden system. To nie jest stanowisko z jednym dostawcą narzędzia i jedną specjalizacją. To rola, której wartość polega na tym, że jedna osoba widzi ten system w całości, kiedy nikt inny go tak nie widzi.
-
-Mapa tej roli, którą warto trzymać w głowie, ma pięć kierunków. W stronę biznesu — rozumienie, co organizacja chce automatyzować i dlaczego. W stronę użytkownika — rozumienie, jak ludzie naprawdę mówią, kiedy dzwonią. W stronę technologii — rozumienie, gdzie leży problem, kiedy coś nie działa (ASR, NLU, integracja, prompt, TTS). W stronę danych — rozumienie, co pokazują transkrypcje, metryki i logi. W stronę compliance — rozumienie, czego bot nie powinien robić i mówić. Voicebot Specialist nie musi być najlepszy w żadnym z tych kierunków. Musi wiedzieć, w którą stronę patrzeć, gdy pojawia się problem, i kogo dopiąć do rozmowy, żeby dojść do przyczyny.
-
-Najczęstsze nieporozumienie w tej roli brzmi: „to prompt engineer" albo „to copywriter dla botów". Prompty rzeczywiście są częścią pracy, ale są jej powierzchnią. Kiedy bot dziwnie zachowuje się w konkretnej sytuacji, poprawa promptu jest tylko jednym z pięciu możliwych rozwiązań — i często nie najlepszym. Może chodzić o dane treningowe, o zły model intencji, o timeout integracji, o niejasny proces biznesowy albo o brak decyzji compliance. Osoba, która potrafi tylko pisać prompty, będzie próbowała leczyć wszystkie te problemy tym samym narzędziem. To nie działa.
-
-Pierwsza warstwa pracy to myślenie systemowe. Kiedy w środę rośnie liczba transferów w rozmowach o zwrotach, dobra specjalistka nie zaczyna od poprawy zdania w prompcie. Zaczyna od pytania: co się zmieniło w środę? Czy to nowe intencje, których model nie zna? Czy backend zwraca inne błędy? Czy zmienił się rytm pracy BOK? Czy klienci pytają o coś, co pojawiło się w komunikacji marketingowej? Bez tego kroku każda „poprawa" jest zgadywaniem. Z tym krokiem — jest projektem naprawy w odpowiedniej warstwie.
-
-Druga warstwa to praca z dokumentacją. Karta use case'u, model intencji, flow, matryca ryzyk, changelog, dashboard — te dokumenty nie są biurokracją, jeśli faktycznie porządkują decyzje. Kiedy zespół sprzedaży prosi o nową funkcję bota, dokumentacja pozwala odpowiedzieć czymś konkretnym: „taka intencja jest już w modelu", „ta integracja jeszcze nie działa", „ta zmiana wymaga review compliance", „to koliduje z decyzją, którą podjęliśmy dwa miesiące temu". Bez dokumentacji te rozmowy zaczynają się od zera co tydzień, a decyzje zapadają w słuchawce.
-
-Trzecia warstwa to wiarygodność wobec konsultantów. Voicebot pracuje ramię w ramię z ludźmi z BOK, którzy widzą rozmowy, których nikt inny nie widzi. Jeśli specjalistka traktuje ich jako źródło wiedzy — pyta, co ich denerwuje w bocie, co powtarza się w rozmowach, gdzie klienci dzwonią po raz drugi — dostaje bardzo cenne dane. Jeśli traktuje ich jako opór, którego trzeba się pozbyć, projekt kończy się źle nawet wtedy, gdy metryki wyglądają dobrze. Konsultanci nie są konkurencją bota. Są jego najlepszym testerem produkcyjnym.
-
-Rozwój tej roli ma trzy poziomy, choć rzadko jest opisany jawnie. Początek to praca na fragmentach: pisanie promptów, projektowanie kawałków flow, analiza pojedynczych rozmów. Poziom średni to prowadzenie use case'u od discovery do optymalizacji — decyzja, co automatyzować, projekt systemu, plan testów, uruchomienie, pierwsze poprawki po starcie. Poziom najbardziej dojrzały to budowanie standardów: bibliotek intencji, wzorców promptów, procedur wdrożenia, governance danych, planu skalowania na kolejne rynki i języki. Tu rola przestaje być pracą przy jednym bocie. Zaczyna być odpowiedzialnością za sposób, w jaki organizacja projektuje wszystkie swoje boty.
-
-Ostatnia uwaga jest bardziej osobista. Ta praca nie polega na kończeniu projektów. Voicebot jest systemem żywym: zmienia się słownik klientów, zmieniają się procesy biznesowe, zmieniają się integracje, pojawiają się nowe modele. Specjalistka, która potrafi zamknąć rozdział i przejść dalej, zwykle jest szczęśliwsza w innej roli. Ta, która akceptuje, że produkt utrzymuje się rytmem — cotygodniowy przegląd, comiesięczny changelog, kwartalna optymalizacja — zostaje w niej dłużej i robi to lepiej. To rola dla osoby, która lubi wracać do tego samego systemu i zauważać, że dziś działa on trochę lepiej niż w poniedziałek.
-
----
-
-# Część 16. Szablony, narzędzia i dokumenty projektowe
+# Część 15. Szablony, narzędzia i dokumenty projektowe
 
 Zespół po dwóch latach pracy ma dwunastu botów na pięciu rynkach, w czterech językach, z trzema różnymi dostawcami TTS. Dołącza nowa osoba. Prosi o „obecną wersję scenariusza dla bota RO". Odpowiedź to dwie ścieżki: dysk z folderem, w którym leży osiem plików z podobnymi nazwami, i osoba, która „chyba pamięta, która wersja jest wgrana na produkcji". Nikt nie wie, kiedy ostatnio zmieniano prompt. Nikt nie wie, dlaczego. Nikt nie wie, czy zmiana została przetestowana. To nie jest wyimaginowany scenariusz — to zwykły stan projektów, które rosną szybciej, niż pisze się dla nich dokumentację. Szablony służą temu, żeby tego stanu nie było.
 
@@ -312,7 +288,7 @@ Dojrzała organizacja traktuje szablony jako część governance, nie jako forma
 
 ---
 
-# Część 17. Case studies
+# Część 16. Case studies
 
 Rozmowa o voicebotach na poziomie ogólnym potrafi trwać godzinami i nie posunąć się nigdzie. „Trzeba dobrze projektować rozmowę". „Ważna jest jakość danych". „Nie można halucynować". „Trzeba mierzyć skuteczność". Wszystko prawda i wszystko zbyt abstrakcyjne, żeby cokolwiek z tego wynikało. Prawdziwe uczenie zaczyna się w momencie, w którym patrzymy na konkretny przypadek: sklep z artykułami wojskowymi, który obsługuje siedem rynków europejskich; szpital, który umawia wizyty diagnostyczne; firma windykacyjna, która automatyzuje pierwsze kontakty. Trzy zupełnie różne konteksty — trzy zupełnie różne decyzje projektowe. Case studies są potrzebne właśnie po to, żeby zobaczyć, jak zasady zderzają się z rzeczywistością.
 
@@ -328,11 +304,9 @@ Trzecia warstwa to case'y o wysokim ryzyku. Bot, który rozmawia w kontekście f
 
 Czwarta warstwa to case'y optymalizacyjne — nie „wdrożyliśmy bota", tylko „przez rok utrzymywaliśmy bota i widać, co się zmieniło". To najbardziej niedoceniana kategoria, bo brzmi nudnie, a jest najbardziej wartościowa. Zespół, który potrafi pokazać, jak zmieniał prompt w reakcji na konkretne błędy, jak zawężał zakres, jak dokładał intencje, jak przenosił ryzykowne rozmowy do konsultanta, jak zmieniał metryki wraz z dojrzewaniem procesu — pokazuje coś, czego nie widać w pojedynczym launchu: umiejętność prowadzenia produktu w czasie.
 
-Portfolio dobrego Voicebot Specialist powinno zawierać po jednym przypadku z każdej warstwy: coś prostego i informacyjnego, coś transakcyjnego z integracjami, coś, w czym trzeba było powiedzieć „tego nie automatyzujemy", i coś, co pokazuje długie utrzymanie. Nie chodzi o to, żeby chwalić się liczbą wdrożeń. Chodzi o to, żeby pokazać, że w tej pracy widziało się różne profile ryzyka, różne rodzaje kompromisów i różne sposoby, w jakie voicebot może zawieść albo pomóc. To jest realne doświadczenie w tej roli — nie liczba prezentacji, tylko liczba przypadków, o których można powiedzieć: „wtedy zrobiliśmy tak, dziś zrobilibyśmy inaczej".
-
 ---
 
-# Część 18. Psychologia rozmowy z voicebotem
+# Część 17. Psychologia rozmowy z voicebotem
 
 W momencie, w którym w słuchawce odzywa się głos, w głowie rozmówcy uruchamia się reakcja, której nauczył się przez całe życie: to jest ktoś. Nawet gdy wie, że po drugiej stronie jest maszyna, jego mózg zaczyna oceniać tempo, pauzy, ton, uprzejmość, kompetencję, pewność siebie, ciepło. Rozmówca zadaje pytania krócej albo dłużej w zależności od tego, jak brzmi głos. Poprawia się, przeprasza, mówi „dziękuję" — te wszystkie odruchy społeczne odpalają się bez decyzji. To dlatego voicebot nie może być projektowany tak samo jak chatbot. Dobrze zaprojektowany chatbot jest interfejsem. Dobrze zaprojektowany voicebot jest rozmówcą — czy chcemy tego, czy nie.
 

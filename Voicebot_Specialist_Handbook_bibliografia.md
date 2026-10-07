@@ -44,7 +44,7 @@ Najmocniej wspierane części:
 - Część 4: conversation design i turn-taking.
 - Część 10: QA barge-in/turn-taking.
 - Część 14: etyka i dostępność.
-- Część 18: psychologia rozmowy.
+- Część 17: psychologia rozmowy.
 
 ## Odbiór użytkownika, UX, zaufanie i ocena systemów mowy
 
@@ -69,7 +69,7 @@ Najmocniej wspierane części:
 - Część 10: testy z użytkownikami i badanie odbioru.
 - Część 11: metryki odbioru, wysiłku, zaufania i satysfakcji.
 - Część 14: transparentność, etyka i dostępność.
-- Część 18: psychologia rozmowy z voicebotem.
+- Część 17: psychologia rozmowy z voicebotem.
 
 ---
 
@@ -216,10 +216,9 @@ Najmocniej wspierane części:
 | czesc_12 | Wdrożenie | Synteza ekspercka enterprise delivery |
 | czesc_13 | Prawo/compliance | GDPR, EDPB, AI Act, synteza privacy/security |
 | czesc_14 | Etyka/dostępność | EDPB, AI Act, badania interakcji, synteza UX |
-| czesc_15 | Rola zawodowa | Synteza ekspercka |
-| czesc_16 | Szablony | Synteza ekspercka |
-| czesc_17 | Case studies | Synteza ekspercka + wnioski z poprzednich części |
-| czesc_18 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
+| czesc_15 | Szablony | Synteza ekspercka |
+| czesc_16 | Case studies | Synteza ekspercka + wnioski z poprzednich części |
+| czesc_17 | Psychologia | Źródła interakcji, turn-taking, przerwania + synteza psychologiczna UX |
 
 ---
 
