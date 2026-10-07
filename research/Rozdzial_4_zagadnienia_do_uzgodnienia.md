@@ -2,7 +2,7 @@
 
 Notatka robocza przed przepisaniem rozdziału 4 (Conversation Design) według wzoru z rozdziału 19. Każdy punkt wymaga decyzji autorki.
 
-Stan: 2026-10-07. Żaden punkt nie jest jeszcze rozstrzygnięty.
+Stan: 2026-10-07. Rozstrzygnięty jest punkt 4; pozostałe czekają na decyzję.
 
 ## Decyzje
 
@@ -12,7 +12,7 @@ Stan: 2026-10-07. Żaden punkt nie jest jeszcze rozstrzygnięty.
 
 3. **Perspektywy biznesowa i technologiczna.** Listy efektów bez danych ("dobre komunikaty zmniejszają AHT, no-input, eskalacje") proponuję usunąć. Treść techniczną (pola dokumentacji promptu, ustawienia timingowe) proponuję zostawić w skróconej formie.
 
-4. **Forma w przykładach.** Rozdział 4 mówi "pan" i używa form z rodzajem ("wysłałem", "znalazłem"). Wzór z rozdziału 19 jest bezosobowy, a bot mówi o sobie w czasie teraźniejszym. Którą formę przyjmujemy dla całego podręcznika?
+4. **Forma w przykładach. Rozstrzygnięte 2026-10-07:** w całym podręczniku przykłady voicebota stosują formę bezosobową ("proszę podać"), a bot mówi o sobie w pierwszej osobie i w czasie teraźniejszym. Uzasadnienie jest w sekcji 19.9.5. Rozdział 4 mówi dziś "pan" i używa form z rodzajem ("wysłałem", "znalazłem"), więc przykłady trzeba przepisać.
 
 5. **Liczby bez źródła.** "Maksymalnie 2-3 opcje" (4.1) i "powitanie krótsze niż 10-15 sekund" (4.5.8): czy to praktyka autorki? Badanie menu głosowych przytoczone w 19.4 nie wyznacza granicy 2-3 opcji. Dodatkowo checklista 4.1.8 mówi "mniej niż 2-3 opcje", co jest niespójne z resztą.
 

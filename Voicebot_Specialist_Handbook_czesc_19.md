@@ -2,7 +2,7 @@
 
 Rozmowa głosowa jest doświadczeniem sekwencyjnym, społecznym i często emocjonalnym. Użytkownik nie tylko przetwarza treść komunikatów voicebota. Na podstawie tempa, pauz, intonacji, kolejności pytań i reakcji na błędy ocenia kompetencję systemu, własną kontrolę nad rozmową oraz ryzyko dalszego działania.
 
-W tym rozdziale twierdzenia mają trzy rodzaje podstaw i są odpowiednio oznaczone. Tam, gdzie pada nazwisko autora albo tytuł badania, mowa o wyniku ze źródła. **Wniosek dla voicebota** to rozumowanie wyprowadzone z przytoczonych badań. **Z praktyki** oznacza zasadę z doświadczenia wdrożeniowego, za którą nie stoi badanie. Akapity **W czacie** porównują voicebota z kanałem tekstowym. Lista źródeł ze statusem weryfikacji zamyka rozdział (sekcja 19.16).
+W tym rozdziale twierdzenia mają trzy rodzaje podstaw i są odpowiednio oznaczone. Tam, gdzie pada nazwisko autora albo tytuł badania, mowa o wyniku ze źródła. **Wniosek dla voicebota** to rozumowanie wyprowadzone z przytoczonych badań. **Z praktyki** oznacza zasadę z doświadczenia wdrożeniowego, za którą nie stoi badanie. Akapity **W czacie** i **W e-mailu** porównują voicebota z kanałami tekstowymi. Lista źródeł ze statusem weryfikacji zamyka rozdział (sekcja 19.16).
 
 ---
 
@@ -75,7 +75,7 @@ Drugie badanie podważa popularną regułę. [Commarford i in.](https://doi.org/
 
 **Wniosek dla voicebota.** Liczy się długość pojedynczej wypowiedzi, a nie sama liczba opcji. Listy nie warto skracać przez dzielenie rozmowy na kolejne pytania pośrednie. Najlepiej w ogóle jej nie odczytywać i zacząć od pytania otwartego.
 
-Źle: "Może pan wybrać zmianę adresu, terminu, anulowanie, zwrot, fakturę, reklamację albo konsultanta."  
+Źle: "Do wyboru są: zmiana adresu, zmiana terminu, anulowanie, zwrot, faktura, reklamacja albo konsultant."  
 Lepiej: "W czym mogę pomóc przy zamówieniu?"
 
 **Z praktyki.**
@@ -105,8 +105,8 @@ Czego klient oczekuje zamiast współczucia? [Dixon, Freeman i Toman](https://hb
 
 **Z praktyki.** Bot powinien reagować przez działanie, nie przez teatralną empatię.
 
-Źle: "Doskonale rozumiem pana frustrację."  
-Lepiej: "Skrócę rozmowę. Połączę z konsultantem i przekażę, co już pan podał."
+Źle: "Doskonale rozumiem tę frustrację."  
+Lepiej: "Skrócę rozmowę. Łączę z konsultantem i przekażę to, co zostało już podane."
 
 ---
 
@@ -186,7 +186,7 @@ W badaniu [Liu i in.](https://doi.org/10.1145/3706598.3714228) szesnaście stars
 **Z praktyki.** Dobry język voicebota jest prosty, konkretny i uprzejmy. Nie ma w nim żargonu ani długich zdań, najważniejsza informacja stoi na początku, a ramowanie jest pozytywne, ale nie manipulacyjne.
 
 Źle: "Niestety niepoprawnie podano dane."  
-Lepiej: "Nie mam pewności, czy dobrze usłyszałem. Proszę podać numer jeszcze raz, po trzy cyfry."
+Lepiej: "Nie mam pewności co do numeru. Proszę podać go jeszcze raz, po trzy cyfry."
 
 ### 19.9.1. Dlaczego "tak, jasne" potrafi zabrzmieć niemiło
 
@@ -196,7 +196,7 @@ Językoznawstwo ma na takie słowa nazwę. Roman Jakobson pisał o funkcji fatyc
 
 Psychologia rozmowy dokłada drugi element. [Bavelas, Coates i Johnson](https://pubmed.ncbi.nlm.nih.gov/11138763) odróżnili reakcje słuchacza ogólne, które pasują do każdej wypowiedzi (kiwnięcie głową, "mhm"), od konkretnych, ściśle związanych z tym, co właśnie padło. W dwóch eksperymentach z 63 parami nieznajomych jedna osoba opowiadała historię, a druga słuchała, w części par rozpraszana dodatkowym zadaniem. Rozproszeni słuchacze nadal wtrącali trochę reakcji ogólnych, ale prawie żadnych konkretnych. Opowiadający radzili sobie wtedy wyraźnie gorzej, zwłaszcza przy zakończeniu historii. Autorzy zastrzegają, że nie mogą statystycznie wykazać, co było przyczyną, a co skutkiem.
 
-**Wniosek dla voicebota.** Samo "słyszę" nie wystarcza rozmówcy, który potrzebuje dowodu, że został zrozumiany. Pytający o potwierdzenie prosi o pewność. Znajoma z dworca potwierdziła, ale nie powtórzyła godziny, więc tej pewności nie dała. Stąd zasada: na pytanie o potwierdzenie bot powtarza to, co potwierdza. Wspiera ją także badanie asystentów głosowych opisane w sekcji 19.9.5.
+**Wniosek dla voicebota.** Samo "słyszę" nie wystarcza rozmówcy, który potrzebuje dowodu, że został zrozumiany. Pytający o potwierdzenie prosi o pewność. Znajoma z dworca potwierdziła, ale nie powtórzyła godziny, więc tej pewności nie dała. Stąd zasada: na pytanie o potwierdzenie bot powtarza to, co potwierdza. Wspiera ją także badanie asystentów głosowych opisane w sekcji 19.9.6.
 
 Źle: "Tak, jasne."  
 Lepiej: "Tak, zamówienie zostało dziś wysłane. Kurier doręczy je jutro."
@@ -262,7 +262,7 @@ Osobną grupą są słowa oceniające, takie jak "świetnie" czy "super". Nie s�
 
 O tym, które słowa w ogóle wchodzą w grę, decyduje rejestr (o personie i formalności mówi sekcja 4.4). Bot mówiący bezosobowo ("proszę podać") dobrze brzmi z "Dziękuję", "Dobrze", "Zgadza się", "Potwierdzam" i "Sprawdzam". Źle brzmi z "jasne", "pewnie" i "super", które są potoczne i zakładają bliższą relację. Przy formie Pan/Pani dochodzi "Oczywiście". Dopiero bot mówiący na "ty" może pozwolić sobie na "jasne", "pewnie" i "OK", zawsze z treścią. Którąkolwiek formę bot wybierze, powinna być jedna w całym kanale.
 
-Forma bezosobowa ma dużą zaletę: nie trzeba zgadywać płci rozmówcy ani wybierać między "Pan/Pani" a "ty". Ma też dwie pułapki. Pierwsza to efekt formularza, bo seria poleceń brzmi jak przesłuchanie. Pomaga przeplatanie poleceń pytaniem.
+Forma bezosobowa ma dużą zaletę: nie trzeba zgadywać płci rozmówcy ani wybierać między "Pan/Pani" a "ty" (wybór formy uzasadnia sekcja 19.9.5). Ma też dwie pułapki. Pierwsza to efekt formularza, bo seria poleceń brzmi jak przesłuchanie. Pomaga przeplatanie poleceń pytaniem.
 
 Źle: "Proszę podać numer zamówienia. Proszę podać kod pocztowy."  
 Lepiej: "Jaki jest numer zamówienia?" (po odpowiedzi) "Dziękuję. Jeszcze kod pocztowy."
@@ -281,7 +281,40 @@ Jedno zalecenie ma źródło zewnętrzne, choć nie badawcze. [Wytyczne Google d
 
 **W czacie.** Próg potoczności leży niżej: "OK" czy "jasne" uchodzą w rozmowie na "ty", o ile idzie za nimi treść. Zmienia się też czasownik, bo w czacie prosi się o wpisanie, a nie o podanie.
 
-### 19.9.5. Kiedy krótko wystarczy
+### 19.9.5. Pan, ty czy bezosobowo: forma zwracania się
+
+Firma odpisuje klientowi na Twitterze: "Podaj numer usługi". Klient odpowiada: "O, to przeszliśmy na ty?". Firma chciała tylko dostać numer. Klient usłyszał coś jeszcze: decyzję o tym, jaka relacja ich łączy.
+
+Polszczyzna wymusza tę decyzję przy każdym zwrocie do rozmówcy. Do wyboru są "ty", "pan" albo "pani", "państwo" oraz konstrukcja bezosobowa, która wybór omija ("proszę podać"). Językoznawcy nazywają te formy adresatywnymi. Angielskie "you" takiego wyboru nie wymaga, więc wzorce przenoszone z anglojęzycznych botów niczego tu nie rozstrzygają.
+
+Wymianę z Twittera przytacza [Anna Tereszkiewicz](https://uwm.edu.pl/mkks/wp-content/uploads/04_Tereszkiewicz-A.pdf), która przeanalizowała 800 odpowiedzi ośmiu polskich firm na wiadomości klientów. Banki pisały "pan/pani", często z imieniem. Operatorzy telekomunikacyjni, firmy pocztowe i sklepy internetowe pisały głównie na "ty". Formy bywały mieszane w obrębie jednego profilu, a klienci reagowali w obie strony: jedni oburzali się na "ty", inni irytowali się na "pan".
+
+O tym, kto ma prawo skracać dystans, pisze [Patrycja Pałka](https://socjolingwistyka.ijppan.pl/index.php/SOCJO/article/view/215). Na podstawie 1559 minut nagrań rozmów handlowych, materiałów szkoleniowych dla sprzedawców i wypowiedzi klientów z forów stwierdza, że skracanie dystansu przez sprzedawcę, czyli "ty", "pan" z imieniem albo zdrobnienia, jest niezgodne z polskim kodem kulturowym. Prawo do skrócenia dystansu ma ten, kto w rozmowie stoi wyżej, czyli klient. Podobnie radzą poradnie językowe. [Poradnia Uniwersytetu Warszawskiego](https://poradniajezykowa.uw.edu.pl/porady/zwrot-do-klienta/) odradza "ty" w korespondencji z klientem, bo taka forma "bardzo skraca dystans" i może zostać odebrana jako naruszenie prywatności. [Małgorzata Marcjanik](https://sjp.pwn.pl/poradnia/haslo/na-ty-czy-na-pan-pani;8967.html) zauważa, że "ty" rozpowszechnia się w reklamie i biznesie, ale eleganckie firmy zostają przy formach "pan", "pani", "państwo".
+
+Reakcję na formę zmierzono dotąd w innych językach. [Ollier, Nißen i von Wangenheim](https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2021.691595/full) pokazali 284 osobom ze Szwajcarii chatbota ubezpieczyciela, który różnił się wyłącznie formą: "du" albo "Sie" po niemiecku, "tu" albo "vous" po francusku. Ocena zależała od języka, wieku i płci użytkownika. U osób niemieckojęzycznych forma grzecznościowa dawała oceny stabilne niezależnie od płci, a forma "ty" obniżała oceny starszych użytkowników, wyraźniej u mężczyzn. U osób francuskojęzycznych wzór był bardziej złożony i zależał jednocześnie od wieku i płci.
+
+Szerszy obraz daje przegląd [de Hoop i Schoenmakersa](https://www.mdpi.com/2226-471X/10/10/267): wyniki badań nad formami adresatywnymi są mieszane i zależą od kontekstu. W przytaczanych tam badaniach, głównie niderlandzkich, forma "ty" podobała się bardziej w reklamach, a forma grzecznościowa była lepiej oceniana w mailach działu kadr i oczekiwana od marek postrzeganych jako kompetentne. Przegląd nie obejmuje żadnego języka słowiańskiego ani żadnego badania z voicebotem.
+
+**Wniosek dla voicebota.** Za formą bezosobową przemawiają trzy rzeczy. Polska norma odradza firmie "ty" wobec klienta. Forma "pan/pani" wymaga znajomości płci, której voicebot na początku rozmowy zwykle nie zna, a pomyłka pada wtedy w pierwszym zdaniu. Wreszcie w jedynym znalezionym eksperymencie z botem forma grzecznościowa dawała u osób niemieckojęzycznych stabilne oceny, a "ty" obniżało je u starszych. Forma bezosobowa zachowuje dystans i nie wskazuje płci.
+
+Trzeba przy tym pilnować gramatyki. "Podaj" to już forma "ty", podobnie jak "twoje zamówienie" i "wysłaliśmy ci". Bezosobowo jest dopiero "proszę podać", "zamówienie" i "kod został wysłany SMS-em".
+
+| Forma | Przykład | Czego wymaga |
+|---|---|---|
+| Ty | "Podaj numer zamówienia." | Zgody klienta na skrócenie dystansu |
+| Pan, pani | "Czy chce pani zmienić termin?" | Znajomości płci rozmówcy |
+| Państwo | "Czy chcą państwo zmienić termin?" | Liczby mnogiej wobec jednej osoby |
+| Bezosobowa | "Proszę podać numer zamówienia." | Pilnowania pułapek z sekcji 19.9.4 |
+
+Ograniczenie: nie udało się znaleźć badania, które mierzyłoby reakcję na formę bezosobową, ani żadnego badania form adresatywnych w voicebocie lub po polsku. Wniosek opiera się na opisie normy i na eksperymencie z czatem w innych językach.
+
+**Z praktyki.** Przykłady w tym podręczniku stosują formę bezosobową. Voicebot sklepu internetowego mówi "proszę podać", a o sobie w pierwszej osobie i w czasie teraźniejszym ("Sprawdzam", "Łączę").
+
+**W czacie.** Forma "ty" jest tu częstsza: w badaniu Tereszkiewicz dominowała u firm spoza bankowości. Eksperyment szwajcarski pokazuje jej koszt u starszych użytkowników. Marka, która mimo to wybiera "ty", powinna trzymać się jednej formy w całym kanale, bo mieszanie form samo wywoływało reakcje klientów.
+
+**W e-mailu.** Poradnia Uniwersytetu Warszawskiego zaleca formę "pan/pani", gdy wiadomo, do kogo się pisze, a "Szanowni Państwo" w wiadomościach niespersonalizowanych. W mailu imię i nazwisko adresata są zwykle znane z zamówienia, więc forma "pan/pani" jest dostępna częściej niż w rozmowie telefonicznej.
+
+### 19.9.6. Kiedy krótko wystarczy
 
 Z tego wszystkiego nie wynika, że voicebot ma mówić długo. [Haas i in.](https://dl.acm.org/doi/fullHtml/10.1145/3491102.3517684) w badaniu "Keep it Short" dali 71 osobom przeglądarkowego asystenta głosowego, który na osiem poleceń i pytań odpowiadał w jednym z trzech stylów. Pełnym zdaniem: "Okay, I set a timer to 10 minutes. Starting now." Słowami kluczowymi: "Timer, 10 minutes." Albo minimalnie: "Okay."
 
@@ -312,7 +345,7 @@ Lepiej: "Tego nie zmienię automatycznie. Połączę z konsultantem."
 Źle: "Proszę czekać."  
 Lepiej: "Sprawdzam, to potrwa chwilę."
 
-### 19.9.6. Voicebot a czat: co się zmienia, gdy rozmowę widać
+### 19.9.7. Voicebot a czat: co się zmienia, gdy rozmowę widać
 
 Czat jest kanałem najbliższym voicebotowi. To też rozmowa prowadzona tura po turze, z tym samym klientem i w tych samych sprawach. Dlatego najłatwiej pomylić jedno z drugim i przenieść teksty z czatu do głosu. Sekcja 2.2 przestrzega przed tym od strony projektu. Tutaj widać, dlaczego nie działa to także od strony odbioru.
 
@@ -333,12 +366,13 @@ Trzecia różnica to trwałość. Wiadomość zostaje na ekranie, więc szorstka
 | Co łagodzi krótki komunikat | Sformułowanie i prozodia | Sformułowanie, interpunkcja, emoji |
 | Prośba o dane | "Proszę podać" | "Proszę wpisać" |
 
-### 19.9.7. Checklista krótkich komunikatów
+### 19.9.8. Checklista krótkich komunikatów
 
 - Czy potwierdzenie powtarza szczegół, o który pytał użytkownik?
 - Czy odmowa i błąd mają powód albo następny krok?
 - Czy bot nie odpowiada samym "jasne", "tak" lub "nie"?
 - Czy słowa potwierdzenia pasują do rejestru bota?
+- Czy bot trzyma się jednej formy zwracania się i nie wpada w "ty" ("podaj", "twoje zamówienie")?
 - Czy krótkie komunikaty oceniono ze słuchu, a nie ze skryptu?
 - Czy potwierdzenie pada bez wyraźnej ciszy przed odpowiedzią?
 - Czy przy dłuższym przetwarzaniu bot najpierw sygnalizuje działanie?
@@ -525,12 +559,16 @@ Sprawdzone w pełnym tekście:
 - Lee, See, "Trust in Automation: Designing for Appropriate Reliance", Human Factors, 2004: https://scispace.com/pdf/trust-in-automation-designing-for-appropriate-reliance-2uiy4o89ga.pdf
 - Levinson, Torreira, "Timing in turn-taking and its implications for processing models of language", Frontiers in Psychology, 2015: https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00731/full
 - Liu et al., "Toward Enabling Natural Conversation with Older Adults via the Design of LLM-Powered Voice Agents that Support Interruptions and Backchannels", CHI 2025: https://doi.org/10.1145/3706598.3714228
+- de Hoop, Schoenmakers, "Introduction: Perception and Processing of Address Terms", Languages, 2025 (przegląd badań): https://www.mdpi.com/2226-471X/10/10/267
 - Luger, Sellen, "Like Having a Really Bad PA: The Gulf between User Expectation and Experience of Conversational Agents", CHI 2016: https://www.microsoft.com/en-us/research/publication/like-having-a-really-bad-pa-the-gulf-between-user-expectation-and-experience-of-conversational-agents/
+- Ollier, Nißen, von Wangenheim, "The Terms of 'You(s)': How the Term of Address Used by Conversational Agents Influences User Evaluations in French and German Linguaculture", Frontiers in Public Health, 2022: https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2021.691595/full
 - Owens et al., "Exploring Deceptive Design Patterns in Voice Interfaces", EuroUSEC 2022: https://www.franziroesner.com/pdf/owens-deceptivevoice-eurousec22.pdf
+- Pałka, "Polski model kulturowy a komunikacja sprzedawcy z klientem", Socjolingwistyka, 2020: https://socjolingwistyka.ijppan.pl/index.php/SOCJO/article/view/215
 - Poirier, Cook, Klin, "Read. This. Slowly: mimicking spoken pauses in text messages", Frontiers in Psychology, 2025 (streszcza wcześniejsze prace zespołu: Gunraj et al. 2016, Houghton et al. 2018): https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1410698/full
 - Roberts, Francis, Morgan, "The interaction of inter-turn silence with prosodic cues in listener perceptions of 'trouble' in conversation", Speech Communication, 2006: https://doi.org/10.1016/j.specom.2006.02.001
 - Schroeder, Kardas, Epley, "The Humanizing Voice: Speech Reveals, and Text Conceals, a More Thoughtful Mind in the Midst of Disagreement", Psychological Science, 2017: https://escholarship.org/uc/item/4bd9d03k
 - Templeton et al., "Fast response times signal social connection in conversation", PNAS, 2022: https://www.pnas.org/doi/10.1073/pnas.2116915119
+- Tereszkiewicz, "Zachowania grzecznościowe w interakcji handlowej na Twitterze" (czasopismo i rok do uzupełnienia): https://uwm.edu.pl/mkks/wp-content/uploads/04_Tereszkiewicz-A.pdf
 
 Sprawdzone tylko w abstrakcie lub opisie wydawcy:
 
@@ -553,14 +591,17 @@ Znane tylko z komunikatu prasowego:
 - Yin, Han, Zhang, "Bots with Empathy: Reactance Against Emotion-Aware AI Agents in Customer Service", MIS Quarterly, 2026 (komunikat uczelni; artykuł niesprawdzony): https://www.usf.edu/business/news/2026/04-20-chatbot-empathy-can-worsen-customer-reactions-usf-study.aspx
 - Armatis Customer Experience Index, sondaż SW Research, czerwiec 2025, n = 817 (omówienie prasowe): https://300gospodarka.pl/news/boty-w-obsludze-klienta-wiecej-kontaktow-mniej-frustracji-ale-zaufania-wciaz-brak
 
-Wytyczne projektowe i tło teoretyczne (nieweryfikowane w tekście źródłowym):
+Wytyczne projektowe, porady językowe i tło teoretyczne:
 
 - Google, Conversation Design, "Acknowledgements": https://developers.google.com/assistant/conversation-design/acknowledgements?hl=pl
-- Roman Jakobson, "Linguistics and Poetics", 1960 (pol. "Poetyka w świetle językoznawstwa").
+- Poradnia Językowa Uniwersytetu Warszawskiego, "Zwrot do klienta" (odp. Agata Hącia, 2021): https://poradniajezykowa.uw.edu.pl/porady/zwrot-do-klienta/
+- Poradnia Językowa PWN, "Na ty czy na Pan / Pani?" (odp. Małgorzata Marcjanik, 2008): https://sjp.pwn.pl/poradnia/haslo/na-ty-czy-na-pan-pani;8967.html
+- Roman Jakobson, "Linguistics and Poetics", 1960 (pol. "Poetyka w świetle językoznawstwa"); nieweryfikowane w tekście źródłowym.
 
 Luki, których nie udało się wypełnić źródłami:
 
-- odbiór słów potwierdzenia i form grzecznościowych przez użytkowników polskojęzycznych, w głosie i w czacie;
+- odbiór słów potwierdzenia przez użytkowników polskojęzycznych, w głosie i w czacie;
+- reakcja na formę bezosobową oraz na formy adresatywne w voicebocie i w języku polskim;
 - wpływ empatii wyrażanej przez voicebota (dostępne badania dotyczą chatbotów tekstowych);
 - próg tolerancji ciszy wobec bota, o którym użytkownik wie, że jest botem;
 - rozmowy osób neuroatypowych z voicebotami;
